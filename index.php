@@ -2,7 +2,7 @@
 
 require_once'Core/init.php';
 
-$user = DB::getInstance()->get('users', array('username', '=', 'kartik'));
+$user = DB::getInstance()->query("SELECT * FROM users");
 if(!$user)
 {
 	echo "error occured";
@@ -12,6 +12,8 @@ else
 	if($user->count() == 0)
 		echo "No record found";
 	else
-		echo "We found a match";
+		{
+			echo $user->first()->password;
+		}
 }
 ?>

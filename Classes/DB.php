@@ -89,6 +89,16 @@ class DB
 		return $this->_count;
 	}
 
+	public function results()
+	{
+		return $this->_results;
+	}
+
+	public function first()
+	{
+		return $this->results()[0];
+	}
+
 	public function error()
 	{
 		return $this->_error;
