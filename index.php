@@ -2,18 +2,20 @@
 
 require_once'Core/init.php';
 
-$user = DB::getInstance()->query("SELECT * FROM users");
+$user = DB::getInstance()->update('users', 6, array(
+	'name'=>'kartik',
+	'username'=>'testing',
+	'email'=>'kartik',
+	'password'=>'kartik'
+	));
+
 if(!$user)
 {
-	echo "error occured";
+	echo "error";
 }
 else
 {
-	if($user->count() == 0)
-		echo "No record found";
-	else
-		{
-			echo $user->first()->password;
-		}
+	echo "UPDATED ".$user->count()." rows";
 }
+
 ?>

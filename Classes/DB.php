@@ -31,17 +31,7 @@ class DB
 		$this->_error = false;	// set error = false because the previous query might have set it to true
 		if($this->_query = $this->_pdo->prepare($sql))	// preparing the query $sql, that is turning {$variable} into a valid sql_query
 		{
-			if(count($params))	// if there's any value to be binded, here it's being done
-			{
-				$x = 1;
-				foreach($params as $param)
-				{
-					$this->_query->bindValue($x, $param);
-					$x++;
-				}
-			}
-
-			if($this->_query->execute())	// execute the query
+			if($this->_query->execute(array_values($params)))	// bind the array values to the $sql and execute the query
 			{
 				$this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);	// setting the result to the $_results property
 				$this->_count = $this->_query->rowCount();	// getting count of total number of rows
@@ -79,9 +69,59 @@ class DB
 		return $this->action('Select *', $table, $where);	// calling action method by passing these three parameters where $where is an array consisting of fieldname, operator and a value
 	}
 
-	public function delete($table, $where)
+	public function insert($table, $fields = array())
 	{
-		return $this->action('DELETE', $table, $where);
+		// In order to make a valid INSERT query our syntax should be in the form -
+		// "INSERT INTO table_name(first_field, second_field) VALUES(?, ?)"; 
+		// where the '?' will be replaced by the $field_values after binding
+		// we need to implode ',' to with all the array_keys and '?'
+		if(count($fields))
+		{
+			$keys = array_keys($fields);
+			$values = array();
+			$fields_count = count($fields);
+			for($x=0; $x<$fields_count; $x++)
+			{
+				$values[$x] = '?';
+			}
+			$values = implode(',', $values);
+			$keys = implode(',', $keys);
+			$sql = "INSERT INTO {$table} ({$keys}) VALUES({$values});";
+			if(!$this->query($sql, $fields)->error())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function update($table, $id, $fields = array())
+	{
+		$set = '';
+		$x = 1;
+		$fields_count = count($fields);
+		foreach($fields as $field=>$field_value)
+		{
+			if($x < $fields_count)
+				$set .= $field.' = ?, ';
+			else
+				$set .= $field.' = ? ';
+			$x++;
+		}
+
+		$sql = "UPDATE {$table} SET {$set} WHERE id = {$id}";
+
+		if(!$this->query($sql, $fields)->error())
+		{
+			return $this;
+		}
+		return false;
+
+	}
+
+	public function delete($table, $where = array())
+	{
+		return $this->action("DELETE", $table, $where);
 	}
 
 	public function count()
