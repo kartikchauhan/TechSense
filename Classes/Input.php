@@ -6,14 +6,14 @@ class Input
 	{
 		switch($type)
 		{
-			case 'post' : return (!empty($_POST) ? true : false);
-						  break;
+			case 'post': return (!empty($_POST) ? true : false);
+						 break;
 
-		  	case 'get'  : return (!empty($_GET) ? true : false);
-						  break;
+		  	case 'get' : return (!empty($_GET) ? true : false);
+						 break;
 
-			default     : return false;
-						  break;
+			default    : return false;
+						 break;
 		}
 
 	}

@@ -37,7 +37,10 @@ if(Input::exists())
 	if($Validate->passed())
 		echo "passed";
 	else
-		print_r($Validate->errors());
+	{
+		foreach($Validate->errors() as $error)			
+			echo $error.'<br>';
+	}
 }
 
 ?>
@@ -45,7 +48,7 @@ if(Input::exists())
 <form method="post" action="">
 <div>
 <label for="name">Name</label>
-<input type="text" name="name" id="name">
+<input type="text" name="name" id="name" value="<?php echo Input::get('username')?>">
 </div>
 
 <div>
@@ -55,7 +58,7 @@ if(Input::exists())
 
 <div>
 <label for="email">Email</label>
-<input type="text" name="email" id="email">
+<input type="text" name="email" id="email" value="<?php echo 	Input::get('email')?>">
 </div>
 
 <div>
