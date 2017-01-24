@@ -1,14 +1,17 @@
 <?php
+session_start();
 
 $GLOBALS['config'] = array(
 
 	'mysql'=>array(
-
 		'host'=>'127.0.0.1',
 		'user'=>'root',
 		'password'=>'',
 		'database'=>'blog'
-
+		),
+	'session'=>array(
+		'session_name' => 'user',
+		'token_name' => 'token'
 		)
 
 	);

@@ -4,42 +4,45 @@ require_once'Core/init.php';
 
 if(Input::exists())
 {
-	$Validate = new Validate;
-	$Validate->check($_POST, array(
-
-		'name'     		   => array(
-			'required' => true,
-			'min'      => 2,
-			'max'      => 25
-			),
-		'username' 		   => array(
-			'required' => true,
-			'min'      => 2,
-			'max'      => 25,
-			'unique'   => 'users'
-			),
-		'email'            => array(
-			'required' => true,
-			'min'      => 7,
-			'max'      => 40,
-			'unique'   => 'users'
-			),
-		'password' 		   => array(
-			'required' => true,
-			'min'      => 6,
-			),
-		'confirm_password' => array(
-			'required' => true,
-			'matches'  => 'password'
-			),
-		));
-
-	if($Validate->passed())
-		echo "passed";
-	else
+	if(Token::check(Input::get('_token')))
 	{
-		foreach($Validate->errors() as $error)			
-			echo $error.'<br>';
+		$Validate = new Validate;
+		$Validate->check($_POST, array(
+
+			'name'     		   => array(
+				'required' => true,
+				'min'      => 2,
+				'max'      => 25
+				),
+			'username' 		   => array(
+				'required' => true,
+				'min'      => 2,
+				'max'      => 25,
+				'unique'   => 'users'
+				),
+			'email'            => array(
+				'required' => true,
+				'min'      => 7,
+				'max'      => 40,
+				'unique'   => 'users'
+				),
+			'password' 		   => array(
+				'required' => true,
+				'min'      => 6,
+				),
+			'confirm_password' => array(
+				'required' => true,
+				'matches'  => 'password'
+				),
+			));
+
+		if($Validate->passed())
+			echo "passed";
+		else
+		{
+			foreach($Validate->errors() as $error)			
+				echo $error.'<br>';
+		}
 	}
 }
 
@@ -70,6 +73,8 @@ if(Input::exists())
 <label for="confirm_password">Confirm Password</label>
 <input type="password" name="confirm_password" id="confirm_password">
 </div>
+
+<input type="hidden" name="_token" value="<?php echo Token::generate(); ?>">
 
 <input type="submit" value="register">
 
