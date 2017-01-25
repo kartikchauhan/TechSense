@@ -6,5 +6,9 @@ if(Session::exists('success'))
 {
 	echo Session::flash('success');
 }
+else
+{
+	echo "Please register first";
+}
 
 ?>

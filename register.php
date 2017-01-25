@@ -8,7 +8,6 @@ if(Input::exists())
 	{
 		$Validate = new Validate;
 		$Validate->check($_POST, array(
-
 			'name'     		   => array(
 				'required' => true,
 				'min'      => 2,
@@ -38,6 +37,16 @@ if(Input::exists())
 
 		if($Validate->passed())
 		{
+			$user = new User();	// we created an instance of User class because we wanted to invoke it's constructor to get instance of DB class, otherwise we could've called create function statically
+			$salt = Hash::salt(32);
+			$user->create('users', array(
+				'name' => Input::get('name'),
+				'username' => Input::get('username'),
+				'email'=> Input::get('email'),
+				'password'=> Hash::make(Input::get('password'), $salt),
+				'salt' => $salt,
+				'created_on' => Date('Y-m-d H:i:s')
+				));
 			Session::flash('success', "You've been successfully registered");
 			header('Location: index.php');
 		}
