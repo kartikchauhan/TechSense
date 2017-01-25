@@ -37,7 +37,10 @@ if(Input::exists())
 			));
 
 		if($Validate->passed())
-			echo "passed";
+		{
+			Session::flash('success', "You've been successfully registered");
+			header('Location: index.php');
+		}
 		else
 		{
 			foreach($Validate->errors() as $error)			
@@ -51,7 +54,7 @@ if(Input::exists())
 <form method="post" action="">
 <div>
 <label for="name">Name</label>
-<input type="text" name="name" id="name" value="<?php echo Input::get('username')?>">
+<input type="text" name="name" id="name" value="<?php echo Input::get('name')?>">
 </div>
 
 <div>

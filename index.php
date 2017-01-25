@@ -2,20 +2,9 @@
 
 require_once'Core/init.php';
 
-$user = DB::getInstance()->update('users', 6, array(
-	'name'=>'kartik',
-	'username'=>'testing',
-	'email'=>'kartik',
-	'password'=>'kartik'
-	));
-
-if(!$user)
+if(Session::exists('success'))
 {
-	echo "error";
-}
-else
-{
-	echo "UPDATED ".$user->count()." rows";
+	echo Session::flash('success');
 }
 
 ?>

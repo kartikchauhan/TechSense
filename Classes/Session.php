@@ -26,6 +26,20 @@ class Session
 			unset($_SESSION[$name]);
 	}
 
+	public static function flash($name, $value = '')
+	{
+		if(self::exists($name))
+		{
+			$flash_message = self::get($name);
+			self::delete($name);
+			return $flash_message;
+		}
+		else
+		{
+			self::put($name, $value);
+		}
+	}
+
 }
 
 ?>
