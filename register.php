@@ -47,8 +47,9 @@ if(Input::exists())
 				'salt' => $salt,
 				'created_on' => Date('Y-m-d H:i:s')
 				));
-			Session::flash('success', "You've been successfully registered");
-			header('Location: index.php');
+			Redirect::to('index.php');
+			// Session::flash('success', "You've been successfully registered");
+			// header('Location: index.php');
 		}
 		else
 		{

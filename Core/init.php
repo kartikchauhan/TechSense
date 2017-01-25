@@ -10,7 +10,7 @@ $GLOBALS['config'] = array(
 		'database'=>'blog'
 		),
 	'session'=>array(
-		'session_name' => 'user',
+		'session_name' => 'username',
 		'token_name' => 'token'
 		)
 

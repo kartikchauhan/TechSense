@@ -2,13 +2,9 @@
 
 require_once'Core/init.php';
 
-if(Session::exists('success'))
+if(Session::exists('username'))
 {
-	echo Session::flash('success');
-}
-else
-{
-	echo "Please register first";
+	echo "Hi ".Session::get('username');
 }
 
 ?>
