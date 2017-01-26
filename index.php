@@ -6,10 +6,16 @@ $user = new User();
 
 if($user->isLoggedIn())
 {
-	echo $user->data()->name;
+	echo "Hi ".$user->data()->name;
+?>
+	<a href="logout.php">Logout</a>
+
+<?php
 }
 else
 {
-	echo "You need to log in or register";
+?>
+	<a href="login.php">Login</a>
+<?php
 }
 ?>

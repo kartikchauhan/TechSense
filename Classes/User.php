@@ -77,6 +77,12 @@ class User
 		return $this->_data;
 	}
 
+	public function logout()
+	{
+		Session::delete($this->_sessionName);
+		$this->_isLoggedIn = false;
+	}
+
 	public function isLoggedIn()
 	{
 		return $this->_isLoggedIn;
