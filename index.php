@@ -2,9 +2,14 @@
 
 require_once'Core/init.php';
 
-if(Session::exists('username'))
-{
-	echo "Hi ".Session::get('username');
-}
+$user = new User();
 
+if($user->isLoggedIn())
+{
+	echo $user->data()->name;
+}
+else
+{
+	echo "You need to log in or register";
+}
 ?>
