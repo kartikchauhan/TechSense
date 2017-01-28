@@ -12,6 +12,12 @@ class Hash
 	{
 		return mcrypt_create_iv($length);
 	}
+
+	public static function unique()
+	{
+		return self::make(uniqid());
+	}
+
 }
 
 

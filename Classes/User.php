@@ -4,6 +4,7 @@ class User
 {
 	private $_db,
 			$_sessionName,
+			$_cookieName,
 			$_isLoggedIn = false,
 			$_data = null;
 
@@ -11,6 +12,7 @@ class User
 	{
 		$this->_db = DB::getInstance();
 		$this->_sessionName = Config::get('session/session_name');
+		$this->_cookieName = Config::get('remember/cookie_name');
 
 		if(!$user)
 		{
@@ -58,18 +60,50 @@ class User
 		return false;
 	}
 
-	public function login($email = null, $password = null)
+	public function login($email = null, $password = null, $remember_me = false)
 	{
-		$user = $this->find($email);
-		if($user)
+		if(!$email && !$password && $this->exists())
 		{
-			if($this->data()->password === Hash::make($password, $this->data()->salt))
+			Session::put($this->_sessionName, $this->data()->id);
+		}
+		else
+		{
+			$user = $this->find($email);
+			if($user)
 			{
-				Session::put($this->_sessionName, $this->data()->id);
-				return true;
+				if($this->data()->password === Hash::make($password, $this->data()->salt))
+				{
+					Session::put($this->_sessionName, $this->data()->id);
+
+					if($remember_me)
+					{
+						$hash = Hash::unique();
+						$hashCheck = $this->_db->get('users_cookie', array('user_id', '=', $this->data()->id));
+						if(!$hashCheck->count())
+						{
+							$this->_db->insert('users_cookie', array(
+									'user_id' => $this->data()->id,
+									'hash' => $hash,
+								));
+						}
+						else
+						{
+							$hash = $hashCheck->first()->hash;
+						}
+						Cookie::put($this->_cookieName, $hash, Config::get('remember/cookie_expiry'));
+
+					}
+
+					return true;
+				}
 			}
 		}
 		return false;
+	}
+
+	private function exists()
+	{
+		return (!empty($this->data()) ? true : false);
 	}
 
 	public function data()
@@ -79,7 +113,9 @@ class User
 
 	public function logout()
 	{
+		$this->_db->delete('users_cookie', array('user_id', '=', $this->data()->id));
 		Session::delete($this->_sessionName);
+		Cookie::delete($this->_cookieName);
 		$this->_isLoggedIn = false;
 	}
 

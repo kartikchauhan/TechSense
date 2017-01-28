@@ -64,7 +64,7 @@ class DB
 		return false;
 	}
 
-	public function get($table, $where)		// passed table_name and where consition in the form of array as parameter to the get function
+	public function get($table, $where = array())		// passed table_name and where condition in the form of array as parameter to the get function
 	{
 		return $this->action('Select *', $table, $where);	// calling action method by passing these three parameters where $where is an array consisting of fieldname, operator and a value
 	}

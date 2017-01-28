@@ -20,7 +20,7 @@ if(Input::exists('post'))
 		if($Validate->passed())
 		{
 			$user = new User;
-			if($user->login(Input::get('email'), Input::get('password')))
+			if($user->login(Input::get('email'), Input::get('password'), Input::get('remember_me')))
 				Redirect::to('index.php');
 			else
 				echo "Sorry wrong credentials";
@@ -40,15 +40,20 @@ if(Input::exists('post'))
 
 <form action="" method="post">
 <div>
-<label for="email">Email</label>
-<input type="text" name="email" id="email">
+	<label for="email">Email</label>
+	<input type="text" name="email" id="email" >
 </div>
 
 <div>
-<label for="password">Password</label>
-<input type="password" name="password" id="password">
+	<label for="password">Password</label>
+	<input type="password" name="password" id="password" >
 </div>
 
+<div>
+	<label for="remember_me">
+		<input type="checkbox" name="remember_me" id="remember_me" >Remember me
+	</label>
+</div>
 <input type="hidden" name="_token" value="<?php echo Token::generate(); ?>">
 
 <input type="submit" value="login">

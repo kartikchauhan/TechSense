@@ -2,8 +2,7 @@
 
 require_once'Core/init.php';
 
-$user = new User();
-
+$user = new User;
 if($user->isLoggedIn())
 {
 	echo "Hi ".$user->data()->name;
