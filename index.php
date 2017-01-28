@@ -10,7 +10,8 @@ if($user->isLoggedIn())
 ?>
 	<hr>
 	<a href="logout.php">Logout</a><hr>
-	<a href="update.php">Update Profile</a>
+	<a href="update.php">Update Profile</a><hr>
+	<a href="changePassword.php">Change Password</a>
 
 <?php
 }

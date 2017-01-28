@@ -36,7 +36,7 @@ class Validate
 						break;
 						case 'matches': 
 										if($value!=$source[$rule_value])
-											$this->addError("{$item} doesn't match with the {$rule_value}");
+											$this->addError("{$item} should match with the {$rule_value}");
 						break;
 						case 'unique': 
 										$this->_db->get($rule_value, array($item, '=', $value));
