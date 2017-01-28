@@ -28,14 +28,17 @@ class Session
 
 	public static function flash($name, $value = '')
 	{
+		echo "reached to the flash method<br>";
 		if(self::exists($name))
 		{
+			echo "flash exists";
 			$flash_message = self::get($name);
 			self::delete($name);
 			return $flash_message;
 		}
 		else
 		{
+			echo "flash does not exists";
 			self::put($name, $value);
 		}
 	}

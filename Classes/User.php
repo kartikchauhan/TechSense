@@ -44,6 +44,19 @@ class User
 		$this->_db->insert($table, $fields);
 	}
 
+	public function update($table, $id, $fields = array())
+	{
+		if($this->isLoggedIn())
+		{
+			$id = $this->data()->id;
+		}
+
+		if(!$this->_db->update($table, $id, $fields))
+		{
+			throw new Exception("There was some problem updating your profile, please try again later");
+		}
+	}
+
 	private function find($user)
 	{
 		if($user)

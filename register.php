@@ -49,7 +49,7 @@ if(Input::exists())
 				));
 			Redirect::to('index.php');
 			// Session::flash('success', "You've been successfully registered");
-			// header('Location: index.php');
+			header('Location: index.php');
 		}
 		else
 		{
