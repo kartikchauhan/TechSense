@@ -114,7 +114,7 @@ class User
 		return false;
 	}
 
-	private function exists()
+	public function exists()
 	{
 		return (!empty($this->data()) ? true : false);
 	}

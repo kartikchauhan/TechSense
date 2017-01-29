@@ -6,8 +6,17 @@ class Redirect
 	{
 		if($location)
 		{
-			header('Location: '.$location);
-			exit();
+			if(is_numeric($location))
+			{
+				header('HTTP/1.0 404 Not Found');
+				include('Includes/Errors/404.php');
+				exit();
+			}
+			else
+			{
+				header('Location: '.$location);
+				exit();
+			}
 		}
 	}
 }

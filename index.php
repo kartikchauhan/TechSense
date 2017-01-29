@@ -6,12 +6,12 @@ $user = new User;
 
 if($user->isLoggedIn())
 {
-	echo "Hi ".$user->data()->name;
 ?>
+	Hii <a href="profile.php?user=<?php echo $user->data()->username ?>"><?php echo $user->data()->name ?></a>
 	<hr>
 	<a href="logout.php">Logout</a><hr>
 	<a href="update.php">Update Profile</a><hr>
-	<a href="changePassword.php">Change Password</a>
+	<a href="changePassword.php">Change Password</a><hr>
 
 <?php
 }
