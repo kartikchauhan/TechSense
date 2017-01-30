@@ -22,13 +22,13 @@ if(Input::exists('post'))
 			if($user->login(Input::get('email'), Input::get('password'), Input::get('remember_me')))
 			{
 				$json['status'] = 0;	// status 0 => when successfully logged in
-				$json['message'] = 'successfully logged in';
+				$json['message'] = "You've been successfully logged in";
 				// Redirect::to('index.php');
 			}
 			else
 			{
 				$json['status'] = 1;	// status 1 => when credentials are wrong
-				$json['message'] = 'wrong credentials';
+				$json['message'] = 'Either email or password wrong';
 				
 			}
 		}

@@ -9,7 +9,7 @@ require_once'Core/init.php';
 <html>
 	<head>
 		<title>
-			Login
+			Register
 		</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -26,7 +26,7 @@ require_once'Core/init.php';
 				width: 100%;
 				background-color: #eee;
 			}
-			#login-form
+			#registration-form
 			{
 				position:relative;
 			  	top:50%;
@@ -34,12 +34,6 @@ require_once'Core/init.php';
 				-ms-transform: translateX(-50%) translateY(-50%);
 				-webkit-transform: translate(-50%,-50%);
 				transform: translate(-50%,-50%);
-			}
-			#remember-me-container
-			{
-				margin-left: 7px;
-				margin-top: 15px;
-				margin-bottom: 10px;
 			}
 			.error
 			{
@@ -50,8 +44,8 @@ require_once'Core/init.php';
 	</head>
 	<body>
 	
-		<div id="login-form">
-			<h5 class="center-align condensed light">Sign in to BlogSparta</h5>
+		<div id="registration-form">
+			<h5 class="center-align condensed light">Register to BlogSparta</h5>
 			<div class="row">
 				<div class="col s4 offset-s4">
 					<ul class="collection center-align z-depth-1 error">
@@ -63,6 +57,16 @@ require_once'Core/init.php';
 								<form class="col s12" action="" method="post">
 									<div class="row">
 										<div class="input-field col s12">
+											<i class="material-icons prefix">account_box</i>
+											<input type="text" name="name" id="name" />
+											<label for="name">Name</label>
+										</div>
+										<div class="input-field col s12">
+											<i class="material-icons prefix">person</i>
+											<input type="text" name="username" id="username" />
+											<label for="username">Username</label>
+										</div>
+										<div class="input-field col s12">
 											<i class="material-icons prefix">email</i>
 											<input type="text" name="email" id="email" />
 											<label for="email">Email</label>
@@ -72,10 +76,12 @@ require_once'Core/init.php';
 											<input type="password" name="password" id="password" />
 											<label for="password">Password</label>
 										</div>
-										<div class="col s6 offset-s3" id="remember-me-container">
-											<input type="checkbox" id="remember_me" name="remember_me">
-											<label for="remember_me"> Remember Me</label>
+										<div class="input-field col s12">
+											<i class="material-icons prefix">lock</i>
+											<input type="password" name="confirm_password" id="confirm_password" />
+											<label for="confirm_password">Confirm Password</label>
 										</div>
+										
 										<div class="input-field col s12">
 											<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
 										</div>
@@ -85,11 +91,9 @@ require_once'Core/init.php';
 							</div>
 						</div>
 					</div>
-					<div class="section">
-						<ul class="collection center-align z-depth-1">
-							<li class="collection-item">New to BlogSparta? <a href="register.php">Create an account</a></li>
-						</ul>
-					</div>
+					<ul class="collection center-align z-depth-1">
+						<li class="collection-item">Already have an account? <a href="login_frontend.php">Login</a></li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -101,22 +105,21 @@ require_once'Core/init.php';
 			$(document).ready(function(){
 				$('body').on('click', '#submit', function(e){
 					e.preventDefault();
+					var name = $('#name').val();
+					var username = $('#username').val();
 					var email = $('#email').val();
 					var password = $('#password').val();
-					var remember_me = $('#remember_me').val();
+					var confirm_password = $('#confirm_password').val();
 					var _token = $('#_token').val();
-					console.log(email);
-					console.log(password);
-					console.log(remember_me);
-					console.log(_token);
 					
 					$.ajax({
 						type : "POST",
-						url : "login.php",
-						data : {email: email, password: password, remember_me: remember_me, _token: _token},
+						url : "register.php",
+						data : {name: name, username: username, email: email, password: password, confirm_password: confirm_password, _token: _token},
 						cache: false,
 						success: function(response)
 						{
+							console.log(response);
 							var response = JSON.parse(response);
 							if(response.status==0)
 							{
