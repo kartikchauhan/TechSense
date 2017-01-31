@@ -105,10 +105,6 @@ require_once'Core/init.php';
 					var password = $('#password').val();
 					var remember_me = $('#remember_me').val();
 					var _token = $('#_token').val();
-					console.log(email);
-					console.log(password);
-					console.log(remember_me);
-					console.log(_token);
 					
 					$.ajax({
 						type : "POST",
@@ -118,6 +114,7 @@ require_once'Core/init.php';
 						success: function(response)
 						{
 							var response = JSON.parse(response);
+							$('#_token').val(response._token);
 							if(response.status==0)
 							{
 								Materialize.toast(response.message, 4000, 'green');

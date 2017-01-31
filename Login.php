@@ -6,6 +6,7 @@ if(Input::exists('post'))
 {
 	if(Token::check(Input::get('_token')))
 	{
+		$json['_token'] = Token::generate();
 		$Validate = new Validate;
 		$Validate->check($_POST, array(
 			'email' => array(

@@ -119,8 +119,8 @@ require_once'Core/init.php';
 						cache: false,
 						success: function(response)
 						{
-							console.log(response);
 							var response = JSON.parse(response);
+							$('#_token').val(response._token);
 							if(response.status==0)
 							{
 								Materialize.toast(response.message, 4000, 'green');
