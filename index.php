@@ -22,3 +22,16 @@ else
 <?php
 }
 ?>
+
+<html>
+<head>
+	<title>ckeditor</title>
+</head>
+	<body>
+		<textarea name="ckeditor" id="ckeditor"></textarea>
+	</body>
+	<script src="Includes/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript">
+		CKEDITOR.replace('ckeditor');
+	</script>
+</html>
