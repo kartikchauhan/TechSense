@@ -38,7 +38,8 @@ if(Input::exists())
 
 		if($Validate->passed())
 		{
-			$user = new User();	// we created an instance of User class because we wanted to invoke it's constructor to get instance of DB class, otherwise we could've called create function statically
+			$json['username_exists'] = false;
+			$user = new User();	
 			$salt = Hash::salt(32);
 			$user->create('users', array(
 				'name' => Input::get('name'),
@@ -50,17 +51,31 @@ if(Input::exists())
 				));
 			$json['status'] = 0;
 			$json['message'] = "You're account has been successfully created";
-			// Redirect::to('index.php');
-			// Session::flash('success', "You've been successfully registered");
-			// header('Location: index.php');
 		}
 		else
 		{
 			$json['status'] = 2;
 			$json['message'] = $Validate->errors()[0];
+			if($Validate->isUsernameExists())
+			{
+				$json['username_exists'] = true;
+				$json['usernames_available'] = generateUsernames(Input::get('name'));
+			}
 		}
 		echo json_encode($json);
 	}
+}
+
+function generateUsernames($name)
+{
+	$name = explode(' ', $name);
+	$tokens = array('_', '-', '');
+	for($i=0; $i<3; $i++)
+	{
+
+		$username[$i] = mt_rand(9,99)%2 ? current($name).$tokens[array_rand($tokens)].mt_rand(9, 9999) : end($name).$tokens[array_rand($tokens)].mt_rand(9, 9999);
+	}
+	return $username;
 }
 
 ?>

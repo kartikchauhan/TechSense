@@ -39,6 +39,10 @@ require_once'Core/init.php';
 			{
 				display: none;
 			}
+			.usernames-available
+			{
+				display: none;
+			}
 		</style>
 
 	</head>
@@ -65,6 +69,9 @@ require_once'Core/init.php';
 											<i class="material-icons prefix">person</i>
 											<input type="text" name="username" id="username" />
 											<label for="username">Username</label>
+										</div>
+										<div class="center-align">
+											<span class="usernames-available red-text"></span>
 										</div>
 										<div class="input-field col s12">
 											<i class="material-icons prefix">email</i>
@@ -98,7 +105,7 @@ require_once'Core/init.php';
 			</div>
 		</div>
 		
-		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+		<script src="Includes/js/jquery.min.js"></script>
 		<script type="text/javascript" src="Includes/js/materialize.min.js"></script>
 		<script type="text/javascript">
 			// $('#submit').off('click');
@@ -127,7 +134,19 @@ require_once'Core/init.php';
 							}
 							else
 							{
-								Materialize.toast(response.message, 4000, 'red');
+								if(response.username_exists === true)
+								{
+									var usernamesAvailable = "Usernames available: ";									
+									for(var i=0; i<3; i++)
+									{
+										if(i<2)
+											usernamesAvailable = usernamesAvailable + response.usernames_available[i] + ', ';
+										else
+											usernamesAvailable = usernamesAvailable + response.usernames_available[i];
+									}	
+								}
+								$('.usernames-available').text(usernamesAvailable);
+								$('.usernames-available').show();
 								$('.error li').text(response.message);
 								$('.error').show();
 							}

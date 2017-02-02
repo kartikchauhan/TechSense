@@ -4,6 +4,7 @@ class Validate
 {
 	private $_errors = array(),
 			$_db = null,
+			$_usernameExists = 0,
 			$_passed = false;
 
 	public function __construct()
@@ -41,7 +42,11 @@ class Validate
 						case 'unique': 
 										$this->_db->get($rule_value, array($item, '=', $value));
 										if($this->_db->count() > 0)
+										{
 											$this->addError("{$item} already exists");
+											if($item === "username")
+												$this->_usernameExists = 1;
+										}
 						break;
 					}
 				}
@@ -51,8 +56,6 @@ class Validate
 		{
 			$this->_passed = true;
 		}
-
-		// return $this;
 	}
 
 	private function addError($error)
@@ -70,10 +73,11 @@ class Validate
 		return $this->_passed;
 	}
 
+	public function isUsernameExists()
+	{
+		return $this->_usernameExists;
+	}
+
 }
-
-
-
-
 
 ?>
