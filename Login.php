@@ -41,6 +41,10 @@ if(Input::exists('post'))
 		echo json_encode($json);
 	}
 }
+else
+{
+	Redirect::to('index.php');
+}
 
 
 ?>

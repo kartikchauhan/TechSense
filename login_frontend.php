@@ -2,6 +2,14 @@
 
 require_once'Core/init.php';
 
+$user = new User;
+
+if($user->isLoggedIn())
+{
+	echo "you are already logged in";
+	Redirect::to('index.php');
+}
+
 ?>
 
 <!Doctype html>
@@ -94,7 +102,7 @@ require_once'Core/init.php';
 			</div>
 		</div>
 		
-		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+		<script src="Includes/js/jquery.min.js"></script>
 		<script type="text/javascript" src="Includes/js/materialize.min.js"></script>
 		<script type="text/javascript">
 			// $('#submit').off('click');
