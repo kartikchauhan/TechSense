@@ -88,6 +88,9 @@ if($user->isLoggedIn())
 											<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
 										</div>
 										<input type="submit" class="btn waves-effect waves-light col s4 offset-s4" value="submit" id="submit">
+										<div class="center-align">
+											<a class="red-text" href="forgot_password.php">Forgot password?</a>
+										</div>
 									</div>
 								</form>
 							</div>

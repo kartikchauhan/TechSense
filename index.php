@@ -18,7 +18,7 @@ if($user->isLoggedIn())
 else
 {
 ?>
-	<a href="login.php">Login</a>
+	<a href="login_frontend.php">Login</a>
 <?php
 }
 ?>
