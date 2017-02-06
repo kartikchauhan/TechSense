@@ -114,6 +114,26 @@ class User
 		return false;
 	}
 
+	public function googleCheckUser($userData = array())
+    {
+        if(!empty($userData))
+        {
+            $data = $this->_db->get('users', array('email', '=', $userData['email']));
+            if($data->count() > 0)
+            {
+                $userId = $data->first()->id;
+                $updateData = $this->_db->update('users', $userId, array('oauth_uid', '=', $userData['oauth_uid']));
+                $data = $this->_db->get('users', array('email', '=', $userData['email']));
+                return $data->first();
+            }
+            else
+            {
+                die("You are not a registered user. <a href='register.php'>Register first</a>");
+
+            }
+        }
+    }
+
 	public function exists()
 	{
 		return (!empty($this->data()) ? true : false);

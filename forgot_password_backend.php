@@ -1,4 +1,8 @@
 <?php
+// changes that needed to be implement that are linked with this file - 
+// 1) creating a new record in forgot_password table because no method avaiable to insert a record with "WHERE" consition avaialble
+// 2) no clickable reset_password being given right now in the email. 
+// 3) no idea how to comapare token value sent in email to the value stored in database. Same with timestamp
 
 require_once'Core/init.php';
 require 'Includes/PHPMailer/PHPMailerAutoload.php';

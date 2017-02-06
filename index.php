@@ -17,21 +17,6 @@ if($user->isLoggedIn())
 }
 else
 {
-?>
-	<a href="login_frontend.php">Login</a>
-<?php
+	echo 'not logged in';
+	include_once'socialLogin.php';
 }
-?>
-
-<html>
-<head>
-	<title>ckeditor</title>
-</head>
-	<body>
-		<textarea name="ckeditor" id="ckeditor"></textarea>
-	</body>
-	<script src="Includes/ckeditor/ckeditor.js"></script>
-	<script type="text/javascript">
-		CKEDITOR.replace('ckeditor');
-	</script>
-</html>
