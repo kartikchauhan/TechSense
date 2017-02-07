@@ -100,6 +100,10 @@ else
 							</div>
 						</div>
 					</div>
+					<div class="center-align">Or</div>
+					<div class="row">
+						<a href="<?php echo $authUrl ?>" class="waves-effect waves-light btn red col s8 offset-s2">Sign in with google</a>
+					</div>
 					<div class="section">
 						<ul class="collection center-align z-depth-1">
 							<li class="collection-item">New to BlogSparta? <a href="register.php">Create an account</a></li>
@@ -108,7 +112,7 @@ else
 				</div>
 			</div>
 		</div>
-		<a href="<?php echo $authUrl ?>"><img src="Includes/googleAuth/images/glogin.png"></a>
+		
 		<script src="Includes/js/jquery.min.js"></script>
 		<script type="text/javascript" src="Includes/js/materialize.min.js"></script>
 		<script type="text/javascript">
