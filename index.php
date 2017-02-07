@@ -18,5 +18,5 @@ if($user->isLoggedIn())
 else
 {
 	echo 'not logged in';
-	include_once'socialLogin.php';
+	// include_once'socialLogin.php';
 }

@@ -126,12 +126,8 @@ class User
                 $data = $this->_db->get('users', array('email', '=', $userData['email']));
                 return $data->first();
             }
-            else
-            {
-                die("You are not a registered user. <a href='register.php'>Register first</a>");
-
-            }
         }
+        return false;
     }
 
 	public function exists()

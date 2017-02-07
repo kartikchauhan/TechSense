@@ -1,9 +1,11 @@
 <?php
 
 require_once'Core/init.php';
+require_once'Includes/googleAuth/gpConfig.php';
 
 if(Input::exists('post'))
 {
+	die('Input exists post');
 	if(Token::check(Input::get('_token')))
 	{
 		$json['_token'] = Token::generate();
@@ -19,7 +21,7 @@ if(Input::exists('post'))
 			));
 		if($Validate->passed())
 		{
-			$user = new User;
+			// $user = new User;
 			if($user->login(Input::get('email'), Input::get('password'), Input::get('remember_me')))
 			{
 				$json['status'] = 0;	// status 0 => when successfully logged in
@@ -41,10 +43,16 @@ if(Input::exists('post'))
 		echo json_encode($json);
 	}
 }
+else if(Input::get('code'))
+{
+	$gClient->authenticate(Input::get('code'));
+	Session::put('googleToken', $gClient->getAccessToken());
+	Redirect::to('social_login.php');
+}
 else
 {
-	Redirect::to('index.php');
+	echo 'on the login page right now';
+	// Redirect::to('index.php');
 }
-
 
 ?>

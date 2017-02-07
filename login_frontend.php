@@ -6,8 +6,12 @@ $user = new User;
 
 if($user->isLoggedIn())
 {
-	echo "you are already logged in";
 	Redirect::to('index.php');
+}
+else
+{
+	require_once'Includes/googleAuth/gpConfig.php';
+	$authUrl = $gClient->createAuthUrl();
 }
 
 ?>
@@ -104,7 +108,7 @@ if($user->isLoggedIn())
 				</div>
 			</div>
 		</div>
-		
+		<a href="<?php echo $authUrl ?>"><img src="Includes/googleAuth/images/glogin.png"></a>
 		<script src="Includes/js/jquery.min.js"></script>
 		<script type="text/javascript" src="Includes/js/materialize.min.js"></script>
 		<script type="text/javascript">
