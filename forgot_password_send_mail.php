@@ -23,17 +23,18 @@ if(Input::exists('post'))
 		if($Validate->passed())
 		{
 			$user = new User;
-			$user = DB::getInstance()->get('users', array('email', '=', Input::get('email')));
-			if($user->count()==1)
+			$userData = DB::getInstance()->get('users', array('email', '=', Input::get('email')));
+			if($userData->count()==1)
 			{
 				date_default_timezone_set('asia/kolkata');
-				$hash = Hash::unique();
-				$email = Input::get('email');
-				$user->insert('forgot_password', array(
-					'email' => $email,
-					'token' => $hash,
-					'timestamp' => date('Y-m-d h:i:s')
-					));
+				$hash = Hash::unique(); // create a unique hash to store it in the database and pass it in the mail to the user
+				$userData = $userData->first();
+				$email = $userData->email;	// get user email address from database
+				$userId = $userData->id;	// get user's id to update record
+
+				Cookie::put(Config::get('remember/reset_password'), $hash, 300000);	// creating session of 5 minutes. The user can only reset his password in this 5 minute duration
+				$user->update('users', $userId, array('forgot_password_token' => $hash));	// store hash in the database
+
 				$mail = new PHPMailer;
 				$mail->isSMTP();
 				$mail->SMTPDebug = 0;
@@ -47,7 +48,8 @@ if(Input::exists('post'))
 				$mail->setFrom("chauhan.kartik25@gmail.com", "kartik chauhan");
 				$mail->addAddress($email, 'anonymous');
 				$mail->subject = "password reset link";
-				$mail->msgHTML("This is a password reset link. Click on it and change your password within 1 hour else session will expire<br> {$hash} <br> {$email}");
+				// now sending msg including hash along with user's email address.
+				$mail->msgHTML("This is a password reset link. Click on it and change your password within 1 hour else session will expire<br> <a href='http://localhost/Blog_temp/forgot_password_reset_password.php?token={$hash}&user={$email}'>Click this link</a>");
 				try
 				{
 					if(!$mail->send())

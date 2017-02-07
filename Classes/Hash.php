@@ -2,6 +2,7 @@
 
 class Hash
 {
+
 	public static function make($string, $salt = '')
 	{
 		return hash('sha256', $string.$salt);	// we are appending $salt to the password here.
