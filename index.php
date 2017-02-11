@@ -1,52 +1,74 @@
-<?php
-
-require_once'Core/init.php';
-
-?>
-
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>
-            Write a blog    
-        </title>
-    </head>
-    <body>
-        <form action="post_blog.php" method="post">
-            <label for="title">Title</label>
-            <input type="text" name="title" id="title">
-            <br>
-            <label for="description">Description</label>
-            <input type="text" name="description" id="description">
-            <br>
-            <textarea name="blog" id="blog">Wait your text editor is being loaded</textarea>
-            <input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
-            <input type="submit" value="submit">
-        </form>
-        <script src="vendor/tinymce/tinymce/tinymce.min.js"></script>
-        <script>
-            tinymce.init({
-            selector: 'textarea',
-            height: 300,
-            theme: 'modern',
-            plugins: [
-              'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-              'searchreplace wordcount visualblocks visualchars code fullscreen',
-              'insertdatetime media nonbreaking save table contextmenu directionality',
-              'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc'
-            ],
-            toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-            toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
-            image_advtab: true,
-            templates: [
-              { title: 'Test template 1', content: 'Test 1' },
-              { title: 'Test template 2', content: 'Test 2' }
-            ],
-            content_css: [
-              '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-              '//www.tinymce.com/css/codepen.min.css'
-            ]
-            });
-        </script>
-    </body>
+<head>
+    <title>
+      Home
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="keywords" content="blog, technology, code, program, alorithms"/>
+    <meta name="description" content="We emphaisze on solving problems">
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <style type="text/css">
+        .slider
+        {
+            z-index: -1;
+        }
+        nav
+        {
+            border-bottom: 1px white solid;
+        }
+        #write-blog
+        {
+            position: relative;
+            top: 70%;
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+    <nav class="z-depth-2 blue transparent">
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo">Logo</a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+              <li><a href="login_frontend.php" class="nav-headers">LOGIN</a></li>
+              <li><a href="register_frontend.php" class="nav-headers">SIGNUP</a></li>
+            </ul>
+            <ul class="side-nav" id="mobile-demo">
+              <li><a href="login_frontend.php" class="nav-headers">LOGIN</a></li>
+              <li><a href="register_frontend.php" class="nav-headers">SIGNUP</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="slider fullscreen center">
+        <div id="write-blog">
+            <a class="btn waves-effect white grey-text text-darken-1 btn-large">Write a blog</a>
+        </div>
+        <ul class="slides">
+            <li>
+                <img src="Includes/images/science.jpg"> <!-- random image -->
+            </li>
+            <li>
+                <img src="Includes/images/sublime_text.jpeg"> <!-- random image -->
+            </li>
+            <li>
+                <img src="http://lorempixel.com/580/250/nature/3"> <!-- random image -->
+            </li>
+            <li>
+                <img src="http://lorempixel.com/580/250/nature/4"> <!-- random image -->
+            </li>
+        </ul>
+  </div>
+
+    <script src="Includes/js/jquery.min.js"></script>
+    <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
+    <script>
+         $(document).ready(function(){
+      $('.slider').slider();
+    });
+    </script>
+</body>
 </html>
