@@ -22,7 +22,7 @@
         #write-blog
         {
             position: relative;
-            top: 70%;
+            top: -20%;
             z-index: 3;
         }
     </style>
@@ -43,24 +43,42 @@
         </div>
     </nav>
 
-    <div class="slider fullscreen center">
-        <div id="write-blog">
-            <a class="btn waves-effect white grey-text text-darken-1 btn-large">Write a blog</a>
-        </div>
+    <div class="slider fullscreen center" data-indicators="false">
         <ul class="slides">
             <li>
-                <img src="Includes/images/science.jpg"> <!-- random image -->
+                <img src="Includes/images/map.jpg">
+                <div class="caption left-align">
+                    <h3 class="light white-text">History doesn't repeats itself,<br>but it does rhyme.</h3>
+                </div>
             </li>
             <li>
+                <div class="caption right-align">
+                    <h1 class="light white-text">First solve the problem.<br>Then, write the code.</h1>
+                </div>
                 <img src="Includes/images/sublime_text.jpeg"> <!-- random image -->
             </li>
             <li>
-                <img src="http://lorempixel.com/580/250/nature/3"> <!-- random image -->
+                <div class="caption center-align">
+                    <h4 class="light white-text">Art speaks where words are unable to explain.</h4>
+                </div>
+                <img src="Includes/images/art1.jpg">
             </li>
             <li>
-                <img src="http://lorempixel.com/580/250/nature/4"> <!-- random image -->
+                <img src="Includes/images/music2.jpg">
+                <div class="caption right-align">
+                    <h5 class="light grey-text text-lighten-3">Where words fail, Music speaks.</h5>
+                </div>
             </li>
+            <li>
+                <div class="caption left-align">
+                    <h4 class="light white-text">Science is the poetry of<br>reality.</h4>
+                </div>
+                <img src="Includes/images/science.jpg"> <!-- random image -->
+            </li>            
         </ul>
+        <div id="write-blog">
+            <a class="btn waves-effect white grey-text text-darken-3">Write a blog</a>
+        </div>
   </div>
 
     <script src="Includes/js/jquery.min.js"></script>
