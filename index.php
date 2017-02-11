@@ -1,3 +1,9 @@
+<?php
+
+require_once'Core/init.php';
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +17,7 @@
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <style type="text/css">
+        /* no added transitions for safari, mozilla, safari and other browsers*/
         .slider
         {
             z-index: -1;
@@ -19,12 +26,35 @@
         {
             border-bottom: 1px white solid;
         }
+        #secondary-content
+        {
+            position: relative;
+            top: 100vh;
+        }
         #write-blog
         {
             position: relative;
-            top: -20%;
+            top: -50%;
             z-index: 3;
         }
+        .ghost-button
+        {
+            display: inline-block;
+            width: 200px;
+            padding: 8px;
+            color: #fff;
+            border: 2px solid #fff;
+            text-align: center;
+            outline: none;
+            text-decoration: none;
+        }
+        .ghost-button:hover, .ghost-button:active
+        {
+            background-color: #fff;
+            color: #000;
+            transition: background-color 0.3s ease-in, color 0.3s ease-in;
+        }
+
     </style>
 </head>
 <body>
@@ -43,10 +73,10 @@
         </div>
     </nav>
 
-    <div class="slider fullscreen center" data-indicators="false">
+    <div class="slider fullscreen" data-indicators="false">
         <ul class="slides">
             <li>
-                <img src="Includes/images/map.jpg">
+                <img src="Includes/images/map2.jpg">
                 <div class="caption left-align">
                     <h3 class="light white-text">History doesn't repeats itself,<br>but it does rhyme.</h3>
                 </div>
@@ -76,17 +106,47 @@
                 <img src="Includes/images/science.jpg"> <!-- random image -->
             </li>            
         </ul>
-        <div id="write-blog">
-            <a class="btn waves-effect white grey-text text-darken-3">Write a blog</a>
+        <div id="write-blog" class="center-align">
+            <a class="ghost-button" href="">WRITE A BLOG</a>
         </div>
-  </div>
+    </div>
+    <div id="secondary-content">
+        <div class="container">
+            <div class="row">
+                <div class="col s2">
+                    <?php
+                        $blogs = DB::getInstance()->get('blogs', array('deletion_status', '=', '0'));
+                        foreach($blogs->results() as $blog)
+                        {
+                            $date=strtotime($blog->created_on);
+                            $date = date("Y-m-d", $date);
+                            echo "<blockquote>$date</blockquote>";
+                        }
+                    ?>
+                </div>
+                <div class="col s8">
+                    <?php
+                        foreach($blogs->results() as $blog)
+                        {
+                            echo "<h5>$blog->title</h5><br>";
+                            echo "<h6>$blog->description</h6><br>";
+                        }
+                    ?>
+                </div>
+                <div class="col s2">
+                    hey
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script src="Includes/js/jquery.min.js"></script>
     <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
     <script>
-         $(document).ready(function(){
-      $('.slider').slider();
-    });
+        $(document).ready(function(){
+            $('.slider').slider();
+        });
     </script>
 </body>
 </html>

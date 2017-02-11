@@ -48,7 +48,7 @@ class DB
 	{
 		if(count($where)==3)	// if there are three values inside $where array then proceed else return false to the get function which in turn will return false to the calling function
 		{
-			$operators = array('=', '<', '>', '<=', '>=');
+			$operators = array('=', '!=', '<', '>', '<=', '>=');
 			$fieldname = $where[0];	
 			$operator = $where[1];
 			$value = $where[2];
