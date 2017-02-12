@@ -115,22 +115,44 @@ require_once'Core/init.php';
             <div class="row">
                 <div class="col s2">
                     <?php
-                        $blogs = DB::getInstance()->get('blogs', array('deletion_status', '=', '0'));
-                        foreach($blogs->results() as $blog)
+                        $blog = DB::getInstance()->get('blogs', array('deletion_status', '=', '0'));
+                        if($blogs = $blog->fetchRecords(2))
                         {
-                            $date=strtotime($blog->created_on);
-                            $date = date("Y-m-d", $date);
-                            echo "<blockquote>$date</blockquote>";
+                            foreach($blogs as $blog)
+                            {
+                                echo $blog->title.'<br>';
+                                echo $blog->description.'<br>';
+                                echo $blog->blog.'<br>';
+                                echo $blog->views.'<br>';
+                            }
                         }
+                        else
+                        {
+                            echo "no";
+                        }
+                        // echo $blog->count().'<br>';
+                        // $blog->fetchRecords(1)
+                        // {
+
+                        // }
+                        
+                        die();
+                        // $blogs = DB::getInstance()->get('blogs', array('deletion_status', '=', '0'));
+                        // foreach($blogs->results() as $blog)
+                        // {
+                        //     $date=strtotime($blog->created_on);
+                        //     $date = date("Y-m-d", $date);
+                        //     echo "<blockquote>$date</blockquote>";
+                        // }
                     ?>
                 </div>
                 <div class="col s8">
                     <?php
-                        foreach($blogs->results() as $blog)
-                        {
-                            echo "<h5>$blog->title</h5><br>";
-                            echo "<h6>$blog->description</h6><br>";
-                        }
+                        // foreach($blogs->results() as $blog)
+                        // {
+                        //     echo "<h5>$blog->title</h5><br>";
+                        //     echo "<h6>$blog->description</h6><br>";
+                        // }
                     ?>
                 </div>
                 <div class="col s2">

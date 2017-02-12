@@ -9,7 +9,7 @@ class DB
 	{
 		try
 		{
-			$this->_pdo = new PDO("mysql:host=".Config::get('mysql/host')."; dbname=".Config::get('mysql/database'), Config::get('mysql/user'), Config::get('mysql/password'));
+			$this->_pdo = new PDO("mysql:host=".Config::get('mysql/host')."; dbname=".Config::get('mysql/database').";charset=utf8mb4", Config::get('mysql/user'), Config::get('mysql/password'), array(PDO::ATTR_EMULATE_PREPARES => false));
 		}
 		catch(PDOException $e)
 		{
@@ -29,12 +29,12 @@ class DB
 	public function query($sql, $params = array())	// this method accepts a unprepared sql query and an array that contains values and needed to be binded to the query
 	{
 		$this->_error = false;	// set error = false because the previous query might have set it to true
-		if($this->_query = $this->_pdo->prepare($sql))	// preparing the query $sql, that is turning {$variable} into a valid sql_query
+		if($this->_query = $this->_pdo->prepare($sql))	// preparing the query $sql, that is passing '?' as parameters. Compiler compiles and parses the sql statement and stores it into the database. this helps in query optimization and prevents sql Injection.
 		{
 			if($this->_query->execute(array_values($params)))	// bind the array values to the $sql and execute the query
 			{
-				$this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);	// setting the result to the $_results property
-				$this->_count = $this->_query->rowCount();	// getting count of total number of rows
+				$this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);	// setting the result to the $_results property								
+				$this->_count = $this->_query->rowCount();	// getting count of total number of rows		
 			}
 			else
 			{
@@ -46,6 +46,7 @@ class DB
 
 	private function action($action, $table, $where = array())
 	{
+
 		if(count($where)==3)	// if there are three values inside $where array then proceed else return false to the get function which in turn will return false to the calling function
 		{
 			$operators = array('=', '!=', '<', '>', '<=', '>=');
@@ -66,7 +67,7 @@ class DB
 
 	public function get($table, $where = array())		// passed table_name and where condition in the form of array as parameter to the get function
 	{
-		return $this->action('Select *', $table, $where);	// calling action method by passing these three parameters where $where is an array consisting of fieldname, operator and a value
+		return $this->action('SELECT *', $table, $where);	// calling action method by passing these three parameters where $where is an array consisting of fieldname, operator and a value
 	}
 
 	public function insert($table, $fields = array())
@@ -137,6 +138,44 @@ class DB
 	public function first()
 	{
 		return $this->results()[0];
+	}
+
+	public function sort($table, $fields = array())
+	{
+		if(count($fields) == 2)
+		{
+			$field = $fields[0];
+			$order = $fields[1];
+			$sql = "SELECT * FROM {$table} ORDER BY {$field} {$order}";
+
+			if(!$this->query($sql)->error())
+			{
+				return $this;
+			}
+		}
+		return false;
+
+	}
+
+	public function fetchRecords($numRecords)
+	{
+		if($numRecords)
+		{
+			$records = array();
+			if($this->count() >= $numRecords)
+			{
+				for($x = 0; $x < $numRecords; $x++)
+				{
+					$records[$x] = $this->results()[$x];
+				}
+				return $records;
+			}
+			else if($this->results())
+			{
+				return $this->results();	
+			}
+		}
+		return false;
 	}
 
 	public function error()
