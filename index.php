@@ -27,33 +27,33 @@ require_once'Core/init.php';
             border-bottom: 1px white solid;
         }
         #secondary-content
-        {
-            position: relative;
-            top: 100vh;
-        }
-        #write-blog
-        {
-            position: relative;
-            top: -50%;
-            z-index: 3;
-        }
-        .ghost-button
-        {
-            display: inline-block;
-            width: 200px;
-            padding: 8px;
-            color: #fff;
-            border: 2px solid #fff;
-            text-align: center;
-            outline: none;
-            text-decoration: none;
-        }
-        .ghost-button:hover, .ghost-button:active
-        {
-            background-color: #fff;
-            color: #000;
-            transition: background-color 0.3s ease-in, color 0.3s ease-in;
-        }
+    {
+        position: relative;
+        top: 100vh;
+    }
+    #write-blog
+    {
+        position: relative;
+        top: -50%;
+        z-index: 3;
+    }
+    .ghost-button
+    {
+        display: inline-block;
+        width: 200px;
+        padding: 8px;
+        color: #fff;
+        border: 2px solid #fff;
+        text-align: center;
+        outline: none;
+        text-decoration: none;
+    }
+    .ghost-button:hover, .ghost-button:active
+    {
+        background-color: #fff;
+        color: #000;
+        transition: background-color 0.3s ease-in, color 0.3s ease-in;
+    }
 
     </style>
 </head>
@@ -112,56 +112,54 @@ require_once'Core/init.php';
     </div>
     <div id="secondary-content">
         <div class="container">
-            <div class="row">
-                <div class="col s2">
                     <?php
                         $blog = DB::getInstance()->get('blogs', array('deletion_status', '=', '0'));
                         if($blogs = $blog->fetchRecords(2))
                         {
                             foreach($blogs as $blog)
                             {
-                                echo $blog->title.'<br>';
-                                echo $blog->description.'<br>';
-                                echo $blog->blog.'<br>';
-                                echo $blog->views.'<br>';
+                                $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
+                                echo 
+                                "<div class='section'>
+                                    <div class='row'>
+                                        <div class='col s2'>
+                                            <blockquote>".
+                                                date('M', $date)."<br>".
+                                                date('Y d', $date).
+                                            "</blockquote>
+                                        </div>
+                                        <div class='col s8'>
+                                            <h5>".ucfirst($blog->title)."</h5>
+                                            <h6>".ucfirst($blog->description)."</h6><br>
+                                            <div class='row'>
+                                                <div class='col s1'>
+                                                    <i class='material-icons' style='color:grey'>remove_red_eye</i>
+                                                </div>
+                                                <div class='col s1'>
+                                                    {$blog->views}
+                                                </div>
+                                                <div class='col s1 offset-s2'>
+                                                    <i class='material-icons' style='color:grey'>thumb_up</i>
+                                                </div>
+                                                <div class='col s1'>
+                                                    {$blog->likes}
+                                                </div>
+                                                <div class='col s1 offset-s2'>
+                                                    <i class='material-icons' style='color:grey'>thumb_down</i>
+                                                </div>
+                                                <div class='col s1'>
+                                                    {$blog->dislikes}
+                                                </div>
+                                            </div>
+                                            <div class='divider'></div>
+                                        </div>
+                                    </div>
+                                </div>";
                             }
                         }
-                        else
-                        {
-                            echo "no";
-                        }
-                        // echo $blog->count().'<br>';
-                        // $blog->fetchRecords(1)
-                        // {
-
-                        // }
-                        
-                        die();
-                        // $blogs = DB::getInstance()->get('blogs', array('deletion_status', '=', '0'));
-                        // foreach($blogs->results() as $blog)
-                        // {
-                        //     $date=strtotime($blog->created_on);
-                        //     $date = date("Y-m-d", $date);
-                        //     echo "<blockquote>$date</blockquote>";
-                        // }
                     ?>
-                </div>
-                <div class="col s8">
-                    <?php
-                        // foreach($blogs->results() as $blog)
-                        // {
-                        //     echo "<h5>$blog->title</h5><br>";
-                        //     echo "<h6>$blog->description</h6><br>";
-                        // }
-                    ?>
-                </div>
-                <div class="col s2">
-                    hey
-                </div>
-            </div>
         </div>
     </div>
-
 
     <script src="Includes/js/jquery.min.js"></script>
     <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
