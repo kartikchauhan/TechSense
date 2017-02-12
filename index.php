@@ -62,6 +62,14 @@ require_once'Core/init.php';
     {
         font-size: 12px;
     }
+    a
+    {
+        cursor: pointer;
+    }
+    ._token
+    {
+        display: none;
+    }
 
     </style>
 </head>
@@ -120,6 +128,7 @@ require_once'Core/init.php';
     </div>
     <div id="secondary-content">
             <div class="row">
+                <div id='_token' data-attribute="<?php echo Token::generate(); ?>"></div>
                 <div class="col s8">
                     <h5 class="center-align">Recent Blogs</h5>
                     <?php
@@ -141,23 +150,25 @@ require_once'Core/init.php';
                                         <h5>".ucfirst($blog->title)."</h5>
                                         <h6>".ucfirst($blog->description)."</h6><br>
                                         <div class='row'>
-                                            <div class='col s1'>
-                                                <i class='material-icons' style='color:grey'>remove_red_eye</i>
-                                            </div>
-                                            <div class='col s1'>
-                                                {$blog->views}
-                                            </div>
-                                            <div class='col s1 offset-s1'>
-                                                <i class='material-icons' style='color:grey'>thumb_up</i>
-                                            </div>
-                                            <div class='col s1'>
-                                                {$blog->likes}
-                                            </div>
-                                            <div class='col s1 offset-s1'>
-                                                <i class='material-icons' style='color:grey'>thumb_down</i>
-                                            </div>
-                                            <div class='col s1'>
-                                                {$blog->dislikes}
+                                            <div class='measure-count' data-attribute='{$blog->id}'>
+                                                <div class='col s1'>
+                                                    <a class='views' data-attribute='{$blog->views}'><i class='material-icons' style='color:grey'>remove_red_eye</i></a>
+                                                </div>
+                                                <div class='col s1'>
+                                                    {$blog->views}
+                                                </div>
+                                                <div class='col s1 offset-s1'>
+                                                    <a class='likes' data-attribute='{$blog->likes}'><i class='material-icons' style='color:grey'>thumb_up</i></a>
+                                                </div>
+                                                <div class='col s1'>
+                                                    {$blog->likes}
+                                                </div>
+                                                <div class='col s1 offset-s1'>
+                                                    <a class='dislikes' data-attribute='{$blog->dislikes}'><i class='material-icons' style='color:grey'>thumb_down</i></a>
+                                                </div>
+                                                <div class='col s1'>
+                                                    {$blog->dislikes}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class='divider'></div>
@@ -190,23 +201,25 @@ require_once'Core/init.php';
                                         <h6>".ucfirst($blog->title)."</h6>
                                         <p class='description'>".ucfirst($blog->description)."</p><br>
                                         <div class='row'>
-                                            <div class='col s1'>
-                                                <i class='material-icons' style='color:grey'>remove_red_eye</i>
-                                            </div>
-                                            <div class='col s1'>
-                                                {$blog->views}
-                                            </div>
-                                            <div class='col s1 offset-s2'>
-                                                <i class='material-icons' style='color:grey'>thumb_up</i>
-                                            </div>
-                                            <div class='col s1'>
-                                                {$blog->likes}
-                                            </div>
-                                            <div class='col s1 offset-s2'>
-                                                <i class='material-icons' style='color:grey'>thumb_down</i>
-                                            </div>
-                                            <div class='col s1'>
-                                                {$blog->dislikes}
+                                            <div class='measure-count' data-attribute='{$blog->id}'>
+                                                <div class='col s1'>
+                                                    <a class='views' data-attribute='{$blog->views}'><i class='material-icons' style='color:grey'>remove_red_eye</i></a>
+                                                </div>
+                                                <div class='col s1'>
+                                                    {$blog->views}
+                                                </div>
+                                                <div class='col s1 offset-s2'>
+                                                    <a class='likes' data-attribute='{$blog->likes}'><i class='material-icons' style='color:grey'>thumb_up</i></a>
+                                                </div>
+                                                <div class='col s1'>
+                                                    {$blog->likes}
+                                                </div>
+                                                <div class='col s1 offset-s2'>
+                                                    <a class='dislikes' data-attribute='{$blog->dislikes}'><i class='material-icons' style='color:grey'>thumb_down</i></a>
+                                                </div>
+                                                <div class='col s1'>
+                                                    {$blog->dislikes}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -223,6 +236,50 @@ require_once'Core/init.php';
     <script>
         $(document).ready(function(){
             $('.slider').slider();
+
+            $('.likes, .dislikes').click(function(e){
+                e.preventDefault();
+                var className = $(this).attr('class');
+                var object = $(this);
+                if(className === 'likes')
+                {
+                    className = 'likes';
+                }
+                else if(className === 'dislikes')
+                {
+                    className = 'dislikes';
+                }
+                var blog_id = $(this).parent().parent().attr('data-attribute');
+                var _token = $('#_token').attr('data-attribute');
+                var count = $(this).attr('data-attribute');
+                // console.log(blog_id);
+                // console.log(_token);
+                // console.log(count);
+                $.ajax({
+                    type: 'POST',
+                    url: 'blog_attributes.php',
+                    data: {blog_id: blog_id, _token: _token, field: className, count: count},
+                    cache: false,
+                    success: function(response)
+                    {
+                        var response = JSON.parse(response);
+                        console.log(response);
+                        $('#_token').attr('data-attribute', response._token);
+                        if(response.error_status)
+                        {
+                            consol.log(response.error);
+                            Materialize.toast(response.error, 5000, 'red');
+                            return false;
+                        }
+                        else
+                        {
+                            $(object).attr('data-attribute', response.count);
+                            console.log(response.count);
+                            console.log($(object).parent().next().text(response.count));
+                        }
+                    }
+                });
+            });
         });
     </script>
 </body>
