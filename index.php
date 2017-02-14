@@ -74,20 +74,10 @@ require_once'Core/init.php';
     </style>
 </head>
 <body>
-    <nav class="z-depth-2 blue transparent">
-        <div class="nav-wrapper container">
-            <a href="#" class="brand-logo">Logo</a>
-            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-            <ul class="right hide-on-med-and-down">
-              <li><a href="login_frontend.php" class="nav-headers">LOGIN</a></li>
-              <li><a href="register_frontend.php" class="nav-headers">SIGNUP</a></li>
-            </ul>
-            <ul class="side-nav" id="mobile-demo">
-              <li><a href="login_frontend.php" class="nav-headers">LOGIN</a></li>
-              <li><a href="register_frontend.php" class="nav-headers">SIGNUP</a></li>
-            </ul>
-        </div>
-    </nav>
+
+    <?php
+        include'header.html';
+    ?>
 
     <div class="slider fullscreen" data-indicators="false">
         <ul class="slides">
@@ -152,7 +142,7 @@ require_once'Core/init.php';
                                         <div class='row'>
                                             <div class='measure-count' data-attribute='{$blog->id}'>
                                                 <div class='col s1'>
-                                                    <a class='views' data-attribute='{$blog->views}' href=".Config::get('url/endpoint')."/view_blog.php?blog={$blog->id}"."><i class='material-icons' style='color:grey'>remove_red_eye</i></a>
+                                                    <a class='views' data-attribute='{$blog->views}' href=".Config::get('url/endpoint')."/view_blog.php/{$blog->id}"."><i class='material-icons' style='color:grey'>remove_red_eye</i></a>
                                                 </div>
                                                 <div class='col s1'>
                                                     {$blog->views}
@@ -203,7 +193,7 @@ require_once'Core/init.php';
                                         <div class='row'>
                                             <div class='measure-count' data-attribute='{$blog->id}'>
                                                 <div class='col s1'>
-                                                    <a class='views' data-attribute='{$blog->views}'><i class='material-icons' style='color:grey'>remove_red_eye</i></a>
+                                                    <a class='views' data-attribute='{$blog->views}' href=".Config::get('url/endpoint')."/view_blog.php/{$blog->id}"."><i class='material-icons' style='color:grey'>remove_red_eye</i></a>
                                                 </div>
                                                 <div class='col s1'>
                                                     {$blog->views}
