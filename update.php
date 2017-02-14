@@ -26,10 +26,7 @@ if(Input::exists())
 		{
 			try
 			{
-				$user->update('users', $user->data()->id, array(
-					'name' => Input::get('name')
-					));
-				// Session::flash('success', 'Your Profile has been updated successfully');
+				$user->update('users', $user->data()->id, array('name' => Input::get('name')));
 				Redirect::to('index.php');
 			}
 			catch(Exception $e)

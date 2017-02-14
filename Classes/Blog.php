@@ -44,7 +44,8 @@ class Blog
 
 	public function update($table, $id, $fields = array())
 	{
-		$this->_db->update($table, $id, $fields);
+		if(!$this->_db->update($table, $id, $fields))
+			throw new Exception("There was some problem getting your response right now, please try again later");
 	}
 }
 

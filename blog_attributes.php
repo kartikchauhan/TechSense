@@ -51,19 +51,16 @@ if(Input::exists('post'))
 
 	function insert_data($blogAttributes, $json, $count, $field)
 	{
-		$check = gettype($blogAttributes->update('blogs', Input::get('blodshg_id'), array($field => $count)));
-		$json['error_staus'] = true;
-		$json['error'] = $check;
-		// try
-		// {
-		// 	if($blogAttributes->update('blogs', Input::get('blog_id'), array($field => $count)))
-		// 		throw new Exception("There was some problem getting your response right now, please try again later");
-		// }
-		// catch(Exception $e)
-		// {
-		// 	$json['error_staus'] = true;
-		// 	$json['error'] = $e->getMessage();
-		// }
+		try
+		{
+			$blogAttributes->update('blogs', Input::get('blog_id'), array($field => $count));
+			$json['count'] = $count;
+		}
+		catch(Exception $e)
+		{
+			$json['error_staus'] = true;
+			$json['error'] = $e->getMessage();
+		}
 		return $json;
 	}
 
