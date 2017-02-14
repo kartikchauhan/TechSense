@@ -152,7 +152,7 @@ require_once'Core/init.php';
                                         <div class='row'>
                                             <div class='measure-count' data-attribute='{$blog->id}'>
                                                 <div class='col s1'>
-                                                    <a class='views' data-attribute='{$blog->views}'><i class='material-icons' style='color:grey'>remove_red_eye</i></a>
+                                                    <a class='views' data-attribute='{$blog->views}' href=".Config::get('url/endpoint')."/view_blog.php?blog={$blog->id}"."><i class='material-icons' style='color:grey'>remove_red_eye</i></a>
                                                 </div>
                                                 <div class='col s1'>
                                                     {$blog->views}
@@ -237,24 +237,23 @@ require_once'Core/init.php';
         $(document).ready(function(){
             $('.slider').slider();
 
+            // $('.views').click(function(e){
+            //     e.preventDefault();
+            //     var blog_id = getBlogId(this);
+            //     var _token = getToken();
+
+            // });
+
+
             $('.likes, .dislikes').click(function(e){
                 e.preventDefault();
-                var className = $(this).attr('class');
                 var object = $(this);
-                if(className === 'likes')
-                {
-                    className = 'likes';
-                }
-                else if(className === 'dislikes')
-                {
-                    className = 'dislikes';
-                }
-                var blog_id = $(this).parent().parent().attr('data-attribute');
-                var _token = $('#_token').attr('data-attribute');
+                
+                var blog_id = getBlogId(this);
+                var _token = getToken();
                 var count = $(this).attr('data-attribute');
-                // console.log(blog_id);
-                // console.log(_token);
-                // console.log(count);
+                var className = getClassName(this);
+
                 $.ajax({
                     type: 'POST',
                     url: 'blog_attributes.php',
@@ -280,6 +279,33 @@ require_once'Core/init.php';
                     }
                 });
             });
+   
+            function getToken()
+            {
+                return $('#_token').attr('data-attribute');
+            } 
+
+            function getBlogId(object)
+            {
+                return $(object).parent().parent().attr('data-attribute');
+            }
+
+            function getClassName(object)
+            {
+                var className = $(object).attr('class');
+                if(className === 'likes')
+                {
+                    className = 'likes';
+                }
+                else if(className === 'dislikes')
+                {
+                    className = 'dislikes';
+                }
+
+                return className;
+
+            }
+
         });
     </script>
 </body>

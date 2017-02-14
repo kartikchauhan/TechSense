@@ -1,10 +1,14 @@
 <?php
 session_start();
 
+$server_host = ((((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']!=='off') || $_SERVER['SERVER_PORT']==443) ? 'https://':'http://' ).$_SERVER['HTTP_HOST']);
+$base = dirname($_SERVER['REQUEST_URI']);
+$endpoint = $server_host.$base;
+
 $GLOBALS['config'] = array(
 
 	'mysql'=>array(
-		'host'=>'127.0.0.1',
+		'host'=>'127.0.0.1',	// neeed to be changed to $_SERVER['HTTP_HOST']
 		'user'=>'root',
 		'password'=>'',
 		'database'=>'blog'
@@ -17,8 +21,10 @@ $GLOBALS['config'] = array(
 	'session'=>array(
 		'session_name' => 'user',
 		'token_name' => 'token'
-		)
-
+		),
+	'url'=>array(
+		'endpoint' => $endpoint
+		)	
 	);
 
 spl_autoload_register(function($class){

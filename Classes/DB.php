@@ -3,7 +3,11 @@
 class DB
 {
 	private static $_instance = null;
-	private $_pdo, $_query, $_count=0, $_error = false, $_results;
+	private $_pdo,
+	 		$_query,
+	  		$_count=0,
+	   		$_error = false,
+    		$_results;
 
 	private function __construct()
 	{
