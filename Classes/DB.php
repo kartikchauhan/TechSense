@@ -3,17 +3,13 @@
 class DB
 {
 	private static $_instance = null;
-	private $_pdo,
-	 		$_query,
-	  		$_count=0,
-	   		$_error = false,
-    		$_results;
+	private $_pdo, $_query, $_count=0, $_error = false, $_results;
 
 	private function __construct()
 	{
 		try
 		{
-			$this->_pdo = new PDO("mysql:host=".Config::get('mysql/host')."; dbname=".Config::get('mysql/database').";charset=utf8mb4", Config::get('mysql/user'), Config::get('mysql/password'), array(PDO::ATTR_EMULATE_PREPARES => false));
+			$this->_pdo = new PDO("mysql:host=".Config::get('mysql/host')."; dbname=".Config::get('mysql/database'), Config::get('mysql/user'), Config::get('mysql/password'), array(PDO::ATTR_EMULATE_PREPARES => false));
 		}
 		catch(PDOException $e)
 		{

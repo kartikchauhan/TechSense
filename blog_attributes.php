@@ -42,26 +42,28 @@ if(Input::exists('post'))
 	
 		if($flag)
 		{
-			$json = insert_data($json, $count);
+			$json = insert_data($blogAttributes, $json, $count, $field);
 		}
 		
 		echo json_encode($json);
 	}
 }
 
-	function insert_data($json, $count)
+	function insert_data($blogAttributes, $json, $count, $field)
 	{
-		$db = DB::getInstance();
-		if($db->update('blogs', Input::get('blog_id'), array(Input::get('field') => $count)))
-		{
-			$json['count'] = $count;
-		}
-		else
-		{
-			$json['error_staus'] = $db->error();
-			$json['error'] = $e->getMessage();
-		}
-
+		$check = gettype($blogAttributes->update('blogs', Input::get('blodshg_id'), array($field => $count)));
+		$json['error_staus'] = true;
+		$json['error'] = $check;
+		// try
+		// {
+		// 	if($blogAttributes->update('blogs', Input::get('blog_id'), array($field => $count)))
+		// 		throw new Exception("There was some problem getting your response right now, please try again later");
+		// }
+		// catch(Exception $e)
+		// {
+		// 	$json['error_staus'] = true;
+		// 	$json['error'] = $e->getMessage();
+		// }
 		return $json;
 	}
 

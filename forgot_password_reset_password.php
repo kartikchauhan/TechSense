@@ -7,7 +7,7 @@ if(Cookie::exists(Config::get('remember/reset_password')))	// is cookie of reset
 	if(Input::get('token'))	// check if token is sent in the url from the mail to this page
 	{
 		$_token = Input::get('token');
-		if(Input::get('user'))	// check is user_email is sent in the url from the mail to this page
+		if(Input::get('user'))	// check if user_email is sent in the url from the mail to this page
 		{
 			$email = Input::get('user');
 			$user = new User;

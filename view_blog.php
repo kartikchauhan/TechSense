@@ -2,8 +2,18 @@
 
 require_once'Core/init.php';
 
-$blogId = $_SERVER['PATH_INFO'];
+$blogId = getBlogId($_SERVER['PATH_INFO']);		// stripping forward slashed fetched from the URL
 
+getBlogId($pathInfo)
+{
+	return str_replace('/', '', $blogId);
+}
 
+$blogAttributes = new Blog;
+
+if($blogAttributes->checkView())
+{
+	
+}
 
 ?>

@@ -4,7 +4,13 @@ class Blog
 {
 	private $_view = false,
 			$_like = false,
-			$_dislike = false;
+			$_dislike = false,
+			$_db;
+
+	public function __construct()
+	{
+		$this->_db = DB::getInstance();
+	}
 
 	public function setView()
 	{
@@ -34,6 +40,11 @@ class Blog
 	public function checkDislike()
 	{
 		return $this->_view;
+	}
+
+	public function update($table, $id, $fields = array())
+	{
+		$this->_db->update($table, $id, $fields);
 	}
 }
 
