@@ -31,7 +31,8 @@ else
 <html>
 <head>
 	<title>View Blog</title>
-	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+	<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <style type="text/css">
         nav
@@ -46,6 +47,16 @@ else
 		{
 			font-size: 16px;
 		}
+		a
+		{
+			cursor: pointer;
+			text-decoration: none;
+			color: none;
+		}
+/*		._token
+		{
+			display: none;
+		}*/
     </style>
 </head>
 <body>
@@ -89,6 +100,20 @@ else
 					<div class="row">
 						<div class="col s8">
 							<p class="flow-text"><?php echo $blog->blog; ?></p>
+							<div class="section">
+								<div class="row">
+									<div class="col s5 offset-s2">
+										<h6 class="center-align">Was this article helpful?</h6>
+									</div>
+									<div class="_token" id="_token" data-attribute="<?php echo Token::generate(); ?>"></div>
+									<div class="col s1">
+										<a class="likes" data-attribute="<?php echo $blog->id; ?>"><i class="fa fa-thumbs-up fa-2x" aria-hidden="true" ></i></a>
+									</div>
+									<div class="col s1 offset-s1 m1 l1">
+										<a class="dislikes" data-attribute="<?php echo $blog->id; ?>"><i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i></a>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -96,11 +121,94 @@ else
 		</section>
 	</article>
 
+	<footer class="page-footer blue lighten-1">
+		<div class="container">
+			<div class="row">
+				<div class="col s6">
+					<div class="row">
+						<div class="col s8">
+							<img class="materialboxed responsive-img z-depth-2" data-caption="Author's Name" src="Includes/images/art1.jpg">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s1">
+							<i class="fa fa-github-square fa-4x" aria-hidden="true"></i>
+						</div>
+						<div class="col s1 offset-s1">
+							<i class="fa fa-facebook-square fa-4x" aria-hidden="true"></i>
+						</div>
+						<div class="col s1 offset-s1">
+							<i class="fa fa-google-plus-square fa-4x" aria-hidden="true"></i>
+						</div>
+					</div>
+				</div>
+				<div class="col s6">
+					hey
+				</div>
+			</div>
+		</div>
+	</footer>
+
 	<script src="Includes/js/jquery.min.js"></script>
+    <script src="https://use.fontawesome.com/17e854d5bf.js"></script>
     <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
     <script>
     	$(document).ready(function(){
     		$('.nav-bar').removeClass('transparent');
+
+    		$('.likes, .dislikes').click(function(e){
+                e.preventDefault();
+                var object = $(this);
+                
+                var blog_id = $(this).attr('data-attribute');
+                var _token = $('#_token').attr('data-attribute');
+                var className = getClassName(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'blog_attributes.php',
+                    data: {blog_id: blog_id, _token: _token, field: className},
+                    cache: false,
+                    success: function(response)
+                    {
+                        var response = JSON.parse(response);
+                        console.log(response);
+                        $('#_token').attr('data-attribute', response._token);
+                        if(response.error_status)
+                        {
+                            consol.log(response.error);
+                            Materialize.toast(response.error, 5000, 'red');
+                            return false;
+                        }
+                        else
+                        {
+                            if(getClassName(object) === 'likes')
+                            {
+                            	$(object).find('i').css('color', 'green');
+                            }
+                            else if(getClassName(object) === 'dislikes')
+                            {
+                            	$(object).find('i').css('color', 'red');
+                            }
+
+                        }
+                    }
+                });
+            });
+
+			function getClassName(object)
+            {
+                var className = $(object).attr('class');
+                if(className === 'likes')
+                {
+                    className = 'likes';
+                }
+                else if(className === 'dislikes')
+                {
+                    className = 'dislikes';
+                }
+                return className;
+            }
     	});
     </script>
 </body>

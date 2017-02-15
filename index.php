@@ -146,19 +146,19 @@ require_once'Core/init.php';
                                         <div class='row'>
                                             <div class='measure-count' data-attribute='{$blog->id}'>
                                                 <div class='col s1'>
-                                                    <i class='material-icons' style='color:grey'>remove_red_eye</i>
+                                                    <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
                                                 </div>
                                                 <div class='col s1'>
                                                     {$blog->views}
                                                 </div>
                                                 <div class='col s1 offset-s1'>
-                                                    <i class='material-icons' style='color:grey'>thumb_up</i>
+                                                    <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
                                                 </div>
                                                 <div class='col s1'>
                                                     {$blog->likes}
                                                 </div>
                                                 <div class='col s1 offset-s1'>
-                                                    <i class='material-icons' style='color:grey'>thumb_down</i>
+                                                    <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
                                                 </div>
                                                 <div class='col s1'>
                                                     {$blog->dislikes}
@@ -197,19 +197,19 @@ require_once'Core/init.php';
                                         <div class='row'>
                                             <div class='measure-count' data-attribute='{$blog->id}'>
                                                 <div class='col s1'>
-                                                    <i class='material-icons' style='color:grey'>remove_red_eye</i>
+                                                    <i class='fa fa-eye fa-lg' aria-hidden='true' style='color:grey'></i>
                                                 </div>
                                                 <div class='col s1'>
                                                     {$blog->views}
                                                 </div>
                                                 <div class='col s1 offset-s2'>
-                                                    <i class='material-icons' style='color:grey'>thumb_up</i>
+                                                    <i class='fa fa-thumbs-up fa-lg' aria-hidden='true' style='color:grey'></i>
                                                 </div>
                                                 <div class='col s1'>
                                                     {$blog->likes}
                                                 </div>
                                                 <div class='col s1 offset-s2'>
-                                                    <i class='material-icons' style='color:grey'>thumb_down</i>
+                                                    <i class='fa fa-thumbs-down fa-lg' aria-hidden='true' style='color:grey'></i>
                                                 </div>
                                                 <div class='col s1'>
                                                     {$blog->dislikes}
@@ -226,6 +226,7 @@ require_once'Core/init.php';
     </div>
 
     <script src="Includes/js/jquery.min.js"></script>
+    <script src="https://use.fontawesome.com/17e854d5bf.js"></script>
     <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
     <script>
         $(document).ready(function(){

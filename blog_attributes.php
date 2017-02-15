@@ -9,13 +9,12 @@ if(Input::exists('post'))
 		$json['error_staus'] = false;
 		$json['_token'] = Token::generate();	// generating token for another request
 		$field = Input::get('field');	// fetching the field to be updated
-		$flag = true;	// to check if user has already set the attributes like 'view', 'like', 'dislike'
+		$flag = true;	// to check if user has already set the attributes like 'views', 'likes', 'dislikes'
 
 		$blogAttributes = new Blog;
-
 		if($field === 'likes')
 		{
-			if($blogAttributes->checkLike())
+			if($blogAttributes->checklike())
 			{
 				$flag = false;
 				$json['error_staus'] = true;
@@ -23,20 +22,22 @@ if(Input::exists('post'))
 			}
 			else
 			{
-				$count = Input::get('count') + 1;	// increasing the value of count if field is 'likes'
+				$count = $blogAttributes->getBlog('blogs', array('id', '=', Input::get('blog_id')))->likes;
+				$count = $count + 1;	// increasing the value of count if field is 'likes'
 			}
 		}
 		else if($field === 'dislikes')
 		{
-			if($blogAttributes->checkDislike())
+			if($blogAttributes->checkdislike())
 			{
 				$flag = false;
 				$json['error_staus'] = true;
-			$json['error_status'] = "You've already downvoted this post.";
+				$json['error_status'] = "You've already downvoted this post.";
 			}
 			else
 			{
-				$count = Input::get('count') - 1;	// increasing the value of count if field is 'likes'
+				$count = $blogAttributes->getBlog('blogs', array('id', '=', Input::get('blog_id')))->dislikes;
+				$count = $count - 1;
 			}
 		}
 	
@@ -54,7 +55,6 @@ if(Input::exists('post'))
 		try
 		{
 			$blogAttributes->update('blogs', Input::get('blog_id'), array($field => $count));
-			$json['count'] = $count;
 		}
 		catch(Exception $e)
 		{
