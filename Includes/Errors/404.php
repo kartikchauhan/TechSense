@@ -1,5 +1,5 @@
 <html>
 
-<p>Sorry, we couldn't find this page</p>
+<p>404, we couldn't find this page</p>
 
 </html>

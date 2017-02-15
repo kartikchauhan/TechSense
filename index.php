@@ -26,54 +26,55 @@ require_once'Core/init.php';
         {
             border-bottom: 1px white solid;
         }
+        input[type="search"]
+        {
+            height: 64px !important; /* or height of nav */
+        }
         #secondary-content
-    {
-        position: relative;
-        top: 100vh;
-    }
-    #write-blog
-    {
-        position: relative;
-        top: -50%;
-        z-index: 3;
-    }
-    .ghost-button
-    {
-        display: inline-block;
-        width: 200px;
-        padding: 8px;
-        color: #fff;
-        border: 2px solid #fff;
-        text-align: center;
-        outline: none;
-        text-decoration: none;
-    }
-    .ghost-button:hover, .ghost-button:active
-    {
-        background-color: #fff;
-        color: #000;
-        transition: background-color 0.3s ease-in, color 0.3s ease-in;
-    }
-    .blockquote
-    {
-        font-size: 12px;
-    }
-    .description
-    {
-        font-size: 12px;
-    }
-    ._token
-    {
-        display: none;
-    }
-    a
-    {
-        text-decoration: none;
-        color: none;
-    }
-
-
-
+        {
+            position: relative;
+            top: 100vh;
+        }
+        #write-blog
+        {
+            position: relative;
+            top: -50%;
+            z-index: 3;
+        }
+        .ghost-button
+        {
+            display: inline-block;
+            width: 200px;
+            padding: 8px;
+            color: #fff;
+            border: 2px solid #fff;
+            text-align: center;
+            outline: none;
+            text-decoration: none;
+        }
+        .ghost-button:hover, .ghost-button:active
+        {
+            background-color: #fff;
+            color: #000;
+            transition: background-color 0.3s ease-in, color 0.3s ease-in;
+        }
+        .blockquote
+        {
+            font-size: 12px;
+        }
+        .description
+        {
+            font-size: 12px;
+        }
+        ._token
+        {
+            display: none;
+        }
+        a
+        {
+            text-decoration: none;
+            color: none;
+        }
     </style>
 </head>
 <body>
@@ -140,7 +141,7 @@ require_once'Core/init.php';
                                         "</blockquote>
                                     </div>
                                     <div class='col s10'>
-                                        <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php/{$blog->id}'".">".ucfirst($blog->title)."</a></h5>
+                                        <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
                                         <h6>".ucfirst($blog->description)."</h6><br>
                                         <div class='row'>
                                             <div class='measure-count' data-attribute='{$blog->id}'>
@@ -191,7 +192,7 @@ require_once'Core/init.php';
                                         "</blockquote>
                                     </div>
                                     <div class='col s10'>
-                                        <h6><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php/{$blog->id}'".">".ucfirst($blog->title)."</a></h6>
+                                        <h6><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h6>
                                         <p class='description'>".ucfirst($blog->description)."</p><br>
                                         <div class='row'>
                                             <div class='measure-count' data-attribute='{$blog->id}'>

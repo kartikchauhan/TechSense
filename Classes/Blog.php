@@ -50,7 +50,14 @@ class Blog
 
 	public function getBlog($table, $fields = array())
 	{
-		return $this->_db->get($table, $fields)->first();
+		if($blog = $this->_db->get($table, $fields))
+		{
+			if($blog->count())
+			{
+				return $blog->first();
+			}
+		}
+		return false;
 	}
 }
 
