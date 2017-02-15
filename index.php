@@ -62,14 +62,17 @@ require_once'Core/init.php';
     {
         font-size: 12px;
     }
-    a
-    {
-        cursor: pointer;
-    }
     ._token
     {
         display: none;
     }
+    a
+    {
+        text-decoration: none;
+        color: none;
+    }
+
+
 
     </style>
 </head>
@@ -118,7 +121,7 @@ require_once'Core/init.php';
     </div>
     <div id="secondary-content">
             <div class="row">
-                <div id='_token' data-attribute="<?php echo Token::generate(); ?>"></div>
+                <div id='_token' class="_token" data-attribute="<?php echo Token::generate(); ?>"></div>
                 <div class="col s8">
                     <h5 class="center-align">Recent Blogs</h5>
                     <?php
@@ -137,24 +140,24 @@ require_once'Core/init.php';
                                         "</blockquote>
                                     </div>
                                     <div class='col s10'>
-                                        <h5>".ucfirst($blog->title)."</h5>
+                                        <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php/{$blog->id}'".">".ucfirst($blog->title)."</a></h5>
                                         <h6>".ucfirst($blog->description)."</h6><br>
                                         <div class='row'>
                                             <div class='measure-count' data-attribute='{$blog->id}'>
                                                 <div class='col s1'>
-                                                    <a class='views' data-attribute='{$blog->views}' href=".Config::get('url/endpoint')."/view_blog.php/{$blog->id}"."><i class='material-icons' style='color:grey'>remove_red_eye</i></a>
+                                                    <i class='material-icons' style='color:grey'>remove_red_eye</i>
                                                 </div>
                                                 <div class='col s1'>
                                                     {$blog->views}
                                                 </div>
                                                 <div class='col s1 offset-s1'>
-                                                    <a class='likes' data-attribute='{$blog->likes}'><i class='material-icons' style='color:grey'>thumb_up</i></a>
+                                                    <i class='material-icons' style='color:grey'>thumb_up</i>
                                                 </div>
                                                 <div class='col s1'>
                                                     {$blog->likes}
                                                 </div>
                                                 <div class='col s1 offset-s1'>
-                                                    <a class='dislikes' data-attribute='{$blog->dislikes}'><i class='material-icons' style='color:grey'>thumb_down</i></a>
+                                                    <i class='material-icons' style='color:grey'>thumb_down</i>
                                                 </div>
                                                 <div class='col s1'>
                                                     {$blog->dislikes}
@@ -188,24 +191,24 @@ require_once'Core/init.php';
                                         "</blockquote>
                                     </div>
                                     <div class='col s10'>
-                                        <h6>".ucfirst($blog->title)."</h6>
+                                        <h6><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php/{$blog->id}'".">".ucfirst($blog->title)."</a></h6>
                                         <p class='description'>".ucfirst($blog->description)."</p><br>
                                         <div class='row'>
                                             <div class='measure-count' data-attribute='{$blog->id}'>
                                                 <div class='col s1'>
-                                                    <a class='views' data-attribute='{$blog->views}' href=".Config::get('url/endpoint')."/view_blog.php/{$blog->id}"."><i class='material-icons' style='color:grey'>remove_red_eye</i></a>
+                                                    <i class='material-icons' style='color:grey'>remove_red_eye</i>
                                                 </div>
                                                 <div class='col s1'>
                                                     {$blog->views}
                                                 </div>
                                                 <div class='col s1 offset-s2'>
-                                                    <a class='likes' data-attribute='{$blog->likes}'><i class='material-icons' style='color:grey'>thumb_up</i></a>
+                                                    <i class='material-icons' style='color:grey'>thumb_up</i>
                                                 </div>
                                                 <div class='col s1'>
                                                     {$blog->likes}
                                                 </div>
                                                 <div class='col s1 offset-s2'>
-                                                    <a class='dislikes' data-attribute='{$blog->dislikes}'><i class='material-icons' style='color:grey'>thumb_down</i></a>
+                                                    <i class='material-icons' style='color:grey'>thumb_down</i>
                                                 </div>
                                                 <div class='col s1'>
                                                     {$blog->dislikes}
@@ -235,40 +238,40 @@ require_once'Core/init.php';
             // });
 
 
-            $('.likes, .dislikes').click(function(e){
-                e.preventDefault();
-                var object = $(this);
+            // $('.likes, .dislikes').click(function(e){
+            //     e.preventDefault();
+            //     var object = $(this);
                 
-                var blog_id = getBlogId(this);
-                var _token = getToken();
-                var count = $(this).attr('data-attribute');
-                var className = getClassName(this);
+            //     var blog_id = getBlogId(this);
+            //     var _token = getToken();
+            //     var count = $(this).attr('data-attribute');
+            //     var className = getClassName(this);
 
-                $.ajax({
-                    type: 'POST',
-                    url: 'blog_attributes.php',
-                    data: {blog_id: blog_id, _token: _token, field: className, count: count},
-                    cache: false,
-                    success: function(response)
-                    {
-                        var response = JSON.parse(response);
-                        console.log(response);
-                        $('#_token').attr('data-attribute', response._token);
-                        if(response.error_status)
-                        {
-                            consol.log(response.error);
-                            Materialize.toast(response.error, 5000, 'red');
-                            return false;
-                        }
-                        else
-                        {
-                            $(object).attr('data-attribute', response.count);
-                            console.log(response.count);
-                            console.log($(object).parent().next().text(response.count));
-                        }
-                    }
-                });
-            });
+            //     $.ajax({
+            //         type: 'POST',
+            //         url: 'blog_attributes.php',
+            //         data: {blog_id: blog_id, _token: _token, field: className, count: count},
+            //         cache: false,
+            //         success: function(response)
+            //         {
+            //             var response = JSON.parse(response);
+            //             console.log(response);
+            //             $('#_token').attr('data-attribute', response._token);
+            //             if(response.error_status)
+            //             {
+            //                 consol.log(response.error);
+            //                 Materialize.toast(response.error, 5000, 'red');
+            //                 return false;
+            //             }
+            //             else
+            //             {
+            //                 $(object).attr('data-attribute', response.count);
+            //                 console.log(response.count);
+            //                 console.log($(object).parent().next().text(response.count));
+            //             }
+            //         }
+            //     });
+            // });
    
             function getToken()
             {
