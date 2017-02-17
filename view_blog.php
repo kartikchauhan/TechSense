@@ -138,7 +138,7 @@ else
 							<i class="fa fa-facebook-square fa-4x" aria-hidden="true"></i>
 						</div>
 						<div class="col s1 offset-s1">
-							<i class="fa fa-google-plus-square fa-4x" aria-hidden="true"></i>
+							<i class="fa fa-twitter-square fa-4x" aria-hidden="true"></i>
 						</div>
 					</div>
 				</div>
