@@ -23,7 +23,8 @@ $GLOBALS['config'] = array(
 		'token_name' => 'token'
 		),
 	'url'=>array(
-		'endpoint' => $endpoint
+		'endpoint' => $endpoint,
+		'upload_dir' =>"Includes/uploads"
 		)	
 	);
 
