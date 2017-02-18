@@ -31,7 +31,7 @@ else
 <html>
 <head>
 	<title>View Blog</title>
-	<!-- <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <style type="text/css">
@@ -184,11 +184,11 @@ else
                         {
                             if(getClassName(object) === 'likes')
                             {
-                            	$(object).find('i').css('color', 'green');
+                            	$(object).find('i').css('color', '#4caf50');
                             }
                             else if(getClassName(object) === 'dislikes')
                             {
-                            	$(object).find('i').css('color', 'red');
+                            	$(object).find('i').css('color', '#f44336');
                             }
 
                         }
