@@ -2,6 +2,11 @@
 
 require_once'Core/init.php';
 
+$user = new User;
+
+if(!$user->isLoggedIn())
+	Redirect::to('index.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -10,9 +15,15 @@ require_once'Core/init.php';
 	<title>
 		Author's Information
 	</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="keywords" content="blog, technology, code, program, alorithms"/>
+	<meta name="description" content="We emphaisze on solving problems">
+	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 </head>
 <body>
-	<form id="add_info" action="authors_info_backend.php" method="post" enctype="multipart/form-data">
+	<form id="add_info" action="" method="post" enctype="multipart/form-data">
 		<input type="file" name="profile_pic" id="profile_pic">
 		<br>
 		<label for="description">Write about yourself</label>
@@ -51,10 +62,19 @@ require_once'Core/init.php';
 				        url: 'authors_info_backend.php',
 				        data: data,
 				        contentType: false,
-				        processData: false,
+				        processData: false,		// not processing the data
 				        type: 'POST',
-				        success: function(data){
-				            console.log(data);
+				        success: function(response)
+				        {
+				        	var response = JSON.parse(response);
+				        	if(response.error_status === true)
+				        	{
+				        		Materialize.toast(response.error, 5000, "red");
+				        	}
+				        	else
+				        	{
+				        		Materialize.toast("Your Information has been added successfully", 5000, "green");
+				        	}
 				        }
 				    });
 				});

@@ -47,7 +47,8 @@ if(Input::exists())
 				'email'=> Input::get('email'),
 				'password'=> Hash::make(Input::get('password'), $salt),
 				'salt' => $salt,
-				'created_on' => Date('Y-m-d H:i:s')
+				'created_on' => Date('Y-m-d H:i:s'),
+				'image_url' => 'default.png'	// saving a default image while creating new user
 				));
 			$json['status'] = 0;
 			$json['message'] = "You're account has been successfully created";

@@ -2,10 +2,19 @@
 
 require_once'Core/init.php';
 
+$user = new User;
+
+if(!$user->isLoggedIn())
+{
+	Redirect::to('index.php');
+}
+
 if(Input::exists())
 {
 	if(Token::check(Input::get('_token')))
 	{
+		$json['error_status'] = false;
+		$json['_token'] = Token::generate();
 		$Validate = new Validate;
 		$Validate->check($_POST, array(
 			"github_url" => array(
@@ -47,44 +56,47 @@ if(Input::exists())
 				{
 					if(!in_array($target_file_type, array(IMAGETYPE_JPEG, IMAGETYPE_PNG)))
 					{
-						throw new Exception("Uncompatible file extension. Only jpeg or png format files allowed");
+						throw new Exception("Incompatible file extension. Only jpeg or png format files allowed");
 					}
 					if(!move_uploaded_file($_FILES["profile_pic"]["tmp_name"], $target_file))
 					{
 						throw new Exception("couldn't process profile updation. Please try again later");
 					}
 					$fields["image_url"] = basename($_FILES["profile_pic"]["name"])	;	// creating index "image_url" if image uploaded is verified
-					insertData('authors_info', $fields);
+					updateInfo('users', $user->data()->id, $fields);
 				}
 				catch(Exception $e)
 				{
-					echo $e->getMessage();
+					$json['error_status'] = true;
+					$json['error'] = $e->getMessage();
 				}
 			}
 			else
 			{
-				insertData('authors_info', $fields);	// insert the data even if there's no image
+				updateInfo('users', $user->data()->id, $fields);	// insert the data even if there's no image
 			}
 		}
 		else
 		{
-			echo $Validate->errors()[0];
+			$json['error_status'] = true;
+			$json['error'] = $Validate->errors()[0];
 		}
 		
+		echo json_encode($json);
 	}
 }
 
-function insertData($table, $fields)
+function updateInfo($table, $id, $fields)
 {
+	global $user;	// setting $user as global so that it could be used in functions
 	try 
 	{
-		if(!DB::getInstance()->insert('authors_info', $fields))
-			throw new Exception("Unable to insert values right now. Please try again later");
-		echo "record has been inserted";
+		$user->update($table, $id, $fields);
 	}
 	catch(Exception $e)
 	{
-		echo $e->getMessage();
+		$json['error_status'] = true;
+		$json['error'] = $e->getMessage();
 	}
 }
 
