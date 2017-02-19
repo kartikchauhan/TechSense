@@ -2,6 +2,12 @@
 
 require_once'Core/init.php';
 
+$user = new User;
+if(!$user->isLoggedIn())
+{
+	Redirect::to('index.php');
+}
+
 if(Input::exists('get'))
 {
 	if(Input::get('blog_id'))
@@ -53,10 +59,6 @@ else
 			text-decoration: none;
 			color: none;
 		}
-/*		._token
-		{
-			display: none;
-		}*/
     </style>
 </head>
 <body>
@@ -124,27 +126,46 @@ else
 	<footer class="page-footer blue lighten-1">
 		<div class="container">
 			<div class="row">
-				<div class="col s6">
+				<div class="col s5">
 					<div class="row">
 						<div class="col s8">
-							<img class="materialboxed responsive-img z-depth-2" data-caption="Author's Name" src="Includes/images/art1.jpg">
+							<img class="materialboxed responsive-img z-depth-2" data-caption="Author's Name" src="<?php echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?>">
 						</div>
 					</div>
 					<div class="row">
-						<div class="col s1">
-							<i class="fa fa-github-square fa-4x" aria-hidden="true"></i>
+						<div class="col s1 offset-s1">
+							<a href="<?php echo $user->data()->github_url; ?>" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:black"></i></a>
 						</div>
 						<div class="col s1 offset-s1">
-							<i class="fa fa-facebook-square fa-4x" aria-hidden="true"></i>
+							<a href="<?php echo $user->data()->facebook_url; ?>" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:black"></i></a>
 						</div>
 						<div class="col s1 offset-s1">
-							<i class="fa fa-twitter-square fa-4x" aria-hidden="true"></i>
+							<a href="<?php echo $user->data()->twitter_url; ?>" target="_blank"><i class="fa fa-twitter-square fa-3x" aria-hidden="true" style="color:black"></i></a>
 						</div>
 					</div>
 				</div>
-				<div class="col s6">
-					hey
+				<div class="col s7">
+					<div class="row">
+						<div class="col s12">
+							<h5><?php echo ucwords($user->data()->name) ?></h5>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s12">
+							<p><?php echo ucfirst($user->data()->description) ?></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s12">
+							<h6>Email: <?php echo $user->data()->email ?></h6>
+						</div>
+					</div>
 				</div>
+			</div>
+		</div>
+		<div class="footer-copyright">
+			<div class="container center-align">
+				© 2017 Software Incubator
 			</div>
 		</div>
 	</footer>
