@@ -13,7 +13,7 @@ require_once'Core/init.php';
 </head>
 <body>
 
-	<form action="forgot_password_send_mail.php" method="post">
+	<form action="forgot_password_backend.php" method="post">
 		<label for="text">Email</label>
 		<input type="email" name="email" id="email">
 		<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">

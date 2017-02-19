@@ -1,57 +1,155 @@
 <?php
 
 require_once'Core/init.php';
-require_once'Includes/googleAuth/gpConfig.php';
 
-if(Input::exists('post'))
+$user = new User;
+
+if($user->isLoggedIn())
 {
-	if(Token::check(Input::get('_token')))
-	{
-		$json['_token'] = Token::generate();
-		$Validate = new Validate;
-		$Validate->check($_POST, array(
-			'email' => array(
-				'required' => true
-				),
-			'password' => array(
-				'required' => true,
-				'min' => 6
-				)
-			));
-		if($Validate->passed())
-		{
-			$user = new User;
-			if($user->login(Input::get('email'), Input::get('password'), Input::get('remember_me')))
-			{
-				$json['status'] = 0;	// status 0 => when successfully logged in
-				$json['message'] = "You've been successfully logged in";
-				// Redirect::to('index.php');
-			}
-			else
-			{
-				$json['status'] = 1;	// status 1 => when credentials are wrong
-				$json['message'] = 'Either email or password wrong';
-				
-			}
-		}
-		else
-		{
-			$json['status'] = 2;	// status 2 => if validation fails
-			$json['message'] = $Validate->errors()[0];
-		}
-		echo json_encode($json);
-	}
-}
-else if(Input::get('code'))
-{
-	$gClient->authenticate(Input::get('code'));
-	Session::put('googleToken', $gClient->getAccessToken());
-	Redirect::to('social_login.php');
+	Redirect::to('index.php');
 }
 else
 {
-	echo 'on the login page right now';
-	// Redirect::to('index.php');
+	require_once'Includes/googleAuth/gpConfig.php';
+	$authUrl = $gClient->createAuthUrl();
 }
 
 ?>
+
+<!Doctype html>
+
+<html>
+	<head>
+		<title>
+			Login
+		</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<meta name="keywords" content="blog, technology, code, program, alorithms"/>
+		<meta name="description" content="We emphaisze on solving problems">
+		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+
+		<style>
+			body
+			{
+				position: absolute;
+				height: 100%;
+				width: 100%;
+				background-color: #eee;
+			}
+			#login-form
+			{
+				position:relative;
+			  	top:50%;
+			    left:50%;
+				-ms-transform: translateX(-50%) translateY(-50%);
+				-webkit-transform: translate(-50%,-50%);
+				transform: translate(-50%,-50%);
+			}
+			#remember-me-container
+			{
+				margin-left: 7px;
+				margin-top: 15px;
+				margin-bottom: 10px;
+			}
+			.error
+			{
+				display: none;
+			}
+		</style>
+
+	</head>
+	<body>
+	
+		<div id="login-form">
+			<h5 class="center-align condensed light">Sign in to BlogSparta</h5>
+			<div class="row">
+				<div class="col s4 offset-s4">
+					<ul class="collection center-align z-depth-1 error">
+						<li class="collection-item red-text"></li>
+					</ul>
+					<div class="card">
+						<div class="card-content">
+							<div class="row">
+								<form class="col s12" action="" method="post">
+									<div class="row">
+										<div class="input-field col s12">
+											<i class="material-icons prefix">email</i>
+											<input type="text" name="email" id="email" />
+											<label for="email">Email</label>
+										</div>
+										<div class="input-field col s12">
+											<i class="material-icons prefix">lock</i>
+											<input type="password" name="password" id="password" />
+											<label for="password">Password</label>
+										</div>
+										<div class="col s6 offset-s3" id="remember-me-container">
+											<input type="checkbox" id="remember_me" name="remember_me">
+											<label for="remember_me"> Remember Me</label>
+										</div>
+										<div class="input-field col s12">
+											<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
+										</div>
+										<input type="submit" class="btn waves-effect waves-light col s4 offset-s4" value="submit" id="submit">
+										<div class="center-align">
+											<a class="red-text" href="forgot_password.php">Forgot password?</a>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="center-align">Or</div>
+					<div class="row">
+						<a href="<?php echo $authUrl ?>" class="waves-effect waves-light btn red col s8 offset-s2">Sign in with google</a>
+					</div>
+					<div class="section">
+						<ul class="collection center-align z-depth-1">
+							<li class="collection-item">New to BlogSparta? <a href="register.php">Create an account</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script src="Includes/js/jquery.min.js"></script>
+		<script type="text/javascript" src="Includes/js/materialize.min.js"></script>
+		<script type="text/javascript">
+			// $('#submit').off('click');
+			$(document).ready(function(){
+				$('body').on('click', '#submit', function(e){
+					e.preventDefault();
+					var email = $('#email').val();
+					var password = $('#password').val();
+					var remember_me = $('#remember_me').val();
+					var _token = $('#_token').val();
+					
+					$.ajax({
+						type : "POST",
+						url : "login_backend.php",
+						data : {email: email, password: password, remember_me: remember_me, _token: _token},
+						cache: false,
+						success: function(response)
+						{
+							var response = JSON.parse(response);
+							$('#_token').val(response._token);
+							if(response.status==0)
+							{
+								Materialize.toast(response.message, 4000, 'green');
+							}
+							else
+							{
+								Materialize.toast(response.message, 4000, 'red');
+								$('.error li').text(response.message);
+								$('.error').show();
+							}
+						}
+					});
+
+				});
+
+			});
+		</script>
+	</body>
+</html>

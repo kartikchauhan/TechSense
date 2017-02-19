@@ -85,7 +85,7 @@ else
 									<h6 class="white-text"><?php echo date('M d, Y', $date); ?></h6>
 								</div>
 								<div class="col s6 offset-s2">
-									<h6 class="white-text" >Written by - Kartik Chauhan</h6>
+									<h6 class="white-text" >Written by - <?php echo ucwords($user->data()->name) ?></h6>
 								</div>
 							</div>
 						</div>
@@ -147,17 +147,17 @@ else
 				<div class="col s7">
 					<div class="row">
 						<div class="col s12">
-							<h5><?php echo ucwords($user->data()->name) ?></h5>
+							<h5 class="white-text"><?php echo ucwords($user->data()->name) ?></h5>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s12">
-							<p><?php echo ucfirst($user->data()->description) ?></p>
+							<p class="white-text"><?php echo ucfirst($user->data()->description) ?></p>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s12">
-							<h6>Email: <?php echo $user->data()->email ?></h6>
+							<h6 class="white-text">Email: <?php echo $user->data()->email ?></h6>
 						</div>
 					</div>
 				</div>

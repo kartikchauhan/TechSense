@@ -49,7 +49,7 @@ if(Input::exists('post'))
 				$mail->addAddress($email, 'anonymous');
 				$mail->subject = "password reset link";
 				// now sending msg including hash along with user's email address.
-				$mail->msgHTML("This is a password reset link. Click on it and change your password within 1 hour else session will expire<br> <a href='http://localhost/Blog_temp/forgot_password_reset_password.php?token={$hash}&user={$email}'>Click this link</a>");
+				$mail->msgHTML("This is a password reset link. Click on it and change your password within 1 hour else session will expire<br> <a href='http://localhost/Blog_temp/reset_password.php?token={$hash}&user={$email}'>Click this link</a>");
 				try
 				{
 					if(!$mail->send())
