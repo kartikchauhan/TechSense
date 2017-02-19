@@ -32,7 +32,7 @@ else
 <head>
 	<title>View Blog</title>
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+	<!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <style type="text/css">
         nav
@@ -107,10 +107,10 @@ else
 									</div>
 									<div class="_token" id="_token" data-attribute="<?php echo Token::generate(); ?>"></div>
 									<div class="col s1">
-										<a class="likes" data-attribute="<?php echo $blog->id; ?>"><i class="fa fa-thumbs-up fa-2x" aria-hidden="true" ></i></a>
+										<a class="likes" data-attribute="<?php echo $blog->id; ?>"><i class="fa fa-thumbs-up fa-2x" aria-hidden="true" style="color: grey"></i></a>
 									</div>
 									<div class="col s1 offset-s1 m1 l1">
-										<a class="dislikes" data-attribute="<?php echo $blog->id; ?>"><i class="fa fa-thumbs-down fa-2x" aria-hidden="true"></i></a>
+										<a class="dislikes" data-attribute="<?php echo $blog->id; ?>"><i class="fa fa-thumbs-down fa-2x" aria-hidden="true" style="color: grey"></i></a>
 									</div>
 								</div>
 							</div>
@@ -178,19 +178,25 @@ else
                         {
                             consol.log(response.error);
                             Materialize.toast(response.error, 5000, 'red');
-                            return false;
+                            // return false;
                         }
                         else
                         {
-                            if(getClassName(object) === 'likes')
+                            if(response.blog_status == 1)
                             {
-                            	$(object).find('i').css('color', '#4caf50');
+                            	$('.likes').find('i').css('color', 'green');
+                            	$('.dislikes').find('i').css('color', 'grey');
                             }
-                            else if(getClassName(object) === 'dislikes')
+                            else if(response.blog_status == -1)
                             {
-                            	$(object).find('i').css('color', '#f44336');
+                            	$('.dislikes').find('i').css('color', 'red');
+                            	$('.likes').find('i').css('color', 'grey');
                             }
-
+                            else
+                            {
+                            	$('.likes').find('i').css('color', 'grey');
+                            	$('.dislikes').find('i').css('color', 'grey');
+                            }
                         }
                     }
                 });

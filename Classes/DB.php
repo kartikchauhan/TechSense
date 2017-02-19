@@ -70,6 +70,29 @@ class DB
 		return $this->action('SELECT *', $table, $where);	// calling action method by passing these three parameters where $where is an array consisting of fieldname, operator and a value
 	}
 
+	public function getAnd($table, $fields = array())
+	{
+		$where = '';
+		$x = 1;
+		$field_count = count($fields);
+		foreach ($fields as $field => $value)
+		{
+			if($x < $field_count)
+				$where = $where.$field.' = ? AND ';
+			else
+				$where = $where.$field.' = ?';
+			$x++;
+		}
+
+		$sql = "Select * FROM {$table} WHERE {$where}";
+
+		if(!$this->query($sql, $fields)->error())
+		{
+			return $this;
+		}
+		return false;
+	}
+
 	public function insert($table, $fields = array())
 	{
 		// In order to make a valid INSERT query our syntax should be in the form -
@@ -182,6 +205,8 @@ class DB
 	{
 		return $this->_error;
 	}
+
+
 }
 
 ?>
