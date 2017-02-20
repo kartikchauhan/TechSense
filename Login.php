@@ -91,7 +91,7 @@ else
 										<div class="input-field col s12">
 											<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
 										</div>
-										<input type="submit" class="btn waves-effect waves-light col s4 offset-s4" value="submit" id="submit">
+										<input type="submit" class="btn waves-effect waves-light col s4 offset-s4" value="login" id="submit">
 										<div class="center-align">
 											<a class="red-text" href="forgot_password.php">Forgot password?</a>
 										</div>
@@ -140,6 +140,7 @@ else
 							}
 							else
 							{
+								$('#password').val('');
 								Materialize.toast(response.message, 4000, 'red');
 								$('.error li').text(response.message);
 								$('.error').show();
