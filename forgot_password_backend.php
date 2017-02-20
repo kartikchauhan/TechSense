@@ -11,12 +11,13 @@ if(Input::exists('post'))
 {
 	if(Token::check(Input::get('_token')))
 	{
+		$json['error_status'] = false;
+		$json['_token'] = Token::generate();
 		$Validate = new Validate;
 		$Validate->check($_POST, array(
 			'email' => array(
 				'required' => true,
-				'min'      => 7,
-				'max'      => 40
+				'email' => true
 				)
 			));
 
@@ -54,22 +55,26 @@ if(Input::exists('post'))
 				{
 					if(!$mail->send())
 						throw new Exception("Coudn't reset password right now. Please try resetting password after few minutes");
-					echo 'mail sent successfully';
 				}
 				catch(Exception $e)
 				{
-					echo $e->getMessage();
+					$json['error_status'] = true;
+					$json['error'] = $e->getMessage();
 				}
 			}
 			else
 			{
-				echo 'no such user exists';
+				$json['error_status'] = true;
+				$json['error'] = 'no such user exists';
 			}
 		}
 		else
 		{
-			$error = $Validate->errors()[0];
+			$json['error_status'] = true;
+			$json['error'] = $Validate->errors()[0];
 		}
+
+		echo json_encode($json);
 	}
 
 }
