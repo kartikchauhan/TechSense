@@ -38,7 +38,7 @@ require_once'Core/init.php';
         #write-blog
         {
             position: relative;
-            top: -50%;
+            top: -30%;
             z-index: 3;
         }
         .ghost-button
@@ -86,34 +86,19 @@ require_once'Core/init.php';
     <div class="slider fullscreen" data-indicators="false">
         <ul class="slides">
             <li>
-                <img src="Includes/images/map2.jpg">
-                <div class="caption left-align">
-                    <h3 class="light white-text">History doesn't repeats itself,<br>but it does rhyme.</h3>
-                </div>
+                <img src="Includes/images/code3.png">
             </li>
             <li>
-                <div class="caption right-align">
-                    <h1 class="light white-text">First solve the problem.<br>Then, write the code.</h1>
-                </div>
-                <img src="Includes/images/sublime_text.jpeg"> <!-- random image -->
+                <img src="Includes/images/code1.png"> 
             </li>
             <li>
-                <div class="caption center-align">
-                    <h4 class="light white-text">Art speaks where words are unable to explain.</h4>
-                </div>
-                <img src="Includes/images/art1.jpg">
+                <img src="Includes/images/code2.png">
             </li>
             <li>
-                <img src="Includes/images/music2.jpg">
-                <div class="caption right-align">
-                    <h5 class="light grey-text text-lighten-3">Where words fail, Music speaks.</h5>
-                </div>
+                <img src="Includes/images/code4.png">
             </li>
             <li>
-                <div class="caption left-align">
-                    <h4 class="light white-text">Science is the poetry of<br>reality.</h4>
-                </div>
-                <img src="Includes/images/science.jpg"> <!-- random image -->
+                <img src="Includes/images/code5.jpeg">
             </li>            
         </ul>
         <div id="write-blog" class="center-align">
