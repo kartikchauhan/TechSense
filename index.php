@@ -125,100 +125,138 @@ require_once'Core/init.php';
                 <div id='_token' class="_token" data-attribute="<?php echo Token::generate(); ?>"></div>
                 <div class="col s8">
                     <h5 class="center-align">Recent Blogs</h5>
-                    <?php
-                        $blog = DB::getInstance()->sort('blogs', array('created_on', 'DESC'));
-                        if($blogs = $blog->fetchRecords(5))
-                        {
-                            foreach($blogs as $blog)
+                    <div class="content" id="content">
+                        <?php
+                            $blogs = DB::getInstance()->sort('blogs', array('created_on', 'DESC'));
+                            $num_blogs = $blogs->count();
+                            $num_pages = ceil($num_blogs/1);
+                            if($num_blogs)  // show blogs if there are any, otherwise show message 'No blogs'
                             {
-                                $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
-                                echo 
-                                "<div class='row'>
-                                    <div class='col s2'>
-                                        <blockquote>".
-                                            date('M', $date)."<br>".
-                                            date('Y d', $date).
-                                        "</blockquote>
-                                    </div>
-                                    <div class='col s10'>
-                                        <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
-                                        <h6>".ucfirst($blog->description)."</h6><br>
-                                        <div class='row'>
-                                            <div class='measure-count' data-attribute='{$blog->id}'>
-                                                <div class='col s1'>
-                                                    <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
-                                                </div>
-                                                <div class='col s1'>
-                                                    {$blog->views}
-                                                </div>
-                                                <div class='col s1 offset-s1'>
-                                                    <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
-                                                </div>
-                                                <div class='col s1'>
-                                                    {$blog->likes}
-                                                </div>
-                                                <div class='col s1 offset-s1'>
-                                                    <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
-                                                </div>
-                                                <div class='col s1'>
-                                                    {$blog->dislikes}
-                                                </div>
+                                if($blogs = $blogs->fetchRecords(1))
+                                {
+                                    foreach($blogs as $blog)
+                                    {
+                                        $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
+                                        echo 
+                                        "<div class='row'>
+                                            <div class='col s2'>
+                                                <blockquote>".
+                                                    date('M', $date)."<br>".
+                                                    date('Y d', $date).
+                                                "</blockquote>
                                             </div>
-                                        </div>
-                                        <div class='divider'></div>
-                                    </div>
-                                </div>";
+                                            <div class='col s10'>
+                                                <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
+                                                <h6>".ucfirst($blog->description)."</h6><br>
+                                                <div class='row'>
+                                                    <div class='measure-count' data-attribute='{$blog->id}'>
+                                                        <div class='col s1'>
+                                                            <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
+                                                        </div>
+                                                        <div class='col s1'>
+                                                            {$blog->views}
+                                                        </div>
+                                                        <div class='col s1 offset-s1'>
+                                                            <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
+                                                        </div>
+                                                        <div class='col s1'>
+                                                            {$blog->likes}
+                                                        </div>
+                                                        <div class='col s1 offset-s1'>
+                                                            <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
+                                                        </div>
+                                                        <div class='col s1'>
+                                                            {$blog->dislikes}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class='divider'></div>
+                                            </div>
+                                        </div>";
+                                    }
+                                }
                             }
-                        }
-                    ?>
+                            else
+                            {
+                                echo "<div class='section center-align'>No blogs yet. <a href='write_blogs.php'>Write the very first blog.</div>";
+                            }
+                        ?>
+                    </div>
+                    <div class=" section center-align">
+                        <ul class="pagination">
+                            <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                            <?php 
+                                for($x = 1; $x <= $num_pages; $x++)
+                                {
+                                    if($x == 1)
+                                    {
+                                        echo "<li class='waves-effect pagination active'><a href='#' class='blog-pagination'>".$x."</a></li>";
+                                    }
+                                    else
+                                    {
+                                        echo "<li class='waves-effect pagination'><a href='#' class='blog-pagination'>".$x."</a></li>";
+                                    }
+                                }
+                            ?>
+                            <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="col s4">
                     <div class="section">
                         <h5 class="center-align">Recommended Blogs</h5>
                     </div>
                     <?php
-                        $blog = DB::getInstance()->sort('blogs', array('views', 'DESC'));
-                        if($blogs = $blog->fetchRecords(2))
+                        $blogs = DB::getInstance()->sort('blogs', array('views', 'DESC'));
+                        if($blogs->count())
                         {
-                            foreach($blogs as $blog)
+                            if($blogs = $blogs->fetchRecords(5))
                             {
-                                $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
-                                echo 
-                                "<div class='row'>
-                                    <div class='col s2'>
-                                        <blockquote class='blockquote'>".
-                                            date('M', $date)."<br>".
-                                            date('Y d', $date).
-                                        "</blockquote>
-                                    </div>
-                                    <div class='col s10'>
-                                        <h6><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h6>
-                                        <p class='description'>".ucfirst($blog->description)."</p><br>
-                                        <div class='row'>
-                                            <div class='measure-count' data-attribute='{$blog->id}'>
-                                                <div class='col s1'>
-                                                    <i class='fa fa-eye fa-lg' aria-hidden='true' style='color:grey'></i>
-                                                </div>
-                                                <div class='col s1'>
-                                                    {$blog->views}
-                                                </div>
-                                                <div class='col s1 offset-s2'>
-                                                    <i class='fa fa-thumbs-up fa-lg' aria-hidden='true' style='color:grey'></i>
-                                                </div>
-                                                <div class='col s1'>
-                                                    {$blog->likes}
-                                                </div>
-                                                <div class='col s1 offset-s2'>
-                                                    <i class='fa fa-thumbs-down fa-lg' aria-hidden='true' style='color:grey'></i>
-                                                </div>
-                                                <div class='col s1'>
-                                                    {$blog->dislikes}
+                                foreach($blogs as $blog)
+                                {
+                                    $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
+                                    echo 
+                                    "<div class='row'>
+                                        <div class='col s2'>
+                                            <blockquote class='blockquote'>".
+                                                date('M', $date)."<br>".
+                                                date('Y d', $date).
+                                            "</blockquote>
+                                        </div>
+                                        <div class='col s10'>
+                                            <h6><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h6>
+                                            <p class='description'>".ucfirst($blog->description)."</p><br>
+                                            <div class='row'>
+                                                <div class='measure-count' data-attribute='{$blog->id}'>
+                                                    <div class='col s1'>
+                                                        <i class='fa fa-eye fa-lg' aria-hidden='true' style='color:grey'></i>
+                                                    </div>
+                                                    <div class='col s1'>
+                                                        {$blog->views}
+                                                    </div>
+                                                    <div class='col s1 offset-s2'>
+                                                        <i class='fa fa-thumbs-up fa-lg' aria-hidden='true' style='color:grey'></i>
+                                                    </div>
+                                                    <div class='col s1'>
+                                                        {$blog->likes}
+                                                    </div>
+                                                    <div class='col s1 offset-s2'>
+                                                        <i class='fa fa-thumbs-down fa-lg' aria-hidden='true' style='color:grey'></i>
+                                                    </div>
+                                                    <div class='col s1'>
+                                                        {$blog->dislikes}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>";
+                                    </div>";
+                                }
                             }
+                        }
+                        else
+                        {
+                            echo 
+                            "<h6 class='center-align'>No blogs yet</h6>";
                         }
                     ?>
                 </div>
@@ -231,6 +269,27 @@ require_once'Core/init.php';
     <script>
         $(document).ready(function(){
             $('.slider').slider();
+
+            $('.blog-pagination').click(function(e){
+                e.preventDefault();
+                var page_id = $(this).html();
+                var _token = $('#_token').attr('data-attribute');
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'pagination_backend.php',
+                    data: {page_id: page_id, _token: _token},
+                    cache: false,
+                    success: function(response)
+                    {
+                        var response = JSON.parse(response);
+                        console.log(response);
+                        console.log(response._token);
+                        $('#_token').attr('data-attribute', response._token);
+                        $('.content').html(response.content);
+                    }
+                });
+            });
 
             // $('.views').click(function(e){
             //     e.preventDefault();
@@ -275,31 +334,31 @@ require_once'Core/init.php';
             //     });
             // });
    
-            function getToken()
-            {
-                return $('#_token').attr('data-attribute');
-            } 
+            // function getToken()
+            // {
+            //     return $('#_token').attr('data-attribute');
+            // } 
 
-            function getBlogId(object)
-            {
-                return $(object).parent().parent().attr('data-attribute');
-            }
+            // function getBlogId(object)
+            // {
+            //     return $(object).parent().parent().attr('data-attribute');
+            // }
 
-            function getClassName(object)
-            {
-                var className = $(object).attr('class');
-                if(className === 'likes')
-                {
-                    className = 'likes';
-                }
-                else if(className === 'dislikes')
-                {
-                    className = 'dislikes';
-                }
+            // function getClassName(object)
+            // {
+            //     var className = $(object).attr('class');
+            //     if(className === 'likes')
+            //     {
+            //         className = 'likes';
+            //     }
+            //     else if(className === 'dislikes')
+            //     {
+            //         className = 'dislikes';
+            //     }
 
-                return className;
+            //     return className;
 
-            }
+            // }
 
         });
     </script>

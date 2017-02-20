@@ -206,6 +206,26 @@ class DB
 		return $this->_error;
 	}
 
+	public function getRange($table, $records_per_page, $offset)
+	{
+		$sql = "SELECT * FROM {$table} ORDER BY id LIMIT {$records_per_page} OFFSET {$offset}";
+
+		if(!$this->query($sql)->error())
+			return $this;
+		return false;
+	}
+
+	public function getRangeSort($table, $records_per_page, $offset, $fields = array())
+	{
+		$field = $fields[0];
+		$order = $fields[1];
+
+		$sql = "SELECT * FROM {$table} ORDER BY {$field} {$order} LIMIT {$records_per_page} OFFSET {$offset}";
+		if(!$this->query($sql)->error())
+			return $this;
+		return false;
+	}
+
 
 }
 
