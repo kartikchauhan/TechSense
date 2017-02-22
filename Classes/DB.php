@@ -215,12 +215,26 @@ class DB
 		return false;
 	}
 
+	// function for getting records within a certian range 
 	public function getRangeSort($table, $records_per_page, $offset, $fields = array())
 	{
 		$field = $fields[0];
 		$order = $fields[1];
 
 		$sql = "SELECT * FROM {$table} ORDER BY {$field} {$order} LIMIT {$records_per_page} OFFSET {$offset}";
+		if(!$this->query($sql)->error())
+			return $this;
+		return false;
+	}
+
+	// function for getting records within a certain range for a certain user
+	public function getRangeSortUser($table, $records_per_page, $offset, $fields = array(), $where = array())
+	{
+		$field = $fields[0];
+		$order = $fields[1];
+		$where_field = $where[0];
+		$operator = $where[1];
+		$sql = "SELECT * FROM {$table} WHERE {$where_field} {$operator} ? ORDER BY {$field} {$order} LIMIT {$records_per_page} OFFSET {$offset}";
 		if(!$this->query($sql)->error())
 			return $this;
 		return false;

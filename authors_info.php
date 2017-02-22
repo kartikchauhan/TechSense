@@ -101,14 +101,16 @@ if(!$user->isLoggedIn())
 			</div>
 			<div class="user-blogs">
 				<?php
-	                $blogs = DB::getInstance()->sort('blogs', array('created_on', 'DESC'));
+	                $blogs = DB::getInstance()->get('blogs', array('users_id', '=', 2));
 	                $num_blogs = $blogs->count();
 	                $num_pages = ceil($num_blogs/3);
+	                $blogs = array_reverse($blogs->results());	// sorting the data in Descending order 
+	                $blogs = array_splice($blogs, 0, 3);
 	                if($num_blogs)  // show blogs if there are any, otherwise show message 'No blogs'
 	                {   
 	                    echo "<div class='content' id='content'>";
-	                    if($blogs = $blogs->fetchRecords(3))
-	                    {
+	                    // if($blogs = $blogs->fetchRecords(3))
+	                    // {
 	                        foreach($blogs as $blog)
 	                        {
 	                            $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
@@ -149,7 +151,7 @@ if(!$user->isLoggedIn())
 	                                    </div>
 	                                </div>";
 	                        }
-	                    }
+	                    // }
 	                    echo 
 	                        "</div>
 	                        <div class='section center-align'>
@@ -221,7 +223,7 @@ if(!$user->isLoggedIn())
 				});
 
 				$('.toggle-user-blogs').click(function(){
-					$('.user-blogs').slideToggle();
+					$('.user-blogs').slideToggle('slow');
 				});
 
 				$('.blog-pagination').click(function(e){
@@ -234,7 +236,7 @@ if(!$user->isLoggedIn())
                 $.ajax({
                     type: 'POST',
                     url: 'pagination_backend.php',
-                    data: {page_id: page_id, _token: _token},
+                    data: {page_id: page_id, _token: _token, author: true},
                     cache: false,
                     success: function(response)
                     {
