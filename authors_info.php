@@ -39,7 +39,7 @@ if(!$user->isLoggedIn())
 						<div class="row">
 							<div class="col s12">
 								<div class="file-field input-field">
-							    	<div class="btn">
+							    	<div class="btn blue">
 							        	<span>Upload</span>
 							        	<input type="file" name="profile_pic" id="profile_pic">
 							      	</div>
@@ -82,13 +82,104 @@ if(!$user->isLoggedIn())
 					</div>
 				</div>
 				<div class="row">
-					<button type="button" class="btn waves-effect waves-light" name="update" id="update">Update</button>
+					<button type="button" class="btn waves-effect waves-light blue" name="update" id="update">Update</button>
 				</div>
 			</form>
 		</div>
 	</div>
+	<div class="container">
+		<div class="row">
+			<div class="section">
+				<div class="row">
+					<div class="col s3">
+						<h5>Blogs Written</h5>
+					</div>
+					<div class="col s1">
+						<a class="btn-floating btn-small waves-effect waves-light blue toggle-user-blogs"><i class="material-icons">add</i></a>
+					</div>
+				</div>
+			</div>
+			<div class="user-blogs">
+				<?php
+	                $blogs = DB::getInstance()->sort('blogs', array('created_on', 'DESC'));
+	                $num_blogs = $blogs->count();
+	                $num_pages = ceil($num_blogs/3);
+	                if($num_blogs)  // show blogs if there are any, otherwise show message 'No blogs'
+	                {   
+	                    echo "<div class='content' id='content'>";
+	                    if($blogs = $blogs->fetchRecords(3))
+	                    {
+	                        foreach($blogs as $blog)
+	                        {
+	                            $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
+	                            echo 
+	                                "<div class='row'>
+	                                    <div class='col s2'>
+	                                        <blockquote>".
+	                                            date('M', $date)."<br>".
+	                                            date('Y d', $date).
+	                                        "</blockquote>
+	                                    </div>
+	                                    <div class='col s10'>
+	                                        <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
+	                                        <h6>".ucfirst($blog->description)."</h6><br>
+	                                        <div class='row'>
+	                                            <div class='measure-count' data-attribute='{$blog->id}'>
+	                                                <div class='col s1'>
+	                                                    <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
+	                                                </div>
+	                                                <div class='col s1'>
+	                                                    {$blog->views}
+	                                                </div>
+	                                                <div class='col s1 offset-s1'>
+	                                                    <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
+	                                                </div>
+	                                                <div class='col s1'>
+	                                                    {$blog->likes}
+	                                                </div>
+	                                                <div class='col s1 offset-s1'>
+	                                                    <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
+	                                                </div>
+	                                                <div class='col s1'>
+	                                                    {$blog->dislikes}
+	                                                </div>
+	                                            </div>
+	                                        </div>
+	                                        <div class='divider'></div>
+	                                    </div>
+	                                </div>";
+	                        }
+	                    }
+	                    echo 
+	                        "</div>
+	                        <div class='section center-align'>
+	                            <ul class='pagination'>";
+	                                    for($x = 1; $x <= $num_pages; $x++)
+	                                    {
+	                                        if($x == 1)
+	                                        {
+	                                            echo "<li class='waves-effect pagination active'><a href='#' class='blog-pagination'>".$x."</a></li>";
+	                                        }
+	                                        else
+	                                        {
+	                                            echo "<li class='waves-effect pagination'><a href='#' class='blog-pagination'>".$x."</a></li>";
+	                                        }
+	                                    }   
+	                            echo
+	                            "</ul>
+	                        </div>";
+	                }
+	                else
+	                {
+	                    echo "<div class='section center-align'>No blogs yet. <a href='write_blog.php'>Write the very first blog.</a></div>";
+	                }
+	            ?>
+            </div>
+		</div>
+	</div>
 		
 	<script src="Includes/js/jquery.min.js"></script>
+	<script src="https://use.fontawesome.com/17e854d5bf.js"></script>
 	<script type="text/javascript" src="Includes/js/materialize.min.js"></script>
 	<script type="text/javascript">
 		$("#update").off('click');
@@ -128,6 +219,34 @@ if(!$user->isLoggedIn())
 				        }
 				    });
 				});
+
+				$('.toggle-user-blogs').click(function(){
+					$('.user-blogs').slideToggle();
+				});
+
+				$('.blog-pagination').click(function(e){
+                e.preventDefault();
+                $('.active').removeClass('active');
+                $(this).parent().addClass('active');
+                var page_id = $(this).html();
+                var _token = $('#_token').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'pagination_backend.php',
+                    data: {page_id: page_id, _token: _token},
+                    cache: false,
+                    success: function(response)
+                    {
+                        var response = JSON.parse(response);
+                        console.log(response);
+                        console.log(response._token);
+                        $('#_token').val(response._token);
+                        $('.content').html(response.content);
+                    }
+                });
+            });
+
 		});
 	</script>
 
