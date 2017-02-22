@@ -8,11 +8,11 @@ if($user->isLoggedIn())
 {
 	Redirect::to('index.php');
 }
-else
-{
-	require_once'Includes/googleAuth/gpConfig.php';
-	$authUrl = $gClient->createAuthUrl();
-}
+// else
+// {
+// 	require_once'Includes/googleAuth/gpConfig.php';
+// 	$authUrl = $gClient->createAuthUrl();
+// }
 
 ?>
 

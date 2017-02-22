@@ -45,12 +45,12 @@ if(Input::exists('post'))
 				$mail->SMTPSecure = 'tls';
 				$mail->SMTPAuth = true;
 				$mail->Username = "chauhan.kartik25@gmail.com";
-				$mail->Password = "Kartik@25K";
+				$mail->Password = ""; 
 				$mail->setFrom("chauhan.kartik25@gmail.com", "kartik chauhan");
 				$mail->addAddress($email, 'anonymous');
 				$mail->subject = "password reset link";
 				// now sending msg including hash along with user's email address.
-				$mail->msgHTML("This is a password reset link. Click on it and change your password within 1 hour else session will expire<br> <a href='http://localhost/Blog_temp/reset_password.php?token={$hash}&user={$email}'>Click this link</a>");
+				$mail->msgHTML("This is a password reset link. Click on it and change your password within 1 hour else session will expire<br> <a href='http://localhost/Blog_temp2/reset_password.php?token={$hash}&user={$email}'>Click this link to reset the password</a>");
 				try
 				{
 					if(!$mail->send())

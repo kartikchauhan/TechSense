@@ -1,7 +1,7 @@
 <?php
 
 require_once'Core/init.php';
-require_once'Includes/googleAuth/gpConfig.php';
+// require_once'Includes/googleAuth/gpConfig.php';
 
 if(Input::exists('post'))
 {

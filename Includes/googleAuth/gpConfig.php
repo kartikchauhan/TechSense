@@ -9,7 +9,7 @@ include_once 'src/contrib/Google_Oauth2Service.php';
  */
 $clientId = '1084607052036-i2q1bbu1qnheeftrvpla974le9k5lmrf.apps.googleusercontent.com'; //Google client ID
 $clientSecret = 'ImGI6dV5I4lH440IDkkDjVwK'; //Google client secret
-$redirectURL = 'http://localhost/Blog_temp/login_backend.php'; //Callback URL
+$redirectURL = 'http://localhost/Blog_temp2/login_backend.php'; //Callback URL
 
 //Call Google API
 $gClient = new Google_Client();

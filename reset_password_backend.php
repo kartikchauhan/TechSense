@@ -6,7 +6,8 @@ if(Input::exists('post'))
 {
 	if(Token::check(Input::get('_token')))
 	{
-		// $json['_token'] = Token::generate();
+		$json['error_status'] = false;
+		$json['_token'] = Token::generate();
 		$Validate = new Validate;
 		$Validate->check($_POST, array(
 			'password' => array(
@@ -22,18 +23,28 @@ if(Input::exists('post'))
 		{
 			$user = new User;
 			$userData = DB::getInstance()->get('users', array('email', '=', Input::get('email')));
-			$salt = Hash::salt(32);
-			$userId = $userData->first()->id;
-			$user->update('users', $userId, array(
-				'password' => Hash::make(Input::get('password'), $salt),
-				'salt' => $salt
-				));
-			echo 'updated';
+			if($userData->count())
+			{
+				$salt = Hash::salt(32);
+				$userId = $userData->first()->id;
+				$user->update('users', $userId, array(
+					'password' => Hash::make(Input::get('password'), $salt),
+					'salt' => $salt
+					));
+				Cookie::delete(Config::get('remember/reset_password'));
+			}
+			else
+			{
+				$json['error_status'] = true;
+				$json["User doesn't exists."];
+			}
 		}
 		else
 		{
-			echo 'password could not be changed';
+			$json['error_status'] = true;
+			$json['error'] = $Validate->errors()[0];
 		}
+		echo json_encode($json);
 	}
 }
 
