@@ -20,7 +20,15 @@ if(Input::exists('get'))
 			Redirect::to(404);
 		}
 		$views = $blog->views + 1;
-		$blogs->update('blogs', $blogId, array('views' => $views));
+		try
+		{
+			if($blogs->update('blogs', $blogId, array('views' => $views)) != 1)	// if number of records returned are not equal to 1
+				throw new Exception("Unable to update views of the blog.");
+		}
+		catch(Exception $e)
+		{
+			echo $e->getMessage();
+		}
 		$date=strtotime($blog->created_on);
 	}
 	else

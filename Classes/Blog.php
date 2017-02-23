@@ -45,7 +45,13 @@ class Blog
 	public function update($table, $id, $fields = array())
 	{
 		if(!$this->_db->update($table, $id, $fields))
-			throw new Exception("There was some problem getting your response right now, please try again later");
+		{
+			throw new Exception("Unable to update views of the blog.");
+		}
+		else
+		{
+			return $this->_db->count();
+		}
 	}
 
 	public function getBlog($table, $fields = array())
@@ -58,6 +64,11 @@ class Blog
 			}
 		}
 		return false;
+	}
+
+	public function count()
+	{
+		return $this->_db->count();
 	}
 }
 
