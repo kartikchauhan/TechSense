@@ -3,10 +3,6 @@
 require_once'Core/init.php';
 
 $user = new User;
-if(!$user->isLoggedIn())
-{
-	Redirect::to('index.php');
-}
 
 if(Input::exists('get'))
 {
@@ -30,11 +26,18 @@ if(Input::exists('get'))
 			echo $e->getMessage();
 		}
 		$date=strtotime($blog->created_on);
-		$blogStatus = DB::getInstance()->getAnd('users_blogs_status', array('user_id' => $user->data()->id, 'blog_id' => $blogId));
-		$blogStatusCount = $blogStatus->count();
-		if($blogStatusCount)
+		if($user->isLoggedIn())
 		{
-			$blogStatus = $blogStatus->first()->blog_status;
+			$blogStatus = DB::getInstance()->getAnd('users_blogs_status', array('user_id' => $user->data()->id, 'blog_id' => $blogId));
+			$blogStatusCount = $blogStatus->count();
+			if($blogStatusCount)
+			{
+				$blogStatus = $blogStatus->first()->blog_status;
+			}
+		}
+		else
+		{
+			$blogStatusCount = NULL; // setting blogStatusCount = NULL so that User can't vote for the post.
 		}
 	}
 	else
@@ -78,7 +81,11 @@ else
     </style>
 </head>
 <body>
-	<?php include('header.html'); ?>
+	<?php 
+
+		include'header.php';
+
+	?>
 
 	<header class="blue">
 		<section>
@@ -101,7 +108,7 @@ else
 									<h6 class="white-text"><?php echo date('M d, Y', $date); ?></h6>
 								</div>
 								<div class="col s6 offset-s2">
-									<h6 class="white-text" >Written by - <?php echo ucwords($user->data()->name) ?></h6>
+									<h6 class="white-text" >Written by - <?php echo ucwords("Kartik Chauhan") ?></h6>
 								</div>
 							</div>
 						</div>
@@ -124,7 +131,6 @@ else
 										<h6 class="center-align">Was this article helpful?</h6>
 									</div>
 									<div class="_token" id="_token" data-attribute="<?php echo Token::generate(); ?>"></div>
-									<!-- <div class="col s1"> -->
 									<?php 
 										if($blogStatusCount)
 										{
@@ -171,10 +177,6 @@ else
 											</div>";
 										}
 									?>
-									<!-- </div> -->
-									<!-- <div class="col s1 offset-s1 m1 l1">
-										<a class="dislikes" data-attribute="<?php echo $blog->id; ?>"><i class="fa fa-thumbs-down fa-2x" aria-hidden="true" style="color: grey"></i></a>
-									</div> -->
 								</div>
 							</div>
 						</div>
@@ -190,35 +192,35 @@ else
 				<div class="col s5">
 					<div class="row">
 						<div class="col s8">
-							<img class="materialboxed responsive-img z-depth-2" data-caption="Author's Name" src="<?php echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?>">
+							<img class="materialboxed responsive-img z-depth-2" data-caption="Author's Name" src="Includes/images/code2.png"> <!-- <?php //echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?> -->
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s1 offset-s1">
-							<a href="<?php echo $user->data()->github_url; ?>" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:black"></i></a>
+							<a href="" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:black"></i></a> <!-- <?php //echo $user->data()->github_url; ?> -->
 						</div>
 						<div class="col s1 offset-s1">
-							<a href="<?php echo $user->data()->facebook_url; ?>" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:black"></i></a>
+							<a href="" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:black"></i></a>	<!-- <?php //echo $user->data()->facebook_url; ?> -->
 						</div>
 						<div class="col s1 offset-s1">
-							<a href="<?php echo $user->data()->twitter_url; ?>" target="_blank"><i class="fa fa-twitter-square fa-3x" aria-hidden="true" style="color:black"></i></a>
+							<a href="" target="_blank"><i class="fa fa-twitter-square fa-3x" aria-hidden="true" style="color:black"></i></a> <!-- <?php //echo $user->data()->twitter_url; ?> -->
 						</div>
 					</div>
 				</div>
 				<div class="col s7">
 					<div class="row">
 						<div class="col s12">
-							<h5 class="white-text"><?php echo ucwords($user->data()->name) ?></h5>
+							<h5 class="white-text">Author's Name</h5>	<!-- <?php //echo ucwords($user->data()->name) ?> -->
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s12">
-							<p class="white-text"><?php echo ucfirst($user->data()->description) ?></p>
+							<p class="white-text">Author's Description</p>	<!-- <?php //echo ucwords($user->data()->description) ?> -->
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s12">
-							<h6 class="white-text">Email: <?php echo $user->data()->email ?></h6>
+							<h6 class="white-text">Email: Author's Email</h6>	<!-- <?php //echo ucwords($user->data()->email) ?> -->
 						</div>
 					</div>
 				</div>

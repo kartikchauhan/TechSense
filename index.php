@@ -80,7 +80,9 @@ require_once'Core/init.php';
 <body>
 
     <?php
-        include'header.html';
+    
+        include'header.php';
+
     ?>
 
     <div class="slider fullscreen" data-indicators="false">
@@ -274,7 +276,9 @@ require_once'Core/init.php';
     <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
     <script>
         $(document).ready(function(){
-            $('.slider').slider();
+            $('.slider').slider();  // activate slider
+
+            $(".dropdown-button").dropdown({hover: false});   // activate dropdown in the nav-bar
 
             $('.blog-pagination').click(function(e){
                 e.preventDefault();
