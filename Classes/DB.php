@@ -177,7 +177,25 @@ class DB
 			}
 		}
 		return false;
+	}
 
+	public function sortUser($table, $fields = array(), $where = array())
+	{
+		if(count($fields) == 2)
+		{
+			$field = $fields[0];
+			$order = $fields[1];
+			$where_field = $where[0];
+			$operator = $where[1];
+			$value = $where[2];
+			$sql = "SELECT * FROM {$table} WHERE {$where_field} {$operator} ? ORDER BY {$field} {$order}";
+
+			if(!$this->query($sql, array($value))->error())
+			{
+				return $this;
+			}
+		}
+		return false;
 	}
 
 	public function fetchRecords($numRecords)
@@ -234,8 +252,9 @@ class DB
 		$order = $fields[1];
 		$where_field = $where[0];
 		$operator = $where[1];
+		$value = $where[2];
 		$sql = "SELECT * FROM {$table} WHERE {$where_field} {$operator} ? ORDER BY {$field} {$order} LIMIT {$records_per_page} OFFSET {$offset}";
-		if(!$this->query($sql)->error())
+		if(!$this->query($sql, array($value))->error())
 			return $this;
 		return false;
 	}

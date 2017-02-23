@@ -118,48 +118,47 @@ require_once'Core/init.php';
                             if($num_blogs)  // show blogs if there are any, otherwise show message 'No blogs'
                             {   
                                 echo "<div class='content' id='content'>";
-                                if($blogs = $blogs->fetchRecords(3))
+                                $blogs = $blogs->results();
+                                $blogs = array_slice($blogs, 0, 3);
+                                foreach($blogs as $blog)
                                 {
-                                    foreach($blogs as $blog)
-                                    {
-                                        $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
-                                        echo 
-                                            "<div class='row'>
-                                                <div class='col s2'>
-                                                    <blockquote>".
-                                                        date('M', $date)."<br>".
-                                                        date('Y d', $date).
-                                                    "</blockquote>
-                                                </div>
-                                                <div class='col s10'>
-                                                    <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
-                                                    <h6>".ucfirst($blog->description)."</h6><br>
-                                                    <div class='row'>
-                                                        <div class='measure-count' data-attribute='{$blog->id}'>
-                                                            <div class='col s1'>
-                                                                <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
-                                                            </div>
-                                                            <div class='col s1'>
-                                                                {$blog->views}
-                                                            </div>
-                                                            <div class='col s1 offset-s1'>
-                                                                <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
-                                                            </div>
-                                                            <div class='col s1'>
-                                                                {$blog->likes}
-                                                            </div>
-                                                            <div class='col s1 offset-s1'>
-                                                                <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
-                                                            </div>
-                                                            <div class='col s1'>
-                                                                {$blog->dislikes}
-                                                            </div>
+                                    $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
+                                    echo 
+                                        "<div class='row'>
+                                            <div class='col s2'>
+                                                <blockquote>".
+                                                    date('M', $date)."<br>".
+                                                    date('Y d', $date).
+                                                "</blockquote>
+                                            </div>
+                                            <div class='col s10'>
+                                                <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
+                                                <h6>".ucfirst($blog->description)."</h6><br>
+                                                <div class='row'>
+                                                    <div class='measure-count' data-attribute='{$blog->id}'>
+                                                        <div class='col s1'>
+                                                            <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
+                                                        </div>
+                                                        <div class='col s1'>
+                                                            {$blog->views}
+                                                        </div>
+                                                        <div class='col s1 offset-s1'>
+                                                            <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
+                                                        </div>
+                                                        <div class='col s1'>
+                                                            {$blog->likes}
+                                                        </div>
+                                                        <div class='col s1 offset-s1'>
+                                                            <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
+                                                        </div>
+                                                        <div class='col s1'>
+                                                            {$blog->dislikes}
                                                         </div>
                                                     </div>
-                                                    <div class='divider'></div>
                                                 </div>
-                                            </div>";
-                                    }
+                                                <div class='divider'></div>
+                                            </div>
+                                        </div>";
                                 }
                                 echo 
                                     "</div>

@@ -21,9 +21,9 @@ if(Input::exists())
 												// example => if page_id = 2 and records_per_page = 3
 												// then offset = 3, records in the range of 3-6 will show on the second page
 		$offset = $page_id * $records_per_page;
-		if(Input::exists('author'))
+		if(Input::get('author'))
 		{
-			$blogs = DB::getInstance()->getRange('blogs', $records_per_page, $offset, array('created_on', 'DESC'), array('users_id', '=', 2)); // for temporary usage , using users_id = 2
+			$blogs = DB::getInstance()->getRangeSortUser('blogs', $records_per_page, $offset, array('created_on', 'DESC'), array('users_id', '=', 1)); // for temporary usage , using users_id = 1
 		}
 		else
 		{
