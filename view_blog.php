@@ -12,13 +12,15 @@ if(Input::exists('get'))
 {
 	if(Input::get('blog_id'))
 	{
-		$blog = new Blog;
+		$blogs = new Blog;
 		$blogId = Input::get('blog_id');
-		$blog = $blog->getBlog('blogs', array('id', '=', $blogId));
+		$blog = $blogs->getBlog('blogs', array('id', '=', $blogId));
 		if(!$blog)
 		{
 			Redirect::to(404);
 		}
+		$views = $blog->views + 1;
+		$blogs->update('blogs', $blogId, array('views' => $views));
 		$date=strtotime($blog->created_on);
 	}
 	else
