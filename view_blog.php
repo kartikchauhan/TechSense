@@ -170,10 +170,10 @@ else
 										{
 											echo
 											"<div class='col s1'>
-												<a class='likes' data-attribute=".$blog->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: grey'></i></a>
+												<a class='likes-not-logged-in' data-attribute=".$blog->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: grey'></i></a>
 											</div>
 											<div class='col s1 offset-s1 m1 l1'>
-												<a class='dislikes' data-attribute=".$blog->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: grey'></i></a>
+												<a class='dislikes-not-logged-in' data-attribute=".$blog->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: grey'></i></a>
 											</div>";
 										}
 									?>
@@ -239,6 +239,11 @@ else
     <script>
     	$(document).ready(function(){
     		$('.nav-bar').removeClass('transparent');
+
+    		$('.likes-not-logged-in, .dislikes-not-logged-in').click(function(e){
+    			e.preventDefault();
+    			Materialize.toast("You need to login to vote", 5000, "red");
+    		});
 
     		$('.likes, .dislikes').click(function(e){
                 e.preventDefault();

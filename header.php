@@ -9,8 +9,8 @@
         echo
         "<nav class='z-depth-2 blue transparent nav-bar'>
             <div class='nav-wrapper container'>
-                <a href='index.php' class='brand-logo'>Logo</a>
-                <a href='index.php' data-activates='mobile-demo' class='button-collapse'><i class='material-icons'>Logo</i></a>
+                <a href='index.php' class='brand-logo'>Aster</a>
+                <a href='index.php' data-activates='mobile-demo' class='button-collapse'><i class='material-icons'>Aster</i></a>
                 <ul class='right hide-on-med-and-down'>
                     <li>
                         <form>
@@ -43,18 +43,18 @@
     {
         echo
         "<ul id='dropdown1' class='dropdown-content'>
-            <li><a href='write_blog.php'>Write Blog <i class='material-icons right'>mode_edit</i></a></li>
+            <li><a href='write_blog.php' class='blue-text'>Write Blog <i class='material-icons right'>mode_edit</i></a></li>
             <li class='divider'></li>
-            <li><a href='authors_info.php'>Edit Profile <i class='material-icons right'>mode_edit</i></a></li>
+            <li><a href='authors_info.php' class='blue-text'>Edit Profile <i class='material-icons right'>mode_edit</i></a></li>
             <li class='divider'></li>
-            <li><a href='change_password.php'>Change Password <i class='material-icons right'>settings</i></a></li>
+            <li><a href='change_password.php' class='blue-text'>Change Password <i class='material-icons right'>settings</i></a></li>
             <li class='divider'></li>
-            <li><a href='logout.php'>Logout <i class='material-icons right'>exit_to_app</i></a></li>
+            <li><a href='logout.php' class='blue-text'>Logout <i class='material-icons right'>exit_to_app</i></a></li>
         </ul>
         <nav class='z-depth-2 blue transparent nav-bar'>
             <div class='nav-wrapper container'>
-                <a href='index.php' class='brand-logo'>Logo</a>
-                <a href='index.php' data-activates='mobile-demo' class='button-collapse'><i class='material-icons'>Logo</i></a>
+                <a href='index.php' class='brand-logo'>Aster</a>
+                <a href='index.php' data-activates='mobile-demo' class='button-collapse'><i class='material-icons'>Aster</i></a>
                 <ul class='right hide-on-med-and-down'>
                     <li>
                         <form>

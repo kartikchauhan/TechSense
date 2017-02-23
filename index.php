@@ -80,7 +80,7 @@ require_once'Core/init.php';
 <body>
 
     <?php
-    
+
         include'header.php';
 
     ?>
@@ -256,9 +256,9 @@ require_once'Core/init.php';
                     <div class="col l4 offset-l2 s12">
                         <h5 class="white-text">View Our Other Projects</h5>
                         <ul>
-                            <li><a class="grey-text text-lighten-3" href="www.silive.in">silive.in</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Blood Donation Campaign 2017</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Table Tennis Tournament</a></li>
+                            <li><a class="grey-text text-lighten-3" href="http://www.silive.in" target="blank">silive.in</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!" target="blank">Blood Donation Campaign 2017</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!" target="blank">Table Tennis Tournament</a></li>
                         </ul>
                     </div>
                 </div>
