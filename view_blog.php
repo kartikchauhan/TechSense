@@ -30,6 +30,12 @@ if(Input::exists('get'))
 			echo $e->getMessage();
 		}
 		$date=strtotime($blog->created_on);
+		$blogStatus = DB::getInstance()->getAnd('users_blogs_status', array('user_id' => $user->data()->id, 'blog_id' => $blogId));
+		$blogStatusCount = $blogStatus->count();
+		if($blogStatusCount)
+		{
+			$blogStatus = $blogStatus->first()->blog_status;
+		}
 	}
 	else
 	{
@@ -118,12 +124,57 @@ else
 										<h6 class="center-align">Was this article helpful?</h6>
 									</div>
 									<div class="_token" id="_token" data-attribute="<?php echo Token::generate(); ?>"></div>
-									<div class="col s1">
-										<a class="likes" data-attribute="<?php echo $blog->id; ?>"><i class="fa fa-thumbs-up fa-2x" aria-hidden="true" style="color: grey"></i></a>
-									</div>
-									<div class="col s1 offset-s1 m1 l1">
+									<!-- <div class="col s1"> -->
+									<?php 
+										if($blogStatusCount)
+										{
+											if($blogStatus == 1)
+											{
+												echo 
+												"<div class='col s1'>
+													<a class='likes' data-attribute=".$blog->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: green'></i></a>
+												</div>
+												<div class='col s1 offset-s1 m1 l1'>
+													<a class='dislikes' data-attribute=".$blog->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: grey'></i></a>
+												</div>";
+											}
+											else if($blogStatus == -1)
+											{
+												echo 
+												"<div class='col s1'>
+													<a class='likes' data-attribute=".$blog->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: grey'></i></a>
+												</div>
+												<div class='col s1 offset-s1 m1 l1'>
+													<a class='dislikes' data-attribute=".$blog->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: red'></i></a>
+												</div>";
+											}
+											else if($blogStatus == 0)
+											{
+												echo
+												"<div class='col s1'>
+													<a class='likes' data-attribute=".$blog->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: grey'></i></a>
+												</div>
+												<div class='col s1 offset-s1 m1 l1'>
+													<a class='dislikes' data-attribute=".$blog->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: grey'></i></a>
+												</div>";
+											}
+
+										}
+										else
+										{
+											echo
+											"<div class='col s1'>
+												<a class='likes' data-attribute=".$blog->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: grey'></i></a>
+											</div>
+											<div class='col s1 offset-s1 m1 l1'>
+												<a class='dislikes' data-attribute=".$blog->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: grey'></i></a>
+											</div>";
+										}
+									?>
+									<!-- </div> -->
+									<!-- <div class="col s1 offset-s1 m1 l1">
 										<a class="dislikes" data-attribute="<?php echo $blog->id; ?>"><i class="fa fa-thumbs-down fa-2x" aria-hidden="true" style="color: grey"></i></a>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
