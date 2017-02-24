@@ -147,8 +147,13 @@ if(!$user->isLoggedIn())
                                         "</blockquote>
                                     </div>
                                     <div class='col s10'>
-                                        <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
-                                        <h6>".ucfirst($blog->description)."</h6><br>
+                                    	<div class='row'>
+	                                    	<div class='col s4'>
+	                                        	<h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
+	                                        </div>
+	                                        	<a href='#' class='blue-text delete-blog' data-attribute='{$blog->id}'><i class='material-icons right'>delete</i></a> <a href='#' class='blue-text edit-blog' data-attribute='{$blog->id}'><i class='material-icons right'>mode_edit</i></a> 
+                                        </div>
+                                        		<h6>".ucfirst($blog->description)."</h6><br>
                                         <div class='row'>
                                             <div class='measure-count' data-attribute='{$blog->id}'>
                                                 <div class='col s1'>
@@ -171,7 +176,9 @@ if(!$user->isLoggedIn())
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class='divider'></div>
+                                        <div class='section'>
+                                        	<div class='divider'></div>
+                                    	</div>
                                     </div>
                                 </div>";
                         }
@@ -271,6 +278,44 @@ if(!$user->isLoggedIn())
                     }
                 });
             });
+
+			$('.delete-blog').on('click', function(e){
+				e.preventDefault();
+				var user_response = confirm("Do you want to delete this blog?");
+				if(user_response == true)
+				{
+					var blog_id = $(this).attr('data-attribute');
+					var _token = $('#_token').val();
+					var object = $(this);
+					$.ajax({
+						type: 'POST',
+						url: 'delete_blog.php',
+						data: {blog_id: blog_id, _token: _token},
+						cache: false,
+						success: function(response)
+						{
+							var response = JSON.parse(response);
+							console.log(response);
+							$('#_token').val(response._token);
+							if(response.error_status == true)
+							{
+								Materialize.toast(response.error, 5000, "red");
+							}
+							else
+							{
+								Materialize.toast("The blog has been deleted", 5000, "green");
+								$(object).hide();
+							}
+						}
+						
+
+					});
+				}
+				else
+				{
+					return false;
+				}
+			});
 
 		});
 	</script>
