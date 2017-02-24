@@ -29,7 +29,9 @@ if(!$user->isLoggedIn())
 	</style>
 </head>
 <body>
-	<?php include'header.html'; ?>
+	<?php 
+		include'header.php'; 
+	?>
 	<div class="container">
 		<div class="section">
 			<form action="" method="post" enctype="multipart/form-data">
@@ -62,17 +64,41 @@ if(!$user->isLoggedIn())
 						</div>
 					</div>
 					<div class="col s6 offset-s2">
-							<label for="name">Name</label>
-							<input type="text" name="name" id="name" value="<?php echo $user->data()->name; ?>">
-							<label for="username">Username</label>
-							<input disabled type="text" name="username" id="username" value="<?php echo $user->data()->username ?>">
-							<label for="github_url">Github URL</label>
-							<input type="text" name="github_url" id="github_url" value="<?php echo $user->data()->github_url ?>">
-							<label for="facebook_url">Facebook URL</label>
-							<input type="text" name="facebook_url" id="facebook_url" value="<?php echo $user->data()->facebook_url ?>">
-							<label for="twitter_url">Twitter URL</label>
-							<input type="text" name="twitter_url" id="twitter_url" value="<?php echo $user->data()->twitter_url ?>">
-							<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
+						<div class="row">
+							<div class="input-field col s12">
+								<input type="text" name="name" id="name" value="<?php echo $user->data()->name; ?>">
+								<label for="name">Name</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12">
+								<input disabled type="text" name="username" id="username" value="<?php echo $user->data()->username ?>">
+								<label for="username">Username</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12">
+								<input type="text" name="github_url" id="github_url" value="<?php echo $user->data()->github_url ?>">
+								<label for="github_url">Github Url</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12">
+								<input type="text" name="facebook_url" id="facebook_url" value="<?php echo $user->data()->facebook_url ?>">
+								<label for="facebook_url">Facebook Url</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12">
+								<input type="text" name="twitter_url" id="twitter_url" value="<?php echo $user->data()->twitter_url ?>">
+								<label for="twitter_url">Twitter Url</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12">
+								<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="row">

@@ -2,11 +2,16 @@
 
 require_once'Core/init.php';
 
-if(Input::exists('post'))
+$user = new User;
+
+if(Input::exists())
 {
 	if(Token::check(Input::get('_token')))
 	{
-		$Validate = new Validate();
+		$json['error_status'] = false;
+		$json['_token'] = Token::generate();
+
+		$Validate = new Validate;
 
 		$Validate->check($_POST, array(
 			'title' => array(
@@ -36,12 +41,13 @@ if(Input::exists('post'))
 		}
 		else
 		{
-			foreach($Validate->errors() as $error)
-			{
-				echo $error.'<br>';				
-			}
+			$json['error_status'] = true;
+			$json['error'] = $Validate->errors()[0];
 		}
+
+		echo json_encode($json);
 	}
 }
+
 
 ?>

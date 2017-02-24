@@ -161,7 +161,7 @@ if(Input::exists('post'))
 					{
 						$count_likes = $count->first()->likes + 1;
 					}
-					if(DB::getInstance()->update('blogs', $blog_id, array('likes' => $count_likes)))
+					if(!DB::getInstance()->update('blogs', $blog_id, array('likes' => $count_likes)))
 							throw new Exception("Your response couldn't be added right now. Please try again later 132");
 					$json['blog_status'] = 1;
 				}
@@ -187,7 +187,7 @@ if(Input::exists('post'))
 					{
 						$count_dislikes = $count->first()->dislikes + 1;
 					}
-					if(DB::getInstance()->update('blogs', $blog_id, array('dislikes' => $count_dislikes)))
+					if(!DB::getInstance()->update('blogs', $blog_id, array('dislikes' => $count_dislikes)))
 							throw new Exception("Your response couldn't be added right now. Please try again later 156");
 					$json['blog_status'] = -1;
 				}
