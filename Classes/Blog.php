@@ -2,9 +2,7 @@
 
 class Blog
 {
-	private $_view = false,
-			$_like = false,
-			$_dislike = false,
+	private $_data = null,
 			$_db;
 
 	public function __construct()
@@ -56,11 +54,12 @@ class Blog
 
 	public function getBlog($table, $fields = array())
 	{
-		if($blog = $this->_db->get($table, $fields))
+		if($data = $this->_db->get($table, $fields))
 		{
-			if($blog->count())
+			if($data->count())
 			{
-				return $blog->first();
+				$this->_data = $data->first();
+				return true;
 			}
 		}
 		return false;
@@ -78,6 +77,11 @@ class Blog
 	public function count()
 	{
 		return $this->_db->count();
+	}
+
+	public function data()
+	{
+		return $this->_data;
 	}
 }
 

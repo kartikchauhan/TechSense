@@ -126,7 +126,6 @@ if(!$user->isLoggedIn())
                             }
                             else
                             {
-
                                 Materialize.toast("Your blog has been successfully posted.", 5000, "green");
                             }
                         }
