@@ -66,6 +66,15 @@ class Blog
 		return false;
 	}
 
+	public function deleteBlog($table, $fields = array())
+	{
+		if($blog = $this->_db->delete($table, $fields))
+		{
+			return $this;
+		}
+		return false;
+	}
+
 	public function count()
 	{
 		return $this->_db->count();

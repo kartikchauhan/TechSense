@@ -16,9 +16,22 @@ if(Input::exists())
 		$json['error_status'] = false;
 		$json['_token'] = Token::generate();
 
-		// $blogs = DB::get()
-		//  leaving here for the deletion process, since no foreign key set yet. Need to figure out how
-		//  to work with objects of another table in PDO.
+		$blog = new Blog;
+		try
+		{
+			if(!$blog->deleteBlog('blogs', array('id', '=', Input::get('blog_id'))))
+				throw new Exception("Some error occured while deleting this blog. Please try again later");
+			if(!$blog->count())
+			{
+				$json['error_status'] = true;
+				$json['error'] = "Blog doesn't exists";
+			}
+		}
+		catch(Exception $e)
+		{
+			$json['error_status'] = true;
+			$json['error'] = $e->getMessage();
+		}
 		echo json_encode($json);
 	}
 }

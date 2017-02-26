@@ -23,7 +23,7 @@ if(Input::exists())
 		$offset = $page_id * $records_per_page;
 		if(Input::get('author'))
 		{
-			$blogs = DB::getInstance()->getRangeSortUser('blogs', $records_per_page, $offset, array('created_on', 'DESC'), array('users_id', '=', 1)); // for temporary usage , using users_id = 1
+			$blogs = DB::getInstance()->getRangeSortUser('blogs', $records_per_page, $offset, array('created_on', 'DESC'), array('users_id', '=', 27)); // for temporary usage , using users_id = 1
 		}
 		else
 		{

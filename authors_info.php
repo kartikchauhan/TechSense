@@ -127,7 +127,7 @@ if(!$user->isLoggedIn())
 			</div>
 			<div class="user-blogs">
 				<?php
-	                $blogs = DB::getInstance()->sortUser('blogs', array('created_on', 'DESC'), array('users_id', '=', 1));
+	                $blogs = DB::getInstance()->sortUser('blogs', array('created_on', 'DESC'), array('users_id', '=', 27));
 	                $num_blogs = $blogs->count();
 	                $num_pages = ceil($num_blogs/3);
 	                $blogs = $blogs->results();
@@ -281,7 +281,7 @@ if(!$user->isLoggedIn())
 
 			$('.delete-blog').on('click', function(e){
 				e.preventDefault();
-				var user_response = confirm("Do you want to delete this blog?");
+				var user_response = confirm("Are you sure you want to delete this blog?");
 				if(user_response == true)
 				{
 					var blog_id = $(this).attr('data-attribute');
@@ -303,8 +303,8 @@ if(!$user->isLoggedIn())
 							}
 							else
 							{
-								Materialize.toast("The blog has been deleted", 5000, "green");
-								$(object).hide();
+								Materialize.toast("The blog has been deleted successfully", 5000, "green");
+								$(object).parent().parent().parent().hide();
 							}
 						}
 						

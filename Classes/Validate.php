@@ -47,6 +47,7 @@ class Validate
 											if($item === "username")
 												$this->_usernameExists = 1;
 										}
+						break;
 						case 'email':
 										if(!filter_var($value, FILTER_VALIDATE_EMAIL))
 											$this->addError("Wrong Email format");
