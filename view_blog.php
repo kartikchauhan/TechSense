@@ -8,24 +8,24 @@ if(Input::exists('get'))
 {
 	if(Input::get('blog_id'))
 	{
-		$blogs = new Blog;
+		$blog = new Blog;
 		$blogId = Input::get('blog_id');
-		$blog = $blogs->getBlog('blogs', array('id', '=', $blogId));
+		$blog->getBlog('blogs', array('id', '=', $blogId));
 		if(!$blog)
 		{
 			Redirect::to(404);
 		}
-		$views = $blog->views + 1;
+		$views = $blog->data()->views + 1;
 		try
 		{
-			if($blogs->update('blogs', $blogId, array('views' => $views)) != 1)	// if number of records returned are not equal to 1
+			if($blog->update('blogs', $blogId, array('views' => $views)) != 1)	// if number of records returned are not equal to 1
 				throw new Exception("Unable to update views of the blog.");
 		}
 		catch(Exception $e)
 		{
 			echo $e->getMessage();
 		}
-		$date=strtotime($blog->created_on);
+		$date=strtotime($blog->data()->created_on);
 		if($user->isLoggedIn())
 		{
 			$userLoggedIn = true;
@@ -94,12 +94,12 @@ else
 				<div class="section">
 					<div class="row">
 						<div class="col s10">
-							<h1 class="white-text thin"> <?php echo strtoupper($blog->title); ?></h1>
+							<h1 class="white-text thin"> <?php echo strtoupper($blog->data()->title); ?></h1>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s10">
-							<h5 class="white-text thin"> <?php echo ucfirst($blog->description); ?></h5>
+							<h5 class="white-text thin"> <?php echo ucfirst($blog->data()->description); ?></h5>
 						</div>
 					</div>
 					<div class="row">
@@ -125,7 +125,7 @@ else
 				<div class="section">
 					<div class="row">
 						<div class="col s8">
-							<p class="flow-text"><?php echo $blog->blog; ?></p>
+							<p class="flow-text"><?php echo $blog->data()->blog; ?></p>
 							<div class="section">
 								<div class="row">
 									<div class="col s5 offset-s2">
@@ -141,30 +141,30 @@ else
 												{
 													echo 
 													"<div class='col s1'>
-														<a class='likes' data-attribute=".$blog->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: green'></i></a>
+														<a class='likes' data-attribute=".$blog->data()->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: green'></i></a>
 													</div>
 													<div class='col s1 offset-s1 m1 l1'>
-														<a class='dislikes' data-attribute=".$blog->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: grey'></i></a>
+														<a class='dislikes' data-attribute=".$blog->data()->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: grey'></i></a>
 													</div>";
 												}
 												else if($blogStatus == -1)
 												{
 													echo 
 													"<div class='col s1'>
-														<a class='likes' data-attribute=".$blog->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: grey'></i></a>
+														<a class='likes' data-attribute=".$blog->data()->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: grey'></i></a>
 													</div>
 													<div class='col s1 offset-s1 m1 l1'>
-														<a class='dislikes' data-attribute=".$blog->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: red'></i></a>
+														<a class='dislikes' data-attribute=".$blog->data()->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: red'></i></a>
 													</div>";
 												}
 												else if($blogStatus == 0)
 												{
 													echo
 													"<div class='col s1'>
-														<a class='likes' data-attribute=".$blog->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: grey'></i></a>
+														<a class='likes' data-attribute=".$blog->data()->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: grey'></i></a>
 													</div>
 													<div class='col s1 offset-s1 m1 l1'>
-														<a class='dislikes' data-attribute=".$blog->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: grey'></i></a>
+														<a class='dislikes' data-attribute=".$blog->data()->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: grey'></i></a>
 													</div>";
 												}
 											}
@@ -172,10 +172,10 @@ else
 											{
 												echo
 												"<div class='col s1'>
-													<a class='likes' data-attribute=".$blog->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: grey'></i></a>
+													<a class='likes' data-attribute=".$blog->data()->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: grey'></i></a>
 												</div>
 												<div class='col s1 offset-s1 m1 l1'>
-													<a class='dislikes' data-attribute=".$blog->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: grey'></i></a>
+													<a class='dislikes' data-attribute=".$blog->data()->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: grey'></i></a>
 												</div>";
 											}
 
@@ -184,10 +184,10 @@ else
 										{
 											echo
 											"<div class='col s1'>
-												<a class='likes-not-logged-in' data-attribute=".$blog->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: grey'></i></a>
+												<a class='likes-not-logged-in' data-attribute=".$blog->data()->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: grey'></i></a>
 											</div>
 											<div class='col s1 offset-s1 m1 l1'>
-												<a class='dislikes-not-logged-in' data-attribute=".$blog->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: grey'></i></a>
+												<a class='dislikes-not-logged-in' data-attribute=".$blog->data()->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: grey'></i></a>
 											</div>";
 										}
 									?>

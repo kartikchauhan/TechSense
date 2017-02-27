@@ -21,6 +21,7 @@ if(!$user->isLoggedIn())
 	<meta name="description" content="We emphaisze on solving problems">
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+
 	<style>
 	input[type="search"]
     {
@@ -153,7 +154,7 @@ if(!$user->isLoggedIn())
 	                                        </div>
 	                                        	<a href='#' class='blue-text delete-blog' data-attribute='{$blog->id}'><i class='material-icons right'>delete</i></a> <a href='update_blog.php?blog_id={$blog->id}' class='blue-text edit-blog' data-attribute='{$blog->id}'><i class='material-icons right'>mode_edit</i></a> 
                                         </div>
-                                        		<h6>".ucfirst($blog->description)."</h6><br>
+                                		<h6>".ucfirst($blog->description)."</h6><br>
                                         <div class='row'>
                                             <div class='measure-count' data-attribute='{$blog->id}'>
                                                 <div class='col s1'>
@@ -279,7 +280,7 @@ if(!$user->isLoggedIn())
                 });
             });
 
-			$('.delete-blog').on('click', function(e){
+			$('.content').on('click', '.delete-blog', function(e){
 				e.preventDefault();
 				var user_response = confirm("Are you sure you want to delete this blog?");
 				if(user_response == true)
