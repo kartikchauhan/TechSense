@@ -97,7 +97,7 @@ if(!$user->isLoggedIn())
                     ]
                 });
 
-                $('#post_blog').on('click', function(){
+                $('form').on('click', '#post_blog', function(){
                     // var data = new FormData();
                     // var input_data = $('.form').serializeArray();
 

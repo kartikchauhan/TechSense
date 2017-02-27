@@ -37,7 +37,7 @@ if(Input::exists())
 			{
 				$date=strtotime($blog->created_on);
 				$json['content'] = $json['content'].
-					"<div class='row'>
+					"<div class='row blog'>
 			            <div class='col s2'>
 			                <blockquote>".
 			                    date('M', $date)."<br>".

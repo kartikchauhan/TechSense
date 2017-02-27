@@ -140,7 +140,7 @@ if(!$user->isLoggedIn())
                         {
                             $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
                             echo 
-                                "<div class='row'>
+                                "<div class='row blog'>
                                     <div class='col s2'>
                                         <blockquote>".
                                             date('M', $date)."<br>".
@@ -215,53 +215,57 @@ if(!$user->isLoggedIn())
 	<script src="https://use.fontawesome.com/17e854d5bf.js"></script>
 	<script type="text/javascript" src="Includes/js/materialize.min.js"></script>
 	<script type="text/javascript">
+
 		$("#update").off('click');
 		$('.nav-bar').removeClass('transparent');
+
 		$(document).ready(function(){
-				$('#update').on('click', function(){
-					var data = new FormData();
-				    var file_data = $('input[type="file"]')[0].files;
-				    if(file_data.length)
-				    {
-				    	data.append("profile_pic", file_data[0]);
-				    }
-				    var input_data = $('form').serializeArray();
-				    $.each(input_data,function(key, input){
-				        data.append(input.name, input.value);
-				    });
-				    $.ajax({
-				        url: 'authors_info_backend.php',
-				        data: data,
-				        contentType: false,
-				        processData: false,		// not processing the data
-				        type: 'POST',
-				        success: function(response)
-				        {
-				        	var response = JSON.parse(response);
-				        	console.log(response);
-				        	$('#_token').val(response._token);
-				        	if(response.error_status === true)
-				        	{
-				        		Materialize.toast(response.error, 5000, "red");
-				        		$('#description').focus();
-				        	}
-				        	else
-				        	{
-				        		Materialize.toast("Your Information has been added successfully", 5000, "green");
-				        	}
-				        }
-				    });
-				});
 
-				$('.toggle-user-blogs').click(function(){
-					$('.user-blogs').slideToggle('slow');
-				});
+			$('#update').on('click', function(){
+				var data = new FormData();
+			    var file_data = $('input[type="file"]')[0].files;
+			    if(file_data.length)
+			    {
+			    	data.append("profile_pic", file_data[0]);
+			    }
+			    var input_data = $('form').serializeArray();
+			    $.each(input_data,function(key, input){
+			        data.append(input.name, input.value);
+			    });
+			    $.ajax({
+			        url: 'authors_info_backend.php',
+			        data: data,
+			        contentType: false,
+			        processData: false,		// not processing the data
+			        type: 'POST',
+			        success: function(response)
+			        {
+			        	var response = JSON.parse(response);
+			        	console.log(response);
+			        	$('#_token').val(response._token);
+			        	if(response.error_status === true)
+			        	{
+			        		Materialize.toast(response.error, 5000, "red");
+			        		$('#description').focus();
+			        	}
+			        	else
+			        	{
+			        		Materialize.toast("Your Information has been added successfully", 5000, "green");
+			        	}
+			        }
+			    });
+			});
 
-				$('.blog-pagination').click(function(e){
-                e.preventDefault();
-                $('.active').removeClass('active');
-                $(this).parent().addClass('active');
-                var page_id = $(this).html();
+			$('.toggle-user-blogs').click(function(){
+				$('.user-blogs').slideToggle('slow');
+			});
+
+			function pagination(object)
+			{	
+                $('.pagination').find('.active').removeClass('active');
+                $(object).parent().addClass('active');
+                var page_id = $(object).html();
+                console.log("page_id  = " + page_id);
                 var _token = $('#_token').val();
 
                 $.ajax({
@@ -269,15 +273,47 @@ if(!$user->isLoggedIn())
                     url: 'pagination_backend.php',
                     data: {page_id: page_id, _token: _token, author: true},
                     cache: false,
+                    async: false,
                     success: function(response)
                     {
                         var response = JSON.parse(response);
                         console.log(response);
-                        console.log(response._token);
+                        console.log("count records is " + response.count);
                         $('#_token').val(response._token);
                         $('.content').html(response.content);
                     }
                 });
+
+			}
+
+			function alterPagination()
+			{
+				var object = $('.active').find('.blog-pagination');	//getting the child of active class of pagination
+				pagination(object);		// fetching the blogs again whenever a blog gets deleted in order to maintain pagination
+				var counter = 0;
+				$('.content').find('.blog').each(function(){
+					++counter;
+				});
+				if(counter == 0)
+				{
+					var current_page = parseInt($('.active').find('.blog-pagination').html());	// getting which page is active right now
+					if(current_page > 1)	// if current_page > 1 then proceed
+					{
+						var obj = $('.pagination').find('.active');		// getting active class
+						pagination($(obj).prev().find('.blog-pagination'));	// fetching the blogs again, because here switching from one page to another page is needed to be done
+						$(obj).remove();	// removing the current page since there's no blog in it
+					}
+					else if(current_page == 1)
+					{
+						$('.pagination').remove();
+					}
+				}
+			}
+
+			$('.blog-pagination').click(function(e){
+            	e.preventDefault();
+            	pagination(this);
+
             });
 
 			$('.content').on('click', '.delete-blog', function(e){
@@ -296,7 +332,7 @@ if(!$user->isLoggedIn())
 						success: function(response)
 						{
 							var response = JSON.parse(response);
-							console.log(response);
+							// console.log(response);
 							$('#_token').val(response._token);
 							if(response.error_status == true)
 							{
@@ -305,11 +341,10 @@ if(!$user->isLoggedIn())
 							else
 							{
 								Materialize.toast("The blog has been deleted successfully", 5000, "green");
-								$(object).parent().parent().parent().hide();
+								$(object).parent().parent().parent().remove();	// to remove the blog
+								alterPagination();
 							}
 						}
-						
-
 					});
 				}
 				else
