@@ -224,6 +224,21 @@ class DB
 		return $this->_error;
 	}
 
+	public function join($tables = array(), $joinFields = array(), $where = array())
+	{
+		$table1 = $tables[0];
+		$table2 = $tables[1];
+		$joinField1 = $joinFields[0];
+		$joinField2 = $joinFields[1];
+		$where_field = $where[0];
+		$operator = $where[1];
+		$value = $where[2];
+		$sql = "Select * FROM {$table1} JOIN {$table2} ON {$table1}.{$joinField1} = {$table2}.{$joinField2} WHERE {$table2}.{$where_field} {$operator} ?";
+		if(!$this->query($sql, array($value))->error())
+			return $this;
+		return false;
+	}
+
 	public function getRange($table, $records_per_page, $offset)
 	{
 		$sql = "SELECT * FROM {$table} ORDER BY id LIMIT {$records_per_page} OFFSET {$offset}";

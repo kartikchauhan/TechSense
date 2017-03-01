@@ -8,8 +8,9 @@ if(Input::exists('get'))
 {
 	if(Input::get('blog_id'))
 	{
-		$blog = new Blog;
+		$blog = new Blog;	// creating an Instance of Blog so that we could update the views
 		$blogId = Input::get('blog_id');
+		$author = DB::getInstance()->join(array('users', 'blogs'), array('id', 'users_id'), array('id', '=', $blogId))->first(); // fetching the author of the blog and his corresponding details
 		$blog->getBlog('blogs', array('id', '=', $blogId));
 		if(!$blog)
 		{
@@ -109,7 +110,7 @@ else
 									<h6 class="white-text"><?php echo date('M d, Y', $date); ?></h6>
 								</div>
 								<div class="col s6 offset-s2">
-									<h6 class="white-text" >Written by - <?php echo ucwords("Kartik Chauhan") ?></h6>
+									<h6 class="white-text" >Written by - <?php echo ucwords($author->name) ?></h6>
 								</div>
 							</div>
 						</div>
@@ -211,30 +212,30 @@ else
 					</div>
 					<div class="row">
 						<div class="col s1 offset-s1">
-							<a href="" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:black"></i></a> <!-- <?php //echo $user->data()->github_url; ?> -->
+							<a href="" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:black"></i><?php echo $author->github_url; ?></a> <!-- <?php //echo $user->data()->github_url; ?> -->
 						</div>
 						<div class="col s1 offset-s1">
-							<a href="" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:black"></i></a>	<!-- <?php //echo $user->data()->facebook_url; ?> -->
+							<a href="" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:black"></i><?php echo $author->facebook_url; ?></a>	<!-- <?php //echo $user->data()->facebook_url; ?> -->
 						</div>
 						<div class="col s1 offset-s1">
-							<a href="" target="_blank"><i class="fa fa-twitter-square fa-3x" aria-hidden="true" style="color:black"></i></a> <!-- <?php //echo $user->data()->twitter_url; ?> -->
+							<a href="" target="_blank"><i class="fa fa-twitter-square fa-3x" aria-hidden="true" style="color:black"></i><?php echo $author->twitter_url; ?></a> <!-- <?php //echo $user->data()->twitter_url; ?> -->
 						</div>
 					</div>
 				</div>
 				<div class="col s7">
 					<div class="row">
 						<div class="col s12">
-							<h5 class="white-text">Author's Name</h5>	<!-- <?php //echo ucwords($user->data()->name) ?> -->
+							<h5 class="white-text"><?php echo ucwords($author->name); ?></h5>	<!-- <?php //echo ucwords($user->data()->name) ?> -->
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s12">
-							<p class="white-text">Author's Description</p>	<!-- <?php //echo ucwords($user->data()->description) ?> -->
+							<p class="white-text"><?php echo ucfirst($author->description); ?></p>	<!-- <?php //echo ucwords($user->data()->description) ?> -->
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s12">
-							<h6 class="white-text">Email: Author's Email</h6>	<!-- <?php //echo ucwords($user->data()->email) ?> -->
+							<h6 class="white-text"><?php echo $author->email; ?></h6>	<!-- <?php //echo ucwords($user->data()->email) ?> -->
 						</div>
 					</div>
 				</div>
