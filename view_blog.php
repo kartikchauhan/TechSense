@@ -212,30 +212,30 @@ else
 					</div>
 					<div class="row">
 						<div class="col s1 offset-s1">
-							<a href="" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:black"></i><?php echo $author->github_url; ?></a> <!-- <?php //echo $user->data()->github_url; ?> -->
+							<a href="<?php echo $author->github_url; ?>" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:black"></i></a> 	<!-- author's github url -->
 						</div>
 						<div class="col s1 offset-s1">
-							<a href="" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:black"></i><?php echo $author->facebook_url; ?></a>	<!-- <?php //echo $user->data()->facebook_url; ?> -->
+							<a href="<?php echo $author->facebook_url; ?>" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:black"></i></a>	<!-- author's facebook url -->
 						</div>
 						<div class="col s1 offset-s1">
-							<a href="" target="_blank"><i class="fa fa-twitter-square fa-3x" aria-hidden="true" style="color:black"></i><?php echo $author->twitter_url; ?></a> <!-- <?php //echo $user->data()->twitter_url; ?> -->
+							<a href="<?php echo $author->twitter_url; ?>" target="_blank"><i class="fa fa-twitter-square fa-3x" aria-hidden="true" style="color:black"></i></a> <!-- author's twitter url -->
 						</div>
 					</div>
 				</div>
 				<div class="col s7">
 					<div class="row">
 						<div class="col s12">
-							<h5 class="white-text"><?php echo ucwords($author->name); ?></h5>	<!-- <?php //echo ucwords($user->data()->name) ?> -->
+							<h5 class="white-text"><?php echo ucwords($author->name); ?></h5>	<!-- author's name of the blog -->
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s12">
-							<p class="white-text"><?php echo ucfirst($author->description); ?></p>	<!-- <?php //echo ucwords($user->data()->description) ?> -->
+							<p class="white-text"><?php echo ucfirst($author->user_description); ?></p>	
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s12">
-							<h6 class="white-text"><?php echo $author->email; ?></h6>	<!-- <?php //echo ucwords($user->data()->email) ?> -->
+							<h6 class="white-text"><?php echo $author->email; ?></h6>
 						</div>
 					</div>
 				</div>

@@ -38,7 +38,7 @@ if(Input::exists())
 		if($Validate->passed())
 		{
 			$fields = array();
-			$fields['description'] = Input::get('description');		// add description to the array that is gonna be passed for the insert query
+			$fields['user_description'] = Input::get('description');		// add description to the array that is gonna be passed for the insert query
 			if(!empty(Input::get('name')))
 			{
 				$fields["name"] = Input::get('name');	// add github_url if user has entered github_url

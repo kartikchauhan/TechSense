@@ -4,10 +4,10 @@ require_once'Core/init.php';
 
 $user = new User;
 
-if(!$user->isLoggedIn())
-{
-	Redirect::to('index.php');
-}
+// if(!$user->isLoggedIn())
+// {
+// 	Redirect::to('index.php');
+// }
 
 if(Input::exists())
 {

@@ -105,7 +105,7 @@ if(!$user->isLoggedIn())
 				<div class="row">
 					<div class="col s12">
 						<label for="description">Tell us about youself</label>
-						<textarea class="materialize-textarea" id="description" name="description"><?php echo $user->data()->description ?></textarea>
+						<textarea class="materialize-textarea" id="description" name="description"><?php echo $user->data()->user_description ?></textarea>
 					</div>
 				</div>
 				<div class="row">
