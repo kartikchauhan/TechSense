@@ -288,18 +288,23 @@ if(!$user->isLoggedIn())
 
 			function alterPagination()
 			{
-				var object = $('.active').find('.blog-pagination');	//getting the child of active class of pagination
+				var object = $('li.active').find('.blog-pagination');	//getting the child of active class of pagination
 				pagination(object);		// fetching the blogs again whenever a blog gets deleted in order to maintain pagination
 				var counter = 0;
 				$('.content').find('.blog').each(function(){
 					++counter;
 				});
+				if(counter < 3)		// 3 is the value of maximum that can be shown in one page
+				{
+					if($('li.active').next().length)
+						$('li.active').next().remove();
+				}
 				if(counter == 0)
 				{
-					var current_page = parseInt($('.active').find('.blog-pagination').html());	// getting which page is active right now
+					var current_page = parseInt($('li.active').find('.blog-pagination').html());	// getting which page is active right now
 					if(current_page > 1)	// if current_page > 1 then proceed
 					{
-						var obj = $('.pagination').find('.active');		// getting active class
+						var obj = $('.pagination').find('li.active');		// getting active class
 						pagination($(obj).prev().find('.blog-pagination'));	// fetching the blogs again, because here switching from one page to another page is needed to be done
 						$(obj).remove();	// removing the current page since there's no blog in it
 					}
