@@ -45,7 +45,7 @@ if(Input::exists('post'))
 				$mail->SMTPSecure = 'tls';
 				$mail->SMTPAuth = true;
 				$mail->Username = "chauhan.kartik25@gmail.com";
-				$mail->Password = ""; 
+				$mail->Password = "Kartik@25K"; 
 				$mail->setFrom("chauhan.kartik25@gmail.com", "kartik chauhan");
 				$mail->addAddress($email, 'anonymous');
 				$mail->subject = "password reset link";

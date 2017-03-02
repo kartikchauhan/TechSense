@@ -146,7 +146,7 @@ if($user->isLoggedIn())
 	    					}
 	    					else
 	    					{
-	    						Materialize.toast("Your password has been successfully changed", 5000, "green");
+	    						$(window.location).attr('href', 'login.php');
 	    					}
 	    				}
 

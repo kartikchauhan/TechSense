@@ -136,7 +136,7 @@ if($user->isLoggedIn())
 							$('#_token').val(response._token);
 							if(response.status==0)
 							{
-								Materialize.toast(response.message, 4000, 'green');
+								$(window.location).attr('href', 'index.php');
 							}
 							else
 							{

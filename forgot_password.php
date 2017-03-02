@@ -101,7 +101,8 @@ $user = new User;
     					}
     					else
     					{
-    						Materialize.toast("Mail sent successfully", 5000, "green");
+    						$(window.location).attr('href', 'login.php');
+    						// Materialize.toast("Mail sent successfully", 5000, "green");
     					}
     				}
 

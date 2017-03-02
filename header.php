@@ -43,6 +43,8 @@
     {
         echo
         "<ul id='dropdown1' class='dropdown-content'>
+            <li><a href='index.php' class='blue-text'>Home <i class='material-icons right'>home</i></a></li>
+            <li class='divider'></li>
             <li><a href='write_blog.php' class='blue-text'>Write Blog <i class='material-icons right'>mode_edit</i></a></li>
             <li class='divider'></li>
             <li><a href='authors_info.php' class='blue-text'>Edit Profile <i class='material-icons right'>account_circle</i></a></li>
