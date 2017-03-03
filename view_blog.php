@@ -247,9 +247,6 @@ else
 						<div class="col s1 offset-s1">
 							<a href="<?php echo $author->facebook_url; ?>" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:black"></i></a>	<!-- author's facebook url -->
 						</div>
-						<div class="col s1 offset-s1">
-							<a href="<?php echo $author->twitter_url; ?>" target="_blank"><i class="fa fa-twitter-square fa-3x" aria-hidden="true" style="color:black"></i></a> <!-- author's twitter url -->
-						</div>
 					</div>
 				</div>
 				<div class="col s7">
@@ -265,9 +262,20 @@ else
 					</div>
 					<div class="row">
 						<div class="col s12">
-							<h6 class="white-text"><?php echo $author->email; ?></h6>
+							<h6 class="white-text">Email: <?php echo $author->email; ?></h6>
 						</div>
 					</div>
+					<?php
+						if($author->twitter_username !== '')
+						{
+							echo
+							"<div class='row'>
+								<div class='col s6'>
+									<a class='twitter-follow-button' href='https://twitter.com/".$author->twitter_username."' data-size='large'> Follow @".$author->twitter_username."</a>
+								</div>
+							</div>";
+						}
+					?>
 				</div>
 			</div>
 		</div>

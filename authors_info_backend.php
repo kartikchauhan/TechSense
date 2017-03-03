@@ -18,13 +18,11 @@ if(Input::exists())
 		$Validate = new Validate;
 		$Validate->check($_POST, array(
 			"name" => array(
+				"required" => true,
 				'min' => 2,
 				'max' => 25
 				),
 			"github_url" => array(
-				"min" => 10
-				),
-			"twitter_url" => array(
 				"min" => 10
 				),
 			"facebook_url" => array(
@@ -39,22 +37,10 @@ if(Input::exists())
 		{
 			$fields = array();
 			$fields['user_description'] = Input::get('description');		// add description to the array that is gonna be passed for the insert query
-			if(!empty(Input::get('name')))
-			{
-				$fields["name"] = Input::get('name');	// add github_url if user has entered github_url
-			}
-			if(!empty(Input::get('github_url')))
-			{
-				$fields["github_url"] = Input::get('github_url');	// add github_url if user has entered github_url
-			}
-			if(!empty(Input::get('facebook_url')))
-			{
-				$fields["facebook_url"] = Input::get('facebook_url');
-			}
-			if(!empty(Input::get('twitter_url')))
-			{
-				$fields["twitter_url"] = Input::get("twitter_url");
-			}
+			$fields["name"] = Input::get('name');	// add github_url if user has entered github_url
+			$fields["github_url"] = Input::get('github_url');	// add github_url if user has entered github_url
+			$fields["facebook_url"] = Input::get('facebook_url');
+			$fields["twitter_username"] = Input::get("twitter_username");
 			if(!empty($_FILES))	// insert the data if no image uploaded
 			{
 				$target_dir = Config::get('url/upload_dir').'/';	// target directory where images are gonna be stored

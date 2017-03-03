@@ -50,17 +50,6 @@ if(!$user->isLoggedIn())
 							        	<input class="file-path validate" type="text" placeholder="Upload image" >
 							      	</div>
 							    </div>
-							    <div class="row">
-							    	<div class="col s4 center-align" >
-							    		<h6>Blogs</h6>32
-							    	</div>
-							    	<div class="col s4 center-align">
-							    		<h6>Followers</h6>43
-							    	</div>
-							    	<div class="col s4 center-align">
-							    		<h6>Following</h6>21
-							    	</div>
-							    </div>
 							</div>
 						</div>
 					</div>
@@ -91,8 +80,8 @@ if(!$user->isLoggedIn())
 						</div>
 						<div class="row">
 							<div class="input-field col s12">
-								<input type="text" name="twitter_url" id="twitter_url" value="<?php echo $user->data()->twitter_url ?>">
-								<label for="twitter_url">Twitter Url</label>
+								<input type="text" name="twitter_username" id="twitter_username" value="<?php echo $user->data()->twitter_username ?>">
+								<label for="twitter_username">Twitter Username</label>
 							</div>
 						</div>
 						<div class="row">
@@ -149,7 +138,7 @@ if(!$user->isLoggedIn())
                                     </div>
                                     <div class='col s10'>
                                     	<div class='row'>
-	                                    	<div class='col s4'>
+	                                    	<div class='col s12'>
 	                                        	<h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
 	                                        </div>
 	                                        	<a href='#' class='blue-text delete-blog' data-attribute='{$blog->id}'><i class='material-icons right'>delete</i></a> <a href='update_blog.php?blog_id={$blog->id}' class='blue-text edit-blog' data-attribute='{$blog->id}'><i class='material-icons right'>mode_edit</i></a> 
@@ -210,7 +199,7 @@ if(!$user->isLoggedIn())
             </div>
 		</div>
 	</div>
-		
+
 	<script src="Includes/js/jquery.min.js"></script>
 	<script src="https://use.fontawesome.com/17e854d5bf.js"></script>
 	<script type="text/javascript" src="Includes/js/materialize.min.js"></script>
@@ -250,7 +239,7 @@ if(!$user->isLoggedIn())
 			        	}
 			        	else
 			        	{
-			        		Materialize.toast("Your Information has been added successfully", 5000, "green");
+			        		Materialize.toast("Your Information has been updated successfully", 5000, "green");
 			        	}
 			        }
 			    });

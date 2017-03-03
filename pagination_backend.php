@@ -46,7 +46,7 @@ if(Input::exists())
 			            </div>
 			            <div class='col s10'>
 		            		<div class='row'>
-	                        	<div class='col s4'>
+	                        	<div class='col s12'>
 	                            	<h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
 	                            </div>
 	                            	<a href='#' class='blue-text delete-blog' data-attribute='{$blog->id}'><i class='material-icons right'>delete</i></a> <a href='update_blog.php?blog_id={$blog->id}' class='blue-text edit-blog' data-attribute='{$blog->id}'><i class='material-icons right'>mode_edit</i></a> 
@@ -97,7 +97,7 @@ if(Input::exists())
 			            </div>
 			            <div class='col s10'>
 		            		<div class='row'>
-	                        	<div class='col s4'>
+	                        	<div class='col s12'>
 	                            	<h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
 	                            </div>
 	                        </div>
