@@ -2,8 +2,9 @@
 session_start();
 
 $server_host = ((((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']!=='off') || $_SERVER['SERVER_PORT']==443) ? 'https://':'http://' ).$_SERVER['HTTP_HOST']);
-$base = dirname($_SERVER['REQUEST_URI']);
-$endpoint = $server_host.$base;
+$base = dirname($_SERVER['REQUEST_URI']);	// current_page along with query_string
+$endpoint = $server_host.$base;		// current_url without current_page
+$current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 $GLOBALS['config'] = array(
 
@@ -23,6 +24,7 @@ $GLOBALS['config'] = array(
 		'token_name' => 'token'
 		),
 	'url'=>array(
+		'current_url' => $current_url,
 		'endpoint' => $endpoint,
 		'upload_dir' =>"Includes/uploads"
 		)	

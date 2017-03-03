@@ -58,6 +58,10 @@ else
 <html>
 <head>
 	<title>View Blog</title>
+	<meta property="og:url"           content="http://localhost/Blog_temp2/view_blog.php?blog_id=118" />
+	<meta property="og:type"          content="website" />
+	<meta property="og:title"         content="Aster" />
+	<meta property="og:description"   content="A place to read and write blogs about any technology" />
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
@@ -88,6 +92,17 @@ else
 		include'header.php';
 
 	?>
+	<!-- facebook SDK for sharing button -->
+	<div id="fb-root"></div>	
+	<script>(function(d, s, id) {
+	  	var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) return;
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1145090692169938";
+		fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+
 
 	<header class="blue">
 		<section>
@@ -131,7 +146,7 @@ else
 								<div class="row">
 									<div class="col s5 offset-s2">
 										<h6 class="center-align">Was this article helpful?</h6>
-									</div>
+									</div>									
 									<div class="_token" id="_token" data-attribute="<?php echo Token::generate(); ?>"></div>
 									<?php 
 										if($userLoggedIn)
@@ -192,6 +207,21 @@ else
 											</div>";
 										}
 									?>
+								</div>
+								<div class="row">
+									<div class="col s12 offset-s2">
+										<div class="row">
+											<div class="col s4">
+												<h5>Share this blog</h5>
+											</div>
+											<div class="col s2">
+												<a href="https://twitter.com/share" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+											</div>
+											<div class="col s2">
+												<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Share</a></div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
