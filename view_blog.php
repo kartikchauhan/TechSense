@@ -228,6 +228,19 @@ else
 					</div>
 				</div>
 			</div>
+			<div class="container">	
+				<div class="row">
+					<div class="col s8">
+						<form acion="" method="post">
+							<label for="comment">Comment</label>
+							<div class="section">
+								<textarea class="materialize-textarea" id="comment" name="comment" data-attribute="<?php echo $blogId; ?>"></textarea>
+							</div>
+							<button type="button" class="btn waves-effect waves-light blue" name="send_comment" id="send_comment">Comment</button>
+						</form>
+					</div>
+				</div>
+			</div>
 		</section>
 	</article>
 
@@ -289,9 +302,33 @@ else
 	<script src="Includes/js/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/17e854d5bf.js"></script>
     <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
+    <script src="vendor/tinymce/tinymce/tinymce.min.js"></script>
     <script>
     	$(document).ready(function(){
     		$('.nav-bar').removeClass('transparent');
+
+    			tinymce.init({
+                    selector: '#comment',
+                    height: 100,
+                    theme: 'modern',
+                    plugins: [
+                      'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                      'searchreplace wordcount visualblocks visualchars code fullscreen',
+                      'insertdatetime media nonbreaking save table contextmenu directionality',
+                      'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc'
+                    ],
+                    toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                    toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
+                    image_advtab: true,
+                    templates: [
+                      { title: 'Test template 1', content: 'Test 1' },
+                      { title: 'Test template 2', content: 'Test 2' }
+                    ],
+                    content_css: [
+                      '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+                      '//www.tinymce.com/css/codepen.min.css'
+                    ]
+                });
 
     		$('.likes-not-logged-in, .dislikes-not-logged-in').click(function(e){
     			e.preventDefault();
@@ -343,6 +380,32 @@ else
                     }
                 });
             });
+
+			$('#send_comment').on('click', function(){
+				var blog_id = $('#comment').attr('data-attribute');
+				var comment = tinyMCE.activeEditor.getContent();
+				var _token = $('#_token').attr('data-attribute');
+				$.ajax({
+					type: 'POST',
+					url: 'send_comment.php',
+					data: {blog_id: blog_id, comment: comment, _token: _token},
+					success: function(response)
+					{
+						var response = JSON.parse(response);
+						console.log(response);
+						$('#_token').attr('data-attribute', response._token);
+						if(response.error_status === false)
+						{
+							Materialize.toast('Your comment has been added successfully', 5000, 'green');
+						}
+						else
+						{
+							Materialize.toast(response.error, 5000, "red");
+						}
+					}
+
+				});
+			});
 
 			function getClassName(object)
             {
