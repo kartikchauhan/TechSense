@@ -274,6 +274,22 @@ class DB
 		return false;
 	}
 
+	public function joinSortComments($tables = array(), $joinFields = array(), $fields = array())
+	{
+		$table1 = $tables[0];
+		$table2 = $tables[1];
+		$joinField1 = $joinFields[0];
+		$joinField2 = $joinFields[1];
+		$field = $fields[0];
+		$order = $fields[1];
+		$sql = "Select * FROM {$table1} JOIN {$table2} ON {$table1}.{$joinField1} = {$table2}.{$joinField2} ORDER BY {$table2}.{$field} {$order}";
+		if(!$this->query($sql)->error())
+		{
+			return $this;
+		}
+		return false;
+	}
+
 
 }
 

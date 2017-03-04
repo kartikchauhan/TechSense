@@ -232,12 +232,75 @@ else
 				<div class="row">
 					<div class="col s8">
 						<form acion="" method="post">
-							<label for="comment">Comment</label>
+							<label for="comment">Add a Comment</label>
 							<div class="section">
 								<textarea class="materialize-textarea" id="comment" name="comment" data-attribute="<?php echo $blogId; ?>"></textarea>
 							</div>
 							<button type="button" class="btn waves-effect waves-light blue" name="send_comment" id="send_comment">Comment</button>
 						</form>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s8">
+						<?php
+							$comments = DB::getInstance()->joinSortComments(array('users', 'comments'), array('id', 'user_id'), array('created_on', 'DESC'));
+							$comments = $comments->results();
+							$counter = 1;
+							foreach($comments as $comment)
+							{
+								if($counter%2)
+								{
+									echo
+										"<div class='row'>
+											<div class='col s11 blue z-depth-2'>
+												<div class='white-text'>"
+													.$comment->comment.
+												"</div>
+												<div class='divider'></div>
+												<div class='section white-text'>
+													<div class='row white-text'>
+														<div class='col s4'>"
+															.$comment->name.
+														"</div>
+														<div class='col s4'>"
+															.$comment->created_on.
+														"</div>
+														<div class='col s4'>"
+															.$comment->created_on.
+														"</div>
+													</div>
+												</div>
+											</div>
+										</div>";
+								}
+								else
+								{
+									echo
+										"<div class='row'>
+											<div class='col s11 offset-s1 blue z-depth-2'>
+												<div class='white-text'>"
+													.$comment->comment.
+												"</div>
+												<div class='divider'></div>
+												<div class='section white-text'>
+													<div class='row white-text'>
+														<div class='col s4'>"
+															.$comment->name.
+														"</div>
+														<div class='col s4'>"
+															.$comment->created_on.
+														"</div>
+														<div class='col s4'>"
+															.$comment->created_on.
+														"</div>
+													</div>
+												</div>
+											</div>
+										</div>";
+								}
+								++$counter;
+							}
+						?>
 					</div>
 				</div>
 			</div>
