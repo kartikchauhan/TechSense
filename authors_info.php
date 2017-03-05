@@ -38,7 +38,7 @@ if(!$user->isLoggedIn())
 			<form action="" method="post" enctype="multipart/form-data">
 				<div class="row">
 					<div class="col s4">
-						<img class="img-responsive materialboxed" src="<?php echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?>" width="100%">
+						<img class="responsive-img materialboxed" src="<?php echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?>" width="100%">
 						<div class="row">
 							<div class="col s12">
 								<div class="file-field input-field">

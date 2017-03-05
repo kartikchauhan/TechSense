@@ -242,7 +242,8 @@ else
 				</div>
 				<div class="row">
 					<div class="col s8">
-						<?php
+						<div class="comment-section" id="comment-section">
+							<?php
 							$comments = DB::getInstance()->joinSortComments(array('users', 'comments'), array('id', 'user_id'), array('created_on', 'DESC'));
 							$comments = $comments->results();
 							$counter = 1;
@@ -260,12 +261,12 @@ else
 												<div class='divider'></div>
 												<div class='section white-text'>
 													<div class='row white-text'>
-														<div class='col s6'>
-															<img class='responsive-img' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
+														<div class='col s5'>
+															<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
 														</div>													
-														<div class='col s3'>"
-															.$comment->created_on.
-														"</div>
+														<div class='col s4'>
+															<a class='comment-like'><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:white'></i></a> <a class='comment-dislike'><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:white'></i></a>
+														</div>
 														<div class='col s3'>"
 															.date('M d Y', $date).
 														"</div>
@@ -301,7 +302,8 @@ else
 								}
 								++$counter;
 							}
-						?>
+							?>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -327,6 +329,11 @@ else
 					</div>
 				</div>
 				<div class="col s7">
+					<div class="row">
+						<div class="col s12">
+							<h5 class="white-text center-align">Writer's Info</h5>
+						</div>
+					</div>
 					<div class="row">
 						<div class="col s12">
 							<h5 class="white-text"><?php echo ucwords($author->name); ?></h5>	<!-- author's name of the blog -->
@@ -460,7 +467,8 @@ else
 						$('#_token').attr('data-attribute', response._token);
 						if(response.error_status === false)
 						{
-							Materialize.toast('Your comment has been added successfully', 5000, 'green');
+							$('.comment-section').prepend(response.content);
+							// Materialize.toast('Your comment has been added successfully', 5000, 'green');
 						}
 						else
 						{
