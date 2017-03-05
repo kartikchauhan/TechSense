@@ -248,6 +248,7 @@ else
 							$counter = 1;
 							foreach($comments as $comment)
 							{
+								$date = strtotime($comment->created_on);
 								if($counter%2)
 								{
 									echo
@@ -259,14 +260,14 @@ else
 												<div class='divider'></div>
 												<div class='section white-text'>
 													<div class='row white-text'>
-														<div class='col s4'>"
-															.$comment->name.
-														"</div>
-														<div class='col s4'>"
+														<div class='col s6'>
+															<img class='responsive-img' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
+														</div>													
+														<div class='col s3'>"
 															.$comment->created_on.
 														"</div>
-														<div class='col s4'>"
-															.$comment->created_on.
+														<div class='col s3'>"
+															.date('M d Y', $date).
 														"</div>
 													</div>
 												</div>
@@ -284,14 +285,14 @@ else
 												<div class='divider'></div>
 												<div class='section white-text'>
 													<div class='row white-text'>
-														<div class='col s4'>"
-															.$comment->name.
-														"</div>
-														<div class='col s4'>"
+														<div class='col s6'>
+															<img class='responsive-img' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
+														</div>													
+														<div class='col s3'>"
 															.$comment->created_on.
 														"</div>
-														<div class='col s4'>"
-															.$comment->created_on.
+														<div class='col s3'>"
+															.date('M d Y', $date).
 														"</div>
 													</div>
 												</div>
