@@ -199,13 +199,29 @@ if(!$user->isLoggedIn())
             </div>
 		</div>
 	</div>
-	<footer class="page-footer blue">
-		<div class="footer-copyright center-align">
-			<!-- <div class="container center-align"> -->
-				© 2017 Software Incubator
-			<!-- </div> -->
-		</div>
-	</footer>
+	<footer class="page-footer blue lighten-1">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Aster</h5>
+                    <p class="grey-text text-lighten-4">A place to read and write blogs about any technology.</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">View Our Other Projects</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="http://www.silive.in" target="blank">silive.in</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!" target="blank">Blood Donation Campaign 2017</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!" target="blank">Table Tennis Tournament</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container center-align">
+                © 2017 Software Incubator
+            </div>
+        </div>
+    </footer>
 
 
 	<script src="Includes/js/jquery.min.js"></script>

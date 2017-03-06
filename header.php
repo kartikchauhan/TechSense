@@ -53,7 +53,7 @@
             <li class='divider'></li>
             <li><a href='logout.php' class='blue-text'>Logout <i class='material-icons right'>exit_to_app</i></a></li>
         </ul>
-        <nav class='z-depth-2 blue transparent nav-bar'>
+        <nav class='z-depth-2 blue transparent nav-bar' data-constrainwidth='false'>
             <div class='nav-wrapper container'>
                 <a href='index.php' class='brand-logo'>Aster</a>
                 <a href='index.php' data-activates='mobile-demo' class='button-collapse'><i class='material-icons'>Aster</i></a>
