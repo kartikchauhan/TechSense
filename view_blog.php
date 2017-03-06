@@ -229,15 +229,31 @@ else
 				</div>
 			</div>
 			<div class="container">	
+				<h5>Comments</h5>
 				<div class="row">
 					<div class="col s8">
-						<form acion="" method="post">
-							<label for="comment">Add a Comment</label>
-							<div class="section">
-								<textarea class="materialize-textarea" id="comment" name="comment" data-attribute="<?php echo $blogId; ?>"></textarea>
-							</div>
-							<button type="button" class="btn waves-effect waves-light blue" name="send_comment" id="send_comment">Comment</button>
-						</form>
+					<?php
+
+						if($userLoggedIn)
+						{
+							echo
+							"<form acion='' method='post'>
+								<label for='comment'>Add a Comment</label>
+								<div class='section'>
+									<textarea class='materialize-textarea' id='comment' name='comment' data-attribute='".$blogId."'></textarea>
+								</div>
+								<button type='button' class='btn waves-effect waves-light blue' name='send_comment' id='send_comment'>Comment</button>
+							</form>";
+						}
+						else
+						{
+							echo
+							"<div class='center-align'>
+								<h6><a href='login.php'>Login</a> to post a comment</h6>
+							</div>";
+						}
+
+					?>
 					</div>
 				</div>
 				<div class="row">
@@ -459,7 +475,7 @@ else
 								{
 									foreach($comments as $comment)
 									{
-										$date = strtotime($comment->created_on);
+										$date = strtotime($comment->created_on);	// fetching date of comments to converting them into suitable format
 										if($counter%2)
 										{
 											echo

@@ -199,6 +199,14 @@ if(!$user->isLoggedIn())
             </div>
 		</div>
 	</div>
+	<footer class="page-footer blue">
+		<div class="footer-copyright center-align">
+			<!-- <div class="container center-align"> -->
+				© 2017 Software Incubator
+			<!-- </div> -->
+		</div>
+	</footer>
+
 
 	<script src="Includes/js/jquery.min.js"></script>
 	<script src="https://use.fontawesome.com/17e854d5bf.js"></script>

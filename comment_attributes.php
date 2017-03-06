@@ -12,7 +12,7 @@ if(Input::exists('post'))
 
 		$user = new User;
 
-		if($user->isLoggedIn())
+		if($user->isLoggedIn())	//checking if user is logged In or not, if logged in => proceed else show error "You need to login"
 		{
 			$comment_id = Input::get('comment_id');	// comment's id of the current comment
 			$user_id = $user->data()->id;	// user's id of the current user
