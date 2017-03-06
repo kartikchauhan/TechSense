@@ -2,28 +2,26 @@
 
 require_once'Core/init.php';
 
-$user = new User;
-
-if(!$user->isLoggedIn())
-{
-	Redirect::to('index.php');
-}
-
 if(Input::exists('post'))
 {
 	if(Token::check(Input::get('_token')))
 	{
-		$blog_id = Input::get('blog_id');	// blog's id of the current blog
-		$user_id = $user->data()->id;	// user's id of the current user
 		$json['error'] = false;
 		$json['_token'] = Token::generate();
-		$field = Input::get('field');	// get the field ie. likes or dislikes
-		$blogStatus = DB::getInstance()->getAnd('users_blogs_status', array(
+
+		$user = new User;
+
+		if($user->isLoggedIn())
+		{
+			$blog_id = Input::get('blog_id');	// blog's id of the current blog
+			$user_id = $user->data()->id;	// user's id of the current user
+			$field = Input::get('field');	// get the field ie. likes or dislikes
+			$blogStatus = DB::getInstance()->getAnd('users_blogs_status', array(
 			'user_id' => $user_id,
 			'blog_id' => $blog_id
 			));		// fetch if there exists any record in the table users_blogs_status		
-		if($blogStatus->count() == 1)
-		{
+			if($blogStatus->count() == 1)
+			{
 			$blogStatus = $blogStatus->first();
 			$blog_user_id = $blogStatus->id;	// get the id of the record where user_id is current user's id and blog_id is current blog's id
 			$count = DB::getInstance()->get('blogs', array('id', '=', $blog_id));
@@ -142,9 +140,9 @@ if(Input::exists('post'))
 					}
 				}
 			}
-		}
-		else
-		{
+			}
+			else
+			{
 			if($field == 'likes')
 			{
 				try
@@ -197,6 +195,12 @@ if(Input::exists('post'))
 					$json['error'] = $e->getMessage();
 				}
 			}
+			}
+		}
+		else
+		{
+			$json['error_staus'] = true;
+			$json['error'] = "You need to login to vote";
 		}
 		echo json_encode($json);
 	}

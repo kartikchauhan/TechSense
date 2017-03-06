@@ -224,7 +224,7 @@ class DB
 		return $this->_error;
 	}
 
-	public function join($tables = array(), $joinFields = array(), $where = array())
+	public function join($tables = array(), $joinFields = array(), $where = array())	// $table2 should be the one on which we are putting WHERE condition
 	{
 		$table1 = $tables[0];
 		$table2 = $tables[1];

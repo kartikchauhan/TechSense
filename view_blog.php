@@ -244,64 +244,305 @@ else
 					<div class="col s8">
 						<div class="comment-section" id="comment-section">
 							<?php
-							$comments = DB::getInstance()->joinSortComments(array('users', 'comments'), array('id', 'user_id'), array('created_on', 'DESC'));
-							$comments = $comments->results();
-							$counter = 1;
-							foreach($comments as $comment)
+							$count_comments =  DB::getInstance()->join(array('comments', 'blogs'), array('blog_id', 'id'), array('id', '=', $blogId));
+							if($count_comments->count())
 							{
-								$date = strtotime($comment->created_on);
-								if($counter%2)
+								$comments = DB::getInstance()->joinSortComments(array('users', 'comments'), array('id', 'user_id'), array('created_on', 'DESC'));
+								$comments = $comments->results();
+								$counter = 1;
+								if($userLoggedIn)
 								{
-									echo
-										"<div class='row'>
-											<div class='col s11 blue z-depth-2'>
-												<div class='white-text'>"
-													.$comment->comment.
-												"</div>
-												<div class='divider'></div>
-												<div class='section white-text'>
-													<div class='row white-text'>
-														<div class='col s5'>
-															<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
-														</div>													
-														<div class='col s4'>
-															<a class='comment-like'><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:white'></i></a> <a class='comment-dislike'><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:white'></i></a>
+								foreach($comments as $comment)
+								{
+									$commentStatus = DB::getInstance()->getAnd('users_comments_status', array('user_id' => $user->data()->id, 'comment_id' => $comment->id));
+									$commentStatusCount = $commentStatus->count();
+									if($commentStatusCount)
+									{
+										$commentStatus = $commentStatus->first()->comment_status;
+									}
+									$date = strtotime($comment->created_on);
+									if($counter%2)
+									{
+										echo
+											"<div class='row'>
+												<div class='col s11 blue z-depth-2'>
+													<div class='white-text'>"
+														.$comment->comment.
+													"</div>
+													<div class='divider'></div>
+													<div class='section white-text'>
+														<div class='row white-text'>
+															<div class='col s4'>
+																<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
+															</div>													
+															<div class='col s4'>
+																<div class='row'>";
+																	if($commentStatusCount)
+																	{
+																		if($commentStatus == 1)
+																		{
+																			echo 
+																			"<div class='col s4'>
+																				<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: green'></i></a>
+																			</div>
+																			<div class='col s2'>
+																				<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																			</div>
+																			<div class='col s4'>
+																				<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																			</div>
+																			<div class='col s2'>
+																				<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																			</div>";
+																		}
+																		else if($commentStatus == -1)
+																		{
+																			echo 
+																			"<div class='col s4'>
+																				<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																			</div>
+																			<div class='col s2'>
+																				<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																			</div>
+																			<div class='col s4'>
+																				<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: red'></i></a>
+																			</div>
+																			<div class='col s2'>
+																				<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																			</div>";
+																		}
+																		else if($commentStatus == 0)
+																		{
+																			echo
+																			"<div class='col s4'>
+																				<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																			</div>
+																			<div class='col s2'>
+																				<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																			</div>
+																			<div class='col s4'>
+																				<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																			</div>
+																			<div class='col s2'>
+																				<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																			</div>";
+																		}
+																	}
+																	else
+																	{
+																		echo
+																		"<div class='col s4'>
+																			<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																		</div>
+																		<div class='col s2'>
+																			<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																		</div>
+																		<div class='col s4'>
+																			<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																		</div>
+																		<div class='col s2'>
+																			<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																		</div>";
+																	}
+																echo
+																"</div>
+															</div>
+															<div class='col s3 offset-s1'>"
+																.date('M d Y', $date).
+															"</div>
 														</div>
-														<div class='col s3'>"
-															.date('M d Y', $date).
-														"</div>
 													</div>
 												</div>
-											</div>
-										</div>";
+											</div>";
+									}
+									else
+									{
+										echo
+											"<div class='row'>
+												<div class='col s11 blue offset-s1 z-depth-2'>
+													<div class='white-text'>"
+														.$comment->comment.
+													"</div>
+													<div class='divider'></div>
+													<div class='section white-text'>
+														<div class='row white-text'>
+															<div class='col s4'>
+																<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
+															</div>													
+															<div class='col s4'>
+																<div class='row'>";
+																	if($commentStatusCount)
+																	{
+																		if($commentStatus == 1)
+																		{
+																			echo 
+																			"<div class='col s4'>
+																				<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: green'></i></a>
+																			</div>
+																			<div class='col s2'>
+																				<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																			</div>
+																			<div class='col s4'>
+																				<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																			</div>
+																			<div class='col s2'>
+																				<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																			</div>";
+																		}
+																		else if($commentStatus == -1)
+																		{
+																			echo 
+																			"<div class='col s4'>
+																				<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																			</div>
+																			<div class='col s2'>
+																				<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																			</div>
+																			<div class='col s4'>
+																				<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: red'></i></a>
+																			</div>
+																			<div class='col s2'>
+																				<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																			</div>";
+																		}
+																		else if($commentStatus == 0)
+																		{
+																			echo
+																			"<div class='col s4'>
+																				<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																			</div>
+																			<div class='col s2'>
+																				<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																			</div>
+																			<div class='col s4'>
+																				<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																			</div>
+																			<div class='col s2'>
+																				<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																			</div>";
+																		}
+																	}
+																	else
+																	{
+																		echo
+																		"<div class='col s4'>
+																			<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																		</div>
+																		<div class='col s2'>
+																			<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																		</div>
+																		<div class='col s4'>
+																			<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																		</div>
+																		<div class='col s2'>
+																			<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																		</div>";
+																	}
+																echo
+																"</div>
+															</div>
+															<div class='col s3 offset-s1'>"
+																.date('M d Y', $date).
+															"</div>
+														</div>
+													</div>
+												</div>
+											</div>";
+									}
+									++$counter;
+								}
 								}
 								else
 								{
-									echo
-										"<div class='row'>
-											<div class='col s11 offset-s1 blue z-depth-2'>
-												<div class='white-text'>"
-													.$comment->comment.
-												"</div>
-												<div class='divider'></div>
-												<div class='section white-text'>
-													<div class='row white-text'>
-														<div class='col s6'>
-															<img class='responsive-img' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
-														</div>													
-														<div class='col s3'>"
-															.$comment->created_on.
-														"</div>
-														<div class='col s3'>"
-															.date('M d Y', $date).
-														"</div>
+								foreach($comments as $comment)
+								{
+									$date = strtotime($comment->created_on);
+									if($counter%2)
+									{
+										echo
+											"<div class='row'>
+												<div class='col s11 blue z-depth-2'>
+													<div class='white-text'>"
+														.$comment->comment.
+													"</div>
+													<div class='divider'></div>
+													<div class='section white-text'>
+														<div class='row white-text'>
+															<div class='col s4'>
+																<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
+															</div>													
+															<div class='col s4'>
+																<div class='row'>
+																	<div class='col s4'>
+																		<a class='comment-like-not-logged-in' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																	</div>
+																	<div class='col s2'>
+																		<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																	</div>
+																	<div class='col s4'>
+																		<a class='comment-dislike-not-logged-in' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																	</div>
+																	<div class='col s2'>
+																		<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																	</div>
+																</div>
+															</div>
+															<div class='col s3 offset-s1'>"
+																.date('M d Y', $date).
+															"</div>
+														</div>
 													</div>
 												</div>
-											</div>
-										</div>";
+											</div>";
+									}
+									else
+									{
+										echo
+											"<div class='row'>
+												<div class='col s11 blue offset-s1 z-depth-2'>
+													<div class='white-text'>"
+														.$comment->comment.
+													"</div>
+													<div class='divider'></div>
+													<div class='section white-text'>
+														<div class='row white-text'>
+															<div class='col s4'>
+																<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
+															</div>													
+															<div class='col s4'>
+																<div class='row'>
+																	<div class='col s4'>
+																		<a class='comment-like-not-logged-in' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																	</div>
+																	<div class='col s2'>
+																		<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																	</div>
+																	<div class='col s4'>
+																		<a class='comment-dislike-not-logged-in' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																	</div>
+																	<div class='col s2'>
+																  		<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																	</div>
+																</div>
+															</div>
+															<div class='col s3 offset-s1'>"
+																.date('M d Y', $date).
+															"</div>
+														</div>
+													</div>
+												</div>
+											</div>";
+									}
+									++$counter;
 								}
-								++$counter;
+								}
 							}
+							else
+							{
+								echo
+								"<div class='center-align'>No comments</div>";
+							}
+
 							?>
 						</div>
 					</div>
@@ -451,6 +692,70 @@ else
                     }
                 });
             });
+
+			$('.comment-like-not-logged-in, .comment-dislike-not-logged-in').click(function(e){
+    			e.preventDefault();
+    			Materialize.toast("You need to login to vote", 5000, "red");
+    		});
+
+			$('.comment-like, .comment-dislike').click(function(e){
+                e.preventDefault();
+                var object = $(this);
+                
+                var comment_id = $(this).attr('data-attribute');
+                var _token = $('#_token').attr('data-attribute');
+                var className = getClassName(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'comment_attributes.php',
+                    data: {comment_id: comment_id, _token: _token, field: className},
+                    cache: false,
+                    success: function(response)
+                    {
+                        var response = JSON.parse(response);
+                        console.log(response);
+                        $('#_token').attr('data-attribute', response._token);
+                        if(response.error_status)
+                        {
+                            consol.log(response.error);
+                            Materialize.toast(response.error, 5000, 'red');
+                            // return false;
+                        }
+                        else
+                        {
+                            if(response.comment_status == 1)
+                            {
+                            	$(object).parent().parent().find('.comment-like').find('i').css('color', 'green');
+                            	$(object).parent().parent().find('.comment-dislike').find('i').css('color', 'white');
+                            	$(object).parent().parent().find('.comment-count-likes').html(response.count_likes);
+                            	$(object).parent().parent().find('.comment-count-dislikes').html(response.count_dislikes);
+                            	// $('.comment-like').find('i').css('color', 'green');
+                            	// $('.comment-dislike').find('i').css('color', 'white');
+
+                            }
+                            else if(response.comment_status == -1)
+                            {
+                            	$(object).parent().parent().find('.comment-like').find('i').css('color', 'white');
+                            	$(object).parent().parent().find('.comment-dislike').find('i').css('color', 'red');
+                            	$(object).parent().parent().find('.comment-count-likes').html(response.count_likes);
+                            	$(object).parent().parent().find('.comment-count-dislikes').html(response.count_dislikes);
+                            	// $('.comment-dislike').find('i').css('color', 'red');
+                            	// $('.comment-like').find('i').css('color', 'white');
+                            }
+                            else if(response.comment_status == 0)
+                            {
+                            	$(object).parent().parent().find('.comment-like').find('i').css('color', 'white');
+                            	$(object).parent().parent().find('.comment-dislike').find('i').css('color', 'white');
+                            	$(object).parent().parent().find('.comment-count-likes').html(response.count_likes);
+                            	$(object).parent().parent().find('.comment-count-dislikes').html(response.count_dislikes);
+                            	// $('.comment-like').find('i').css('color', 'white');
+                            	// $('.comment-dislike').find('i').css('color', 'white');
+                            }
+                        }
+                    }
+                });
+            });			
 
 			$('#send_comment').on('click', function(){
 				var blog_id = $('#comment').attr('data-attribute');
