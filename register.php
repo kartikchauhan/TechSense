@@ -9,6 +9,108 @@ if($user->isLoggedIn())
 	$user->logout();
 }
 
+$error_status = false;
+$name = '';
+$email = '';
+$usernames_available = '';
+
+if(Input::exists())
+{
+    if(Token::check(Input::get('_token')))
+    {
+        $name = Input::get('name');
+        $email = Input::get('email');
+
+        $Validate = new Validate;
+        $Validate->check($_POST, array(
+        'name'           => array(
+        'required' => true,
+        'min'      => 2,
+        'max'      => 25
+        ),
+        'username'       => array(
+        'required' => true,
+        'min'      => 2,
+        'max'      => 25,
+        'unique'   => 'users'
+        ),
+        'email'            => array(
+        'required' => true,
+        'email'    => true,
+        'unique'   => 'users'
+        ),
+        'password'       => array(
+        'required' => true,
+        'min'      => 6,
+        ),
+        'confirm_password' => array(
+        'required' => true,
+        'matches'  => 'password'
+        ),
+        ));
+
+        if($Validate->passed())
+        {
+            $username_exists = false;
+            $salt = Hash::salt(32);
+            try
+            {
+                $createUser = $user->create('users', array(
+                    'name' => Input::get('name'),
+                    'username' => Input::get('username'),
+                    'email'=> Input::get('email'),
+                    'password'=> Hash::make(Input::get('password'), $salt),
+                    'salt' => $salt,
+                    'created_on' => Date('Y-m-d H:i:s'),
+                    'image_url' => 'default.jpg'  // saving a default image while creating new user
+                ));
+                if(!$createUser)
+                    throw new Exception("Unable to create account right now. Please try again later");
+                    
+                if($user->login(Input::get('email'), Input::get('password')))
+                {
+                    Redirect::to('index.php');
+                }
+            }
+            catch(Exception $e)
+            {
+                $error_status = true;
+                $error = $e->getMessage();
+            }
+        }
+        else
+        {
+            $error_status = true;
+            $error = $Validate->errors()[0];
+
+            if($Validate->isUsernameExists())
+            {
+                $username_exists = true;
+                $usernames_available = generateUsernames(Input::get('name'));
+            }
+        }
+    }
+}
+
+function generateUsernames($name)
+{
+    $name = explode(' ', $name);
+    $tokens = array('_', '-', '');
+    $username_string = "Usernames available: ";
+    for($i=0; $i<3; $i++)
+    {
+        $username[$i] = mt_rand(9,99)%2 ? current($name).$tokens[array_rand($tokens)].mt_rand(9, 9999) : end($name).$tokens[array_rand($tokens)].mt_rand(9, 9999);
+        if($i < 2)
+        {
+            $username_string = $username_string.$username[$i].', ';
+        }
+        else
+        {
+            $username_string = $username_string.$username[$i];
+        }
+    }
+    return $username_string;
+}
 ?>
 
 <!Doctype html>
@@ -42,14 +144,6 @@ if($user->isLoggedIn())
 				-webkit-transform: translate(-50%,-50%);
 				transform: translate(-50%,-50%);
 			}
-			.error
-			{
-				display: none;
-			}
-			.usernames-available
-			{
-				display: none;
-			}
 		</style>
 
 	</head>
@@ -59,9 +153,18 @@ if($user->isLoggedIn())
 			<h5 class="center-align condensed light">Register to BlogSparta</h5>
 			<div class="row">
 				<div class="col s4 offset-s4">
-					<ul class="collection center-align z-depth-1 error">
-						<li class="collection-item red-text"></li>
-					</ul>
+					<!-- <ul class="collection center-align z-depth-1 error"> -->
+                        <?php
+                            if($error_status)
+                            {
+                                echo 
+                                "<ul class='collection center-align z-depth-1 error'>
+                                    <li class='collection-item red-text'>".$error."</li>
+                                </ul>";
+                            }
+                        ?>
+						<!-- <li class="collection-item red-text"></li> -->
+					<!-- </ul> -->
 					<div class="card">
 						<div class="card-content">
 							<div class="row">
@@ -69,20 +172,26 @@ if($user->isLoggedIn())
 									<div class="row">
 										<div class="input-field col s12">
 											<i class="material-icons prefix">account_box</i>
-											<input type="text" name="name" id="name" />
+											<input type="text" name="name" id="name" value="<?php echo $name; ?>"/>
 											<label for="name">Name</label>
 										</div>
 										<div class="input-field col s12">
 											<i class="material-icons prefix">person</i>
 											<input type="text" name="username" id="username" />
 											<label for="username">Username</label>
+                                            <?php
+                                                if(!empty($usernames_available))
+                                                {
+                                                    echo "<span class='red-text center-align'>".$usernames_available."</span>";
+                                                }
+                                            ?>
 										</div>
 										<div class="center-align">
 											<span class="usernames-available red-text"></span>
 										</div>
 										<div class="input-field col s12">
 											<i class="material-icons prefix">email</i>
-											<input type="text" name="email" id="email" />
+											<input type="text" name="email" id="email" value="<?php echo $email ?>"/>
 											<label for="email">Email</label>
 										</div>
 										<div class="input-field col s12">
@@ -114,55 +223,5 @@ if($user->isLoggedIn())
 		
 		<script src="Includes/js/jquery.min.js"></script>
 		<script type="text/javascript" src="Includes/js/materialize.min.js"></script>
-		<script type="text/javascript">
-			// $('#submit').off('click');
-			$(document).ready(function(){
-				$('body').on('click', '#submit', function(e){
-					e.preventDefault();
-					var name = $('#name').val();
-					var username = $('#username').val();
-					var email = $('#email').val();
-					var password = $('#password').val();
-					var confirm_password = $('#confirm_password').val();
-					var _token = $('#_token').val();
-					
-					$.ajax({
-						type : "POST",
-						url : "register_backend.php",
-						data : {name: name, username: username, email: email, password: password, confirm_password: confirm_password, _token: _token},
-						cache: false,
-						success: function(response)
-						{
-							var response = JSON.parse(response);
-							$('#_token').val(response._token);
-							if(response.status==0)
-							{
-								Materialize.toast(response.message, 4000, 'green');
-							}
-							else
-							{
-								if(response.username_exists === true)
-								{
-									var usernamesAvailable = "Usernames available: ";									
-									for(var i=0; i<3; i++)
-									{
-										if(i<2)
-											usernamesAvailable = usernamesAvailable + response.usernames_available[i] + ', ';
-										else
-											usernamesAvailable = usernamesAvailable + response.usernames_available[i];
-									}	
-								}
-								$('.usernames-available').text(usernamesAvailable);
-								$('.usernames-available').show();
-								$('.error li').text(response.message);
-								$('.error').show();
-							}
-						}
-					});
-
-				});
-
-			});
-		</script>
 	</body>
 </html>

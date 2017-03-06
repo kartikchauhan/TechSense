@@ -4,7 +4,7 @@ class Validate
 {
 	private $_errors = array(),
 			$_db = null,
-			$_usernameExists = 0,
+			$_usernameExists = false,
 			$_passed = false;
 
 	public function __construct()
@@ -37,19 +37,19 @@ class Validate
 						break;
 						case 'matches': 
 										if($value!=$source[$rule_value])
-											$this->addError("{$item} should match with the {$rule_value}");
+											$this->addError("Password don't match");	// specifically for password matching
 						break;
 						case 'unique': 
-										$this->_db->get($rule_value, array($item, '=', $value));
+										$this->_db->get($rule_value, array($item, '=', $value));	// for username, email etc
 										if($this->_db->count() > 0)
 										{
 											$this->addError("{$item} already exists");
 											if($item === "username")
-												$this->_usernameExists = 1;
+												$this->_usernameExists = true;
 										}
 						break;
 						case 'email':
-										if(!filter_var($value, FILTER_VALIDATE_EMAIL))
+										if(!filter_var($value, FILTER_VALIDATE_EMAIL))	// for validating email formatting
 											$this->addError("Wrong Email format");
 						break;
 					}

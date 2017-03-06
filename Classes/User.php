@@ -41,7 +41,11 @@ class User
 
 	public function create($table, $fields = array())
 	{	
-		$this->_db->insert($table, $fields);
+		$createUser = $this->_db->insert($table, $fields);
+		if(!$createUser)
+			return false;
+		else
+			return true;
 	}
 
 	public function update($table, $id, $fields = array())
