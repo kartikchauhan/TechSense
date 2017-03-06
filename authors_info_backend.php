@@ -4,76 +4,79 @@ require_once'Core/init.php';
 
 $user = new User;
 
-if(!$user->isLoggedIn())
-{
-	Redirect::to('index.php');
-}
-
 if(Input::exists())
 {
 	if(Token::check(Input::get('_token')))
 	{
 		$json['error_status'] = false;
 		$json['_token'] = Token::generate();
-		$Validate = new Validate;
-		$Validate->check($_POST, array(
-			"name" => array(
-				"required" => true,
-				'min' => 2,
-				'max' => 25
-				),
-			"github_url" => array(
-				"min" => 10
-				),
-			"facebook_url" => array(
-				"min" => 10
-				),
-			"description" => array(
-				"required" => true,
-				"min" => 10
-				)
-			));
-		if($Validate->passed())
+		if($user->isLoggedIn())
 		{
-			$fields = array();
-			$fields['user_description'] = Input::get('description');		// add description to the array that is gonna be passed for the insert query
-			$fields["name"] = Input::get('name');	// add github_url if user has entered github_url
-			$fields["github_url"] = Input::get('github_url');	// add github_url if user has entered github_url
-			$fields["facebook_url"] = Input::get('facebook_url');
-			$fields["twitter_username"] = Input::get("twitter_username");
-			if(!empty($_FILES))	// insert the data if no image uploaded
+			$Validate = new Validate;
+			$Validate->check($_POST, array(
+				"name" => array(
+					"required" => true,
+					'min' => 2,
+					'max' => 25
+					),
+				"github_url" => array(
+					"min" => 10
+					),
+				"facebook_url" => array(
+					"min" => 10
+					),
+				"description" => array(
+					"required" => true,
+					"min" => 10
+					)
+				));
+			if($Validate->passed())
 			{
-				$target_dir = Config::get('url/upload_dir').'/';	// target directory where images are gonna be stored
-				$target_file = $target_dir . basename($_FILES["profile_pic"]["name"]);	// basename of our file
-				$target_file_type = getimagesize($_FILES["profile_pic"]["tmp_name"])[2];	// getting file_type (extension too)
-			 	try
+				$fields = array();
+				$fields['user_description'] = Input::get('description');		// add description to the array that is gonna be passed for the insert query
+				$fields["name"] = Input::get('name');	// add github_url if user has entered github_url
+				$fields["github_url"] = Input::get('github_url');	// add github_url if user has entered github_url
+				$fields["facebook_url"] = Input::get('facebook_url');
+				$fields["twitter_username"] = Input::get("twitter_username");
+				if(!empty($_FILES))	// insert the data if no image uploaded
 				{
-					if(!in_array($target_file_type, array(IMAGETYPE_JPEG, IMAGETYPE_PNG)))
+					$target_dir = Config::get('url/upload_dir').'/';	// target directory where images are gonna be stored
+					$target_file = $target_dir . basename($_FILES["profile_pic"]["name"]);	// basename of our file
+					$target_file_type = getimagesize($_FILES["profile_pic"]["tmp_name"])[2];	// getting file_type (extension too)
+				 	try
 					{
-						throw new Exception("Incompatible file extension. Only jpeg or png format files allowed");
+						if(!in_array($target_file_type, array(IMAGETYPE_JPEG, IMAGETYPE_PNG)))
+						{
+							throw new Exception("Incompatible file extension. Only jpeg or png format files allowed");
+						}
+						if(!move_uploaded_file($_FILES["profile_pic"]["tmp_name"], $target_file))
+						{
+							throw new Exception("couldn't process profile updation. Please try again later");
+						}
+						$fields["image_url"] = basename($_FILES["profile_pic"]["name"])	;	// creating index "image_url" if image uploaded is verified
+						updateInfo('users', $user->data()->id, $fields);
 					}
-					if(!move_uploaded_file($_FILES["profile_pic"]["tmp_name"], $target_file))
+					catch(Exception $e)
 					{
-						throw new Exception("couldn't process profile updation. Please try again later");
+						$json['error_status'] = true;
+						$json['error'] = $e->getMessage();
 					}
-					$fields["image_url"] = basename($_FILES["profile_pic"]["name"])	;	// creating index "image_url" if image uploaded is verified
-					updateInfo('users', $user->data()->id, $fields);
 				}
-				catch(Exception $e)
+				else
 				{
-					$json['error_status'] = true;
-					$json['error'] = $e->getMessage();
+					updateInfo('users', $user->data()->id, $fields);	// insert the data even if there's no image
 				}
 			}
 			else
 			{
-				updateInfo('users', $user->data()->id, $fields);	// insert the data even if there's no image
+				$json['error_status'] = true;
+				$json['error'] = $Validate->errors()[0];
 			}
 		}
 		else
 		{
 			$json['error_status'] = true;
-			$json['error'] = $Validate->errors()[0];
+			$json['error'] = "You need to log in";
 		}
 		
 		echo json_encode($json);

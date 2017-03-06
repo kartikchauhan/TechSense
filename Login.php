@@ -8,6 +8,45 @@ if($user->isLoggedIn())
 {
 	Redirect::to('index.php');
 }
+
+$error_status = false;
+$email = '';
+
+if(Input::exists('post'))
+{
+	if(Token::check(Input::get('_token')))
+	{
+		$email = Input::get('email');
+		$Validate = new Validate;
+		$Validate->check($_POST, array(
+			'email' => array(
+				'required' => true,
+				'email' => true
+				),
+			'password' => array(
+				'required' => true,
+				'min' => 6
+				)
+			));
+		if($Validate->passed())
+		{
+			if($user->login(Input::get('email'), Input::get('password'), Input::get('remember_me')))
+			{
+				Redirect::to('index.php');
+			}
+			else
+			{
+				$error_status = true;
+				$error = "Either email or password wrong";
+			}
+		}
+		else
+		{
+			$error_status = true;
+			$error = $Validate->errors()[0];
+		}
+	}
+}
 // else
 // {
 // 	require_once'Includes/googleAuth/gpConfig.php';
@@ -53,10 +92,6 @@ if($user->isLoggedIn())
 				margin-top: 15px;
 				margin-bottom: 10px;
 			}
-			.error
-			{
-				display: none;
-			}
 		</style>
 
 	</head>
@@ -66,17 +101,23 @@ if($user->isLoggedIn())
 			<h5 class="center-align condensed light">Sign in to BlogSparta</h5>
 			<div class="row">
 				<div class="col s4 offset-s4">
-					<ul class="collection center-align z-depth-1 error">
-						<li class="collection-item red-text"></li>
-					</ul>
+					<?php
+						if($error_status)
+						{
+							echo 
+							"<ul class='collection center-align z-depth-1 error'>
+								<li class='collection-item red-text'>".$error."</li>
+							</ul>";
+						}
+					?>
 					<div class="card">
 						<div class="card-content">
 							<div class="row">
-								<form class="col s12" action="" method="post">
+								<form class="col s12" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 									<div class="row">
 										<div class="input-field col s12">
 											<i class="material-icons prefix">email</i>
-											<input type="text" name="email" id="email" />
+											<input type="text" name="email" id="email" value="<?php echo $email; ?>" />
 											<label for="email">Email</label>
 										</div>
 										<div class="input-field col s12">
@@ -115,42 +156,5 @@ if($user->isLoggedIn())
 		
 		<script src="Includes/js/jquery.min.js"></script>
 		<script type="text/javascript" src="Includes/js/materialize.min.js"></script>
-		<script type="text/javascript">
-			// $('#submit').off('click');
-			$(document).ready(function(){
-				$('body').on('click', '#submit', function(e){
-					e.preventDefault();
-					var email = $('#email').val();
-					var password = $('#password').val();
-					var remember_me = $('#remember_me').val();
-					var _token = $('#_token').val();
-					
-					$.ajax({
-						type : "POST",
-						url : "login_backend.php",
-						data : {email: email, password: password, remember_me: remember_me, _token: _token},
-						cache: false,
-						success: function(response)
-						{
-							var response = JSON.parse(response);
-							$('#_token').val(response._token);
-							if(response.status==0)
-							{
-								$(window.location).attr('href', 'index.php');
-							}
-							else
-							{
-								$('#password').val('');
-								Materialize.toast(response.message, 4000, 'red');
-								$('.error li').text(response.message);
-								$('.error').show();
-							}
-						}
-					});
-
-				});
-
-			});
-		</script>
 	</body>
 </html>
