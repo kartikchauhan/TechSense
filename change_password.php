@@ -94,6 +94,10 @@ $user = new User;
     	$(document).ready(function(){
     		$('body').on('click', '#change_password', function(e){
     			e.preventDefault();
+    			if(!validateData())
+    			{
+    				return false;
+    			}
     			var _token = $('#_token').val();
     			var current_password = $('#current_password').val();
     			var new_password = $('#password').val();
@@ -119,6 +123,34 @@ $user = new User;
 
     			});
     		});
+
+    		function validateData()
+    		{
+    			var current_password = $('#current_password').val();
+    			var password = $('#password').val();
+    			var confirm_password = $('#confirm_password').val();
+    			if(current_password === '')
+    			{
+    				Materialize.toast('Enter your current password', 5000, 'red');
+    				return false;
+    			}
+    			if(password === '')
+    			{
+    				Materialize.toast('Enter your new password', 5000, 'red');
+    				return false;
+    			}
+    			if(confirm_password === '')
+    			{
+    				Materialize.toast('Confirm your new password', 5000, 'red');
+    				return false;
+    			}
+    			if(password !== confirm_password)
+    			{
+    				Materialize.toast("Your password doesn't match", 5000, 'red');
+    				return false;
+    			}
+    			return true;
+    		}
     	});
     </script>
 </body>

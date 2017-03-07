@@ -44,6 +44,23 @@ $user = new User;
 		{
 			display: none;
 		}
+		.loader-container
+		{
+			display: none;
+		}
+		.loader
+		{
+		    border: 3px solid #f3f3f3; /* Light grey */
+		    border-top: 3px solid #009688; /* Blue */
+		    border-radius: 50%;
+		    width: 30px;
+		    height: 30px;
+		    animation: spin 2s linear infinite;
+		}
+		@keyframes spin {
+		    0% { transform: rotate(0deg); }
+		    100% { transform: rotate(360deg); }
+		}
     </style>
 </head>
 
@@ -70,6 +87,11 @@ $user = new User;
 									</div>
 									<input type="submit" class="btn waves-effect waves-light col s6 offset-s3" value="Send Mail" id="send_mail">
 								</div>
+								<div class='row loader-container'>
+									<div class='col s2 offset-s5'>
+										<div class='loader'></div>
+									</div>
+								</div>
 							</form>
 						</div>
 					</div>
@@ -82,8 +104,13 @@ $user = new User;
     <script>
     	$('#send_mail').click('off');
     	$(document).ready(function(){
-    		$('body').on('click', '#send_mail', function(e){
+    		$('form').on('click', '#send_mail', function(e){
     			e.preventDefault();
+    			if(!validateData())
+    			{
+    				return false;
+    			}
+    			$('.loader-container').show();
     			var _token = $('#_token').val();
     			var email = $('#email').val();
     			$.ajax({
@@ -98,6 +125,7 @@ $user = new User;
     					if(response.error_status === true)
     					{
     						Materialize.toast(response.error, 5000, "red");
+    						$('.loader-container').hide();
     					}
     					else
     					{
@@ -108,6 +136,18 @@ $user = new User;
 
     			});
     		});
+
+    		function validateData()
+    		{
+    			var email = $('#email').val();
+    			if(email === '')
+    			{
+    				Materialize.toast('email is required', 5000, 'red');
+    				return false;
+    			}
+    			return true;
+    		}
+
     	});
     </script>
 </body>
