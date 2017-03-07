@@ -235,6 +235,10 @@ if(!$user->isLoggedIn())
 		$(document).ready(function(){
 
 			$('#update').on('click', function(){
+				if(!validateData())
+				{
+					return false;
+				}
 				var data = new FormData();
 			    var file_data = $('input[type="file"]')[0].files;
 			    if(file_data.length)
@@ -268,10 +272,27 @@ if(!$user->isLoggedIn())
 			        }
 			    });
 			});
-
+	
 			$('.toggle-user-blogs').click(function(){
 				$('.user-blogs').slideToggle('slow');
 			});
+
+			function validateData()
+			{
+				var name = $('#name').val();
+				var description = $('#description').val();
+				if(name === '')
+				{
+					Materialize.toast('Namesssss is required', 5000, 'red');
+					return false;
+				}
+				if(description === '')
+				{
+					Materialize.toast('Descriptionssss is required', 5000, 'red');
+					return false;
+				}
+				return true;
+			}
 
 			function pagination(object)
 			{	
