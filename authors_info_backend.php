@@ -81,6 +81,14 @@ if(Input::exists())
 		
 		echo json_encode($json);
 	}
+	else
+	{
+		Redirect::to('authors_info.php');
+	}
+}
+else
+{
+	Redirect::to('authors_info.php');
 }
 
 function updateInfo($table, $id, $fields)

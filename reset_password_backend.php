@@ -46,6 +46,14 @@ if(Input::exists('post'))
 		}
 		echo json_encode($json);
 	}
+	else
+	{
+		Redirect::to('change_password.php');
+	}
+}
+else
+{
+	Redirect::to('change_password.php');
 }
 
 

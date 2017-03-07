@@ -121,6 +121,11 @@ else
 				var description = $('#description').val();
 				var blog = tinyMCE.activeEditor.getContent();
 
+                if(!validateData())
+                {
+                    return false;
+                }
+
 				$.ajax({
 					type: 'POST',
 					url: 'update_blog_backend.php',
@@ -142,6 +147,26 @@ else
 					}
 				});
 			});
+
+            function validateData(title, description, blog)
+            {
+                if(title === '')
+                {
+                    Materialize.toast('Title is required', 5000, 'red');
+                    return false;
+                }
+                if(description === '')
+                {
+                    Materialize.toast('Description is required', 5000, 'red');
+                    return false;
+                }
+                if(blog === '')
+                {
+                    Materialize.toast('Blog is required', 5000, 'red');
+                    return false;
+                }
+                return true;
+            }
 
 		});
 

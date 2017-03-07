@@ -110,6 +110,11 @@ if(!$user->isLoggedIn())
                     var description = $('#description').val();
                     var blog = tinyMCE.activeEditor.getContent();
                     var _token = $('#_token').val();
+
+                    if(!validateData())
+                    {
+                        return false;
+                    }
                     $.ajax({
                         type: 'POST',
                         data: {title: title, description: description, blog: blog, _token: _token},
@@ -131,6 +136,26 @@ if(!$user->isLoggedIn())
                         }
                     });
                 });
+                
+                function validateData(title, description, blog)
+                {
+                    if(title === '')
+                    {
+                        Materialize.toast('Title is required', 5000, 'red');
+                        return false;
+                    }
+                    if(description === '')
+                    {
+                        Materialize.toast('Description is required', 5000, 'red');
+                        return false;
+                    }
+                    if(blog === '')
+                    {
+                        Materialize.toast('Blog is required', 5000, 'red');
+                        return false;
+                    }
+                    return true;
+                }
             });
         </script>
     </body>

@@ -11,8 +11,16 @@ if(Input::exists())
 		$json['error_status'] = false;
 		$json['_token'] = Token::generate();
 
-		$Validate = new Validate;
+		if($user->isLoggedIn())
+		{
 
+		}
+		else
+		{
+			$json['error_status'] = true;
+			$json['error'] = "You need to log in to post a comment";
+		}
+		$Validate = new Validate;
 		$Validate->check($_POST, array(
 			'comment' => array(
 				'required' => true

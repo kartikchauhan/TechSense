@@ -127,6 +127,10 @@ if($user->isLoggedIn())
 	    	$(document).ready(function(){
 	    		$('body').on('click', '#reset_password', function(e){
 	    			e.preventDefault();
+	    			if(!validateData())
+	    			{
+	    				return false;
+	    			}
 	    			var _token = $('#_token').val();
 	    			var email = $('#email').val();
 	    			var password = $('#password').val();
@@ -152,6 +156,28 @@ if($user->isLoggedIn())
 
 	    			});
 	    		});
+
+	    		function validateData()
+	    		{
+	    			var password = $('#password').val();
+	    			var confirm_password = $('#confirm_password').val();
+	    			if(password === '')
+	    			{
+	    				Materialize.toast('password is required', 5000, 'red');
+	    				return false;
+	    			}
+	    			if(confirm_password === '')
+	    			{
+	    				Materialize.toast('Confirm Password is required', 5000, 'red');
+	    				return false;
+	    			}
+	    			if(password !== confirm_password)
+	    			{
+	    				Materialize.toast("The password doesn't match", 5000, 'red');
+	    				return false;
+	    			}
+	    			return true;
+	    		}
 	    	});
 	    </script>
 	</body>

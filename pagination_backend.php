@@ -4,11 +4,6 @@ require_once'Core/init.php';
 
 $user = new User;
 
-// if(!$user->isLoggedIn())
-// {
-// 	Redirect::to('index.php');
-// }
-
 if(Input::exists())
 {
 	if(Token::check(Input::get('_token')))
@@ -136,6 +131,14 @@ if(Input::exists())
 
 		echo json_encode($json);
 	}
+	else
+	{
+		Redirect::to('index.php');
+	}
+}
+else
+{
+	Redirect::to('index.php');
 }
 
 
