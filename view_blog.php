@@ -266,20 +266,20 @@ else
 							if($count_comments->count())
 							{
 								// getting all the comments posted on the current blog in DESCENDING order
-								$comments = DB::getInstance()->joinSortComments(array('users', 'comments'), array('id', 'user_id'), array('created_on', 'DESC'));
+								$comments = DB::getInstance()->joinSortComments(array('users', 'comments', 'blogs'), array('id', 'user_id', 'id', 'blog_id'), array('created_on', 'DESC'), array('id', '=', $blogId), array('id', 'comment_id', 'created_on', 'comment_created_on', 'likes', 'comment_likes', 'dislikes', 'comment_dislikes'));
 								$comments = $comments->results();
 								$counter = 1;	// initiating counter, later used for designing
 								if($userLoggedIn)	// if user is logged in, enable the functionality of voting
 								{
 									foreach($comments as $comment)
 									{
-										$commentStatus = DB::getInstance()->getAnd('users_comments_status', array('user_id' => $user->data()->id, 'comment_id' => $comment->id));
+										$commentStatus = DB::getInstance()->getAnd('users_comments_status', array('user_id' => $user->data()->id, 'comment_id' => $comment->comment_id));
 										$commentStatusCount = $commentStatus->count();
 										if($commentStatusCount)
 										{
 											$commentStatus = $commentStatus->first()->comment_status;
 										}
-										$date = strtotime($comment->created_on);
+										$date = strtotime($comment->comment_created_on);
 										if($counter%2)	// if counter%2 != 0, not adding offset-s1 class to the div
 										{
 											echo
@@ -302,48 +302,48 @@ else
 																			{
 																				echo 
 																				"<div class='col s4'>
-																					<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: green'></i></a>
+																					<a class='comment-like' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: green'></i></a>
 																				</div>
 																				<div class='col s2'>
-																					<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																					<div class='white-text comment-count-likes'>".$comment->comment_likes."</div>
 																				</div>
 																				<div class='col s4'>
-																					<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																					<a class='comment-dislike' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
 																				</div>
 																				<div class='col s2'>
-																					<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																					<div class='white-text comment-count-dislikes'>".$comment->comment_dislikes."</div>
 																				</div>";
 																			}
 																			else if($commentStatus == -1)
 																			{
 																				echo 
 																				"<div class='col s4'>
-																					<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																					<a class='comment-like' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
 																				</div>
 																				<div class='col s2'>
-																					<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																					<div class='white-text comment-count-likes'>".$comment->comment_likes."</div>
 																				</div>
 																				<div class='col s4'>
-																					<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: red'></i></a>
+																					<a class='comment-dislike' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: red'></i></a>
 																				</div>
 																				<div class='col s2'>
-																					<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																					<div class='white-text comment-count-dislikes'>".$comment->comment_dislikes."</div>
 																				</div>";
 																			}
 																			else if($commentStatus == 0)
 																			{
 																				echo
 																				"<div class='col s4'>
-																					<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																					<a class='comment-like' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
 																				</div>
 																				<div class='col s2'>
-																					<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																					<div class='white-text comment-count-likes'>".$comment->comment_likes."</div>
 																				</div>
 																				<div class='col s4'>
-																					<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																					<a class='comment-dislike' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
 																				</div>
 																				<div class='col s2'>
-																					<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																					<div class='white-text comment-count-dislikes'>".$comment->comment_dislikes."</div>
 																				</div>";
 																			}
 																		}
@@ -351,16 +351,16 @@ else
 																		{
 																			echo
 																			"<div class='col s4'>
-																				<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																				<a class='comment-like' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
 																			</div>
 																			<div class='col s2'>
-																				<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																				<div class='white-text comment-count-likes'>".$comment->comment_likes."</div>
 																			</div>
 																			<div class='col s4'>
-																				<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																				<a class='comment-dislike' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
 																			</div>
 																			<div class='col s2'>
-																				<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																				<div class='white-text comment-count-dislikes'>".$comment->comment_dislikes."</div>
 																			</div>";
 																		}
 																	echo
@@ -396,48 +396,48 @@ else
 																			{
 																				echo 
 																				"<div class='col s4'>
-																					<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: green'></i></a>
+																					<a class='comment-like' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: green'></i></a>
 																				</div>
 																				<div class='col s2'>
-																					<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																					<div class='white-text comment-count-likes'>".$comment->comment_likes."</div>
 																				</div>
 																				<div class='col s4'>
-																					<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																					<a class='comment-dislike' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
 																				</div>
 																				<div class='col s2'>
-																					<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																					<div class='white-text comment-count-dislikes'>".$comment->comment_dislikes."</div>
 																				</div>";
 																			}
 																			else if($commentStatus == -1)
 																			{
 																				echo 
 																				"<div class='col s4'>
-																					<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																					<a class='comment-like' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
 																				</div>
 																				<div class='col s2'>
-																					<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																					<div class='white-text comment-count-likes'>".$comment->comment_likes."</div>
 																				</div>
 																				<div class='col s4'>
-																					<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: red'></i></a>
+																					<a class='comment-dislike' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: red'></i></a>
 																				</div>
 																				<div class='col s2'>
-																					<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																					<div class='white-text comment-count-dislikes'>".$comment->comment_dislikes."</div>
 																				</div>";
 																			}
 																			else if($commentStatus == 0)
 																			{
 																				echo
 																				"<div class='col s4'>
-																					<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																					<a class='comment-like' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
 																				</div>
 																				<div class='col s2'>
-																					<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																					<div class='white-text comment-count-likes'>".$comment->comment_likes."</div>
 																				</div>
 																				<div class='col s4'>
-																					<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																					<a class='comment-dislike' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
 																				</div>
 																				<div class='col s2'>
-																					<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																					<div class='white-text comment-count-dislikes'>".$comment->comment_dislikes."</div>
 																				</div>";
 																			}
 																		}
@@ -445,16 +445,16 @@ else
 																		{
 																			echo
 																			"<div class='col s4'>
-																				<a class='comment-like' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																				<a class='comment-like' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
 																			</div>
 																			<div class='col s2'>
-																				<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																				<div class='white-text comment-count-likes'>".$comment->comment_likes."</div>
 																			</div>
 																			<div class='col s4'>
-																				<a class='comment-dislike' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																				<a class='comment-dislike' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
 																			</div>
 																			<div class='col s2'>
-																				<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																				<div class='white-text comment-count-dislikes'>".$comment->comment_dislikes."</div>
 																			</div>";
 																		}
 																	echo
@@ -475,7 +475,7 @@ else
 								{
 									foreach($comments as $comment)
 									{
-										$date = strtotime($comment->created_on);	// fetching date of comments to converting them into suitable format
+										$date = strtotime($comment->comment_created_on);	// fetching date of comments to converting them into suitable format
 										if($counter%2)
 										{
 											echo
@@ -493,16 +493,16 @@ else
 																<div class='col s4'>
 																	<div class='row'>
 																		<div class='col s4'>
-																			<a class='comment-like-not-logged-in' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																			<a class='comment-like-not-logged-in' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
 																		</div>
 																		<div class='col s2'>
-																			<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																			<div class='white-text comment-count-likes'>".$comment->comment_likes."</div>
 																		</div>
 																		<div class='col s4'>
-																			<a class='comment-dislike-not-logged-in' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																			<a class='comment-dislike-not-logged-in' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
 																		</div>
 																		<div class='col s2'>
-																			<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																			<div class='white-text comment-count-dislikes'>".$comment->comment_dislikes."</div>
 																		</div>
 																	</div>
 																</div>
@@ -531,16 +531,16 @@ else
 																<div class='col s4'>
 																	<div class='row'>
 																		<div class='col s4'>
-																			<a class='comment-like-not-logged-in' data-attribute=".$comment->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																			<a class='comment-like-not-logged-in' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
 																		</div>
 																		<div class='col s2'>
-																			<div class='white-text comment-count-likes'>".$comment->likes."</div>
+																			<div class='white-text comment-count-likes'>".$comment->comment_likes."</div>
 																		</div>
 																		<div class='col s4'>
-																			<a class='comment-dislike-not-logged-in' data-attribute=".$comment->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																			<a class='comment-dislike-not-logged-in' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
 																		</div>
 																		<div class='col s2'>
-																	  		<div class='white-text comment-count-dislikes'>".$comment->dislikes."</div>
+																	  		<div class='white-text comment-count-dislikes'>".$comment->comment_dislikes."</div>
 																		</div>
 																	</div>
 																</div>
@@ -717,7 +717,7 @@ else
     			Materialize.toast("You need to login to vote", 5000, "red");
     		});
 
-			$('.comment-like, .comment-dislike').click(function(e){		// request server to check if the request is valid, if valid add the user's reponse
+			$('.comment-section').on('click', '.comment-like, .comment-dislike', function(e){	// request server to check if the request is valid, if valid add the user's reponse
                 e.preventDefault();
                 var object = $(this);	// anchor tag, user just clicked
                 

@@ -274,16 +274,32 @@ class DB
 		return false;
 	}
 
-	public function joinSortComments($tables = array(), $joinFields = array(), $fields = array())
+	public function joinSortComments($tables = array(), $joinFields = array(), $fields = array(), $where = array(), $alias = array())
 	{
-		$table1 = $tables[0];
-		$table2 = $tables[1];
-		$joinField1 = $joinFields[0];
-		$joinField2 = $joinFields[1];
-		$field = $fields[0];
-		$order = $fields[1];
-		$sql = "Select * FROM {$table1} JOIN {$table2} ON {$table1}.{$joinField1} = {$table2}.{$joinField2} ORDER BY {$table2}.{$field} {$order}";
-		if(!$this->query($sql)->error())
+		// not using associative arrays for alias array, need to be changed later
+		$alias_field1 = $alias[0];	// comments.id
+		$alias1 = $alias[1];		// comment_id
+		$alias_field2 = $alias[2];	// comments.created_on
+		$alias2 = $alias[3];		// comment_created_on
+		$alias_field3 = $alias[4];	// comments.likes
+		$alias3 = $alias[5];		// comment_likes
+		$alias_field4 = $alias[6];	// comments.dislikes
+		$alias4 = $alias[7];		// comments_dislikes
+		$table1 = $tables[0];	// users table
+		$table2 = $tables[1];	// comments table
+		$table3 = $tables[2];	// blogs table
+		$joinField1 = $joinFields[0];	// users.id
+		$joinField2 = $joinFields[1];	// comments.user_id
+		$joinField3 = $joinFields[2];	// blogs.id
+		$joinField4 = $joinFields[3];	// comments.blog_id
+		$where_field = $where[0];	// blogs.id
+		$operator = $where[1];
+		$value = $where[2];
+		$field = $fields[0];	// comments.created_on
+		$order = $fields[1];	// DESC
+		// SELECT *, comments.id as comment_id, comment.created_on AS comment_created_on, comments.likes as comment_likes, comments.dislikes as comment_dislikes FROM users Join comments ON users.id = comments.user_id Join blogs ON blogs.id = comments.blog_id WHERE blogs.id = 122 ORDER BY comments.created_on DESC
+		$sql = "Select *, {$table2}.{$alias_field1} AS {$alias1}, {$table2}.{$alias_field2} AS {$alias2}, {$table2}.{$alias_field3} AS {$alias3}, {$table2}.{$alias_field4} AS {$alias4} FROM {$table1} JOIN {$table2} ON {$table1}.{$joinField1} = {$table2}.{$joinField2} JOIN {$table3} ON {$table3}.{$joinField3} = {$table2}.{$joinField4} WHERE {$table3}.{$where_field} {$operator} ? ORDER BY {$table2}.{$field} {$order}";
+		if(!$this->query($sql, array($value))->error())
 		{
 			return $this;
 		}
