@@ -233,7 +233,6 @@ if(!$user->isLoggedIn())
 		$('.nav-bar').removeClass('transparent');
 
 		$(document).ready(function(){
-
 			$('#update').on('click', function(){
 				if(!validateData())
 				{
@@ -283,12 +282,12 @@ if(!$user->isLoggedIn())
 				var description = $('#description').val();
 				if(name === '')
 				{
-					Materialize.toast('Namesssss is required', 5000, 'red');
+					Materialize.toast('Name is required', 5000, 'red');
 					return false;
 				}
 				if(description === '')
 				{
-					Materialize.toast('Descriptionssss is required', 5000, 'red');
+					Materialize.toast('Description is required', 5000, 'red');
 					return false;
 				}
 				return true;
