@@ -260,13 +260,12 @@ else
 					<div class="col s8">
 						<div class="comment-section" id="comment-section">
 							<?php
-							// getting count of comments on the current opened blog
-							$count_comments =  DB::getInstance()->join(array('comments', 'blogs'), array('blog_id', 'id'), array('id', '=', $blogId));
+							// getting all the comments posted on the current blog in DESCENDING order
+							$comments = DB::getInstance()->joinSortComments(array('users', 'comments', 'blogs'), array('id', 'user_id', 'id', 'blog_id'), array('created_on', 'DESC'), array('id', '=', $blogId), array('id', 'comment_id', 'created_on', 'comment_created_on', 'likes', 'comment_likes', 'dislikes', 'comment_dislikes'));
+
 							// if there's any comment on the current blog, show it otherwise print no comments
-							if($count_comments->count())
+							if($comments->count())
 							{
-								// getting all the comments posted on the current blog in DESCENDING order
-								$comments = DB::getInstance()->joinSortComments(array('users', 'comments', 'blogs'), array('id', 'user_id', 'id', 'blog_id'), array('created_on', 'DESC'), array('id', '=', $blogId), array('id', 'comment_id', 'created_on', 'comment_created_on', 'likes', 'comment_likes', 'dislikes', 'comment_dislikes'));
 								$comments = $comments->results();
 								$counter = 1;	// initiating counter, later used for designing
 								if($userLoggedIn)	// if user is logged in, enable the functionality of voting
