@@ -635,6 +635,15 @@ else
     <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
     <script src="vendor/tinymce/tinymce/tinymce.min.js"></script>
     <script>
+    	if(typeof(Storage) !== "undefined")
+        {
+            console.log('not undefined');
+            if(sessionStorage.getItem("flashMessage") !== null)
+            {
+                Materialize.toast(sessionStorage.getItem("flashMessage"), 5000 ,'green');
+                sessionStorage.removeItem('flashMessage');
+            }
+        }
     	$(document).ready(function(){
     		$('.nav-bar').removeClass('transparent');
 

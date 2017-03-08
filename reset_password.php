@@ -150,6 +150,10 @@ if($user->isLoggedIn())
 	    					}
 	    					else
 	    					{
+	    						if(typeof(Storage) !== 'undefined')
+		                        {
+		                            sessionStorage.setItem("flashMessage", 'Your password has been successfully changed');
+		                        }
 	    						$(window.location).attr('href', 'login.php');
 	    					}
 	    				}

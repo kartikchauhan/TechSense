@@ -32,19 +32,25 @@ if(Input::exists('post'))
 		{
 			if($user->login(Input::get('email'), Input::get('password'), Input::get('remember_me')))
 			{
+				// creating a flashMessage to show user once he's logged in
+				// checking if there's any javascript session 'Redirect', here being used for redirecting the user to the page where he came from before logging in
+				// redirecting the user to the page from where ha came before he was logged in
+				// redirecting the user to the home page if no javascript session exists
 				echo 
 				"<script>
 					if(typeof(Storage) !== 'undefined')
 					{
+						sessionStorage.setItem('flashMessage', 'You are successfully logged in');
 						if(sessionStorage.getItem('Redirect') !== null)
 						{
 							var url = sessionStorage.getItem('Redirect');
 							sessionStorage.removeItem('Redirect');
-							window.location = url;
+							window.location = url;	
 						}
+						else
+							window.location = 'index.php';
 					}
 				</script>";
-				Redirect::to('index.php');
 			}
 			else
 			{
@@ -168,5 +174,16 @@ if(Input::exists('post'))
 		
 		<script src="Includes/js/jquery.min.js"></script>
 		<script type="text/javascript" src="Includes/js/materialize.min.js"></script>
+		<script>
+			if(typeof(Storage) !== 'undefined')
+            {
+            	if(sessionStorage.getItem("flashMessage") !== null)
+            	{
+                	Materialize.toast(sessionStorage.getItem("flashMessage"), 5000, 'green');
+                	sessionStorage.removeItem("flashMessage");
+            		
+            	}
+            }
+		</script>
 	</body>
 </html>

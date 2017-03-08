@@ -275,6 +275,15 @@ require_once'Core/init.php';
     <script src="https://use.fontawesome.com/17e854d5bf.js"></script>
     <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
     <script>
+        if(typeof(Storage) !== "undefined")
+        {
+            console.log('not undefined');
+            if(sessionStorage.getItem("flashMessage") !== null)
+            {
+                Materialize.toast(sessionStorage.getItem("flashMessage"), 5000 ,'green');
+                sessionStorage.removeItem('flashMessage');
+            }
+        }
         $(document).ready(function(){
             $('.slider').slider();  // activate slider
 

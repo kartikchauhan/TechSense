@@ -129,6 +129,10 @@ $user = new User;
     					}
     					else
     					{
+    						if(typeof(Storage) !== 'undefined')
+	                        {
+	                            sessionStorage.setItem('flashMessage', 'The mail has been sent successfully');
+	                        }
     						$(window.location).attr('href', 'login.php');
     						// Materialize.toast("Mail sent successfully", 5000, "green");
     					}

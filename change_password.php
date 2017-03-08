@@ -117,7 +117,11 @@ $user = new User;
     					}
     					else
     					{
-    						Materialize.toast("Your password has been successfully changed", 5000, "green");
+							if(typeof(Storage) !== 'undefined')
+							{
+								sessionStorage.setItem('flashMessage', 'Your password has been changed successfully');
+								window.location = 'index.php';
+							}		
     					}
     				}
 

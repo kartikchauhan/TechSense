@@ -69,7 +69,14 @@ if(Input::exists())
                     
                 if($user->login(Input::get('email'), Input::get('password')))
                 {
-                    Redirect::to('index.php');
+                    echo
+                    "<script>
+                        if(typeof(Storage) !== 'undefined')
+                        {
+                            sessionStorage.setItem('flashMessage', 'You have successfully registered');
+                            window.location = 'index.php';
+                        }
+                    </script>";
                 }
             }
             catch(Exception $e)
