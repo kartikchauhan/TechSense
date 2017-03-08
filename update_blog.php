@@ -42,6 +42,11 @@ else
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <style type="text/css">
     /* no added transitions for safari, mozilla, safari and other browsers*/
+        .logo
+        {
+            height: auto;
+            width: 50%;
+        }
         input[type="search"]
         {
             height: 64px !important; /* or height of nav */

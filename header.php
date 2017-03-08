@@ -9,8 +9,7 @@
         echo
         "<nav class='z-depth-2 blue transparent nav-bar'>
             <div class='nav-wrapper container'>
-                <a href='index.php' class='brand-logo'>Aster</a>
-                <a href='index.php' data-activates='mobile-demo' class='button-collapse'><i class='material-icons'>Aster</i></a>
+                <a href='index.php' class='brand-logo'><img class='responsive-img logo' src='Includes/images/logo1.png'></a>
                 <ul class='right hide-on-med-and-down'>
                     <li>
                         <form>
@@ -55,8 +54,7 @@
         </ul>
         <nav class='z-depth-2 blue transparent nav-bar' data-constrainwidth='false'>
             <div class='nav-wrapper container'>
-                <a href='index.php' class='brand-logo'>Aster</a>
-                <a href='index.php' data-activates='mobile-demo' class='button-collapse'><i class='material-icons'>Aster</i></a>
+                <a href='index.php' class='brand-logo'><img class='responsive-img logo' src='Includes/images/logo1.png'></a>
                 <ul class='right hide-on-med-and-down'>
                     <li>
                         <form>

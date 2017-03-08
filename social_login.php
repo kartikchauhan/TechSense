@@ -31,13 +31,28 @@ if ($gClient->getAccessToken())
 
     if(!$userData)
     {
-    	die("You are not a registered User of out website. <a href='register.php'>Register first</a>");
+    	die("You are not a registered User of our website. <a href='register.php'>Register first</a>");
     }
     else
     {
     	Session::put(Config::get('session/session_name'), $userData->id);
     	Session::delete('googleToken');
-    	Redirect::to('index.php');
+        echo 
+        "<script>
+            if(typeof(Storage) !== 'undefined')
+            {
+                sessionStorage.setItem('flashMessage', 'You are successfully logged in');
+                if(sessionStorage.getItem('Redirect') !== null)
+                {
+                    var url = sessionStorage.getItem('Redirect');
+                    sessionStorage.removeItem('Redirect');
+                    window.location = url;  
+                }
+                else
+                    window.location = 'index.php';
+            }
+        </script>";
+    	// Redirect::to('index.php');
     }
 }
 

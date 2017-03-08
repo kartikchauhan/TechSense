@@ -23,6 +23,11 @@ if(!$user->isLoggedIn())
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 
 	<style>
+	.logo
+    {
+        height: auto;
+        width: 50%;
+    }
 	input[type="search"]
     {
         height: 64px !important; /* or height of nav */
@@ -203,7 +208,7 @@ if(!$user->isLoggedIn())
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">
-                    <h5 class="white-text">Aster</h5>
+                    <h5 class="white-text">BlogSparta</h5>
                     <p class="grey-text text-lighten-4">A place to read and write blogs about any technology.</p>
                 </div>
                 <div class="col l4 offset-l2 s12">

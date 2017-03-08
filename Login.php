@@ -1,6 +1,7 @@
 <?php
 
 require_once'Core/init.php';
+require_once'Includes/googleAuth/gpConfig.php';
 
 $user = new User;
 
@@ -8,6 +9,8 @@ if($user->isLoggedIn())
 {
 	Redirect::to('index.php');
 }
+
+$authUrl = $gClient->createAuthUrl();
 
 $error_status = false;
 $email = '';
@@ -65,6 +68,13 @@ if(Input::exists('post'))
 		}
 	}
 }
+else if(Input::get('code'))
+{
+	$gClient->authenticate(Input::get('code'));
+	Session::put('googleToken', $gClient->getAccessToken());
+	Redirect::to('social_login.php');
+}
+
 // else
 // {
 // 	require_once'Includes/googleAuth/gpConfig.php';
@@ -181,7 +191,6 @@ if(Input::exists('post'))
             	{
                 	Materialize.toast(sessionStorage.getItem("flashMessage"), 5000, 'green');
                 	sessionStorage.removeItem("flashMessage");
-            		
             	}
             }
 		</script>

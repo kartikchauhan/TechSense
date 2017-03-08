@@ -70,6 +70,11 @@ else
         {
             border-bottom: 1px white solid;
         }
+        .logo
+        {
+            height: auto;
+            width: 50%;
+        }
         input[type="search"]
         {
   			height: 64px !important; /* or height of nav */
