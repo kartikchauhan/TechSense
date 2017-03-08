@@ -247,9 +247,10 @@ else
 						}
 						else
 						{
+
 							echo
 							"<div class='center-align'>
-								<h6><a href='login.php'>Login</a> to post a comment</h6>
+								<h6><a href='login.php' class='login-to-comment'>Login</a> to post a comment</h6>
 							</div>";
 						}
 
@@ -795,6 +796,16 @@ else
 				});
 			});
 
+			$('.login-to-comment').on('click', function(e){
+				e.preventDefault();
+				if(typeof(Storage) !== "undefined")
+				{
+					sessionStorage.setItem('Redirect', document.URL);
+					window.location = 'login.php';
+				}
+
+			});
+
 			function getClassName(object)
             {
                 var className = $(object).attr('class');
@@ -808,6 +819,8 @@ else
                 }
                 return className;
             }
+    	
+
     	});
     </script>
 </body>

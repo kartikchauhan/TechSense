@@ -32,6 +32,18 @@ if(Input::exists('post'))
 		{
 			if($user->login(Input::get('email'), Input::get('password'), Input::get('remember_me')))
 			{
+				echo 
+				"<script>
+					if(typeof(Storage) !== 'undefined')
+					{
+						if(sessionStorage.getItem('Redirect') !== null)
+						{
+							var url = sessionStorage.getItem('Redirect');
+							sessionStorage.removeItem('Redirect');
+							window.location = url;
+						}
+					}
+				</script>";
 				Redirect::to('index.php');
 			}
 			else
