@@ -38,7 +38,7 @@ if(Input::exists())
 					'title' => Input::get('title'),
 					'description' => Input::get('description'),
 					'blog' => Input::get('blog'),
-					'users_id' => 27,
+					'users_id' => $user->data()->id,
 					));
 			}
 			else

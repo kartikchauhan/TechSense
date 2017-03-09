@@ -43,7 +43,7 @@ if(Input::exists('post'))
 				"<script>
 					if(typeof(Storage) !== 'undefined')
 					{
-						sessionStorage.setItem('flashMessage', 'You are successfully logged in');
+						sessionStorage.setItem('flashMessage', 'You have successfully logged in');
 						if(sessionStorage.getItem('Redirect') !== null)
 						{
 							var url = sessionStorage.getItem('Redirect');
