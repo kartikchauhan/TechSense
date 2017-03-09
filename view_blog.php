@@ -89,6 +89,10 @@ else
 			text-decoration: none;
 			color: none;
 		}
+		.tabs .indicator
+		{
+			background-color: #2196F3 !important; 
+		}
     </style>
 </head>
 <body>
@@ -263,11 +267,19 @@ else
 					</div>
 				</div>
 				<div class="row">
+			    	<div class="col s8">
+			      		<ul class="tabs">
+			        		<li class="tab col s4"><a href="" class='active blue-text popular_comments' id="popular_comments" data-attribute="<?php echo $blogId; ?>">Popular Comments</a></li>
+			        		<li class="tab col s4"><a href="" class='blue-text new_comments' id="new_comments" data-attribute="<?php echo $blogId; ?>">New Comments</a></li>
+			    	  	</ul>
+			    	</div>
+			  	</div>
+				<div class="row">
 					<div class="col s8">
 						<div class="comment-section" id="comment-section">
 							<?php
 							// getting all the comments posted on the current blog in DESCENDING order
-							$comments = DB::getInstance()->joinSortComments(array('users', 'comments', 'blogs'), array('id', 'user_id', 'id', 'blog_id'), array('created_on', 'DESC'), array('id', '=', $blogId), array('id', 'comment_id', 'created_on', 'comment_created_on', 'likes', 'comment_likes', 'dislikes', 'comment_dislikes'));
+							$comments = DB::getInstance()->joinSortComments(array('users', 'comments', 'blogs'), array('id', 'user_id', 'id', 'blog_id'), array('likes', 'DESC'), array('id', '=', $blogId), array('id', 'comment_id', 'created_on', 'comment_created_on', 'likes', 'comment_likes', 'dislikes', 'comment_dislikes'));
 
 							// if there's any comment on the current blog, show it otherwise print no comments
 							if($comments->count())
@@ -642,7 +654,6 @@ else
     <script>
     	if(typeof(Storage) !== "undefined")
         {
-            console.log('not undefined');
             if(sessionStorage.getItem("flashMessage") !== null)
             {
                 Materialize.toast(sessionStorage.getItem("flashMessage"), 5000 ,'green');
@@ -810,6 +821,49 @@ else
 				});
 			});
 
+			$('.popular_comments').on('click', function(e){
+				e.preventDefault();
+				var className = "popular_comments";
+				var _token = $('#_token').attr('data-attribute');
+				var blog_id = $(this).attr('data-attribute');
+				$.ajax({
+					url: 'sort_comments.php',
+					data: {blog_id: blog_id, field: className, _token: _token},
+					type: 'POST',
+					// datatype : "application/json; charset=utf-8",
+					// contentType: "html",
+					success: function(response)
+					{
+						var response = JSON.parse(response);
+						$('#_token').attr('data-attribute', response._token);
+						console.log(response);
+						$('.comment-section').html(response.content);
+					}
+				});
+			});
+
+			$('.new_comments').on('click', function(e){
+				e.preventDefault();
+				var className = 'new_comments';
+				var _token = $('#_token').attr('data-attribute');
+				var blog_id = $(this).attr('data-attribute');
+				$.ajax({
+					type: 'POST',
+					url: 'sort_comments.php',
+					data: {blog_id: blog_id, field: className, _token: _token},
+					// datatype : "application/json; charset=utf-8",
+					// contentType: "html",
+					// processData: false,
+					success: function(response)
+					{
+						var response = JSON.parse(response);
+						$('#_token').attr('data-attribute', response._token);
+						console.log(response);
+						$('.comment-section').html(response.content);
+					}
+				});
+			});
+
 			$('.login-to-comment').on('click', function(e){
 				e.preventDefault();
 				if(typeof(Storage) !== "undefined")
@@ -830,6 +884,14 @@ else
                 else if(className === 'dislikes')
                 {
                     className = 'dislikes';
+                }
+                else if(className === 'popular_comments')
+                {
+                	className = 'popular_comments';
+                }
+                else if(className === 'new_comments')
+                {
+                	className = 'new_comments';
                 }
                 return className;
             }
