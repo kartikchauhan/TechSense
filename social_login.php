@@ -31,7 +31,27 @@ if ($gClient->getAccessToken())
 
     if(!$userData)
     {
-    	die("You are not a registered User of our website. <a href='register.php'>Register first</a>");
+    	echo
+        "<html>
+            <head>
+                <style>
+                    body
+                    {
+                        position: absolute;
+                        background-color: #eee;
+                    }
+                    #login-form
+                    {
+                        position:absolute;
+                        top:50px;
+                        left:50px;
+                    }
+                </style>
+            </head>
+            <body>
+            <a href='register.php'><h2>Register yourself first</h2></a>
+            </body>
+        </html>";
     }
     else
     {

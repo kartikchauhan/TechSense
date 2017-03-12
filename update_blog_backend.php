@@ -9,6 +9,8 @@ if(Input::exists())
 		$json['error_status'] = false;
 		$json['_token'] = Token::generate();
 
+		$user = new User;
+		
 		if($user->isLoggedIn())
 		{
 			$Validate = new Validate;

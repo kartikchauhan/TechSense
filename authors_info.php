@@ -122,7 +122,7 @@ if(!$user->isLoggedIn())
 			</div>
 			<div class="user-blogs">
 				<?php
-	                $blogs = DB::getInstance()->sortUser('blogs', array('created_on', 'DESC'), array('users_id', '=', 27));
+	                $blogs = DB::getInstance()->sortUser('blogs', array('created_on', 'DESC'), array('users_id', '=', $user->data()->id));
 	                $num_blogs = $blogs->count();
 	                $num_pages = ceil($num_blogs/3);
 	                $blogs = $blogs->results();

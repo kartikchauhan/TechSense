@@ -58,9 +58,9 @@ else
 <html>
 <head>
 	<title>View Blog</title>
-	<meta property="og:url"           content="http://localhost/Blog_temp2/view_blog.php?blog_id=118" />
+	<meta property="og:url"           content="<?php echo Config::get('url/current_url'); ?>" />
 	<meta property="og:type"          content="website" />
-	<meta property="og:title"         content="Aster" />
+	<meta property="og:title"         content="BlogSparta" />
 	<meta property="og:description"   content="A place to read and write blogs about any technology" />
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
@@ -593,7 +593,7 @@ else
 				<div class="col s5">
 					<div class="row">
 						<div class="col s8">
-							<img class="materialboxed responsive-img z-depth-2" data-caption="Author's Name" src="Includes/images/code2.png"> <!-- <?php //echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?> -->
+							<img class="materialboxed responsive-img z-depth-2" data-caption="Author's Name" src="<?php echo Config::get('url/upload_dir').'/'.$author->image_url?>"> <!-- <?php //echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?> -->
 						</div>
 					</div>
 					<div class="row">

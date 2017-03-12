@@ -1,6 +1,18 @@
 <?php
 session_start();
 
+// define('DEBUG', true);
+// error_reporting(E_ALL);
+
+// if (DEBUG)
+// {
+//     ini_set('display_errors', 'On');        
+// }
+// else
+// {
+//     ini_set('display_errors', 'Off');
+// }
+
 $server_host = ((((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']!=='off') || $_SERVER['SERVER_PORT']==443) ? 'https://':'http://' ).$_SERVER['HTTP_HOST']);
 $base = dirname($_SERVER['REQUEST_URI']);	// current_page along with query_string
 $endpoint = $server_host.$base;		// current_url without current_page
