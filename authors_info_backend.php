@@ -19,10 +19,10 @@ if(Input::exists())
 					'min' => 2,
 					'max' => 25
 					),
-				"github_url" => array(
+				"github_username" => array(
 					"min" => 10
 					),
-				"facebook_url" => array(
+				"facebook_username" => array(
 					"min" => 10
 					),
 				"description" => array(
@@ -34,9 +34,9 @@ if(Input::exists())
 			{
 				$fields = array();
 				$fields['user_description'] = Input::get('description');		// add description to the array that is gonna be passed for the insert query
-				$fields["name"] = Input::get('name');	// add github_url if user has entered github_url
-				$fields["github_url"] = Input::get('github_url');	// add github_url if user has entered github_url
-				$fields["facebook_url"] = Input::get('facebook_url');
+				$fields["name"] = Input::get('name');	// add github_username if user has entered github_username
+				$fields["github_username"] = Input::get('github_username');	// add github_username if user has entered github_username
+				$fields["facebook_username"] = Input::get('facebook_username');
 				$fields["twitter_username"] = Input::get("twitter_username");
 				if(!empty($_FILES))	// insert the data if no image uploaded
 				{

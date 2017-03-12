@@ -73,14 +73,14 @@ if(!$user->isLoggedIn())
 						</div>
 						<div class="row">
 							<div class="input-field col s12">
-								<input type="text" name="github_url" id="github_url" value="<?php echo $user->data()->github_url ?>">
-								<label for="github_url">Github Url</label>
+								<input type="text" name="github_username" id="github_username" value="<?php echo $user->data()->github_username; ?>">
+								<label for="github_username">Github Username</label>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12">
-								<input type="text" name="facebook_url" id="facebook_url" value="<?php echo $user->data()->facebook_url ?>">
-								<label for="facebook_url">Facebook Url</label>
+								<input type="text" name="facebook_username" id="facebook_username" value="<?php echo $user->data()->facebook_username ?>">
+								<label for="facebook_username">Facebook Username</label>
 							</div>
 						</div>
 						<div class="row">
