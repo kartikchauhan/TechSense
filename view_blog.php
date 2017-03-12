@@ -8,14 +8,14 @@ if(Input::exists('get'))
 {
 	if(Input::get('blog_id'))
 	{
-		$blog = new Blog;	// creating an Instance of Blog so that we could update the views
 		$blogId = Input::get('blog_id');
-		$author = DB::getInstance()->join(array('users', 'blogs'), array('id', 'users_id'), array('id', '=', $blogId))->first(); // fetching the author of the blog and his corresponding details
+		$blog = new Blog;	// creating an Instance of Blog so that we could update the views
 		$blog->getBlog('blogs', array('id', '=', $blogId));
-		if(!$blog)
+		if(!$blog->count())
 		{
 			Redirect::to(404);
 		}
+		$author = DB::getInstance()->join(array('users', 'blogs'), array('id', 'users_id'), array('id', '=', $blogId))->first(); // fetching the author of the blog and his corresponding details
 		$views = $blog->data()->views + 1;
 		try
 		{
