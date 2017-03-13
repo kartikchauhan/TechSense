@@ -257,7 +257,7 @@ else
 									<textarea class='materialize-textarea' id='comment' name='comment' data-attribute='".$blogId."'></textarea>
 								</div>
 								<div class='row'>
-									<div class='col s10 offset-s2 l6'>
+									<div class='col s12 l6'>
 										<button type='button' class='btn waves-effect waves-light blue' name='send_comment' id='send_comment'>Post your comment</button>
 									</div>
 								</div>
@@ -317,10 +317,10 @@ else
 														<div class='divider'></div>
 														<div class='section white-text'>
 															<div class='row white-text'>
-																<div class='col s4'>
+																<div class='col s2 l4'>
 																	<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
 																</div>													
-																<div class='col s4'>
+																<div class='col s5 offset-s1 l4'>
 																	<div class='row'>";
 																		if($commentStatusCount)
 																		{
@@ -411,10 +411,10 @@ else
 														<div class='divider'></div>
 														<div class='section white-text'>
 															<div class='row white-text'>
-																<div class='col s4'>
+																<div class='col s2 l4'>
 																	<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
 																</div>													
-																<div class='col s4'>
+																<div class='col s5 offset-s1 l4'>
 																	<div class='row'>";
 																		if($commentStatusCount)
 																		{
@@ -513,10 +513,10 @@ else
 														<div class='divider'></div>
 														<div class='section white-text'>
 															<div class='row white-text'>
-																<div class='col s4'>
+																<div class='col s2 l4'>
 																	<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
 																</div>													
-																<div class='col s4'>
+																<div class='col s5 offset-s1 l4'>
 																	<div class='row'>
 																		<div class='col s4'>
 																			<a class='comment-like-not-logged-in' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
@@ -551,10 +551,10 @@ else
 														<div class='divider'></div>
 														<div class='section white-text'>
 															<div class='row white-text'>
-																<div class='col s4'>
+																<div class='col s2 l4'>
 																	<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
 																</div>													
-																<div class='col s4'>
+																<div class='col s5 offset-s1 l4'>
 																	<div class='row'>
 																		<div class='col s4'>
 																			<a class='comment-like-not-logged-in' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>

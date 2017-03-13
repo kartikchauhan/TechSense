@@ -46,10 +46,10 @@ if(Input::exists())
 													<div class='divider'></div>
 													<div class='section white-text'>
 														<div class='row white-text'>
-															<div class='col s4'>
+															<div class='col s2 l4'>
 																<img class='responsive-img' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$lastComment->image_url."'>".$lastComment->name."
 															</div>													
-															<div class='col s4'>
+															<div class='col s5 offset-s1 l4'>
 																<div class='row'>
 																	<div class='col s4'>
 																		<a class='comment-like' data-attribute=".$lastComment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
@@ -65,7 +65,7 @@ if(Input::exists())
 																	</div>
 																</div>
 															</div>
-															<div class='col s4'>"
+															<div class='col s3 offset-s1'>"
 																.date('M d Y', $date).
 															"</div>
 														</div>
