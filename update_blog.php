@@ -51,6 +51,10 @@ else
         {
             height: 64px !important; /* or height of nav */
         }
+        .col.s12 > .btn
+        {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -84,7 +88,9 @@ else
                     </div>
                 </div>
                 <div class="row">
-                    <button type="button" class="btn waves-effect waves-light blue" name="update_blog" id="update_blog">Update Blog</button>
+                    <div class="col s12">
+                        <button type="button" class="btn waves-effect waves-light blue" name="update_blog" id="update_blog">Update Blog</button>
+                    </div>
                 </div>
             </form>
         </div>

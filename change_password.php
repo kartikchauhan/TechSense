@@ -51,7 +51,7 @@ $user = new User;
 	<div id="change-password-form">
 		<h5 class="center-align condensed light">Change Password</h5>
 		<div class="row">
-			<div class="col s4 offset-s4">
+			<div class="col s12 l4 offset-l4">
 				<ul class="collection center-align z-depth-1 error">
 					<li class="collection-item red-text"></li>
 				</ul>
@@ -78,7 +78,7 @@ $user = new User;
 									<div class="input-field col s12">
 										<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
 									</div>
-									<input type="submit" class="btn waves-effect waves-light col s6 offset-s3" value="Change Password" id="change_password">
+									<input type="submit" class="btn waves-effect waves-light col s8 offset-s2 l6 offset-l3" value="Change Password" id="change_password">
 								</div>
 							</form>
 						</div>
