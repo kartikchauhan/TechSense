@@ -32,6 +32,10 @@ if(!$user->isLoggedIn())
     {
         height: 64px !important; /* or height of nav */
     }
+    .col.s12 > .btn
+    {
+    	width: 100%;
+    }
 	</style>
 </head>
 <body>
@@ -42,7 +46,7 @@ if(!$user->isLoggedIn())
 		<div class="section">
 			<form action="" method="post" enctype="multipart/form-data">
 				<div class="row">
-					<div class="col s4">
+					<div class="col l4 s12">
 						<img class="responsive-img materialboxed" src="<?php echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?>" width="100%">
 						<div class="row">
 							<div class="col s12">
@@ -58,7 +62,7 @@ if(!$user->isLoggedIn())
 							</div>
 						</div>
 					</div>
-					<div class="col s6 offset-s2">
+					<div class="col l6 offset-l2 s12">
 						<div class="row">
 							<div class="input-field col s12">
 								<input type="text" name="name" id="name" value="<?php echo $user->data()->name; ?>">
@@ -103,7 +107,9 @@ if(!$user->isLoggedIn())
 					</div>
 				</div>
 				<div class="row">
-					<button type="button" class="btn waves-effect waves-light blue" name="update" id="update">Update</button>
+					<div class="col s12 l3">
+						<button type="button" class="btn waves-effect waves-light blue" name="update" id="update">Update</button>
+					</div>
 				</div>
 			</form>
 		</div>
@@ -112,10 +118,10 @@ if(!$user->isLoggedIn())
 		<div class="row">
 			<div class="section">
 				<div class="row">
-					<div class="col s3">
+					<div class="col l3 s6 offset-s2">
 						<h5>Blogs Written</h5>
 					</div>
-					<div class="col s1">
+					<div class="col l1 s2">
 						<a class="btn-floating btn-small waves-effect waves-light blue toggle-user-blogs"><i class="material-icons">add</i></a>
 					</div>
 				</div>

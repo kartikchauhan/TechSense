@@ -62,6 +62,7 @@ else
 	<meta property="og:type"          content="website" />
 	<meta property="og:title"         content="BlogSparta" />
 	<meta property="og:description"   content="A place to read and write blogs about any technology" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
@@ -93,6 +94,10 @@ else
 		{
 			background-color: #2196F3 !important; 
 		}
+		.col.s12 > .btn
+		{
+			width: 100%;
+		}
     </style>
 </head>
 <body>
@@ -118,7 +123,7 @@ else
 			<div class="container">
 				<div class="section">
 					<div class="row">
-						<div class="col s10">
+						<div class="col s10 l10">
 							<h1 class="white-text thin"> <?php echo strtoupper($blog->data()->title); ?></h1>
 						</div>
 					</div>
@@ -130,10 +135,10 @@ else
 					<div class="row">
 						<div class="col s10">
 							<div class="row">
-								<div class="col s4">
+								<div class="col s4 l4">
 									<h6 class="white-text"><?php echo date('M d, Y', $date); ?></h6>
 								</div>
-								<div class="col s6 offset-s2">
+								<div class="col s6 offset-s2 l6 offset-l2">
 									<h6 class="white-text" >Written by - <?php echo ucwords($author->name) ?></h6>
 								</div>
 							</div>
@@ -149,11 +154,11 @@ else
 			<div class="container">
 				<div class="section">
 					<div class="row">
-						<div class="col s8">
+						<div class="col s12 l8">
 							<p class="flow-text"><?php echo $blog->data()->blog; ?></p>
 							<div class="section">
 								<div class="row">
-									<div class="col s5 offset-s2">
+									<div class="col s6 offset-s1 l5 offset-l2">
 										<h6 class="center-align">Was this article helpful?</h6>
 									</div>									
 									<div class="_token" id="_token" data-attribute="<?php echo Token::generate(); ?>"></div>
@@ -218,15 +223,15 @@ else
 									?>
 								</div>
 								<div class="row">
-									<div class="col s12 offset-s2">
+									<div class="col s12 l10 offset-l2">
 										<div class="row">
-											<div class="col s4">
+											<div class="col s6 l5">
 												<h5>Share this blog</h5>
 											</div>
-											<div class="col s2">
+											<div class="col s2 l2">
 												<a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="Check Out this blog" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 											</div>
-											<div class="col s2">
+											<div class="col s2 l2 offset-s1">
 												<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Share</a></div>
 											</div>
 										</div>
@@ -240,7 +245,7 @@ else
 			<div class="container">	
 				<h5>Comments</h5>
 				<div class="row">
-					<div class="col s8">
+					<div class="col s12 l8">
 					<?php
 
 						if($userLoggedIn)
@@ -251,7 +256,11 @@ else
 								<div class='section'>
 									<textarea class='materialize-textarea' id='comment' name='comment' data-attribute='".$blogId."'></textarea>
 								</div>
-								<button type='button' class='btn waves-effect waves-light blue' name='send_comment' id='send_comment'>Comment</button>
+								<div class='row'>
+									<div class='col s10 offset-s2 l6'>
+										<button type='button' class='btn waves-effect waves-light blue' name='send_comment' id='send_comment'>Post your comment</button>
+									</div>
+								</div>
 							</form>";
 						}
 						else
@@ -267,15 +276,15 @@ else
 					</div>
 				</div>
 				<div class="row">
-			    	<div class="col s8">
+			    	<div class="col s12 l8">
 			      		<ul class="tabs">
-			        		<li class="tab col s4"><a href="" class='active blue-text popular_comments' id="popular_comments" data-attribute="<?php echo $blogId; ?>">Popular Comments</a></li>
-			        		<li class="tab col s4"><a href="" class='blue-text new_comments' id="new_comments" data-attribute="<?php echo $blogId; ?>">New Comments</a></li>
+			        		<li class="tab col s6 l4"><a href="" class='active blue-text popular_comments' id="popular_comments" data-attribute="<?php echo $blogId; ?>">Popular Comments</a></li>
+			        		<li class="tab col s6 l4"><a href="" class='blue-text new_comments' id="new_comments" data-attribute="<?php echo $blogId; ?>">New Comments</a></li>
 			    	  	</ul>
 			    	</div>
 			  	</div>
 				<div class="row">
-					<div class="col s8">
+					<div class="col s12 l8">
 						<div class="comment-section" id="comment-section">
 							<?php
 							// getting all the comments posted on the current blog in DESCENDING order

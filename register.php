@@ -159,7 +159,7 @@ function generateUsernames($name)
 		<div id="registration-form">
 			<h5 class="center-align condensed light">Register to BlogSparta</h5>
 			<div class="row">
-				<div class="col s4 offset-s4">
+				<div class="col s12 l4 offset-l4">
 					<!-- <ul class="collection center-align z-depth-1 error"> -->
                         <?php
                             if($error_status)

@@ -34,6 +34,10 @@ if(!$user->isLoggedIn())
             {
                 height: 64px !important; /* or height of nav */
             }
+            .col.s12 > .btn
+            {
+                width: 100%;
+            }
         </style>
     </head>
     <body>
@@ -66,7 +70,9 @@ if(!$user->isLoggedIn())
                         </div>
                     </div>
                     <div class="row">
-                        <button type="button" class="btn waves-effect waves-light blue" name="post_blog" id="post_blog">Post Blog</button>
+                        <div class="col s12 l3">
+                            <button type="button" class="btn waves-effect waves-light blue" name="post_blog" id="post_blog">Post Blog</button>
+                        </div>
                     </div>
                 </form>
             </div>

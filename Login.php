@@ -128,7 +128,7 @@ else if(Input::get('code'))
 		<div id="login-form">
 			<h5 class="center-align condensed light">Sign in to BlogSparta</h5>
 			<div class="row">
-				<div class="col s4 offset-s4">
+				<div class="col s12 l4 offset-l4 ">
 					<?php
 						if($error_status)
 						{
@@ -141,7 +141,7 @@ else if(Input::get('code'))
 					<div class="card">
 						<div class="card-content">
 							<div class="row">
-								<form class="col s12" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+								<form class="col s12 m12 l12" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 									<div class="row">
 										<div class="input-field col s12">
 											<i class="material-icons prefix">email</i>
