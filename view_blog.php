@@ -599,13 +599,13 @@ else
 	<footer class="page-footer blue lighten-1">
 		<div class="container">
 			<div class="row">
-				<div class="col s5">
+				<div class="col s8 offset-s2 l5">
 					<div class="row">
-						<div class="col s8">
-							<img class="materialboxed responsive-img z-depth-2" data-caption="Author's Name" src="<?php echo Config::get('url/upload_dir').'/'.$author->image_url?>"> <!-- <?php //echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?> -->
+						<div class="col s12 l8">
+							<img class="materialboxed responsive-img z-depth-2" data-caption="<?php echo ucwords($author->name); ?>" src="<?php echo Config::get('url/upload_dir').'/'.$author->image_url?>"> <!-- <?php //echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?> -->
 						</div>
 					</div>
-					<div class="row">
+					<div class="row hide-on-small-only">
 						<div class="col s1 offset-s1">
 							<a href="https://www.github.com/<?php echo $author->github_username; ?>" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:black"></i></a> 	<!-- author's github url -->
 						</div>
@@ -614,19 +614,19 @@ else
 						</div>
 					</div>
 				</div>
-				<div class="col s7">
+				<div class="col s12 l7">
 					<div class="row">
-						<div class="col s12">
+						<div class="col l12 hide-on-small-only">
 							<h5 class="white-text center-align">Writer's Info</h5>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col s12">
+						<div class="col s8 offset-s2 l12 center-align">
 							<h5 class="white-text"><?php echo ucwords($author->name); ?></h5>	<!-- author's name of the blog -->
 						</div>
 					</div>
 					<div class="row">
-						<div class="col s12">
+						<div class="col s12 l12">
 							<p class="white-text"><?php echo ucfirst($author->user_description); ?></p>	
 						</div>
 					</div>
@@ -646,6 +646,14 @@ else
 							</div>";
 						}
 					?>
+					<div class="row hide-on-med-and-up">
+						<div class="col s2 offset-s4">
+							<a href="https://www.github.com/<?php echo $author->github_username; ?>" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:black"></i></a> 	<!-- author's github url -->
+						</div>
+						<div class="col s2">
+							<a href="https://www.facebook.com/<?php echo $author->facebook_username; ?>" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:black"></i></a>	<!-- author's facebook url -->
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
