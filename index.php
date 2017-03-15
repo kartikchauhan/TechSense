@@ -7,6 +7,14 @@ require_once'Core/init.php';
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="preload" as="script" href="Includes/js/materialize.min.js">
+    <link rel="preload" as="script" href="https://use.fontawesome.com/819d78ad52.js">
+    <link rel="preload" as="script" href="Includes/js/jquery.min.js">
+    <link rel="preload" as="image" href="Includes/images/code5.jpeg">
+    <link rel="preload" as="image" href="Includes/images/code3.png">
+    <link rel="preload" as="image" href="Includes/images/code2.png">
+    <link rel="preload" as="image" href="Includes/images/code4.png">
+    <link rel="preload" as="image" href="Includes/images/code1.png">
     <title>
       Home
     </title>
@@ -308,7 +316,7 @@ require_once'Core/init.php';
     </div>
 
     <script src="Includes/js/jquery.min.js"></script>
-    <script src="https://use.fontawesome.com/17e854d5bf.js"></script>
+    <script src="https://use.fontawesome.com/819d78ad52.js"></script>
     <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
     <script>
         if(typeof(Storage) !== "undefined")
