@@ -115,7 +115,7 @@ require_once'Core/init.php';
     <div id="secondary-content">
         <div class="row">
             <div id='_token' class="_token" data-attribute="<?php echo Token::generate(); ?>"></div>
-            <div class="col s8">
+            <div class="col s12 l8">
                 <h5 class="center-align">Recent Blogs</h5>
                 <!-- <div class="content" id="content"> -->
                     <?php
@@ -132,33 +132,45 @@ require_once'Core/init.php';
                                 $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
                                 echo 
                                     "<div class='row'>
-                                        <div class='col s2'>
+                                        <div class='col s12 hide-on-med-and-up'>
+                                            <div class='col s6'>
+                                                <blockquote>".
+                                                    date('M d', $date).' '.
+                                                    date('Y', $date).
+                                                "</blockquote>
+                                            </div>
+                                        </div>
+                                        <div class='col s2 l2 hide-on-small-only'>
                                             <blockquote>".
                                                 date('M', $date)."<br>".
                                                 date('Y d', $date).
                                             "</blockquote>
                                         </div>
-                                        <div class='col s10'>
-                                            <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
-                                            <h6>".ucfirst($blog->description)."</h6><br>
+                                        <div class='col s12 l10'>
+                                            <div class='row'>
+                                                <div class='col s12 l10'>
+                                                    <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
+                                                    <h6>".ucfirst($blog->description)."</h6><br>
+                                                </div>
+                                            </div>
                                             <div class='row'>
                                                 <div class='measure-count' data-attribute='{$blog->id}'>
-                                                    <div class='col s1'>
+                                                    <div class='col s2 l1'>
                                                         <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
                                                     </div>
-                                                    <div class='col s1'>
+                                                    <div class='col s1 l1'>
                                                         {$blog->views}
                                                     </div>
-                                                    <div class='col s1 offset-s1'>
+                                                    <div class='col s2 l1 offset-s1 offset-l1'>
                                                         <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
                                                     </div>
-                                                    <div class='col s1'>
+                                                    <div class='col s1 l1'>
                                                         {$blog->likes}
                                                     </div>
-                                                    <div class='col s1 offset-s1'>
+                                                    <div class='col s2 l1 offset-s1 offset-l1'>
                                                         <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
                                                     </div>
-                                                    <div class='col s1'>
+                                                    <div class='col s1 l1'>
                                                         {$blog->dislikes}
                                                     </div>
                                                 </div>
@@ -192,7 +204,7 @@ require_once'Core/init.php';
                         }
                     ?>
             </div>
-            <div class="col s4">
+            <div class="col s12 l4">
                 <div class="section">
                     <h5 class="center-align">Recommended Blogs</h5>
                 </div>
@@ -207,36 +219,55 @@ require_once'Core/init.php';
                                 $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
                                 echo 
                                 "<div class='row'>
-                                    <div class='col s2'>
+                                    <div class='col s12 hide-on-med-and-up'>
+                                        <div class='col s6'>
+                                            <blockquote>".
+                                                date('M d', $date).' '.
+                                                date('Y', $date).
+                                            "</blockquote>
+                                        </div>
+                                    </div>
+                                    <div class='col l2 hide-on-small-only'>
                                         <blockquote class='blockquote'>".
                                             date('M', $date)."<br>".
                                             date('Y d', $date).
                                         "</blockquote>
                                     </div>
-                                    <div class='col s10'>
-                                        <h6><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h6>
-                                        <p class='description'>".ucfirst($blog->description)."</p><br>
+                                    <div class='col s12 l10'>
+                                        <div class='row hide-on-med-and-up'>
+                                            <div class='col s12'>
+                                                <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
+                                                <h6>".ucfirst($blog->description)."</h6><br>
+                                            </div>
+                                        </div>
+                                        <div class='hide-on-small-only'>
+                                            <h6><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h6>
+                                            <p class='description'>".ucfirst($blog->description)."</p><br>
+                                        </div>
                                         <div class='row'>
                                             <div class='measure-count' data-attribute='{$blog->id}'>
-                                                <div class='col s1'>
+                                                <div class='col s2 l1'>
                                                     <i class='fa fa-eye fa-lg' aria-hidden='true' style='color:grey'></i>
                                                 </div>
-                                                <div class='col s1'>
+                                                <div class='col s1 l1'>
                                                     {$blog->views}
                                                 </div>
-                                                <div class='col s1 offset-s2'>
+                                                <div class='col s2 l1 offset-s1 offset-l1'>
                                                     <i class='fa fa-thumbs-up fa-lg' aria-hidden='true' style='color:grey'></i>
                                                 </div>
-                                                <div class='col s1'>
+                                                <div class='col s1 l1'>
                                                     {$blog->likes}
                                                 </div>
-                                                <div class='col s1 offset-s2'>
+                                                <div class='col s2 l1 offset-s1 offset-l1'>
                                                     <i class='fa fa-thumbs-down fa-lg' aria-hidden='true' style='color:grey'></i>
                                                 </div>
-                                                <div class='col s1'>
+                                                <div class='col s1 l1'>
                                                     {$blog->dislikes}
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class='section hide-on-med-and-up'>
+                                            <div class='divider'></div>
                                         </div>
                                     </div>
                                 </div>";

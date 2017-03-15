@@ -91,7 +91,6 @@ if(Input::exists())
 		}
 		else if($blogs->count() && !Input::get('author'))
 		{
-			
 			$blogs = $blogs->results();
 			$json['content'] = '';	// content will hold the html 
 			foreach($blogs as $blog)
@@ -99,37 +98,45 @@ if(Input::exists())
 				$date=strtotime($blog->created_on);
 				$json['content'] = $json['content'].
 					"<div class='row blog'>
-			            <div class='col s2'>
-			                <blockquote>".
-			                    date('M', $date)."<br>".
-			                    date('Y d', $date).
-			                "</blockquote>
-			            </div>
-			            <div class='col s10'>
+			            <div class='col s12 hide-on-med-and-up'>
+                            <div class='col s6'>
+                                <blockquote>".
+                                    date('M d', $date).' '.
+                                    date('Y', $date).
+                                "</blockquote>
+                            </div>
+                        </div>
+                        <div class='col s2 l2 hide-on-small-only'>
+                            <blockquote>".
+                                date('M', $date)."<br>".
+                                date('Y d', $date).
+                            "</blockquote>
+                        </div>
+			            <div class='col s12 l10'>
 		            		<div class='row'>
-	                        	<div class='col s12'>
+	                        	<div class='col s12 l10'>
 	                            	<h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
+                					<h6>".ucfirst($blog->description)."</h6><br>
 	                            </div>
 	                        </div>
-                			<h6>".ucfirst($blog->description)."</h6><br>
 			                <div class='row'>
 			                    <div class='measure-count' data-attribute='{$blog->id}'>
-			                        <div class='col s1'>
+			                        <div class='col s2 l1'>
 			                            <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
 			                        </div>
-			                        <div class='col s1'>
+			                        <div class='col s1 l1'>
 			                            {$blog->views}
 			                        </div>
-			                        <div class='col s1 offset-s1'>
+			                        <div class='col s2 l1 offset-s1 offset-l1'>
 			                            <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
 			                        </div>
-			                        <div class='col s1'>
+			                        <div class='col s1 l1'>
 			                            {$blog->likes}
 			                        </div>
-			                        <div class='col s1 offset-s1'>
+			                        <div class='col s2 l1 offset-s1 offset-l1'>
 			                            <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
 			                        </div>
-			                        <div class='col s1'>
+			                        <div class='col s1 l1'>
 			                            {$blog->dislikes}
 			                        </div>
 			                    </div>
