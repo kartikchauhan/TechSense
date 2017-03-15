@@ -18,7 +18,7 @@ if(Input::exists())
 		$offset = $page_id * $records_per_page;
 		if(Input::get('author'))
 		{
-			$blogs = DB::getInstance()->getRangeSortUser('blogs', $records_per_page, $offset, array('created_on', 'DESC'), array('users_id', '=', 27)); // for temporary usage , using users_id = 1
+			$blogs = DB::getInstance()->getRangeSortUser('blogs', $records_per_page, $offset, array('created_on', 'DESC'), array('users_id', '=', $user->data()->id)); // for temporary usage , using users_id = 1
 		}
 		else
 		{
@@ -33,43 +33,58 @@ if(Input::exists())
 				$date=strtotime($blog->created_on);
 				$json['content'] = $json['content'].
 					"<div class='row blog'>
-			            <div class='col s2'>
-			                <blockquote>".
-			                    date('M', $date)."<br>".
-			                    date('Y d', $date).
-			                "</blockquote>
-			            </div>
-			            <div class='col s10'>
+						<div class='col s12 hide-on-med-and-up'>
+                    		<div class='col s6'>
+                                <blockquote>".
+                                    date('M d', $date).' '.
+                                    date('Y', $date).
+                                "</blockquote>
+                            </div>
+                            <div class='col s6'>
+                            	<a href='#' class='blue-text delete-blog' data-attribute='{$blog->id}'><i class='material-icons right'>delete</i></a> <a href='update_blog.php?blog_id={$blog->id}' class='blue-text edit-blog' data-attribute='{$blog->id}'><i class='material-icons right'>mode_edit</i></a> 
+                            </div>
+                    	</div>
+                        <div class='col s2 l2 hide-on-small-only'>
+                            <blockquote>".
+                                date('M', $date)."<br>".
+                                date('Y d', $date).
+                            "</blockquote>
+                        </div>
+			            <div class='col s12 l10'>
 		            		<div class='row'>
-	                        	<div class='col s12'>
+	                        	<div class='col s12 l10'>
 	                            	<h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
 	                            </div>
+                            	<div class='hide-on-small-only'>
 	                            	<a href='#' class='blue-text delete-blog' data-attribute='{$blog->id}'><i class='material-icons right'>delete</i></a> <a href='update_blog.php?blog_id={$blog->id}' class='blue-text edit-blog' data-attribute='{$blog->id}'><i class='material-icons right'>mode_edit</i></a> 
+                            	</div>
 	                        </div>
                 			<h6>".ucfirst($blog->description)."</h6><br>
 			                <div class='row'>
 			                    <div class='measure-count' data-attribute='{$blog->id}'>
-			                        <div class='col s1'>
+			                        <div class='col s2 l1'>
 			                            <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
 			                        </div>
-			                        <div class='col s1'>
+			                        <div class='col s1 l1'>
 			                            {$blog->views}
 			                        </div>
-			                        <div class='col s1 offset-s1'>
+			                        <div class='col s2 l1 offset-s1 offset-l1'>
 			                            <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
 			                        </div>
-			                        <div class='col s1'>
+			                        <div class='col s1 l1'>
 			                            {$blog->likes}
 			                        </div>
-			                        <div class='col s1 offset-s1'>
+			                        <div class='col s2 l1 offset-s1 offset-l1'>
 			                            <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
 			                        </div>
-			                        <div class='col s1'>
+			                        <div class='col s1 l1'>
 			                            {$blog->dislikes}
 			                        </div>
 			                    </div>
 			                </div>
-			                <div class='divider'></div>
+			                <div class='section'>
+			                	<div class='divider'></div>
+			                </div>
 			            </div>
 			        </div>";
 			}
