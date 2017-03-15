@@ -269,7 +269,7 @@ if(!$user->isLoggedIn())
 			    	data.append("profile_pic", file_data[0]);
 			    }
 			    var input_data = $('form').serializeArray();
-			    $.each(input_data,function(key, input){
+			    $.each(input_data, function(key, input){
 			        data.append(input.name, input.value);
 			    });
 			    $.ajax({

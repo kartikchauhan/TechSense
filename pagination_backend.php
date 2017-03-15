@@ -148,7 +148,7 @@ if(Input::exists())
 		}
 		else
 		{
-			$json['content'] = 'Sorry, no more blogs';
+			$json['content'] = 'Sorry, no blogs';
 		}
 
 		echo json_encode($json);

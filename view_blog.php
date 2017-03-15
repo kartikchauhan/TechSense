@@ -58,10 +58,15 @@ else
 <html>
 <head>
 	<title>View Blog</title>
-	<meta property="og:url"           content="<?php echo Config::get('url/current_url'); ?>" />
 	<meta property="og:type"          content="website" />
-	<meta property="og:title"         content="BlogSparta" />
-	<meta property="og:description"   content="A place to read and write blogs about any technology" />
+	<meta property="og:title"         content="<?php echo $blog->data()->title; ?>" />
+	<meta property="og:description"   content="<?php echo $blog->data()->description; ?>" />
+	<meta property="og:image"         content="https://api.icons8.com/download/078f8c929bac15838ba8b311161828512c3fbd3f/Color/PNG/256/Editing/edit-256.png">
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@BlogSparta" />
+	<meta name="twitter:title" content="<?php echo $blog->data()->title; ?>" />
+	<meta name="twitter:description" content="<?php echo $blog->data()->description; ?>" />
+	<meta name="twitter:image:src" content="https://api.icons8.com/download/078f8c929bac15838ba8b311161828512c3fbd3f/Color/PNG/256/Editing/edit-256.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
