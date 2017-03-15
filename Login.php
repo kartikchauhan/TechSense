@@ -120,6 +120,10 @@ else if(Input::get('code'))
 				margin-top: 15px;
 				margin-bottom: 10px;
 			}
+			.col.s12 > .btn
+			{
+				width: 100%;
+			}
 		</style>
 
 	</head>
@@ -171,7 +175,9 @@ else if(Input::get('code'))
 					</div>
 					<div class="center-align">Or</div>
 					<div class="row">
-						<a href="<?php echo $authUrl ?>" class="waves-effect waves-light btn red col s8 offset-s2">Sign in with google</a>
+						<div class="col s12 l4 offset-l4">
+							<a href="<?php echo $authUrl ?>" class="waves-effect waves-light btn red">Sign in with google</a>
+						</div>
 					</div>
 					<div class="section">
 						<ul class="collection center-align z-depth-1">
