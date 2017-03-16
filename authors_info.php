@@ -12,6 +12,10 @@ if(!$user->isLoggedIn())
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="preload" as="script" href="Includes/js/materialize.min.js">
+	<link rel="preload" as="script" href="https://use.fontawesome.com/819d78ad52.js">
+    <link rel="preload" as="script" href="Includes/js/jquery.min.js">
+    <link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
 	<title>
 		Update Profile
 	</title>
@@ -249,7 +253,7 @@ if(!$user->isLoggedIn())
 
 
 	<script src="Includes/js/jquery.min.js"></script>
-	<script src="https://use.fontawesome.com/17e854d5bf.js"></script>
+	<script src="https://use.fontawesome.com/819d78ad52.js"></script>
 	<script type="text/javascript" src="Includes/js/materialize.min.js"></script>
 	<script type="text/javascript">
 

@@ -14,6 +14,10 @@ if(!$user->isLoggedIn())
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="preload" as="script" href="Includes/js/materialize.min.js">
+        <link rel="preload" as="script" href="Includes/js/jquery.min.js">
+        <link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="preload" as="style" href="vendor/tinymce/tinymce/tinymce.min.js">
         <title>
             Write a blog    
         </title>

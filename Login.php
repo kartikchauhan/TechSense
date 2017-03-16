@@ -175,7 +175,7 @@ else if(Input::get('code'))
 					</div>
 					<div class="center-align">Or</div>
 					<div class="row">
-						<div class="col s12 l4 offset-l4">
+						<div class="col s12 l8 offset-l2">
 							<a href="<?php echo $authUrl ?>" class="waves-effect waves-light btn red">Sign in with google</a>
 						</div>
 					</div>

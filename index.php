@@ -15,6 +15,7 @@ require_once'Core/init.php';
     <link rel="preload" as="image" href="Includes/images/code2.png">
     <link rel="preload" as="image" href="Includes/images/code4.png">
     <link rel="preload" as="image" href="Includes/images/code1.png">
+    <link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
     <title>
       Home
     </title>
