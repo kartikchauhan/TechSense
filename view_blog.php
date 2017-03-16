@@ -690,6 +690,8 @@ else
 	    	$(document).ready(function(){
 	    		$('.nav-bar').removeClass('transparent');
 
+	    		$(".button-collapse").sideNav();
+	    		
 	    			tinymce.init({
 	                    selector: '#comment',
 	                    height: 100,

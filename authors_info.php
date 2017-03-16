@@ -261,6 +261,9 @@ if(!$user->isLoggedIn())
 		$('.nav-bar').removeClass('transparent');
 
 		$(document).ready(function(){
+			
+			$(".button-collapse").sideNav();
+
 			$('#update').on('click', function(){
 				if(!validateData())
 				{

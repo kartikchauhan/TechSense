@@ -334,6 +334,8 @@ require_once'Core/init.php';
 
             $(".dropdown-button").dropdown({hover: false});   // activate dropdown in the nav-bar
 
+            $(".button-collapse").sideNav();
+
             $('.blog-pagination').click(function(e){
                 e.preventDefault();
                 $('.active').removeClass('active');

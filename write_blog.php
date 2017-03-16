@@ -89,6 +89,8 @@ if(!$user->isLoggedIn())
             $(document).ready(function(){
                 $('.nav-bar').removeClass('transparent');
 
+                $(".button-collapse").sideNav();
+
                 tinymce.init({
                     selector: '#blog',
                     height: 200,
