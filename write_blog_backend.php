@@ -38,8 +38,18 @@ if(Input::exists())
 					'title' => Input::get('title'),
 					'description' => Input::get('description'),
 					'blog' => Input::get('blog'),
-					'users_id' => $user->data()->id,
+					'users_id' => $user->data()->id
 					));
+				$lastInsertId = DB::getInstance()->getLastInsertId();
+				$tags = Input::get('blog_tags');
+				foreach($tags as $tag)
+				{
+					DB::getInstance()->insert('blog_tags', array(
+						'blog_id' => $lastInsertId,
+						'tags' => $tag
+					));
+				}
+
 			}
 			else
 			{

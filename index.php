@@ -138,6 +138,8 @@ require_once'Core/init.php';
                             $blogs = array_slice($blogs, 0, 3);
                             foreach($blogs as $blog)
                             {
+                                $blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));
+                                $blog_tags = $blog_tags->results();
                                 $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
                                 echo 
                                     "<div class='row'>
@@ -184,6 +186,15 @@ require_once'Core/init.php';
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class='row'>
+                                                <div class='col s12'>";
+                                                foreach($blog_tags as $blog_tag)
+                                                {
+                                                    echo "<div class='chip'>".$blog_tag->tags."</div>";
+                                                }
+                                                echo
+                                                "</div>
+                                            </div>
                                             <div class='divider'></div>
                                         </div>
                                     </div>";
@@ -225,6 +236,8 @@ require_once'Core/init.php';
                         {
                             foreach($blogs as $blog)
                             {
+                                $blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));
+                                $blog_tags = $blog_tags->results();
                                 $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
                                 echo 
                                 "<div class='row'>
@@ -274,8 +287,13 @@ require_once'Core/init.php';
                                                     {$blog->dislikes}
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class='section hide-on-med-and-up'>
+                                        </div>";
+                                        foreach($blog_tags as $blog_tag)
+                                        {
+                                            echo "<div class='chip'>".$blog_tag->tags."</div>";
+                                        }
+                                        echo
+                                        "<div class='section hide-on-med-and-up'>
                                             <div class='divider'></div>
                                         </div>
                                     </div>

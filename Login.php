@@ -91,7 +91,9 @@ else if(Input::get('code'))
 			Login
 		</title>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"/> -->
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+		<meta name="viewport" content="width=device-width" />
 		<meta name="keywords" content="blog, technology, code, program, alorithms"/>
 		<meta name="description" content="We emphaisze on solving problems">
 		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

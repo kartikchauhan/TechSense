@@ -3,7 +3,7 @@
 class DB
 {
 	private static $_instance = null;
-	private $_pdo, $_query, $_count=0, $_error = false, $_results;
+	private $_pdo, $_query, $_count=0, $_error = false, $_results, $_lastInsertId = null;
 
 	private function __construct()
 	{
@@ -26,13 +26,17 @@ class DB
 		return self::$_instance;	// passing the $_instance property so that other methods could be accessed
 	}
 
-	public function query($sql, $params = array())	// this method accepts a unprepared sql query and an array that contains values and needed to be binded to the query
+	public function query($sql, $params = array(), $insert_query = false)	// this method accepts a unprepared sql query and an array that contains values and needed to be binded to the query
 	{
 		$this->_error = false;	// set error = false because the previous query might have set it to true
 		if($this->_query = $this->_pdo->prepare($sql))	// preparing the query $sql, that is passing '?' as parameters. Compiler compiles and parses the sql statement and stores it into the database. this helps in query optimization and prevents sql Injection.
 		{
 			if($this->_query->execute(array_values($params)))	// bind the array values to the $sql and execute the query
 			{
+				if($insert_query == true)
+				{
+					$this->_lastInsertId = $this->_pdo->lastInsertId();
+				}
 				$this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);	// setting the result to the $_results property								
 				$this->_count = $this->_query->rowCount();	// getting count of total number of rows		
 			}
@@ -111,7 +115,7 @@ class DB
 			$values = implode(',', $values);
 			$keys = implode(',', $keys);
 			$sql = "INSERT INTO {$table} ({$keys}) VALUES({$values});";
-			if(!$this->query($sql, $fields)->error())
+			if(!$this->query($sql, $fields, $insert_query = true)->error())
 			{
 				return true;
 			}
@@ -151,6 +155,11 @@ class DB
 	public function count()
 	{
 		return $this->_count;
+	}
+
+	public function getLastInsertId()
+	{
+		return $this->_lastInsertId;
 	}
 
 	public function results()

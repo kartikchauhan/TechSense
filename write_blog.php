@@ -17,7 +17,7 @@ if(!$user->isLoggedIn())
         <link rel="preload" as="script" href="Includes/js/materialize.min.js">
         <link rel="preload" as="script" href="Includes/js/jquery.min.js">
         <link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="preload" as="style" href="vendor/tinymce/tinymce/tinymce.min.js">
+        <link rel="preload" as="script" href="vendor/tinymce/tinymce/tinymce.min.js">
         <title>
             Write a blog    
         </title>
@@ -42,6 +42,19 @@ if(!$user->isLoggedIn())
             {
                 width: 100%;
             }
+            ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+              color: #9e9e9e;
+            }
+            ::-moz-placeholder { /* Firefox 19+ */
+              color: #9e9e9e;
+            }
+            :-ms-input-placeholder { /* IE 10+ */
+              color: #9e9e9e;
+            }
+            :-moz-placeholder { /* Firefox 18- */
+              color: #9e9e9e;
+            }
+
         </style>
     </head>
     <body>
@@ -69,10 +82,13 @@ if(!$user->isLoggedIn())
                         </div>
                     </div>
                     <div class="row">
+                        <div class="chips chips-placeholder"></div>
+                    </div>
+                    <div class="row">
                         <div class="input-field col s12">
                             <input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
                         </div>
-                    </div>
+                    </div>                    
                     <div class="row">
                         <div class="col s12 l3">
                             <button type="button" class="btn waves-effect waves-light blue" name="post_blog" id="post_blog">Post Blog</button>
@@ -113,6 +129,19 @@ if(!$user->isLoggedIn())
                       '//www.tinymce.com/css/codepen.min.css'
                     ]
                 });
+                
+                $('.chips-placeholder').material_chip({
+                    placeholder: '+Tag',
+                    secondaryPlaceholder: 'Enter Tags',
+                });
+                
+                // $('.chips-autocomplete').material_chip({
+                //     autocompleteData: {
+                //         'Apple': null,
+                //         'Microsoft': null,
+                //         'Google': null
+                //     }
+                // });
 
                 $('form').on('click', '#post_blog', function(){
                     // var data = new FormData();
@@ -121,20 +150,25 @@ if(!$user->isLoggedIn())
                     // $.each(input_data, function(key, input)
                     // {
                     //     data.append(input.name, input.value);
-                    // });
-
+                    // });                    
+                    
                     var title = $('#title').val();
                     var description = $('#description').val();
                     var blog = tinyMCE.activeEditor.getContent();
+                    var tags_array = $('.chips').material_chip('data');
                     var _token = $('#_token').val();
-
-                    if(!validateData())
+                    if(!validateData(title, description, blog, tags_array.length, _token))
                     {
                         return false;
                     }
+                    var tags = [];
+                    $.each(tags_array, function(key, val) {
+                        tags.push(val.tag);
+                    });
+                    console.log(tags);
                     $.ajax({
                         type: 'POST',
-                        data: {title: title, description: description, blog: blog, _token: _token},
+                        data: {title: title, description: description, blog: blog, _token: _token, blog_tags: tags},
                         url: 'write_blog_backend.php',
                         cache: false,
                         success: function(response)
@@ -154,11 +188,11 @@ if(!$user->isLoggedIn())
                     });
                 });
                 
-                function validateData(title, description, blog)
+                function validateData(title, description, blog, num_tags, _token)
                 {
                     if(title === '')
                     {
-                        Materialize.toast('Title is required', 5000, 'red');
+                        Materialize.toast('Titlesss is required', 5000, 'red');
                         return false;
                     }
                     if(description === '')
@@ -169,6 +203,11 @@ if(!$user->isLoggedIn())
                     if(blog === '')
                     {
                         Materialize.toast('Blog is required', 5000, 'red');
+                        return false;
+                    }
+                    if(num_tags === 0)
+                    {
+                        Materialize.toast('You need to add atleast one tag', 5000, 'red');
                         return false;
                     }
                     return true;
