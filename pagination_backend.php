@@ -30,6 +30,8 @@ if(Input::exists())
 			$json['content'] = '';	// content will hold the html 
 			foreach($blogs as $blog)
 			{
+				$blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));
+                $blog_tags = $blog_tags->results();
 				$date=strtotime($blog->created_on);
 				$json['content'] = $json['content'].
 					"<div class='row blog'>
@@ -81,8 +83,14 @@ if(Input::exists())
 			                            {$blog->dislikes}
 			                        </div>
 			                    </div>
-			                </div>
-			                <div class='section'>
+			                </div>";
+                            foreach($blog_tags as $blog_tag)
+                            {
+                                $json['content'] = $json['content'].
+                                "<div class='chip'>".$blog_tag->tags."</div>";
+                            }
+                            $json['content'] = $json['content'].
+			                "<div class='section'>
 			                	<div class='divider'></div>
 			                </div>
 			            </div>
@@ -95,6 +103,8 @@ if(Input::exists())
 			$json['content'] = '';	// content will hold the html 
 			foreach($blogs as $blog)
 			{
+				$blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));
+                $blog_tags = $blog_tags->results();
 				$date=strtotime($blog->created_on);
 				$json['content'] = $json['content'].
 					"<div class='row blog'>
@@ -140,8 +150,14 @@ if(Input::exists())
 			                            {$blog->dislikes}
 			                        </div>
 			                    </div>
-			                </div>
-			                <div class='divider'></div>
+			                </div>";
+                            foreach($blog_tags as $blog_tag)
+                            {
+                                $json['content'] = $json['content'].
+                                "<div class='chip'>".$blog_tag->tags."</div>";
+                            }
+                            $json['content'] = $json['content'].
+			                "<div class='divider'></div>
 			            </div>
 			        </div>";
 			}

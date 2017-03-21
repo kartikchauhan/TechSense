@@ -142,6 +142,8 @@ if(!$user->isLoggedIn())
 	                    echo "<div class='content' id='content'>";
                         foreach($blogs as $blog)
                         {
+                        	$blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));
+                            $blog_tags = $blog_tags->results();
                             $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
                             echo 
                                 "<div class='row blog'>
@@ -193,8 +195,13 @@ if(!$user->isLoggedIn())
                                                     {$blog->dislikes}
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class='section'>
+                                        </div>";
+                                        foreach($blog_tags as $blog_tag)
+                                        {
+                                            echo "<div class='chip'>".$blog_tag->tags."</div>";
+                                        }
+                                        echo
+                                        "<div class='section'>
                                         	<div class='divider'></div>
                                     	</div>
                                     </div>
