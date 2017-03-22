@@ -16,6 +16,12 @@ if(Input::exists('get'))
 			$title = $blog->data()->title;
 			$description = $blog->data()->description;
 			$blog = $blog->data()->blog;
+            $blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog_id));
+            $blog_tags = $blog_tags->results();
+            foreach($blog_tags as $blog_tag)
+            {
+                $blog_tags_initialized[] = $blog_tag->tags;
+            } 
 		}
 				
 	}
@@ -85,6 +91,9 @@ else
                             <textarea name="blog" id="blog"><?php echo $blog; ?></textarea>
                         </div>
                     </div>
+                   <div class="row">
+                        <div class="chips chips-initial chips-placeholder"></div>
+                    </div>
                     <div class="row">
                         <div class="input-field col s12">
                             <input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
@@ -92,7 +101,7 @@ else
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col s12">
+                        <div class="col s12 l3">
                             <button type="button" class="btn waves-effect waves-light blue" name="update_blog" id="update_blog">Update Blog</button>
                         </div>
                     </div>
@@ -130,6 +139,22 @@ else
                       '//www.tinymce.com/css/codepen.min.css'
                     ]
                 });
+                
+                var blog_tags_json_format = <?php echo json_encode($blog_tags_initialized); ?>; // fetching the blog_tags and converting them to json format
+
+                var blog_tags_initialize = [];
+
+                $.each(blog_tags_json_format, function(index, value) {
+                    blog_tags_initialize.push({tag: value});
+                });
+
+                $('.chips-placeholder').material_chip({
+                    placeholder: '+Tag',
+                    secondaryPlaceholder: 'Enter a Tag',
+                });
+                $('.chips-initial').material_chip({
+                    data: blog_tags_initialize
+                  });
 
     			$('#update_blog').on('click', function(){
     				var blog_id = $('#blog_id').val();
