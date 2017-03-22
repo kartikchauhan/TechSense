@@ -97,7 +97,7 @@ else
                     <div class="row">
                         <div class="input-field col s12">
                             <input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
-                            <input type="hidden" name="blog_id" id="blog_id" value="<?php echo $blog_id; ?>">
+                            <!-- <input type="hidden" name="blog_id" id="blog_id" value="<?php echo $blog_id; ?>"> -->
                         </div>
                     </div>
                     <div class="row">
@@ -148,6 +148,7 @@ else
                     blog_tags_initialize.push({tag: value});
                 });
 
+
                 $('.chips-placeholder').material_chip({
                     placeholder: '+Tag',
                     secondaryPlaceholder: 'Enter a Tag',
@@ -157,7 +158,7 @@ else
                   });
 
     			$('#update_blog').on('click', function(){
-    				var blog_id = $('#blog_id').val();
+                    var blog_id = <?php echo $blog_id; ?>;
     				var _token = $('#_token').val();
     				var title = $('#title').val();
     				var description = $('#description').val();

@@ -2,7 +2,7 @@
 
 require_once'Core/init.php';
 
-if(Input::exists())
+if(Input::exists('post'))
 {
 	if(Token::check(Input::get('_token')))
 	{
@@ -80,7 +80,9 @@ if(Input::exists())
 	}
 	else
 	{
-		Redirect::to('authors_info.php');
+		$json['error_status'] = true;
+		$json['error'] = "Token mismatch error, try again by refreshing page";
+		echo json_encode($json);
 	}
 }
 else

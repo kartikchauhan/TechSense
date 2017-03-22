@@ -349,9 +349,17 @@ if(!$user->isLoggedIn())
                     {
                         var response = JSON.parse(response);
                         console.log(response);
-                        console.log("count records is " + response.count);
-                        $('#_token').val(response._token);
-                        $('.content').html(response.content);
+                        if(response.error_status)
+                        {
+                            Materialize.toast(response.error, 5000, 'red');
+                        }
+                        else
+                        {
+	                        console.log("count records is " + response.count);
+	                        $('#_token').val(response._token);
+	                        $('.content').html(response.content);
+                        	
+                        }
                     }
                 });
 

@@ -370,9 +370,16 @@ require_once'Core/init.php';
                     {
                         var response = JSON.parse(response);
                         console.log(response);
-                        console.log(response._token);
-                        $('#_token').attr('data-attribute', response._token);
-                        $('.content').html(response.content);
+                        if(response.error_status === true)
+                        {
+                            Materialize.toast(response.error, 5000, "red");
+                        }
+                        else
+                        {
+                            console.log(response._token);
+                            $('#_token').attr('data-attribute', response._token);
+                            $('.content').html(response.content);
+                        }
                     }
                 });
             });

@@ -63,10 +63,10 @@ else
     	<link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
     	<link rel="preload" as="style" href="vendor/tinymce/tinymce/tinymce.min.js">
 		<title>View Blog</title>
-		<meta property="og:type"          content="website" />
+		<!-- <meta property="og:type"          content="website" />
 		<meta property="og:title"         content="<?php echo $blog->data()->title; ?>" />
 		<meta property="og:description"   content="<?php echo $blog->data()->description; ?>" />
-		<meta property="og:image"         content="https://api.icons8.com/download/078f8c929bac15838ba8b311161828512c3fbd3f/Color/PNG/256/Editing/edit-256.png">
+		<meta property="og:image"         content="https://api.icons8.com/download/078f8c929bac15838ba8b311161828512c3fbd3f/Color/PNG/256/Editing/edit-256.png"> -->
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:site" content="@BlogSparta" />
 		<meta name="twitter:title" content="<?php echo $blog->data()->title; ?>" />
@@ -595,7 +595,7 @@ else
 								else
 								{
 									echo
-									"<div class='center-align'>No comments</div>";
+									"<div class='center-align no_comment'>No comments</div>";
 								}
 
 								?>
@@ -838,6 +838,8 @@ else
 							$('#_token').attr('data-attribute', response._token);
 							if(response.error_status === false)
 							{
+								$('.no_comment').remove();
+
 								$('.comment-section').prepend(response.content);
 								// Materialize.toast('Your comment has been added successfully', 5000, 'green');
 							}

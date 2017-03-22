@@ -171,7 +171,9 @@ if(Input::exists())
 	}
 	else
 	{
-		Redirect::to('index.php');
+		$json['error_status'] = true;
+		$json['error'] = "Token mismatch error, try again by refreshing page";
+		echo json_encode($json);
 	}
 }
 else
