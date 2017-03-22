@@ -44,6 +44,18 @@ if(Input::exists())
 						));
 					if(!$blog)
 						throw new Exception("Unable to update blog. Please try again later");
+
+					DB::getInstance()->delete('blog_tags', array('blog_id', '=', Input::get('blog_id')));
+
+					$tags = Input::get('blog_tags');
+
+					foreach($tags as $tag)
+					{
+						DB::getInstance()->insert('blog_tags', array(
+							'blog_id' => Input::get('blog_id'),
+							'tags' => $tag
+						));
+					}
 				}
 				catch(Exception $e)
 				{

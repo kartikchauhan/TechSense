@@ -162,16 +162,21 @@ else
     				var title = $('#title').val();
     				var description = $('#description').val();
     				var blog = tinyMCE.activeEditor.getContent();
+                    var tags_array = $('.chips').material_chip('data');
 
-                    if(!validateData())
+                    if(!validateData(title, description, blog, tags_array.length, _token))
                     {
                         return false;
                     }
+                    var tags = [];
+                    $.each(tags_array, function(key, val) {
+                        tags.push(val.tag);
+                    });
 
     				$.ajax({
     					type: 'POST',
     					url: 'update_blog_backend.php',
-    					data: {blog_id: blog_id, title: title, description: description, blog: blog, _token: _token},
+    					data: {blog_id: blog_id, title: title, description: description, blog: blog, _token: _token, blog_tags: tags},
     					cache: false,
     					success: function(response)
     					{
@@ -190,7 +195,7 @@ else
     				});
     			});
 
-                function validateData(title, description, blog)
+                function validateData(title, description, blog, num_tags, _token)
                 {
                     if(title === '')
                     {
@@ -205,6 +210,11 @@ else
                     if(blog === '')
                     {
                         Materialize.toast('Blog is required', 5000, 'red');
+                        return false;
+                    }
+                    if(num_tags === 0)
+                    {
+                        Materialize.toast('You need to add atleast one tag', 5000, 'red');
                         return false;
                     }
                     return true;
