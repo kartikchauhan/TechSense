@@ -4,9 +4,9 @@ require_once'Core/init.php';
 
 if(Input::exists())
 {
-	if(Token::check(Input::get('_token')))
-	{
-		$json['_token'] = Token::generate();
+	// if(Token::check(Input::get('_token')))
+	// {
+		// $json['_token'] = Token::generate();
 		$user = new User;
 
 		if($user->isLoggedIn())
@@ -332,7 +332,7 @@ if(Input::exists())
 		}
 
 		echo json_encode($json);
-	}
+	// }
 }
 	
 

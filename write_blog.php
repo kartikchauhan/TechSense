@@ -176,13 +176,17 @@ if(!$user->isLoggedIn())
                         {
                             // var response = JSON.parse(response);
                             console.log(response);
-                            $('#_token').val(response._token);
-                            if(response.error_status)
+                            if(response.error_status === true)
                             {
+                                if(response.error_code != 1)
+                                {
+                                    $('#_token').val(response._token);
+                                }
                                 Materialize.toast(response.error, 5000, 'red');
                             }
                             else
                             {
+                                $('#_token').val(response._token);
                                 Materialize.toast("Your blog has been successfully posted.", 5000, "green");
                             }
                         }

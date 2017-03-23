@@ -11,6 +11,7 @@ if(Input::exists('post'))
 {
 	if(Token::check(Input::get('_token')))
 	{
+		$json['error_code'] = 0;	// error_code = 0 => for all type of errors except token_mismatch
 		$json['error_status'] = false;
 		$json['_token'] = Token::generate();
 		$Validate = new Validate;
@@ -78,6 +79,7 @@ if(Input::exists('post'))
 	}
 	else
 	{
+		$json['error_code'] = 1;	// error_code = 1 => for token_mismatch error
 		$json['error_status'] = true;
 		$json['error'] = "Token mismatch error, try again after refreshing the page";
 		header("Content-Type: application/json", true);

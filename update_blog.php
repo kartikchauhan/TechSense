@@ -183,14 +183,18 @@ else
     					success: function(response)
     					{
     						// var response = JSON.parse(response);
-    						$('#_token').val(response._token);
     						console.log(response);
     						if(response.error_status === true)
     						{
+                                if(response.error_code != 1)
+                                {
+                                    $('#_token').val(response._token);
+                                }
     							Materialize.toast(response.error, 5000, "red");
     						}
     						else
     						{
+                                $('#_token').val(response._token);
     							Materialize.toast('Your blog has been updated successfully', 5000, "green");
     						}
     					}

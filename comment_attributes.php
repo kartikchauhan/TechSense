@@ -5,8 +5,8 @@ require_once'Core/init.php';
 
 if(Input::exists('post'))
 {
-	if(Token::check(Input::get('_token')))
-	{
+	// if(Token::check(Input::get('_token')))
+	// {
 		$json['error_staus'] = false;
 		$json['_token'] = Token::generate();
 
@@ -219,12 +219,16 @@ if(Input::exists('post'))
 			$json['error_staus'] = true;
 			$json['error'] = "You need to login to vote";
 		}
+		header("Content-Type: application/json", true);
 		echo json_encode($json);
 	}
-	else
-	{
-		Redirect::to('index.php');
-	}
+	// else
+	// {
+	// 	$json['error_status'] = true;
+	// 	$json['error'] = "Token mismatch error, try again after refreshing the page";
+	// 	header("Content-Type: application/json", true);
+	// 	echo json_encode($json);
+	// }
 }
 else
 {

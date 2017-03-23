@@ -14,7 +14,7 @@ $name = '';
 $email = '';
 $usernames_available = '';
 
-if(Input::exists())
+if(Input::exists('post'))
 {
     if(Token::check(Input::get('_token')))
     {

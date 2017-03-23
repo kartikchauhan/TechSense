@@ -122,14 +122,18 @@ $user = new User;
     				success: function(response)
     				{
     					// var response = JSON.parse(response);
-    					$('#_token').val(response._token);
     					if(response.error_status === true)
     					{
+    						if(response.error_code != 1)
+			        		{
+			        			$('#_token').val(response._token);
+			        		}
     						Materialize.toast(response.error, 5000, "red");
     						$('.loader-container').hide();
     					}
     					else
     					{
+    						$('#_token').val(response._token);
     						if(typeof(Storage) !== 'undefined')
 	                        {
 	                            sessionStorage.setItem('flashMessage', 'The mail has been sent successfully');

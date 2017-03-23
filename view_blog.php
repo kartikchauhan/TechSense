@@ -731,16 +731,17 @@ else
 	                $.ajax({
 	                    type: 'POST',
 	                    url: 'blog_attributes.php',
-	                    data: {blog_id: blog_id, _token: _token, field: className},
+	                    data: {blog_id: blog_id, field: className},
+	                    dataType: "json",
 	                    cache: false,
 	                    success: function(response)
 	                    {
-	                        var response = JSON.parse(response);
+	                        // var response = JSON.parse(response);
 	                        console.log(response);
-	                        $('#_token').attr('data-attribute', response._token);
+	                        // $('#_token').attr('data-attribute', response._token);
 	                        if(response.error_status)
 	                        {
-	                            consol.log(response.error);
+	                            console.log(response.error);
 	                            Materialize.toast(response.error, 5000, 'red');
 	                            // return false;
 	                        }
@@ -776,19 +777,20 @@ else
 	                var object = $(this);	// anchor tag, user just clicked
 	                
 	                var comment_id = $(this).attr('data-attribute');	// comment_id of the comment, user wants to vote
-	                var _token = $('#_token').attr('data-attribute');
+	                // var _token = $('#_token').attr('data-attribute');
 	                var className = getClassName(this);		// checking if user clicked on comment-like or comment-dislike
 
 	                $.ajax({
 	                    type: 'POST',
 	                    url: 'comment_attributes.php',
-	                    data: {comment_id: comment_id, _token: _token, field: className},
+	                    data: {comment_id: comment_id, field: className},
+	                    dataType: "json",
 	                    cache: false,
 	                    success: function(response)
 	                    {
-	                        var response = JSON.parse(response);
+	                        // var response = JSON.parse(response);
 	                        console.log(response);
-	                        $('#_token').attr('data-attribute', response._token);
+	                        // $('#_token').attr('data-attribute', response._token);
 	                        if(response.error_status)
 	                        {
 	                            consol.log(response.error);
@@ -831,20 +833,25 @@ else
 						type: 'POST',
 						url: 'send_comment.php',
 						data: {blog_id: blog_id, comment: comment, _token: _token},
+						dataType: "json",
 						success: function(response)
 						{
-							var response = JSON.parse(response);
+							// var response = JSON.parse(response);
 							console.log(response);
 							$('#_token').attr('data-attribute', response._token);
 							if(response.error_status === false)
 							{
+								$('#_token').attr('data-attribute', response._token);
 								$('.no_comment').remove();
-
 								$('.comment-section').prepend(response.content);
 								// Materialize.toast('Your comment has been added successfully', 5000, 'green');
 							}
 							else
 							{
+								if(response.error_code != 1)
+				        		{
+				        			$('#_token').attr('data-attribute', response._token);
+				        		}
 								Materialize.toast(response.error, 5000, "red");
 							}
 						}
@@ -855,18 +862,19 @@ else
 				$('.popular_comments').on('click', function(e){
 					e.preventDefault();
 					var className = "popular_comments";
-					var _token = $('#_token').attr('data-attribute');
+					// var _token = $('#_token').attr('data-attribute');
 					var blog_id = $(this).attr('data-attribute');
 					$.ajax({
 						url: 'sort_comments.php',
-						data: {blog_id: blog_id, field: className, _token: _token},
+						data: {blog_id: blog_id, field: className},
+						dataType: "json",
 						type: 'POST',
 						// datatype : "application/json; charset=utf-8",
 						// contentType: "html",
 						success: function(response)
 						{
-							var response = JSON.parse(response);
-							$('#_token').attr('data-attribute', response._token);
+							// var response = JSON.parse(response);
+							// $('#_token').attr('data-attribute', response._token);
 							console.log(response);
 							$('.comment-section').html(response.content);
 						}
@@ -876,19 +884,20 @@ else
 				$('.new_comments').on('click', function(e){
 					e.preventDefault();
 					var className = 'new_comments';
-					var _token = $('#_token').attr('data-attribute');
+					// var _token = $('#_token').attr('data-attribute');
 					var blog_id = $(this).attr('data-attribute');
 					$.ajax({
 						type: 'POST',
 						url: 'sort_comments.php',
-						data: {blog_id: blog_id, field: className, _token: _token},
+						data: {blog_id: blog_id, field: className},
+						dataType: "json",
 						// datatype : "application/json; charset=utf-8",
 						// contentType: "html",
 						// processData: false,
 						success: function(response)
 						{
-							var response = JSON.parse(response);
-							$('#_token').attr('data-attribute', response._token);
+							// var response = JSON.parse(response);
+							// $('#_token').attr('data-attribute', response._token);
 							console.log(response);
 							$('.comment-section').html(response.content);
 						}

@@ -297,14 +297,18 @@ if(!$user->isLoggedIn())
 			        {
 			        	// var response = JSON.parse(response);
 			        	console.log(response);
-			        	$('#_token').val(response._token);
 			        	if(response.error_status === true)
 			        	{
+			        		if(response.error_code != 1)
+			        		{
+			        			$('#_token').val(response._token);
+			        		}
 			        		Materialize.toast(response.error, 5000, "red");
 			        		$('#description').focus();
 			        	}
 			        	else
 			        	{
+			        		$('#_token').val(response._token);
 			        		Materialize.toast("Your Information has been updated successfully", 5000, "green");
 			        	}
 			        }
@@ -338,12 +342,12 @@ if(!$user->isLoggedIn())
                 $(object).parent().addClass('active');
                 var page_id = $(object).html();
                 console.log("page_id  = " + page_id);
-                var _token = $('#_token').val();
+                // var _token = $('#_token').val();
 
                 $.ajax({
                     type: 'POST',
                     url: 'pagination_backend.php',
-                    data: {page_id: page_id, _token: _token, author: true},
+                    data: {page_id: page_id, author: true},
                     dataType: "json",
                     cache: false,
                     async: false,
@@ -414,6 +418,7 @@ if(!$user->isLoggedIn())
 						type: 'POST',
 						url: 'delete_blog.php',
 						data: {blog_id: blog_id},
+						dataType: "json",
 						cache: false,
 						success: function(response)
 						{
