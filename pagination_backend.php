@@ -6,9 +6,9 @@ $user = new User;
 
 if(Input::exists())
 {
-	if(Token::check(Input::get('_token')))
-	{
-		$json['_token'] = Token::generate();
+	// if(Token::check(Input::get('_token')))
+	// {
+		// $json['_token'] = Token::generate();
 		$records_per_page = 3;
 
 		$page_id = Input::get('page_id') - 1;	// get page_if from user ie get the page number of which user wants to see blogs
@@ -166,15 +166,15 @@ if(Input::exists())
 		{
 			$json['content'] = 'Sorry, no blogs';
 		}
-
+		header("Content-Type: application/json", true);
 		echo json_encode($json);
-	}
-	else
-	{
-		$json['error_status'] = true;
-		$json['error'] = "Token mismatch error, try again by refreshing page";
-		echo json_encode($json);
-	}
+	// }
+	// else
+	// {
+	// 	$json['error_status'] = true;
+	// 	$json['error'] = "Token mismatch error, try again by refreshing page";
+	// 	echo json_encode($json);
+	// }
 }
 else
 {

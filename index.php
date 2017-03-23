@@ -80,10 +80,10 @@ require_once'Core/init.php';
         {
             font-size: 12px;
         }
-        ._token
+/*        ._token
         {
             display: none;
-        }
+        }*/
         a
         {
             text-decoration: none;
@@ -123,7 +123,7 @@ require_once'Core/init.php';
     </div>
     <div id="secondary-content">
         <div class="row">
-            <div id='_token' class="_token" data-attribute="<?php echo Token::generate(); ?>"></div>
+            
             <div class="col s12 l8">
                 <h5 class="center-align">Recent Blogs</h5>
                 <!-- <div class="content" id="content"> -->
@@ -359,16 +359,17 @@ require_once'Core/init.php';
                 $('.active').removeClass('active');
                 $(this).parent().addClass('active');
                 var page_id = $(this).html();
-                var _token = $('#_token').attr('data-attribute');
+                // var _token = $('#_token').attr('data-attribute');
 
                 $.ajax({
                     type: 'POST',
                     url: 'pagination_backend.php',
-                    data: {page_id: page_id, _token: _token},
+                    data: {page_id: page_id},
+                    dataType: "json",
                     cache: false,
                     success: function(response)
                     {
-                        var response = JSON.parse(response);
+                        // var response = JSON.parse(response);
                         console.log(response);
                         if(response.error_status === true)
                         {
@@ -376,8 +377,8 @@ require_once'Core/init.php';
                         }
                         else
                         {
-                            console.log(response._token);
-                            $('#_token').attr('data-attribute', response._token);
+                            // console.log(response._token);
+                            // $('#_token').attr('data-attribute', response._token);
                             $('.content').html(response.content);
                         }
                     }
