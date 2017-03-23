@@ -290,11 +290,12 @@ if(!$user->isLoggedIn())
 			        url: 'authors_info_backend.php',
 			        data: data,
 			        contentType: false,
+			        dataType: "json",
 			        processData: false,		// not processing the data
 			        type: 'POST',
 			        success: function(response)
 			        {
-			        	var response = JSON.parse(response);
+			        	// var response = JSON.parse(response);
 			        	console.log(response);
 			        	$('#_token').val(response._token);
 			        	if(response.error_status === true)
@@ -343,11 +344,12 @@ if(!$user->isLoggedIn())
                     type: 'POST',
                     url: 'pagination_backend.php',
                     data: {page_id: page_id, _token: _token, author: true},
+                    dataType: "json",
                     cache: false,
                     async: false,
                     success: function(response)
                     {
-                        var response = JSON.parse(response);
+                        // var response = JSON.parse(response);
                         console.log(response);
                         if(response.error_status)
                         {
@@ -355,8 +357,8 @@ if(!$user->isLoggedIn())
                         }
                         else
                         {
-	                        console.log("count records is " + response.count);
-	                        $('#_token').val(response._token);
+	                        // console.log("count records is " + response.count);
+	                        // $('#_token').val(response._token);
 	                        $('.content').html(response.content);
                         	
                         }
@@ -406,18 +408,18 @@ if(!$user->isLoggedIn())
 				if(user_response == true)
 				{
 					var blog_id = $(this).attr('data-attribute');
-					var _token = $('#_token').val();
+					// var _token = $('#_token').val();
 					var object = $(this);
 					$.ajax({
 						type: 'POST',
 						url: 'delete_blog.php',
-						data: {blog_id: blog_id, _token: _token},
+						data: {blog_id: blog_id},
 						cache: false,
 						success: function(response)
 						{
-							var response = JSON.parse(response);
+							// var response = JSON.parse(response);
 							// console.log(response);
-							$('#_token').val(response._token);
+							// $('#_token').val(response._token);
 							if(response.error_status == true)
 							{
 								Materialize.toast(response.error, 5000, "red");

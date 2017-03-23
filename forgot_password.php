@@ -117,10 +117,11 @@ $user = new User;
     				type: "POST",
     				url: 'forgot_password_backend.php',
     				data: {email: email, _token: _token},
+    				dataType: "json",
     				cache: false,
     				success: function(response)
     				{
-    					var response = JSON.parse(response);
+    					// var response = JSON.parse(response);
     					$('#_token').val(response._token);
     					if(response.error_status === true)
     					{

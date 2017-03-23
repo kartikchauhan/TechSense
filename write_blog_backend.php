@@ -63,13 +63,14 @@ if(Input::exists('post'))
 			$json['error'] = "You need to login to write a blog";
 		}
 
-
+		header("Content-Type: application/json", true);
 		echo json_encode($json);
 	}
 	else
 	{
 		$json['error_status'] = true;
-		$json['error'] = "Token mismatch error, try again by refreshing page";
+		$json['error'] = "Token mismatch error, try again after refreshing the page";
+		header("Content-Type: application/json", true);
 		echo json_encode($json);
 	}
 }

@@ -42,7 +42,7 @@ else
         <link rel="preload" as="script" href="Includes/js/materialize.min.js">
         <link rel="preload" as="script" href="Includes/js/jquery.min.js">
         <link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="preload" as="style" href="vendor/tinymce/tinymce/tinymce.min.js">
+        <link rel="preload" as="script" href="vendor/tinymce/tinymce/tinymce.min.js">
     	<title>Update Blog</title>
     	<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -178,10 +178,11 @@ else
     					type: 'POST',
     					url: 'update_blog_backend.php',
     					data: {blog_id: blog_id, title: title, description: description, blog: blog, _token: _token, blog_tags: tags},
+                        dataType: "json",
     					cache: false,
     					success: function(response)
     					{
-    						var response = JSON.parse(response);
+    						// var response = JSON.parse(response);
     						$('#_token').val(response._token);
     						console.log(response);
     						if(response.error_status === true)

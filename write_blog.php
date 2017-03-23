@@ -169,11 +169,12 @@ if(!$user->isLoggedIn())
                     $.ajax({
                         type: 'POST',
                         data: {title: title, description: description, blog: blog, _token: _token, blog_tags: tags},
+                        dataType: "json",
                         url: 'write_blog_backend.php',
                         cache: false,
                         success: function(response)
                         {
-                            var response = JSON.parse(response);
+                            // var response = JSON.parse(response);
                             console.log(response);
                             $('#_token').val(response._token);
                             if(response.error_status)

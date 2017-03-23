@@ -64,11 +64,15 @@ if(Input::exists('post'))
 			$json['error_status'] = true;
 			$json['error'] = "You need to log in";
 		}
+		header("Content-Type: application/json", true);
 		echo json_encode($json);
 	}
 	else
 	{
-		Redirect::to('change_password.php');
+		$json['error_status'] = true;
+		$json['error'] = "Token mismatch error, try again after refreshing the page";
+		header("Content-Type: application/json", true);
+		echo json_encode($json);
 	}
 }
 else

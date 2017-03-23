@@ -106,10 +106,11 @@ $user = new User;
     				type: "POST",
     				url: 'change_password_backend.php',
     				data: {current_password: current_password, password: new_password, confirm_password: confirm_password, _token: _token},
+                    dataType: "json",
     				cache: false,
     				success: function(response)
     				{
-    					var response = JSON.parse(response);
+    					// var response = JSON.parse(response);
     					$('#_token').val(response._token);
     					if(response.error_status === true)
     					{

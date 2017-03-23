@@ -172,7 +172,7 @@ if(Input::exists())
 	// else
 	// {
 	// 	$json['error_status'] = true;
-	// 	$json['error'] = "Token mismatch error, try again by refreshing page";
+	// 	$json['error'] = "Token mismatch error, try again after refreshing the page";
 	// 	echo json_encode($json);
 	// }
 }
