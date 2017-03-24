@@ -41,9 +41,13 @@ if(!$user->isLoggedIn())
     	width: 100%;
     }
     nav ul .dropdown-button
-        {
-            width: 200px !important;
-        }
+    {
+        width: 200px !important;
+    }
+    .authors_profile_pic
+    {
+    	max-height: 300px !important;
+    }
 	</style>
 </head>
 <body>
@@ -55,7 +59,7 @@ if(!$user->isLoggedIn())
 			<form action="" method="post" enctype="multipart/form-data">
 				<div class="row">
 					<div class="col l4 s12">
-						<img class="responsive-img materialboxed" src="<?php echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?>" width="100%">
+						<img class="responsive-img materialboxed authors_profile_pic" src="<?php echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?>" width="100%">
 						<div class="row">
 							<div class="col s12">
 								<div class="file-field input-field">
@@ -284,6 +288,8 @@ if(!$user->isLoggedIn())
 			
 			$(".button-collapse").sideNav();
 
+			$("#profile_pic").change(readURL);	
+
 			$('#update').on('click', function(){
 				console.log('update button clicked');
 				if(!validateData())
@@ -332,6 +338,22 @@ if(!$user->isLoggedIn())
 	
 			$('.toggle-user-blogs').click(function(){
 				$('.user-blogs').slideToggle('slow');
+			});
+
+			function readURL()
+			{
+				$('.authors_profile_pic').attr('src', '').hide();	// remove the current src of image
+				if (this.files && this.files[0]) {	// checking if any present in the files array
+					var reader = new FileReader();	// instantiating fileReader
+					$(reader).load(function(e) {	// when loading finishes, set the src to the new image's url
+						$('.authors_profile_pic').attr('src', e.target.result)
+					});
+					reader.readAsDataURL(this.files[0]);	// generating thumbnail
+				}
+			}
+
+			$('.authors_profile_pic').load(function(e) {
+				$(this).css('height', '300px').show();	// setti
 			});
 
 			function validateData()

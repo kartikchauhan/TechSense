@@ -332,7 +332,7 @@ else
 															<div class='section white-text'>
 																<div class='row white-text'>
 																	<div class='col s2 l4'>
-																		<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
+																		<img class='responsive-img materialboxed' style='height:50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
 																	</div>													
 																	<div class='col s5 offset-s1 l4'>
 																		<div class='row'>";
@@ -426,7 +426,7 @@ else
 															<div class='section white-text'>
 																<div class='row white-text'>
 																	<div class='col s2 l4'>
-																		<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
+																		<img class='responsive-img materialboxed' style='height: 50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
 																	</div>													
 																	<div class='col s5 offset-s1 l4'>
 																		<div class='row'>";
@@ -528,7 +528,7 @@ else
 															<div class='section white-text'>
 																<div class='row white-text'>
 																	<div class='col s2 l4'>
-																		<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
+																		<img class='responsive-img materialboxed' style='height: 50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
 																	</div>													
 																	<div class='col s5 offset-s1 l4'>
 																		<div class='row'>
@@ -566,7 +566,7 @@ else
 															<div class='section white-text'>
 																<div class='row white-text'>
 																	<div class='col s2 l4'>
-																		<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
+																		<img class='responsive-img materialboxed' style='height: 50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
 																	</div>													
 																	<div class='col s5 offset-s1 l4'>
 																		<div class='row'>
@@ -616,7 +616,7 @@ else
 					<div class="col s8 offset-s2 l5">
 						<div class="row">
 							<div class="col s12 l8">
-								<img class="materialboxed responsive-img z-depth-2" data-caption="<?php echo ucwords($author->name); ?>" src="<?php echo Config::get('url/upload_dir').'/'.$author->image_url?>"> <!-- <?php //echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?> -->
+								<img class="materialboxed responsive-img z-depth-2" style="height: 200px" data-caption="<?php echo ucwords($author->name); ?>" src="<?php echo Config::get('url/upload_dir').'/'.$author->image_url?>"> <!-- <?php //echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?> -->
 							</div>
 						</div>
 						<div class="row hide-on-small-only">
