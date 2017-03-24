@@ -195,7 +195,8 @@ else
     						else
     						{
                                 $('#_token').val(response._token);
-    							Materialize.toast('Your blog has been updated successfully', 5000, "green");
+    							sessionStorage.setItem('flashMessage', 'Your blog has been successfully updated');
+                                window.location = 'authors_info.php';
     						}
     					}
     				});

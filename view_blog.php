@@ -61,7 +61,7 @@ else
     	<link rel="preload" as="script" href="https://use.fontawesome.com/819d78ad52.js">
     	<link rel="preload" as="script" href="Includes/js/jquery.min.js">
     	<link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
-    	<link rel="preload" as="style" href="vendor/tinymce/tinymce/tinymce.min.js">
+    	<link rel="preload" as="script" href="vendor/tinymce/tinymce/tinymce.min.js">
 		<title>View Blog</title>
 		<!-- <meta property="og:type"          content="website" />
 		<meta property="og:title"         content="<?php echo $blog->data()->title; ?>" />
@@ -328,7 +328,7 @@ else
 															<div class='section white-text'>
 																<div class='row white-text'>
 																	<div class='col s2 l4'>
-																		<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
+																		<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
 																	</div>													
 																	<div class='col s5 offset-s1 l4'>
 																		<div class='row'>";
@@ -422,7 +422,7 @@ else
 															<div class='section white-text'>
 																<div class='row white-text'>
 																	<div class='col s2 l4'>
-																		<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
+																		<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
 																	</div>													
 																	<div class='col s5 offset-s1 l4'>
 																		<div class='row'>";
@@ -524,7 +524,7 @@ else
 															<div class='section white-text'>
 																<div class='row white-text'>
 																	<div class='col s2 l4'>
-																		<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
+																		<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
 																	</div>													
 																	<div class='col s5 offset-s1 l4'>
 																		<div class='row'>
@@ -562,7 +562,7 @@ else
 															<div class='section white-text'>
 																<div class='row white-text'>
 																	<div class='col s2 l4'>
-																		<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
+																		<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
 																	</div>													
 																	<div class='col s5 offset-s1 l4'>
 																		<div class='row'>
@@ -779,6 +779,7 @@ else
 	                var comment_id = $(this).attr('data-attribute');	// comment_id of the comment, user wants to vote
 	                // var _token = $('#_token').attr('data-attribute');
 	                var className = getClassName(this);		// checking if user clicked on comment-like or comment-dislike
+	                console.log('like or dislike button got clicked');
 
 	                $.ajax({
 	                    type: 'POST',
@@ -790,10 +791,12 @@ else
 	                    {
 	                        // var response = JSON.parse(response);
 	                        console.log(response);
+	                        console.log(response.error_status);
+	                        console.log(response.comment_status);
 	                        // $('#_token').attr('data-attribute', response._token);
 	                        if(response.error_status)
 	                        {
-	                            consol.log(response.error);
+	                            console.log(response.error);
 	                            Materialize.toast(response.error, 5000, 'red');
 	                            // return false;
 	                        }

@@ -266,6 +266,15 @@ if(!$user->isLoggedIn())
 
 		$("#update").off('click');
 		$('.nav-bar').removeClass('transparent');
+		if(typeof(Storage) !== "undefined")
+        {
+            console.log('not undefined');
+            if(sessionStorage.getItem("flashMessage") !== null)
+            {
+                Materialize.toast(sessionStorage.getItem("flashMessage"), 5000 ,'green');
+                sessionStorage.removeItem('flashMessage');
+            }
+        }
 
 		$(document).ready(function(){
 			

@@ -61,7 +61,7 @@ if(Input::exists())
 									<div class='section white-text'>
 										<div class='row white-text'>
 											<div class='col s2 l4'>
-												<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
+												<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
 											</div>													
 											<div class='col s5 offset-s1 l4'>
 												<div class='row'>";
@@ -155,7 +155,7 @@ if(Input::exists())
 									<div class='section white-text'>
 										<div class='row white-text'>
 											<div class='col s2 l4'>
-												<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
+												<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
 											</div>													
 											<div class='col s5 offset-s1 l4'>
 												<div class='row'>";
@@ -257,7 +257,7 @@ if(Input::exists())
 									<div class='section white-text'>
 										<div class='row white-text'>
 											<div class='col s2 l4'>
-												<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
+												<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
 											</div>													
 											<div class='col s5 offset-s1 l4'>
 												<div class='row'>
@@ -295,7 +295,7 @@ if(Input::exists())
 									<div class='section white-text'>
 										<div class='row white-text'>
 											<div class='col s2 l4'>
-												<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->name."
+												<img class='responsive-img materialboxed' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$comment->image_url."'>".$comment->username."
 											</div>													
 											<div class='col s5 offset-s1 l4'>
 												<div class='row'>

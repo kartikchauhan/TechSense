@@ -18,14 +18,20 @@ if(Input::exists('post'))
 				"name" => array(
 					"required" => true,
 					'min' => 2,
-					'max' => 25
+					'max' => 40
 					),
 				"github_username" => array(
-					"min" => 10
+					"min" => 3,
+					"max" => 50
 					),
 				"facebook_username" => array(
-					"min" => 10
+					"min" => 3,
+					"max" => 50
 					),
+				"twitter_username" => array(
+					"min" => 3,
+					"max" => 50
+					)
 				"description" => array(
 					"required" => true,
 					"min" => 10

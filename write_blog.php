@@ -187,7 +187,9 @@ if(!$user->isLoggedIn())
                             else
                             {
                                 $('#_token').val(response._token);
-                                Materialize.toast("Your blog has been successfully posted.", 5000, "green");
+                                sessionStorage.setItem('flashMessage', 'Your blog has been successfully posted');
+                                window.location = 'authors_info.php';
+                                // Materialize.toast("Your blog has been successfully posted.", 5000, "green");
                             }
                         }
                     });

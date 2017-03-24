@@ -8,7 +8,7 @@ if(Input::exists('post'))
 	// if(Token::check(Input::get('_token')))
 	// {
 		$json['error_staus'] = false;
-		$json['_token'] = Token::generate();
+		// $json['_token'] = Token::generate();
 
 		$user = new User;
 
@@ -221,7 +221,7 @@ if(Input::exists('post'))
 		}
 		header("Content-Type: application/json", true);
 		echo json_encode($json);
-	}
+	// }
 	// else
 	// {
 	// 	$json['error_status'] = true;
