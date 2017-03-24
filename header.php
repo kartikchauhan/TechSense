@@ -11,7 +11,7 @@
             <div class='nav-wrapper container'>
                 <a href='index.php' class='brand-logo'><img class='responsive-img logo' src='Includes/images/logo1.png'></a>
                 <a href='#' data-activates='mobile-demo' class='button-collapse'><i class='material-icons'>menu</i></a>
-                <ul class='right hide-on-med-and-down'>
+                <ul class='right hide-on-med-and-down navbar-menu'>
                     <li>
                         <form>
                             <div class='input-field'>
@@ -42,7 +42,7 @@
     else
     {
         echo
-        "<ul id='dropdown1' class='dropdown-content hide-on-med-and-down'>
+        "<ul id='dropdown1' class='dropdown-content hide-on-med-and-down' data-constrainwidth='false'>
             <li><a href='index.php' class='blue-text'>Home <i class='material-icons right'>home</i></a></li>
             <li class='divider'></li>
             <li><a href='write_blog.php' class='blue-text'>Write Blog <i class='material-icons right'>mode_edit</i></a></li>
@@ -53,7 +53,7 @@
             <li class='divider'></li>
             <li><a href='logout.php' class='blue-text'>Logout <i class='material-icons right'>exit_to_app</i></a></li>
         </ul>
-        <nav class='z-depth-2 blue transparent nav-bar' data-constrainwidth='false'>
+        <nav class='z-depth-2 blue transparent nav-bar'>
             <div class='nav-wrapper container'>
                 <a href='index.php' class='brand-logo'><img class='responsive-img logo' src='Includes/images/logo1.png'></a>
                 <a href='#' data-activates='mobile-demo' class='button-collapse'><i class='material-icons'>menu</i></a>
@@ -68,7 +68,7 @@
                         </form>
                     </li>
                     <li>
-                        <a class='dropdown-button' href='#!' data-activates='dropdown1'>".$user->data()->name."<i class='material-icons right'>arrow_drop_down</i></a>
+                        <a class='dropdown-button' href='#!' data-activates='dropdown1'>". $user->data()->name ."<i class='material-icons right'>arrow_drop_down</i></a>
                     </li>
                 </ul>
                 <ul class='side-nav' id='mobile-demo'>

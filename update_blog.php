@@ -65,6 +65,10 @@ else
             {
                 width: 100%;
             }
+            nav ul .dropdown-button
+            {
+                width: 200px !important;
+            }
         </style>
     </head>
     <body>

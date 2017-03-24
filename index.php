@@ -89,6 +89,14 @@ require_once'Core/init.php';
             text-decoration: none;
             color: none;
         }
+        nav ul .dropdown-button
+        {
+            width: 200px !important;
+        }
+        /*nav ul .navbar-menu
+        {
+            width: 167px;
+        }*/
     </style>
 </head>
 <body>

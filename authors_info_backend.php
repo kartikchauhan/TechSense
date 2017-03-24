@@ -31,7 +31,7 @@ if(Input::exists('post'))
 				"twitter_username" => array(
 					"min" => 3,
 					"max" => 50
-					)
+					),
 				"description" => array(
 					"required" => true,
 					"min" => 10

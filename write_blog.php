@@ -54,6 +54,10 @@ if(!$user->isLoggedIn())
             :-moz-placeholder { /* Firefox 18- */
               color: #9e9e9e;
             }
+            nav ul .dropdown-button
+            {
+                width: 200px !important;
+            }
 
         </style>
     </head>

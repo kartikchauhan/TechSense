@@ -40,6 +40,10 @@ if(!$user->isLoggedIn())
     {
     	width: 100%;
     }
+    nav ul .dropdown-button
+        {
+            width: 200px !important;
+        }
 	</style>
 </head>
 <body>
@@ -281,6 +285,7 @@ if(!$user->isLoggedIn())
 			$(".button-collapse").sideNav();
 
 			$('#update').on('click', function(){
+				console.log('update button clicked');
 				if(!validateData())
 				{
 					return false;
@@ -298,16 +303,17 @@ if(!$user->isLoggedIn())
 			    $.ajax({
 			        url: 'authors_info_backend.php',
 			        data: data,
+			        type: 'POST',
 			        contentType: false,
 			        dataType: "json",
 			        processData: false,		// not processing the data
-			        type: 'POST',
 			        success: function(response)
 			        {
+			        	console.log(response._token);
 			        	// var response = JSON.parse(response);
-			        	console.log(response);
 			        	if(response.error_status === true)
 			        	{
+			        		console.log(response._token);
 			        		if(response.error_code != 1)
 			        		{
 			        			$('#_token').val(response._token);
