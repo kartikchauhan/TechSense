@@ -57,21 +57,22 @@ else
 <!DOCTYPE html>
 <html>
 	<head>
+	
 		<link rel="preload" as="script" href="Includes/js/materialize.min.js">
     	<link rel="preload" as="script" href="https://use.fontawesome.com/819d78ad52.js">
     	<link rel="preload" as="script" href="Includes/js/jquery.min.js">
     	<link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
     	<link rel="preload" as="script" href="vendor/tinymce/tinymce/tinymce.min.js">
 		<title>View Blog</title>
-		<!-- <meta property="og:type"          content="website" />
+		<meta property="og:type"          content="website" />
 		<meta property="og:title"         content="<?php echo $blog->data()->title; ?>" />
 		<meta property="og:description"   content="<?php echo $blog->data()->description; ?>" />
-		<meta property="og:image"         content="https://api.icons8.com/download/078f8c929bac15838ba8b311161828512c3fbd3f/Color/PNG/256/Editing/edit-256.png"> -->
+		<meta property="og:image"         content="http://uvmbored.com/wp-content/uploads/2015/05/blog.jpg">
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:site" content="@BlogSparta" />
 		<meta name="twitter:title" content="<?php echo $blog->data()->title; ?>" />
 		<meta name="twitter:description" content="<?php echo $blog->data()->description; ?>" />
-		<meta name="twitter:image:src" content="https://api.icons8.com/download/078f8c929bac15838ba8b311161828512c3fbd3f/Color/PNG/256/Editing/edit-256.png" />
+		<meta name="twitter:image:src" content="http://uvmbored.com/wp-content/uploads/2015/05/blog.jpg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
@@ -239,13 +240,21 @@ else
 									<div class="row">
 										<div class="col s12 l10 offset-l2">
 											<div class="row">
-												<div class="col s6 l5">
-													<h5>Share this blog</h5>
+												<div class="col s12 l5">
+													<div class="hide-on-med-and-up center-align">
+														<h5>Share this blog</h5>
+													</div>
+													<div class="hide-on-small-only">
+														<h5>Share this blog</h5>
+													</div>
 												</div>
-												<div class="col s2 l2">
+												<div class="col s4 l2">
+													<div class="g-plus" data-action="share" data-annotation="none" data-height="30" data-href="<?php echo Config::get('url/current_url'); ?>"></div>
+												</div>
+												<div class="col s4 l2">
 													<a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="Check Out this blog" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 												</div>
-												<div class="col s2 l2 offset-s1">
+												<div class="col s4 l2">
 													<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Share</a></div>
 												</div>
 											</div>
@@ -609,6 +618,8 @@ else
 				</div>
 			</section>
 		</article>
+		<!-- Place the tag where you want the button to render -->
+<!-- <div class="g-plus" data-action="share" data-annotation="none" data-height="24" data-href="http://localhost/Blog_temp2/view_blog.php"></div> -->
 
 		<footer class="page-footer blue lighten-1">
 			<div class="container">
@@ -682,6 +693,7 @@ else
 	    <script src="https://use.fontawesome.com/819d78ad52.js"></script>
 	    <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
 	    <script src="vendor/tinymce/tinymce/tinymce.min.js"></script>
+	    <script src="https://apis.google.com/js/platform.js" async defer></script>
 	    <script>
 	    	if(typeof(Storage) !== "undefined")
 	        {

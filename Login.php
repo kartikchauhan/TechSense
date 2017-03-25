@@ -48,7 +48,7 @@ if(Input::exists('post'))
 						{
 							var url = sessionStorage.getItem('Redirect');
 							sessionStorage.removeItem('Redirect');
-							window.location = url;	
+							window.location = url;
 						}
 						else
 							window.location = 'index.php';
