@@ -3,7 +3,7 @@
 require_once'Core/init.php';
 
 if(Input::exists('post'))
-{
+{	
 	if(Token::check(Input::get('_token')))
 	{
 		$json['error_code'] = 0;	// error_code = 0 => for all type of errors except token_mismatch

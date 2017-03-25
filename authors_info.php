@@ -315,8 +315,8 @@ if(!$user->isLoggedIn())
 			        processData: false,		// not processing the data
 			        success: function(response)
 			        {
-			        	console.log(response._token);
 			        	// var response = JSON.parse(response);
+			        	console.log(response._token);
 			        	if(response.error_status === true)
 			        	{
 			        		console.log(response._token);

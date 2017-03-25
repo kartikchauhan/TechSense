@@ -4,6 +4,7 @@ class User
 {
 	private $_db,
 			$_sessionName,
+			$_tokenSession,
 			$_cookieName,
 			$_isLoggedIn = false,
 			$_data = null;
@@ -11,6 +12,7 @@ class User
 	public function __construct($user = null)
 	{
 		$this->_db = DB::getInstance();
+		$this->_tokenSession = Config::get('session/token_name');
 		$this->_sessionName = Config::get('session/session_name');
 		$this->_cookieName = Config::get('remember/cookie_name');
 
@@ -148,6 +150,7 @@ class User
 	{
 		$this->_db->delete('users_cookie', array('user_id', '=', $this->data()->id));
 		Session::delete($this->_sessionName);
+		Session::delete($this->_tokenSession);
 		Cookie::delete($this->_cookieName);
 		$this->_isLoggedIn = false;
 	}

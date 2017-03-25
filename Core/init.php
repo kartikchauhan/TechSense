@@ -33,7 +33,7 @@ $GLOBALS['config'] = array(
 		),
 	'session'=>array(
 		'session_name' => 'user',
-		'token_name' => 'token'
+		'token_name' => 'tokens'
 		),
 	'url'=>array(
 		'current_url' => $current_url,

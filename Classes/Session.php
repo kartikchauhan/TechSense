@@ -10,9 +10,26 @@ class Session
 			return false;
 	}
 
-	public static function put($name, $value)
+	public static function put($name, $value, $token = false)
 	{
-   		return $_SESSION[$name] = $value;
+		if($token === true)
+		{
+			if(!isset($_SESSION[$name]))
+			{
+				$_SESSION[$name] = array();
+				array_push($_SESSION[$name], $value);
+				return $value;
+			}
+			else
+			{	
+				array_push($_SESSION[$name], $value);
+				return $value;
+			}
+		}
+		else
+		{
+   			return $_SESSION[$name] = $value;
+		}
 	}
 
 	public static function get($name)
@@ -20,10 +37,19 @@ class Session
 		return $_SESSION[$name];
 	}
 
-	public static function delete($name)
+	public static function delete($name, $key = null)
 	{
 		if(self::exists($name))
-			unset($_SESSION[$name]);
+		{
+			if($key != null)
+			{
+				unset($_SESSION[$name][$key]);
+			}
+			else
+			{
+				unset($_SESSION[$name]);
+			}
+		}
 	}
 
 	public static function flash($name, $value = '')
