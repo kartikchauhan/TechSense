@@ -13,7 +13,7 @@ $redirectURL = 'http://localhost/Blog_temp2/login.php'; //Callback URL
 
 //Call Google API
 $gClient = new Google_Client();
-$gClient->setApplicationName('blogSparta');
+$gClient->setApplicationName('TechWit');
 $gClient->setClientId($clientId);
 $gClient->setClientSecret($clientSecret);
 $gClient->setRedirectUri($redirectURL);

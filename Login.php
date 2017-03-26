@@ -132,7 +132,7 @@ else if(Input::get('code'))
 	<body>
 	
 		<div id="login-form">
-			<h5 class="center-align condensed light">Sign in to BlogSparta</h5>
+			<h5 class="center-align condensed light">Sign in to TechWit</h5>
 			<div class="row">
 				<div class="col s12 l4 offset-l4 ">
 					<?php
@@ -183,7 +183,7 @@ else if(Input::get('code'))
 					</div>
 					<div class="section">
 						<ul class="collection center-align z-depth-1">
-							<li class="collection-item">New to BlogSparta? <a href="register.php">Create an account</a></li>
+							<li class="collection-item">New to TechWit? <a href="register.php">Create an account</a></li>
 						</ul>
 					</div>
 				</div>

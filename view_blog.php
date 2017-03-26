@@ -69,7 +69,7 @@ else
 		<meta property="og:description"   content="<?php echo $blog->data()->description; ?>" />
 		<meta property="og:image"         content="http://uvmbored.com/wp-content/uploads/2015/05/blog.jpg">
 		<meta name="twitter:card" content="summary" />
-		<meta name="twitter:site" content="@BlogSparta" />
+		<meta name="twitter:site" content="@TechWit" />
 		<meta name="twitter:title" content="<?php echo $blog->data()->title; ?>" />
 		<meta name="twitter:description" content="<?php echo $blog->data()->description; ?>" />
 		<meta name="twitter:image:src" content="http://uvmbored.com/wp-content/uploads/2015/05/blog.jpg" />

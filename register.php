@@ -160,7 +160,7 @@ function generateUsernames($name)
 	<body>
 	
 		<div id="registration-form">
-			<h5 class="center-align condensed light">Register to BlogSparta</h5>
+			<h5 class="center-align condensed light">Register to TechWit</h5>
 			<div class="row">
 				<div class="col s12 l4 offset-l4">
 					<!-- <ul class="collection center-align z-depth-1 error"> -->

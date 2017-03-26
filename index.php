@@ -321,7 +321,7 @@ require_once'Core/init.php';
             <div class="container">
                 <div class="row">
                     <div class="col l6 s12">
-                        <h5 class="white-text">BlogSparta</h5>
+                        <h5 class="white-text">TechWit</h5>
                         <p class="grey-text text-lighten-4">A place to read and write blogs about any technology.</p>
                     </div>
                     <div class="col l4 offset-l2 s12">
