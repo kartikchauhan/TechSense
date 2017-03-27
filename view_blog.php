@@ -771,12 +771,14 @@ else
 	    			Materialize.toast("You need to login to vote", 5000, "red");
 	    		});
 
-	    		$('.delete-comment').click(function(e) {
+	    		// $('.delete-comment').click(function(e) {
+	    			$('.comment-section').on('click', '.delete-comment', function(e) {
 	    			e.preventDefault();
 	    			var user_response = confirm("Are you sure you want to delete this blog?");
 					if(user_response == true)
 					{
 						var object = $(this);
+						console.log(object);
 		    			var comment_id = $(this).parents('.deletable-comments').attr('data-attribute');
 		    			console.log(comment_id);
 		    			$.ajax({

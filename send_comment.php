@@ -39,7 +39,7 @@ if(Input::exists('post'))
 						$lastComment = $comments = DB::getInstance()->joinSortComments(array('users', 'comments', 'blogs'), array('id', 'user_id', 'id', 'blog_id'), array('created_on', 'DESC'), array('id', '=', Input::get('blog_id')), array('id', 'comment_id', 'created_on', 'comment_created_on', 'likes', 'comment_likes', 'dislikes', 'comment_dislikes'))->first();	//fetching the comment user just submitted
 						$date = strtotime($lastComment->created_on);
 						// preparing response to be added in the view_blog page
-						$json['content'] = "<div class='row'>
+						$json['content'] = "<div class='row deletable-comments' data-attribute=".$lastComment->comment_id.">
 												<div class='col s11 offset-s1 blue z-depth-2'>
 													<div class='white-text'>"
 														.$lastComment->comment.
@@ -48,7 +48,7 @@ if(Input::exists('post'))
 													<div class='section white-text'>
 														<div class='row white-text'>
 															<div class='col s2 l4'>
-																<img class='responsive-img' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$lastComment->image_url."'>".$lastComment->name."
+																<img class='responsive-img' height='50px' width='50px' src='".Config::get('url/upload_dir').'/'.$lastComment->image_url."'>".$lastComment->username."
 															</div>													
 															<div class='col s5 offset-s1 l4'>
 																<div class='row'>
@@ -77,7 +77,7 @@ if(Input::exists('post'))
 																	$json['content'] = $json['content'].
 																	"<div class='row'>
 																		<div class='col s2 push-s4'>
-																			<i class='fa fa-trash fa-2x' aria-hidden='true'></i>
+																			<a class='delete-comment'><i class='fa fa-trash fa-2x' aria-hidden='true' style='color: white'></i></a>
 																		</div>
 																	</div>";
 																}
