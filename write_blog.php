@@ -65,6 +65,10 @@ if(!$user->isLoggedIn())
         <?php 
             include'header.php';
         ?>
+        <script type="text/javascript">
+            document.getElementById('nav-bar').classList.remove('transparent');
+        </script>
+        
         <div class="container">
             <div class="row">
                 <form action="" method="post" class="col s12">
@@ -107,7 +111,7 @@ if(!$user->isLoggedIn())
         <script src="vendor/tinymce/tinymce/tinymce.min.js"></script>
         <script>
             $(document).ready(function(){
-                $('.nav-bar').removeClass('transparent');
+                // $('.nav-bar').removeClass('transparent');
 
                 $(".button-collapse").sideNav();
 

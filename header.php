@@ -7,7 +7,7 @@
     if(!$user->isLoggedIn())
     {
         echo
-        "<nav class='z-depth-2 blue transparent nav-bar'>
+        "<nav class='z-depth-2 blue transparent nav-bar' id='nav-bar'>
             <div class='nav-wrapper container'>
                 <a href='index.php' class='brand-logo'><img class='responsive-img logo' src='Includes/images/logo3.png'></a>
                 <a href='#' data-activates='mobile-demo' class='button-collapse'><i class='material-icons'>menu</i></a>
@@ -53,7 +53,7 @@
             <li class='divider'></li>
             <li><a href='logout.php' class='blue-text'>Logout <i class='material-icons right'>exit_to_app</i></a></li>
         </ul>
-        <nav class='z-depth-2 blue transparent nav-bar'>
+        <nav class='z-depth-2 blue transparent nav-bar' id='nav-bar'>
             <div class='nav-wrapper container'>
                 <a href='index.php' class='brand-logo'><img class='responsive-img logo' src='Includes/images/logo3.png'></a>
                 <a href='#' data-activates='mobile-demo' class='button-collapse'><i class='material-icons'>menu</i></a>

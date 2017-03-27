@@ -54,6 +54,10 @@ if(!$user->isLoggedIn())
 	<?php 
 		include'header.php'; 
 	?>
+	<script type="text/javascript">
+    	document.getElementById('nav-bar').classList.remove('transparent');
+    </script>
+    
 	<div class="container">
 		<div class="section">
 			<form action="" method="post" enctype="multipart/form-data">
@@ -247,7 +251,7 @@ if(!$user->isLoggedIn())
             <div class="row">
                 <div class="col l6 s12">
                     <h5 class="white-text">TechWit</h5>
-                    <p class="grey-text text-lighten-4">A place to read and write blogs about any technology.</p>
+                    <p class="grey-text text-lighten-4">Publish your passions your way. Whether you'd like to share your knowledge, experiences or the latest tech news, create a unique and beautiful blog for free.</p>
                 </div>
                 <div class="col l4 offset-l2 s12">
                     <h5 class="white-text">View Our Other Projects</h5>
@@ -273,7 +277,7 @@ if(!$user->isLoggedIn())
 	<script type="text/javascript">
 
 		$("#update").off('click');
-		$('.nav-bar').removeClass('transparent');
+		// $('.nav-bar').removeClass('transparent');
 		if(typeof(Storage) !== "undefined")
         {
             console.log('not undefined');

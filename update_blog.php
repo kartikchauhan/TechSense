@@ -75,6 +75,10 @@ else
     	<?php 
     		include'header.php';
     	?>
+        <script type="text/javascript">
+            document.getElementById('nav-bar').classList.remove('transparent');
+        </script>
+        
     	<div class="container">
             <div class="row">
                 <form action="" method="post" class="col s12">
@@ -117,7 +121,7 @@ else
         <script src="vendor/tinymce/tinymce/tinymce.min.js"></script>
         <script type="text/javascript">
         	$(document).ready(function(){
-                $('.nav-bar').removeClass('transparent');
+                // $('.nav-bar').removeClass('transparent');
 
                 $(".button-collapse").sideNav();
 

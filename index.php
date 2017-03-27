@@ -51,20 +51,20 @@ require_once'Core/init.php';
         }
         #write-blog
         {
-            position: relative;
-            top: -30%;
-            z-index: 3;
+            position: relative !important;
+            top: -30% !important;
+            z-index: 3 !important;
         }
         .ghost-button
         {
-            display: inline-block;
-            width: 200px;
-            padding: 8px;
-            color: #fff;
-            border: 2px solid #fff;
-            text-align: center;
-            outline: none;
-            text-decoration: none;
+            display: inline-block !important;
+            width: 200px !important;
+            padding: 8px !important;
+            color: #fff !important;
+            border: 2px solid #fff !important;
+            text-align: center !important;
+            outline: none !important;
+            text-decoration: none !important;
         }
         .ghost-button:hover, .ghost-button:active
         {
@@ -126,12 +126,11 @@ require_once'Core/init.php';
             </li>            
         </ul>
         <div id="write-blog" class="center-align">
-            <a class="ghost-button" href="">WRITE A BLOG</a>
+            <a class="ghost-button" href="write_blog.php">WRITE A BLOG</a>
         </div>
     </div>
     <div id="secondary-content">
         <div class="row">
-            
             <div class="col s12 l8">
                 <h5 class="center-align">Recent Blogs</h5>
                 <!-- <div class="content" id="content"> -->
@@ -322,7 +321,7 @@ require_once'Core/init.php';
                 <div class="row">
                     <div class="col l6 s12">
                         <h5 class="white-text">TechWit</h5>
-                        <p class="grey-text text-lighten-4">A place to read and write blogs about any technology.</p>
+                        <p class="grey-text text-lighten-4">Publish your passions your way. Whether you'd like to share your knowledge, experiences or the latest tech news, create a unique and beautiful blog for free.</p>
                     </div>
                     <div class="col l4 offset-l2 s12">
                         <h5 class="white-text">View Our Other Projects</h5>
