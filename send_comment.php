@@ -66,8 +66,22 @@ if(Input::exists('post'))
 																	</div>
 																</div>
 															</div>
-															<div class='col s3 offset-s1'>"
-																.date('M d Y', $date).
+															<div class='col s3 offset-s1'>
+																<div class='row'>
+																	<div class='col s12'>"
+																		.date('M d Y', $date).
+																	"</div>
+																</div>";
+																if($user->data()->id === $lastComment->user_id)
+																{
+																	$json['content'] = $json['content'].
+																	"<div class='row'>
+																		<div class='col s2 push-s4'>
+																			<i class='fa fa-trash fa-2x' aria-hidden='true'></i>
+																		</div>
+																	</div>";
+																}
+															$json['content'] = $json['content'].
 															"</div>
 														</div>
 													</div>

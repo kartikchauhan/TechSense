@@ -113,8 +113,12 @@ else
 	        {
 	            width: 200px !important;
 	        }
+	        div .section
+	        {
+	        	padding-bottom: 0rem !important;
+	        }
 	    </style>
-	    
+
 	</head>
 	<body>
 		<?php 
@@ -335,7 +339,7 @@ else
 											if($counter%2)	// if counter%2 != 0, not adding offset-s1 class to the div
 											{
 												echo
-													"<div class='row'>
+													"<div class='row deletable-comments' data-attribute=".$comment->comment_id.">
 														<div class='col s11 blue z-depth-2'>
 															<div class='white-text'>"
 																.$comment->comment.
@@ -418,8 +422,22 @@ else
 																		echo
 																		"</div>
 																	</div>
-																	<div class='col s3 offset-s1'>"
-																		.date('M d Y', $date).
+																	<div class='col s3 offset-s1'>
+																		<div class='row'>
+																			<div class='col s12'>"
+																				.date('M d Y', $date).
+																			"</div>
+																		</div>";
+																		if($user->data()->id === $comment->user_id)
+																		{
+																			echo
+																			"<div class='row'>
+																				<div class='col s2 push-s4'>
+																					<a class='delete-comment'><i class='fa fa-trash fa-2x' aria-hidden='true' style='color: white'></i></a>
+																				</div>
+																			</div>";
+																		}
+																	echo
 																	"</div>
 																</div>
 															</div>
@@ -429,7 +447,7 @@ else
 											else    // if counter%2 == 0, adding offset-s1 class to the div, to make zig-zag pattern
 											{
 												echo
-													"<div class='row'>
+													"<div class='row deletable-comments' data-attribute=".$comment->comment_id.">
 														<div class='col s11 blue offset-s1 z-depth-2'>
 															<div class='white-text'>"
 																.$comment->comment.
@@ -512,8 +530,22 @@ else
 																		echo
 																		"</div>
 																	</div>
-																	<div class='col s3 offset-s1'>"
-																		.date('M d Y', $date).
+																	<div class='col s3 offset-s1'>
+																		<div class='row'>
+																			<div class='col s12'>"
+																				.date('M d Y', $date).
+																			"</div>
+																		</div>";
+																		if($user->data()->id === $comment->user_id)
+																		{
+																			echo
+																			"<div class='row'>
+																				<div class='col s2 push-s4'>
+																					<a class='delete-comment'><i class='fa fa-trash fa-2x' aria-hidden='true' style='color: white'></i></a>
+																				</div>
+																			</div>";
+																		}
+																	echo
 																	"</div>
 																</div>
 															</div>
@@ -531,7 +563,7 @@ else
 											if($counter%2)
 											{
 												echo
-													"<div class='row'>
+													"<div class='row' data-attribute=".$comment->comment_id.">
 														<div class='col s11 blue z-depth-2'>
 															<div class='white-text'>"
 																.$comment->comment.
@@ -569,7 +601,7 @@ else
 											else
 											{
 												echo
-													"<div class='row'>
+													"<div class='row' data-attribute=".$comment->comment_id.">
 														<div class='col s11 blue offset-s1 z-depth-2'>
 															<div class='white-text'>"
 																.$comment->comment.
@@ -634,11 +666,11 @@ else
 							</div>
 						</div>
 						<div class="row hide-on-small-only">
-							<div class="col s1 offset-s1">
-								<a href="https://www.github.com/<?php echo $author->github_username; ?>" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:black"></i></a> 	<!-- author's github url -->
+							<div class="col s1 l1 offset-s1 offset-l2">
+								<a href="https://www.github.com/<?php echo $author->github_username; ?>" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:white"></i></a> 	<!-- author's github url -->
 							</div>
-							<div class="col s1 offset-s1">
-								<a href="https://www.facebook.com/<?php echo $author->facebook_username; ?>" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:black"></i></a>	<!-- author's facebook url -->
+							<div class="col s1 l1 offset-s1 offset-l1">
+								<a href="https://www.facebook.com/<?php echo $author->facebook_username; ?>" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:white"></i></a>	<!-- author's facebook url -->
 							</div>
 						</div>
 					</div>
@@ -739,12 +771,48 @@ else
 	    			Materialize.toast("You need to login to vote", 5000, "red");
 	    		});
 
+	    		$('.delete-comment').click(function(e) {
+	    			e.preventDefault();
+	    			var user_response = confirm("Are you sure you want to delete this blog?");
+					if(user_response == true)
+					{
+						var object = $(this);
+		    			var comment_id = $(this).parents('.deletable-comments').attr('data-attribute');
+		    			console.log(comment_id);
+		    			$.ajax({
+		    				type: 'POST',
+		    				url: 'delete_comment.php',
+		    				data: {comment_id: comment_id},
+		    				dataType: "json",
+		    				cache: false,
+		    				success: function(response)
+		    				{
+		    					console.log(response);
+		    					if(response.error_status)
+		    					{
+		    						console.log(response.error);
+		    						Materialize.toast(response.error, 5000, "red");
+		    					}
+		    					else
+		    					{
+		    						object.parents('.deletable-comments').remove();
+		    					}
+		    				}
+		    			});
+	    			}
+	    			else
+	    			{
+	    				return true;
+	    			}
+
+	    		});
+
 	    		$('.likes, .dislikes').click(function(e){
 	                e.preventDefault();
 	                var object = $(this);
 	                
 	                var blog_id = $(this).attr('data-attribute');
-	                var _token = $('#_token').attr('data-attribute');
+	                // var _token = $('#_token').attr('data-attribute');
 	                var className = getClassName(this);
 
 	                $.ajax({

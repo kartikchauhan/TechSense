@@ -9,7 +9,7 @@ if(Input::exists())
 	// if(Token::check(Input::get('_token')))
 	// {
 		// $json['_token'] = Token::generate();
-		$records_per_page = 3;
+		$records_per_page = 5;
 
 		$page_id = Input::get('page_id') - 1;	// get page_if from user ie get the page number of which user wants to see blogs
 												// subtraction 1 is to maintain offset. 

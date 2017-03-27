@@ -137,12 +137,12 @@ require_once'Core/init.php';
                     <?php
                         $blogs = DB::getInstance()->sort('blogs', array('created_on', 'DESC'));
                         $num_blogs = $blogs->count();
-                        $num_pages = ceil($num_blogs/3);
+                        $num_pages = ceil($num_blogs/5);
                         if($num_blogs)  // show blogs if there are any, otherwise show message 'No blogs'
                         {   
                             echo "<div class='content' id='content'>";
                             $blogs = $blogs->results();
-                            $blogs = array_slice($blogs, 0, 3);
+                            $blogs = array_slice($blogs, 0, 5);
                             foreach($blogs as $blog)
                             {
                                 $blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));

@@ -32,6 +32,15 @@ class Comment
 	{
 		return $this->_data;
 	}
+
+	public function deleteComment($table, $fields = array())
+	{
+		if($comment = $this->_db->delete($table, $fields))
+		{
+			return $this;
+		}
+		return false;
+	}
 }
 
 ?>
