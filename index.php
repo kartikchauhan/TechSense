@@ -466,8 +466,3 @@ require_once'Core/init.php';
 </body>
 </html>
 
-<?php
-
-var_dump($_SESSION);
-
-?>

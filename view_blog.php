@@ -127,13 +127,21 @@ else
 	        {
 	        	padding-bottom: 0rem !important;
 	        }
-	        .modal .modal-content
+	        /*.modal .modal-content
 	        {
 	        	padding-bottom: 0px;
-	        }
+	        }*/
 	        .error
 	        {
 	        	display: none;
+	        }
+	        .card .card-content
+	        {
+	        	padding:0px;
+	        }
+	        .login_button_container
+	        {
+	        	margin-top: 12%;
 	        }
 	    </style>
 
@@ -305,8 +313,8 @@ else
 										<textarea class='materialize-textarea' id='comment' name='comment' data-attribute='".$blogId."'></textarea>
 									</div>
 									<div class='row'>
-										<div class='col s12 l6'>
-											<button type='button' class='btn waves-effect waves-light blue' name='send_comment' id='send_comment'>Post your comment</button>
+										<div class='input-field col s12 l6 offset-l3'>
+											<input type='submit' class='btn waves-effect waves-light blue' name='send_comment' id='send_comment' value='Post your comment'>
 										</div>
 									</div>
 								</form>";
@@ -316,7 +324,7 @@ else
 
 								echo
 								"<div class='center-align'>
-									<h6><a href='login.php' class='login-to-comment'>Login</a> to post a comment</h6>
+									<h6><a href='#modal1' class='login-to-comment'>Login</a> to post a comment</h6>
 								</div>";
 							}
 
@@ -671,14 +679,12 @@ else
 				</div>
 			</section>
 		</article>
-		<div id="modal1" class="modal">
+		<div id="modal1" class="modal modal-fixed-footer">
 		    <div class="modal-content">
 		      	<div id="login-form">
 					<h5 class="center-align condensed light">Sign in to TechWit</h5>
 					<div class="row">
-						<div class="col s12 l10 offset-l1">
-							<div class="row">
-								<div class="col s12 l8 offset-l2">
+						<div class="col s12 l6 offset-l3">
 								<ul class='collection center-align z-depth-1 error'>
 									<li class='collection-item red-text'></li>
 								</ul>
@@ -704,7 +710,7 @@ else
 														<div class="col s4 l4 offset-l4 offset-s4">
 															<a class="red-text" href="forgot_password.php">Forgot password?</a>
 														</div>
-														<div class="col l4 s4 offset-s4">
+														<div class="input-field col s12 l8 offset-l2 login_button_container">
 															<input type="submit" class="btn waves-effect waves-light" value="login" id="login">
 														</div>
 													</div>
@@ -723,12 +729,13 @@ else
 											<li class="collection-item">New to TechWit? <a href="register.php">Create an account</a></li>
 										</ul>
 									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<div class="modal-footer">
+		      	<a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
+		    </div>
     	</div>
 		<!-- Place the tag where you want the button to render -->
 <!-- <div class="g-plus" data-action="share" data-annotation="none" data-height="24" data-href="http://localhost/Blog_temp2/view_blog.php"></div> -->
@@ -937,7 +944,6 @@ else
 
 				$('.comment-like-not-logged-in, .comment-dislike-not-logged-in').click(function(e){	// if user is not logged in, restrict him from voting
 	    			e.preventDefault();
-	    			Materialize.toast("You need to login to vote", 5000, "red");
 	    		});
 
 				$('.comment-section').on('click', '.comment-like, .comment-dislike', function(e){	// request server to check if the request is valid, if valid add the user's reponse
@@ -996,7 +1002,8 @@ else
 	                });
 	            });			
 
-				$('#send_comment').on('click', function(){
+				$('#send_comment').on('click', function(e){
+					e.preventDefault();
 					var blog_id = $('#comment').attr('data-attribute');
 					var comment = tinyMCE.activeEditor.getContent();
 					var _token = $('#_token').attr('data-attribute');
