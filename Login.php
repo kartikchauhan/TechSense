@@ -12,63 +12,7 @@ if($user->isLoggedIn())
 
 $authUrl = $gClient->createAuthUrl();
 
-$error_status = false;
-$email = '';
-
-if(Input::exists('post'))
-{
-	if(Token::check(Input::get('_token')))
-	{
-		$email = Input::get('email');
-		$Validate = new Validate;
-		$Validate->check($_POST, array(
-			'email' => array(
-				'required' => true,
-				'email' => true
-				),
-			'password' => array(
-				'required' => true,
-				'min' => 6
-				)
-			));
-		if($Validate->passed())
-		{
-			if($user->login(Input::get('email'), Input::get('password'), Input::get('remember_me')))
-			{
-				// creating a flashMessage to show user once he's logged in
-				// checking if there's any javascript session 'Redirect', here being used for redirecting the user to the page where he came from before logging in
-				// redirecting the user to the page from where ha came before he was logged in
-				// redirecting the user to the home page if no javascript session exists
-				echo 
-				"<script>
-					if(typeof(Storage) !== 'undefined')
-					{
-						sessionStorage.setItem('flashMessage', 'You have successfully logged in');
-						if(sessionStorage.getItem('Redirect') !== null)
-						{
-							var url = sessionStorage.getItem('Redirect');
-							sessionStorage.removeItem('Redirect');
-							window.location = url;
-						}
-						else
-							window.location = 'index.php';
-					}
-				</script>";
-			}
-			else
-			{
-				$error_status = true;
-				$error = "Either email or password wrong";
-			}
-		}
-		else
-		{
-			$error_status = true;
-			$error = $Validate->errors()[0];
-		}
-	}
-}
-else if(Input::get('code'))
+if(Input::get('code'))
 {
 	$gClient->authenticate(Input::get('code'));
 	Session::put('googleToken', $gClient->getAccessToken());
@@ -126,6 +70,10 @@ else if(Input::get('code'))
 			{
 				width: 100%;
 			}
+			.error
+			{
+				display: none;
+			}
 		</style>
 
 	</head>
@@ -135,23 +83,17 @@ else if(Input::get('code'))
 			<h5 class="center-align condensed light">Sign in to TechWit</h5>
 			<div class="row">
 				<div class="col s12 l4 offset-l4 ">
-					<?php
-						if($error_status)
-						{
-							echo 
-							"<ul class='collection center-align z-depth-1 error'>
-								<li class='collection-item red-text'>".$error."</li>
-							</ul>";
-						}
-					?>
+					<ul class='collection center-align z-depth-1 error'>
+						<li class='collection-item red-text'></li>
+					</ul>
 					<div class="card">
 						<div class="card-content">
 							<div class="row">
-								<form class="col s12 m12 l12" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+								<form class="col s12 m12 l12" action="" method="post">
 									<div class="row">
 										<div class="input-field col s12">
 											<i class="material-icons prefix">email</i>
-											<input type="text" name="email" id="email" value="<?php echo $email; ?>" />
+											<input type="text" name="email" id="email" value="" />
 											<label for="email">Email</label>
 										</div>
 										<div class="input-field col s12">
@@ -201,6 +143,65 @@ else if(Input::get('code'))
                 	sessionStorage.removeItem("flashMessage");
             	}
             }
+            $(document).ready(function() {
+            	$('#submit').click(function(e) {
+            		e.preventDefault();
+            		var _token = $('#_token').val();
+            		var email = $('#email').val();
+            		var password = $('#password').val();
+            		var remember_me = null;
+            		if($('#remember_me').prop('checked') == true)
+            		{
+            			remember_me = true;
+            		}
+            		else
+            		{
+            			remember_me = false;
+            		}
+            		console.log(_token + email + password + remember_me);
+
+            		$.ajax({
+            			url: 'login_backend.php',
+            			data: {email: email, password: password, remember_me: remember_me, _token: _token},
+            			type: 'POST',
+            			dataType: "json",
+            			cache: false,
+            			success : function(response)
+            			{
+            				// var response = JSON.parse(response);
+            				console.log(response);
+            				if(response.error_status == true)
+            				{
+            					$('.error').show();
+            					console.log(response._token);
+				        		if(response.error_code != 1)
+				        		{
+				        			$('#_token').val(response._token);
+				        		}
+				        		$('.error').show().find('li').text(response.error);
+				        		Materialize.toast(response.error, 5000, "red");
+            				}
+            				else
+            				{
+            					window.location = 'index.php';
+            					$('#_token').val(response._token);
+            					if(typeof(Storage) !== 'undefined')
+								{
+									sessionStorage.setItem('flashMessage', 'You have successfully logged in');
+									if(sessionStorage.getItem('Redirect') !== null)
+									{
+										var url = sessionStorage.getItem('Redirect');
+										sessionStorage.removeItem('Redirect');
+										window.location = url;
+									}
+									else
+										window.location = 'index.php';
+								}
+            				}
+            			}
+            		});
+            	});
+            });
 		</script>
 	</body>
 </html>

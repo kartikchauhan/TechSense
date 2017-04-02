@@ -160,7 +160,7 @@ function generateUsernames($name)
 	<body>
 	
 		<div id="registration-form">
-			<h5 class="center-align condensed light">Register to TechWit</h5>
+			<h5 class="center-align condensed light">Register to JSS Student Portal</h5>
 			<div class="row">
 				<div class="col s12 l4 offset-l4">
 					<!-- <ul class="collection center-align z-depth-1 error"> -->
@@ -186,24 +186,24 @@ function generateUsernames($name)
 											<label for="name">Name</label>
 										</div>
 										<div class="input-field col s12">
-											<i class="material-icons prefix">person</i>
-											<input type="text" name="username" id="username" />
-											<label for="username">Username</label>
-                                            <?php
-                                                if(!empty($usernames_available))
-                                                {
-                                                    echo "<span class='red-text center-align'>".$usernames_available."</span>";
-                                                }
-                                            ?>
-										</div>
-										<div class="center-align">
-											<span class="usernames-available red-text"></span>
+											<i class="material-icons prefix">edit</i>
+											<input type="number" name="student_id" id="student_id" />
+											<label for="student_id">Student Id</label>
 										</div>
 										<div class="input-field col s12">
 											<i class="material-icons prefix">email</i>
 											<input type="text" name="email" id="email" value="<?php echo $email ?>"/>
 											<label for="email">Email</label>
 										</div>
+                                        <div class="input-field col s12">
+                                            <select>
+                                                <option value="" disabled selected>Choose your option</option>
+                                                <option value="1">Option 1</option>
+                                                <option value="2">Option 2</option>
+                                                <option value="3">Option 3</option>
+                                            </select>
+                                            <label>Materialize Select</label>
+                                        </div>
 										<div class="input-field col s12">
 											<i class="material-icons prefix">lock</i>
 											<input type="password" name="password" id="password" />

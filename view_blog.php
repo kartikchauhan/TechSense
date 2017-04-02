@@ -117,6 +117,14 @@ else
 	        {
 	        	padding-bottom: 0rem !important;
 	        }
+	        .modal .modal-content
+	        {
+	        	padding-bottom: 0px;
+	        }
+	        .error
+	        {
+	        	display: none;
+	        }
 	    </style>
 
 	</head>
@@ -145,12 +153,12 @@ else
 				<div class="container">
 					<div class="section">
 						<div class="row">
-							<div class="col s10 l10">
+							<div class="col s12 l10">
 								<h1 class="white-text thin"> <?php echo strtoupper($blog->data()->title); ?></h1>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col s10">
+							<div class="col s12 l10">
 								<h5 class="white-text thin"> <?php echo ucfirst($blog->data()->description); ?></h5>
 							</div>
 						</div>
@@ -236,10 +244,10 @@ else
 											{
 												echo
 												"<div class='col s1'>
-													<a class='likes-not-logged-in' data-attribute=".$blog->data()->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: grey'></i></a>
+													<a href='#modal1' class='likes-not-logged-in' data-attribute=".$blog->data()->id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: grey'></i></a>
 												</div>
 												<div class='col s1 offset-s1 m1 l1'>
-													<a class='dislikes-not-logged-in' data-attribute=".$blog->data()->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: grey'></i></a>
+													<a href='#modal1' class='dislikes-not-logged-in' data-attribute=".$blog->data()->id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: grey'></i></a>
 												</div>";
 											}
 										?>
@@ -577,13 +585,13 @@ else
 																	<div class='col s5 offset-s1 l4'>
 																		<div class='row'>
 																			<div class='col s3'>
-																				<a class='comment-like-not-logged-in' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																				<a href='#modal1' class='comment-like-not-logged-in' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
 																			</div>
 																			<div class='col s3'>
 																				<div class='white-text comment-count-likes'>".$comment->comment_likes."</div>
 																			</div>
 																			<div class='col s3'>
-																				<a class='comment-dislike-not-logged-in' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																				<a href='#modal1' class='comment-dislike-not-logged-in' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
 																			</div>
 																			<div class='col s3'>
 																				<div class='white-text comment-count-dislikes'>".$comment->comment_dislikes."</div>
@@ -615,13 +623,13 @@ else
 																	<div class='col s5 offset-s1 l4'>
 																		<div class='row'>
 																			<div class='col s3'>
-																				<a class='comment-like-not-logged-in' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
+																				<a href='#modal1' class='comment-like-not-logged-in' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color: white'></i></a>
 																			</div>
 																			<div class='col s3'>
 																				<div class='white-text comment-count-likes'>".$comment->comment_likes."</div>
 																			</div>
 																			<div class='col s3'>
-																				<a class='comment-dislike-not-logged-in' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
+																				<a href='#modal1' class='comment-dislike-not-logged-in' data-attribute=".$comment->comment_id."><i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color: white'></i></a>
 																			</div>
 																			<div class='col s3'>
 																		  		<div class='white-text comment-count-dislikes'>".$comment->comment_dislikes."</div>
@@ -653,6 +661,65 @@ else
 				</div>
 			</section>
 		</article>
+		<div id="modal1" class="modal">
+		    <div class="modal-content">
+		      	<div id="login-form">
+					<h5 class="center-align condensed light">Sign in to TechWit</h5>
+					<div class="row">
+						<div class="col s12 l10 offset-l1">
+							<div class="row">
+								<div class="col s12 l8 offset-l2">
+								<ul class='collection center-align z-depth-1 error'>
+									<li class='collection-item red-text'></li>
+								</ul>
+									<div class="card">
+										<div class="card-content">
+											<div class="row">
+												<form class="col s12 l12" action="" method="post">
+													<div class="row">
+														<div class="input-field col s12">
+															<i class="material-icons prefix">email</i>
+															<input type="text" name="login_email" id="login_email"/>
+															<label for="login_email">Email</label>
+														</div>
+														<div class="input-field col s12">
+															<i class="material-icons prefix">lock</i>
+															<input type="password" name="password" id="password" />
+															<label for="password">Password</label>
+														</div>
+														<div class="col s4 l4" id="remember-me-container">
+															<input type="checkbox" id="remember_me" name="remember_me">
+															<label for="remember_me"> Remember Me</label>
+														</div>
+														<div class="col s4 l4 offset-l4 offset-s4">
+															<a class="red-text" href="forgot_password.php">Forgot password?</a>
+														</div>
+														<div class="col l4 s4 offset-s4">
+															<input type="submit" class="btn waves-effect waves-light" value="login" id="login">
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+									<div class="center-align">Or</div>
+									<div class="row">
+										<div class="col s12 l12">
+											<a href="" class="waves-effect waves-light btn red">Sign in with google</a>
+										</div>
+									</div>
+									<div class="section">
+										<ul class="collection center-align z-depth-1">
+											<li class="collection-item">New to TechWit? <a href="register.php">Create an account</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+    	</div>
 		<!-- Place the tag where you want the button to render -->
 <!-- <div class="g-plus" data-action="share" data-annotation="none" data-height="24" data-href="http://localhost/Blog_temp2/view_blog.php"></div> -->
 
@@ -742,6 +809,8 @@ else
 	    		// $('.nav-bar').removeClass('transparent');
 
 	    		$(".button-collapse").sideNav();
+
+	    		$('.modal').modal();
 	    		
 	    			tinymce.init({
 	                    selector: '#comment',
@@ -766,10 +835,10 @@ else
 	                    ]
 	                });
 
-	    		$('.likes-not-logged-in, .dislikes-not-logged-in').click(function(e){	// if user is not logged in, restrict him from voting
-	    			e.preventDefault();
-	    			Materialize.toast("You need to login to vote", 5000, "red");
-	    		});
+	    		// $('.likes-not-logged-in, .dislikes-not-logged-in').click(function(e){	// if user is not logged in, restrict him from voting
+	    		// 	e.preventDefault();
+	    		// 	// Materialize.toast("You need to login to vote", 5000, "red");
+	    		// });
 
 	    		// $('.delete-comment').click(function(e) {
 	    			$('.comment-section').on('click', '.delete-comment', function(e) {
@@ -1001,10 +1070,70 @@ else
 					if(typeof(Storage) !== "undefined")
 					{
 						sessionStorage.setItem('Redirect', document.URL);
-						window.location = 'login.php';
+						// window.location = 'login.php';
 					}
 
 				});
+
+				$('#login').click(function(e) {
+            		e.preventDefault();
+            		var _token = $('#_token').attr('data-attribute');
+            		var email = $('#login_email').val();
+            		var password = $('#password').val();
+            		var remember_me = null;
+            		if($('#remember_me').prop('checked') == true)
+            		{
+            			remember_me = true;
+            		}
+            		else
+            		{
+            			remember_me = false;
+            		}
+            		if(typeof(Storage) !== "undefined")
+					{
+						sessionStorage.setItem('Redirect', document.URL);
+					}
+
+            		$.ajax({
+            			url: 'login_backend.php',
+            			data: {email: email, password: password, remember_me: remember_me, _token: _token},
+            			type: 'POST',
+            			dataType: "json",
+            			cache: false,
+            			success : function(response)
+            			{
+            				// var response = JSON.parse(response);
+            				console.log(response);
+            				if(response.error_status == true)
+            				{
+				        		$('.error').show().find('li').text(response.error);
+				        		$('#password').val('');
+            					console.log(response._token);
+				        		if(response.error_code != 1)
+				        		{
+				        			$('#_token').attr('data-attribute', response._token);
+				        		}
+				        		Materialize.toast(response.error, 5000, "red");
+            				}
+            				else
+            				{
+            					$('#_token').attr('data-attribute', response._token);
+            					if(typeof(Storage) !== 'undefined')
+								{
+									// sessionStorage.setItem('flashMessage', 'You have successfully logged in');
+									if(sessionStorage.getItem('Redirect') !== null)
+									{
+										var url = sessionStorage.getItem('Redirect');
+										sessionStorage.removeItem('Redirect');
+										window.location = url;
+									}
+									else
+										window.location = 'index.php';
+								}
+            				}
+            			}
+            		});
+            	});
 
 				function getClassName(object)
 	            {
