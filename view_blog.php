@@ -1,8 +1,18 @@
 <?php
 
 require_once'Core/init.php';
+require_once'Includes/googleAuth/gpConfig.php';
 
 $user = new User;
+
+$authUrl = $gClient->createAuthUrl();
+
+if(Input::get('code'))
+{
+	$gClient->authenticate(Input::get('code'));
+	Session::put('googleToken', $gClient->getAccessToken());
+	Redirect::to('social_login.php');
+}
 
 if(Input::exists('get'))
 {
@@ -705,7 +715,7 @@ else
 									<div class="center-align">Or</div>
 									<div class="row">
 										<div class="col s12 l12">
-											<a href="" class="waves-effect waves-light btn red">Sign in with google</a>
+											<a href="<?php echo $authUrl ?>" class="waves-effect waves-light btn red">Sign in with google</a>
 										</div>
 									</div>
 									<div class="section">
