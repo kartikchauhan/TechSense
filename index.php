@@ -35,10 +35,6 @@ require_once'Core/init.php';
         {
             border-bottom: 1px white solid;
         }
-        input[type="search"]
-        {
-            height: 64px !important; /* or height of nav */
-        }
         .logo
         {
             height: auto;
@@ -130,6 +126,16 @@ require_once'Core/init.php';
         </div>
     </div>
     <div id="secondary-content">
+    <div class="row">
+        <form class="col s6 offset-s3" onsubmit="return false;">
+            <div class="input-field blue">
+                <input id="search" type="search" required placeholder="Type your query here">
+                <label for="search"><i class="material-icons">search</i></label>
+                <i class="material-icons">close</i>
+            </div>
+                <input type="hidden" id="_token" value="<?php echo Token::generate(); ?>">
+        </form>
+    </div>
         <div class="row">
             <div class="col s12 l8">
                 <h5 class="center-align">Recent Blogs</h5>
@@ -392,18 +398,29 @@ require_once'Core/init.php';
                 });
             });
 
-            $("input").on("keypress", function(event) {
-                console.log(event.which);
-                if(event.which == 13)
+            $("#search").on("keypress", function(event) {
+                if(event.which == 13)   // if the user hits enter
                 {
-                    var query = $('#search').val();
+                    var query = $('#search').val();     // fetch the query given by the user
+                    var _token = $('#_token').val();
+                    console.log("sending data");
                     $.ajax({
                         type: "POST",
                         url: "search.php",
-                        data: {query: query},
+                        data: {query: query, _token: _token},
                         success: function(response)
                         {
+                            var response = JSON.parse(response);
                             console.log(response);
+                            $('#_token').val(response._token);
+                            if(response.error_status == true)
+                            {
+                                Materialize.toast(response.error, 5000, "red");
+                            }
+                            else
+                            {
+                                $('.content').html(response.content);
+                            }
                         }
                     });
                 }
