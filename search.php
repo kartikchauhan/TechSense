@@ -6,6 +6,8 @@ if(Input::exists('post'))
 {
 	if(Token::check(Input::get('_token')))
 	{
+		$records_per_page = 5;
+		$offset = 0;
 		$json['error_code'] = 0;	// error_code = 0 => for all type of errors except token_mismatch
 		$json['error_status'] = false;
 		$json['_token'] = Token::generate();
@@ -23,23 +25,23 @@ if(Input::exists('post'))
 			{
 				if(!$result)
 				{
-					throw new Exception("Some error occured while fetching results. Please try again later");
+					throw new Exception("Some error occured while fetching results. Please try again later 28");
 				}
 				if($result->count() != 1)
 				{
 					throw new Exception("There is no user with Username ".$query_field_value);
 				}
-				$resultBlogs = $search->searchBlogsViaUser('blogs', array('users_id', '=', $result->results()[0]->id));
+				$resultBlogs = $search->searchBlogsViaUser('blogs', array('users_id', '=', $result->results()[0]->id), array('created_on', 'DESC'), $records_per_page, $offset);
 				if(!$resultBlogs)
 				{
-					throw new Exception("Some error occured while fetching results. Please try again later");
+					throw new Exception("Some error occured while fetching results. Please try again later 37");
 				}
 				if($resultBlogs->count() == 0)
 				{
 					throw new Exception("There are no blogs associated to User ".$query_field_value);
 				}
 				$resultBlogs = $resultBlogs->results();
-				// $json['content'] = '';
+				$json['content'] = "<div class='pagination_item_value' data-attribute='1'></div>";
 				foreach($resultBlogs as $blog)
 				{
 					$blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));

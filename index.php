@@ -146,7 +146,8 @@ require_once'Core/init.php';
                         $num_pages = ceil($num_blogs/5);
                         if($num_blogs)  // show blogs if there are any, otherwise show message 'No blogs'
                         {   
-                            echo "<div class='content' id='content'>";
+                            echo "<div class='content' id='content'>
+                                    <div class='pagination_item_value' data-attribute='0'></div>";  // data-attribute = 0 => for default pagination, 1 => pagination for user, 2 => pagination for tags, 3 => pagination for title, 4 => pagination for name
                             $blogs = $blogs->results();
                             $blogs = array_slice($blogs, 0, 5);
                             foreach($blogs as $blog)
@@ -372,17 +373,29 @@ require_once'Core/init.php';
                 $('.active').removeClass('active');
                 $(this).parent().addClass('active');
                 var page_id = $(this).html();
+                var pagination_item = $('.pagination_item_value').attr('data-attribute'); // variable pagination_item is to moderate the type of pagination, by default it's value will be 0
+                if(pagination_item == 0)
+                {
+                    var data = {page_id: page_id, pagination_item: pagination_item};
+                }
+                else if(pagination_item == 1 || pagination_item == 2 || pagination_item == 3 || pagination_item == 4)
+                {
+                    var query = $('#search').val();
+                    var data = {page_id: page_id, pagination_item: pagination_item, query: query};
+                }
+                console.log(pagination_item);
+                console.log(data);
                 // var _token = $('#_token').attr('data-attribute');
 
                 $.ajax({
                     type: 'POST',
                     url: 'pagination_backend.php',
-                    data: {page_id: page_id},
-                    dataType: "json",
+                    data: data,
+                    // dataType: "json",
                     cache: false,
                     success: function(response)
                     {
-                        // var response = JSON.parse(response);
+                        var response = JSON.parse(response);
                         console.log(response);
                         if(response.error_status === true)
                         {

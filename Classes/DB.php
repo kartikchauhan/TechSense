@@ -329,13 +329,14 @@ class DB
 		return false;
 	}
 
-	public function searchBlogsViaUser($table = null, $where = array())
+	public function searchBlogsViaUser($table = null, $where = array(), $order = array(), $records_per_page = null, $offset = null)
 	{
-		$field = $where[0];
+		$where_field = $where[0];
 		$operator = $where[1];
 		$value = $where[2];
-
-		$sql = "Select * FROM {$table} WHERE {$field} {$operator} ?";
+		$field = $order[0];
+		$order = $order[1];
+		$sql = "SELECT * FROM {$table} WHERE {$where_field} {$operator} ? ORDER BY {$field} {$order} LIMIT {$records_per_page} OFFSET {$offset}";
 		if(!$this->query($sql, array($value))->error())
 		{
 			return $this;
