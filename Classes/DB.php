@@ -315,6 +315,74 @@ class DB
 		return false;
 	}
 
+	public function searchIdViaUser($table = null, $where = array())
+	{
+		$field = $where[0];
+		$operator = $where[1];
+		$value = $where[2];
+
+		$sql = "Select id FROM {$table} WHERE {$field} {$operator} ? LIMIT 1";
+		if(!$this->query($sql, array($value))->error())
+		{
+			return $this;
+		}
+		return false;
+	}
+
+	public function searchBlogsViaUser($table = null, $where = array())
+	{
+		$field = $where[0];
+		$operator = $where[1];
+		$value = $where[2];
+
+		$sql = "Select * FROM {$table} WHERE {$field} {$operator} ?";
+		if(!$this->query($sql, array($value))->error())
+		{
+			return $this;
+		}
+		return false;
+	}
+
+	public function searchBlogsViaTitle($table = null, $where = array())
+	{
+		$field = $where[0];
+		$operator = $where[1];
+		$value = $where[2];
+
+		$sql = "Select * FROM {$table} WHERE {$field} {$operator} ?";
+		if(!$this->query($sql, array($value))->error())
+		{
+			return $this;
+		}
+		return false;
+	}
+
+	public function searchIdViaName($table = null, $where = array())
+	{
+		$field = $where[0];
+		$operator = $where[1];
+		$value = $where[2];
+
+		$sql = "Select id FROM {$table} WHERE {$field} {$operator} ?";
+		if(!$this->query($sql, array($value))->error())
+		{
+			return $this;
+		}
+		return false;
+	}
+	public function searchBlogsViaName($table = null, $where = array())
+	{
+		$field = $where[0];
+		$operator = $where[1];
+		$value = $where[2];
+
+		$sql = "Select * FROM {$table} WHERE {$field} {$operator} ?";
+		if(!$this->query($sql, array($value))->error())
+		{
+			return $this;
+		}
+		return false;
+	}
 
 }
 

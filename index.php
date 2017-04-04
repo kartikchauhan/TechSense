@@ -392,6 +392,23 @@ require_once'Core/init.php';
                 });
             });
 
+            $("input").on("keypress", function(event) {
+                console.log(event.which);
+                if(event.which == 13)
+                {
+                    var query = $('#search').val();
+                    $.ajax({
+                        type: "POST",
+                        url: "search.php",
+                        data: {query: query},
+                        success: function(response)
+                        {
+                            console.log(response);
+                        }
+                    });
+                }
+            });
+
             // $('.views').click(function(e){
             //     e.preventDefault();
             //     var blog_id = getBlogId(this);

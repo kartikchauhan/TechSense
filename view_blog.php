@@ -751,10 +751,10 @@ else
 						</div>
 						<div class="row hide-on-small-only">
 							<div class="col s1 l1 offset-s1 offset-l2">
-								<a href="https://www.github.com/<?php echo $author->github_username; ?>" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:white"></i></a> 	<!-- author's github url -->
+								<a href="https://www.github.com/<?php echo $author->github_username; ?>" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:#f5f5f5"></i></a> 	<!-- author's github url -->
 							</div>
 							<div class="col s1 l1 offset-s1 offset-l1">
-								<a href="https://www.facebook.com/<?php echo $author->facebook_username; ?>" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:white"></i></a>	<!-- author's facebook url -->
+								<a href="https://www.facebook.com/<?php echo $author->facebook_username; ?>" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:#f5f5f5"></i></a>	<!-- author's facebook url -->
 							</div>
 						</div>
 					</div>
