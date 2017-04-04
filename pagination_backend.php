@@ -183,7 +183,8 @@ if(Input::exists())
 					{
 						throw new Exception("There is no user with Username ".$query_field_value);
 					}
-					$resultBlogs = $search->searchBlogsViaUser('blogs', array('users_id', '=', $result->results()[0]->id), array('created_on', 'DESC'), $records_per_page, $offset);
+					$result_id = $result->results()[0]->id;
+					$resultBlogs = $search->searchBlogsViaUser('blogs', array('users_id', '=', $result_id), array('created_on', 'DESC'), $records_per_page, $offset);
 					if(!$resultBlogs)
 					{
 						throw new Exception("Some error occured while fetching results. Please try again later");
@@ -270,7 +271,7 @@ if(Input::exists())
 		{
 			$json['content'] = 'Sorry, no blogs';
 		}
-		// header("Content-Type: application/json", true);
+		header("Content-Type: application/json", true);
 		echo json_encode($json);
 	// }
 	// else

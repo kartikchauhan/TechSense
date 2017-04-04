@@ -336,7 +336,14 @@ class DB
 		$value = $where[2];
 		$field = $order[0];
 		$order = $order[1];
-		$sql = "SELECT * FROM {$table} WHERE {$where_field} {$operator} ? ORDER BY {$field} {$order} LIMIT {$records_per_page} OFFSET {$offset}";
+		if(($records_per_page == null) && ($offset == null))
+		{
+			$sql = "SELECT * FROM {$table} WHERE {$where_field} {$operator} ? ORDER BY {$field} {$order}";
+		}
+		else
+		{
+			$sql = "SELECT * FROM {$table} WHERE {$where_field} {$operator} ? ORDER BY {$field} {$order} LIMIT {$records_per_page} OFFSET {$offset}";
+		}
 		if(!$this->query($sql, array($value))->error())
 		{
 			return $this;

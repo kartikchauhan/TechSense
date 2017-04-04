@@ -146,7 +146,9 @@ require_once'Core/init.php';
                         $num_pages = ceil($num_blogs/5);
                         if($num_blogs)  // show blogs if there are any, otherwise show message 'No blogs'
                         {   
-                            echo "<div class='content' id='content'>
+                            echo 
+                            "<div class='primary-content'>
+                                <div class='content' id='content'>
                                     <div class='pagination_item_value' data-attribute='0'></div>";  // data-attribute = 0 => for default pagination, 1 => pagination for user, 2 => pagination for tags, 3 => pagination for title, 4 => pagination for name
                             $blogs = $blogs->results();
                             $blogs = array_slice($blogs, 0, 5);
@@ -230,7 +232,8 @@ require_once'Core/init.php';
                                             }   
                                     echo
                                     "</ul>
-                                </div>";
+                                </div>
+                            </div>";
                         }
                         else
                         {
@@ -368,8 +371,9 @@ require_once'Core/init.php';
 
             $(".button-collapse").sideNav();
 
-            $('.blog-pagination').click(function(e){
+            $('.primary-content').on('click', '.blog-pagination', function(e){
                 e.preventDefault();
+                console.log('pagination');
                 $('.active').removeClass('active');
                 $(this).parent().addClass('active');
                 var page_id = $(this).html();
@@ -391,11 +395,11 @@ require_once'Core/init.php';
                     type: 'POST',
                     url: 'pagination_backend.php',
                     data: data,
-                    // dataType: "json",
+                    dataType: "json",
                     cache: false,
                     success: function(response)
                     {
-                        var response = JSON.parse(response);
+                        // var response = JSON.parse(response);
                         console.log(response);
                         if(response.error_status === true)
                         {
@@ -403,8 +407,6 @@ require_once'Core/init.php';
                         }
                         else
                         {
-                            // console.log(response._token);
-                            // $('#_token').attr('data-attribute', response._token);
                             $('.content').html(response.content);
                         }
                     }
@@ -421,9 +423,10 @@ require_once'Core/init.php';
                         type: "POST",
                         url: "search.php",
                         data: {query: query, _token: _token},
+                        dataType: "json",
                         success: function(response)
                         {
-                            var response = JSON.parse(response);
+                            // var response = JSON.parse(response);
                             console.log(response);
                             $('#_token').val(response._token);
                             if(response.error_status == true)
@@ -432,7 +435,7 @@ require_once'Core/init.php';
                             }
                             else
                             {
-                                $('.content').html(response.content);
+                                $('.primary-content').html(response.content);
                             }
                         }
                     });

@@ -31,17 +31,22 @@ if(Input::exists('post'))
 				{
 					throw new Exception("There is no user with Username ".$query_field_value);
 				}
-				$resultBlogs = $search->searchBlogsViaUser('blogs', array('users_id', '=', $result->results()[0]->id), array('created_on', 'DESC'), $records_per_page, $offset);
+				$result_id = $result->results()[0]->id;
+				$countBlogs = $search->searchBlogsViaUser('blogs', array('users_id', '=', $result_id), array('created_on', 'DESC'))->count();
+				$countBlogs = ceil($countBlogs/5);
+				$resultBlogs = $search->searchBlogsViaUser('blogs', array('users_id', '=', $result_id), array('created_on', 'DESC'), $records_per_page, $offset);
 				if(!$resultBlogs)
 				{
 					throw new Exception("Some error occured while fetching results. Please try again later 37");
 				}
 				if($resultBlogs->count() == 0)
 				{
-					throw new Exception("There are no blogs associated to User ".$query_field_value);
+					throw new Exception("There are no blogs associated with User ".$query_field_value);
 				}
 				$resultBlogs = $resultBlogs->results();
-				$json['content'] = "<div class='pagination_item_value' data-attribute='1'></div>";
+				$json['content'] = 	$json['content'].
+										"<div class='content' id='content'>
+											<div class='pagination_item_value' data-attribute='1'></div>";
 				foreach($resultBlogs as $blog)
 				{
 					$blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));
@@ -102,6 +107,24 @@ if(Input::exists('post'))
 				            </div>
 				        </div>";
 				}
+				$json['content'] = $json['content'].
+									"</div>
+									<div class='section center-align'>
+			        					<ul class='pagination'>";
+									        for($x = 1; $x <= $countBlogs; $x++)
+									        {					        	
+									        	if($x == 1)
+									        	{
+									        		$json['content'] .= "<li class='waves-effect pagination active'><a href='#' class='blog-pagination'>".$x."</a></li>";
+									        	}
+									        	else
+									        	{
+									        		$json['content'] .= "<li class='waves-effect pagination'><a href='#' class='blog-pagination'>".$x."</a></li>";
+									        	}
+									        }
+								        $json['content'] = $json['content'].
+								        "</ul>
+							        </div>";
 			}
 			catch(Exception $e)
 			{
@@ -185,6 +208,7 @@ if(Input::exists('post'))
 				echo($e->getMessage());
 			}
 		}
+		header("Content-Type: application/json", true);
 		echo json_encode($json);
 	}
 	else
@@ -193,7 +217,7 @@ if(Input::exists('post'))
 		$json['error_code'] = 1;	// error_code = 1 => for token_mismatch error
 		$json['error_status'] = true;
 		$json['error'] = "Token mismatch error, try again after refreshing the page";
-		// header("Content-Type: application/json", true);
+		header("Content-Type: application/json", true);
 		echo json_encode($json);
 	}
 }
