@@ -88,7 +88,7 @@ class DB
 			$x++;
 		}
 
-		$sql = "Select * FROM {$table} WHERE {$where}";
+		$sql = "SELECT * FROM {$table} WHERE {$where}";
 
 		if(!$this->query($sql, $fields)->error())
 		{
@@ -242,7 +242,7 @@ class DB
 		$where_field = $where[0];
 		$operator = $where[1];
 		$value = $where[2];
-		$sql = "Select * FROM {$table1} JOIN {$table2} ON {$table1}.{$joinField1} = {$table2}.{$joinField2} WHERE {$table2}.{$where_field} {$operator} ?";
+		$sql = "SELECT * FROM {$table1} JOIN {$table2} ON {$table1}.{$joinField1} = {$table2}.{$joinField2} WHERE {$table2}.{$where_field} {$operator} ?";
 		if(!$this->query($sql, array($value))->error())
 			return $this;
 		return false;
@@ -307,7 +307,7 @@ class DB
 		$field = $fields[0];	// comments.created_on
 		$order = $fields[1];	// DESC
 		// SELECT *, comments.id as comment_id, comment.created_on AS comment_created_on, comments.likes as comment_likes, comments.dislikes as comment_dislikes FROM users Join comments ON users.id = comments.user_id Join blogs ON blogs.id = comments.blog_id WHERE blogs.id = 122 ORDER BY comments.created_on DESC
-		$sql = "Select *, {$table2}.{$alias_field1} AS {$alias1}, {$table2}.{$alias_field2} AS {$alias2}, {$table2}.{$alias_field3} AS {$alias3}, {$table2}.{$alias_field4} AS {$alias4} FROM {$table1} JOIN {$table2} ON {$table1}.{$joinField1} = {$table2}.{$joinField2} JOIN {$table3} ON {$table3}.{$joinField3} = {$table2}.{$joinField4} WHERE {$table3}.{$where_field} {$operator} ? ORDER BY {$table2}.{$field} {$order}";
+		$sql = "SELECT *, {$table2}.{$alias_field1} AS {$alias1}, {$table2}.{$alias_field2} AS {$alias2}, {$table2}.{$alias_field3} AS {$alias3}, {$table2}.{$alias_field4} AS {$alias4} FROM {$table1} JOIN {$table2} ON {$table1}.{$joinField1} = {$table2}.{$joinField2} JOIN {$table3} ON {$table3}.{$joinField3} = {$table2}.{$joinField4} WHERE {$table3}.{$where_field} {$operator} ? ORDER BY {$table2}.{$field} {$order}";
 		if(!$this->query($sql, array($value))->error())
 		{
 			return $this;
@@ -321,7 +321,7 @@ class DB
 		$operator = $where[1];
 		$value = $where[2];
 
-		$sql = "Select id FROM {$table} WHERE {$field} {$operator} ? LIMIT 1";
+		$sql = "SELECT id FROM {$table} WHERE {$field} {$operator} ? LIMIT 1";
 		if(!$this->query($sql, array($value))->error())
 		{
 			return $this;
@@ -334,14 +334,15 @@ class DB
 		$where_field = $where[0];
 		$operator = $where[1];
 		$value = $where[2];
-		$field = $order[0];
-		$order = $order[1];
+		
 		if(($records_per_page == null) && ($offset == null))
 		{
-			$sql = "SELECT * FROM {$table} WHERE {$where_field} {$operator} ? ORDER BY {$field} {$order}";
+			$sql = "SELECT * FROM {$table} WHERE {$where_field} {$operator} ?";
 		}
 		else
 		{
+			$field = $order[0];
+			$order = $order[1];
 			$sql = "SELECT * FROM {$table} WHERE {$where_field} {$operator} ? ORDER BY {$field} {$order} LIMIT {$records_per_page} OFFSET {$offset}";
 		}
 		if(!$this->query($sql, array($value))->error())
@@ -351,13 +352,22 @@ class DB
 		return false;
 	}
 
-	public function searchBlogsViaTitle($table = null, $where = array())
+	public function searchBlogsViaTitle($table = null, $where = array(), $order = array(), $records_per_page = null, $offset = null)
 	{
-		$field = $where[0];
+		$where_field = $where[0];
 		$operator = $where[1];
 		$value = $where[2];
-
-		$sql = "Select * FROM {$table} WHERE {$field} {$operator} ?";
+		
+		if($records_per_page == null && $offset == null)
+		{
+			$sql = "SELECT * FROM {$table} WHERE {$where_field} {$operator} ?";	
+		}
+		else
+		{
+			$field = $order[0];
+			$order = $order[1];
+			$sql = "SELECT * FROM {$table} WHERE {$where_field} {$operator} ? ORDER BY {$field} {$order} LIMIT {$records_per_page} OFFSET {$offset}";
+		}
 		if(!$this->query($sql, array($value))->error())
 		{
 			return $this;
@@ -371,7 +381,7 @@ class DB
 		$operator = $where[1];
 		$value = $where[2];
 
-		$sql = "Select id FROM {$table} WHERE {$field} {$operator} ?";
+		$sql = "SELECT id FROM {$table} WHERE {$field} {$operator} ?";
 		if(!$this->query($sql, array($value))->error())
 		{
 			return $this;
@@ -384,7 +394,7 @@ class DB
 		$operator = $where[1];
 		$value = $where[2];
 
-		$sql = "Select * FROM {$table} WHERE {$field} {$operator} ?";
+		$sql = "SELECT * FROM {$table} WHERE {$field} {$operator} ?";
 		if(!$this->query($sql, array($value))->error())
 		{
 			return $this;
