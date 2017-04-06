@@ -51,7 +51,7 @@ if(Input::exists('post'))
 				$json['content'] = 	$json['content'].
 										"<div class='content' id='content'>
 											<div class='pagination_item_value' data-attribute='1'></div>";
-				addHtmlToResponse($json, $resultBlogs, $countBlogs);		// add HTML content to the resonse
+				addHtmlToResponse($json, $resultBlogs, $countBlogs, true);		// add HTML content to the resonse
 			}
 			catch(Exception $e)
 			{
@@ -84,8 +84,8 @@ if(Input::exists('post'))
 				$resultBlogs = $resultBlogs->results();
 				$json['content'] = 	$json['content'].
 										"<div class='content' id='content'>
-											<div class='pagination_item_value' data-attribute='1'></div>";
-				addHtmlToResponse($json, $resultBlogs, $countBlogs);
+											<div class='pagination_item_value' data-attribute='2'></div>";
+				addHtmlToResponse($json, $resultBlogs, $countBlogs, true);
 
 			}
 			catch(Exception $e)
@@ -106,33 +106,38 @@ if(Input::exists('post'))
 				{
 					throw new Exception("There is no user with the name ".$query_field_value);
 				}
-				$counter = 0;
-				foreach($result->results() as $key)
+				$counter = 0;	// counter for checking if there're any blogs associated with this name
+				$paginationCounter = 0;
+				$temp_records_per_page = $records_per_page;
+				$result_copy = clone $result;	// cloning the object result to use it's properties later again
+				foreach($result->results() as $user)
 				{
-					echo "<br><br>fetching results from name <br><br>";
-					$resultBlogs = $search->searchBlogsViaName('blogs', array('users_id', '=', $key->id));
+					$paginationCounter = $paginationCounter + $search->searchBlogsViaName('blogs', array('users_id', '=', $user->id))->count();
+				}
+				foreach($result_copy->results() as $user)	// looping over all the users with the respective name we got
+				{
+					$resultBlogs = $search->searchBlogsViaName('blogs', array('users_id', '=', $user->id), array('created_on', 'DESC'), $temp_records_per_page, $offset);		// fetching all blogs associated with every user with the name provided by user
+					$temp_records_per_page = $temp_records_per_page - $resultBlogs->count();
 					if($resultBlogs->count() != 0)
 					{
-						$counter += $resultBlogs->count();
-						foreach ($resultBlogs->results() as $key) {
-							var_dump($key->title);
-						}
+						$counter = $counter + $resultBlogs->count();
+						addHtmlToResponse($json, $resultBlogs->results(), null, false);
 					}
+					if($counter == 5 || $temp_records_per_page == 0)
+					{
+						break;
+					}
+
 				}
 				if($counter == 0)
 				{
 					throw new Exception("There are no blogs associated with the name ".$query_field_value);
-					
 				}
-				// $resultBlogs = $search->searchBlogsViaUser('blogs', array('users_id', '=', $result->results()[0]->id));
-				// if(!$resultBlogs)
-				// {
-				// 	throw new Exception("Some error occured while fetching results. Please try again later");
-				// }
-				// if($resultBlogs->count() == 0)
-				// {
-				// 	throw new Exception("There are no blogs related to User ".$query_field_value);
-				// }
+				else
+				{
+					$countBlogs = ceil($paginationCounter/$records_per_page);
+					addPaginationComponents($json, $countBlogs);
+				}
 				
 			}
 			catch(Exception $e)
@@ -140,7 +145,7 @@ if(Input::exists('post'))
 				echo($e->getMessage());
 			}
 		}
-		header("Content-Type: application/json", true);
+		// header("Content-Type: application/json", true);
 		echo json_encode($json);
 	}
 	else
@@ -149,7 +154,7 @@ if(Input::exists('post'))
 		$json['error_code'] = 1;	// error_code = 1 => for token_mismatch error
 		$json['error_status'] = true;
 		$json['error'] = "Token mismatch error, try again after refreshing the page";
-		header("Content-Type: application/json", true);
+		// header("Content-Type: application/json", true);
 		echo json_encode($json);
 	}
 }
@@ -159,7 +164,7 @@ else
 }
 
 
-function addHtmlToResponse($json, $resultBlogs, $countBlogs)
+function addHtmlToResponse($json, $resultBlogs, $countBlogs = null, $flag = true)
 {
 	global $json;
 	foreach($resultBlogs as $blog)
@@ -223,23 +228,28 @@ function addHtmlToResponse($json, $resultBlogs, $countBlogs)
 	        </div>";
 	}
 	$json['content'] = $json['content'].
-						"</div>
-						<div class='section center-align'>
-        					<ul class='pagination'>";
-						        for($x = 1; $x <= $countBlogs; $x++)
-						        {					        	
-						        	if($x == 1)
-						        	{
-						        		$json['content'] .= "<li class='waves-effect pagination active'><a href='#' class='blog-pagination'>".$x."</a></li>";
-						        	}
-						        	else
-						        	{
-						        		$json['content'] .= "<li class='waves-effect pagination'><a href='#' class='blog-pagination'>".$x."</a></li>";
-						        	}
-						        }
-					        $json['content'] = $json['content'].
-					        "</ul>
-				        </div>";
+						"</div>";
+						if($flag === true)
+						{
+							$json['content'] = $json['content'].
+								"<div class='section center-align'>
+	        						<ul class='pagination'>";
+								        for($x = 1; $x <= $countBlogs; $x++)
+								        {					        	
+								        	if($x == 1)
+								        	{
+								        		$json['content'] .= "<li class='waves-effect pagination active'><a href='#' class='blog-pagination'>".$x."</a></li>";
+								        	}
+								        	else
+								        	{
+								        		$json['content'] .= "<li class='waves-effect pagination'><a href='#' class='blog-pagination'>".$x."</a></li>";
+								        	}
+								        }
+						        $json['content'] = $json['content'].
+						        "</ul>
+					        </div>";
+						}
+						
 }
 
 function addErrorToResponse($json, $errorMessage)
@@ -249,6 +259,30 @@ function addErrorToResponse($json, $errorMessage)
 						"<div class='section'>
 							<h6 class='center'>".$errorMessage."</h6>
 						</div>";
-
 }
+
+function addPaginationComponents($json, $countBlogs)
+{
+	global $json;
+	$json['content'] = $json['content'].
+						"</div>
+							<div class='section center-align'>
+        						<ul class='pagination'>";
+							        for($x = 1; $x <= $countBlogs; $x++)
+							        {					        	
+							        	if($x == 1)
+							        	{
+							        		$json['content'] .= "<li class='waves-effect pagination active'><a href='#' class='blog-pagination'>".$x."</a></li>";
+							        	}
+							        	else
+							        	{
+							        		$json['content'] .= "<li class='waves-effect pagination'><a href='#' class='blog-pagination'>".$x."</a></li>";
+							        	}
+							        }
+						        $json['content'] = $json['content'].
+						        "</ul>
+					        </div>";
+}
+
+
 ?>

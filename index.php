@@ -423,10 +423,10 @@ require_once'Core/init.php';
                         type: "POST",
                         url: "search.php",
                         data: {query: query, _token: _token},
-                        dataType: "json",
+                        // dataType: "json",
                         success: function(response)
                         {
-                            // var response = JSON.parse(response);
+                            var response = JSON.parse(response);
                             console.log(response);
                             $('#_token').val(response._token);
                             if(response.error_status == true)
