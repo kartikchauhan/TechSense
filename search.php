@@ -50,7 +50,7 @@ if(Input::exists('post'))
 				$resultBlogs = $resultBlogs->results();
 				$json['content'] = 	$json['content'].
 										"<div class='content' id='content'>
-											<div class='pagination_item_value' data-attribute='1'></div>";
+											<div class='pagination_item_value' data-attribute='true'></div>";
 				addHtmlToResponse($json, $resultBlogs, $countBlogs, true);		// add HTML content to the resonse
 			}
 			catch(Exception $e)
@@ -84,7 +84,7 @@ if(Input::exists('post'))
 				$resultBlogs = $resultBlogs->results();
 				$json['content'] = 	$json['content'].
 										"<div class='content' id='content'>
-											<div class='pagination_item_value' data-attribute='2'></div>";
+											<div class='pagination_item_value' data-attribute='true'></div>";
 				addHtmlToResponse($json, $resultBlogs, $countBlogs, true);
 
 			}
@@ -114,35 +114,35 @@ if(Input::exists('post'))
 				{
 					$paginationCounter = $paginationCounter + $search->searchBlogsViaName('blogs', array('users_id', '=', $user->id))->count();
 				}
-				foreach($result_copy->results() as $user)	// looping over all the users with the respective name we got
+				if($paginationCounter != 0)
 				{
-					$resultBlogs = $search->searchBlogsViaName('blogs', array('users_id', '=', $user->id), array('created_on', 'DESC'), $temp_records_per_page, $offset);		// fetching all blogs associated with every user with the name provided by user
-					$temp_records_per_page = $temp_records_per_page - $resultBlogs->count();
-					if($resultBlogs->count() != 0)
+					$json['content'] = 	$json['content'].
+											"<div class='content' id='content'>
+												<div class='pagination_item_value' data-attribute='true'></div>";
+					foreach($result_copy->results() as $user)	// looping over all the users with the respective name we got
 					{
-						$counter = $counter + $resultBlogs->count();
-						addHtmlToResponse($json, $resultBlogs->results(), null, false);
+						$resultBlogs = $search->searchBlogsViaName('blogs', array('users_id', '=', $user->id), array('created_on', 'DESC'), $temp_records_per_page, $offset);		// fetching all blogs associated with every user with the name provided by user
+						$temp_records_per_page = $temp_records_per_page - $resultBlogs->count();
+						if($resultBlogs->count() != 0)
+						{
+							$counter = $counter + $resultBlogs->count();
+							addHtmlToResponse($json, $resultBlogs->results(), null, false);
+						}
+						if($counter == 5 || $temp_records_per_page == 0)
+						{
+							break;
+						}
 					}
-					if($counter == 5 || $temp_records_per_page == 0)
-					{
-						break;
-					}
-
-				}
-				if($counter == 0)
+					$countBlogs = ceil($paginationCounter/$records_per_page);
+					addPaginationComponents($json, $countBlogs);
+				}else if($paginationCounter == 0)
 				{
 					throw new Exception("There are no blogs associated with the name ".$query_field_value);
 				}
-				else
-				{
-					$countBlogs = ceil($paginationCounter/$records_per_page);
-					addPaginationComponents($json, $countBlogs);
-				}
-				
 			}
 			catch(Exception $e)
 			{
-				echo($e->getMessage());
+				addErrorToResponse($json, $e->getMessage());
 			}
 		}
 		// header("Content-Type: application/json", true);

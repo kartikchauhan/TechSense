@@ -149,7 +149,7 @@ require_once'Core/init.php';
                             echo 
                             "<div class='primary-content'>
                                 <div class='content' id='content'>
-                                    <div class='pagination_item_value' data-attribute='0'></div>";  // data-attribute = 0 => for default pagination, 1 => pagination for user, 2 => pagination for tags, 3 => pagination for title, 4 => pagination for name
+                                    <div class='pagination_item_value' data-attribute='false'></div>";  // data-attribute = 0 => for default pagination, 1 => pagination for user, 2 => pagination for tags, 3 => pagination for title, 4 => pagination for name
                             $blogs = $blogs->results();
                             $blogs = array_slice($blogs, 0, 5);
                             foreach($blogs as $blog)
@@ -377,17 +377,16 @@ require_once'Core/init.php';
                 $('.active').removeClass('active');
                 $(this).parent().addClass('active');
                 var page_id = $(this).html();
-                var pagination_item = $('.pagination_item_value').attr('data-attribute'); // variable pagination_item is to moderate the type of pagination, by default it's value will be 0
-                if(pagination_item == 0)
+                var query_type_status = $('.pagination_item_value').attr('data-attribute'); // variable query_type_status is to moderate the type of pagination, by default it's value will be 0
+                if(query_type_status == false)
                 {
-                    var data = {page_id: page_id, pagination_item: pagination_item};
+                    var data = {page_id: page_id, query_type_status: query_type_status};
                 }
-                else if(pagination_item == 1 || pagination_item == 2 || pagination_item == 3 || pagination_item == 4)
+                else
                 {
                     var query = $('#search').val();
-                    var data = {page_id: page_id, pagination_item: pagination_item, query: query};
+                    var data = {page_id: page_id, query_type_status: query_type_status, query: query};
                 }
-                console.log(pagination_item);
                 console.log(data);
                 // var _token = $('#_token').attr('data-attribute');
 
@@ -395,11 +394,11 @@ require_once'Core/init.php';
                     type: 'POST',
                     url: 'pagination_backend.php',
                     data: data,
-                    dataType: "json",
+                    // dataType: "json",
                     cache: false,
                     success: function(response)
                     {
-                        // var response = JSON.parse(response);
+                        var response = JSON.parse(response);
                         console.log(response);
                         if(response.error_status === true)
                         {

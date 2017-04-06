@@ -97,7 +97,7 @@ if(Input::exists())
 			        </div>";
 			}
 		}
-		else if($blogs->count() && empty(Input::get('author')) && (Input::get('pagination_item') == 0))
+		else if($blogs->count() && empty(Input::get('author')) && (Input::get('query_type_status') == false))
 		{
 			$blogs = $blogs->results();
 			$json['content'] = '';	// content will hold the html 
@@ -163,7 +163,7 @@ if(Input::exists())
 			        </div>";
 			}
 		}
-		else if(empty(Input::get('author')) && (Input::get('pagination_item') == 1 || Input::get('pagination_item') == 2 || Input::get('pagination_item') == 3 || Input::get('pagination_item') == 4))
+		else if(empty(Input::get('author')) && (Input::get('query_type_status') == true))
 		{
 			$json['content'] = '';
 			$search = DB::getInstance();
@@ -229,12 +229,47 @@ if(Input::exists())
 					addErrorToResponse($json, $e->getMessage());
 				}
 			}
+			else if($query_field === 'name')
+			{
+				$result = $search->searchIdViaName('users', array('name', '=', $query_field_value));		// fetching the id of the user
+				try
+				{
+					if(!$result)
+					{
+						throw new Exception("Some error occured while fetching results. Please try again later");
+					}
+					if($result->count() == 0)
+					{
+						throw new Exception("There is no user with the name ".$query_field_value);
+					}
+					$counter = 0;	// counter for checking if there're any blogs associated with this name
+					$temp_records_per_page = $records_per_page;
+					foreach($result->results() as $user)	// looping over all the users with the respective name we got
+					{
+						$resultBlogs = $search->searchBlogsViaName('blogs', array('users_id', '=', $user->id), array('created_on', 'DESC'), $temp_records_per_page, $offset);		// fetching all blogs associated with every user with the name provided by user
+						$temp_records_per_page = $temp_records_per_page - $resultBlogs->count();
+						if($resultBlogs->count() != 0)
+						{
+							$counter = $counter + $resultBlogs->count();
+							addHtmlToResponse($json, $resultBlogs->results(), null, false);
+						}
+						if($counter == 5 || $temp_records_per_page == 0)
+						{
+							break;
+						}
+					}
+				}
+				catch(Exception $e)
+				{
+					addErrorToResponse($json, $e->getMessage());
+				}
+			}
 		}
 		else
 		{
 			$json['content'] = 'Sorry, no blogs';
 		}
-		header("Content-Type: application/json", true);
+		// header("Content-Type: application/json", true);
 		echo json_encode($json);
 	// }
 	// else
