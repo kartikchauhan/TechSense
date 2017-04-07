@@ -146,9 +146,9 @@ if(!$user->isLoggedIn())
 				<?php
 	                $blogs = DB::getInstance()->sortUser('blogs', array('created_on', 'DESC'), array('users_id', '=', $user->data()->id));
 	                $num_blogs = $blogs->count();
-	                $num_pages = ceil($num_blogs/3);
+	                $num_pages = ceil($num_blogs/5);
 	                $blogs = $blogs->results();
-	                $blogs = array_splice($blogs, 0, 3);
+	                $blogs = array_splice($blogs, 0, 5);
 	                if($num_blogs)  // show blogs if there are any, otherwise show message 'No blogs'
 	                {   
 	                    echo "<div class='content' id='content'>";
@@ -420,7 +420,7 @@ if(!$user->isLoggedIn())
 				$('.content').find('.blog').each(function(){
 					++counter;
 				});
-				if(counter < 3)		// 3 is the value of maximum that can be shown in one page
+				if(counter < 5)		// 5 is the value of maximum that can be shown in one page
 				{
 					if($('li.active').next().length)
 						$('li.active').next().remove();

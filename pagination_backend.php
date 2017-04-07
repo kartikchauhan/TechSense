@@ -264,6 +264,31 @@ if(Input::exists())
 					addErrorToResponse($json, $e->getMessage());
 				}
 			}
+			else if($query_field === 'tags')
+			{
+				$tags = split(',', $query_field_value);
+				$result = $search->searchBlogIdViaTags('blog_tags', $tags, array('tags', '='), array('blog_id', 'DESC'), $records_per_page, $offset);
+				try
+				{
+					if(!$result)
+					{
+						throw new Exception("Some error occured while fetching results. Please try again later 151");
+					}
+					if($result->count() == 0)
+					{
+						throw new Exception("There is no blog associated with the provided tags.");
+					}
+					foreach($result->results() as $blog_obj)	// looping over all the blog_id with the respective tags we got
+					{
+						$resultBlogs = $search->searchBlogsViaTags('blogs', array('id', '=', $blog_obj->blog_id));		// fetching all blogs associated with every tags provided by user
+						addHtmlToResponse($json, $resultBlogs->results());
+					}
+				}
+				catch(Exception $e)
+				{
+					addErrorToResponse($json, $e->getMessage());
+				}
+			}
 		}
 		else
 		{

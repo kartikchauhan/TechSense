@@ -58,11 +58,6 @@ if(Input::exists('post'))
 				addErrorToResponse($json, $e->getMessage());
 			}
 		}
-		else if($query_field === 'tags')
-		{
-			echo 'tags';
-			$tags = split(',', $query_field_value);
-		}
 		else if($query_field === 'title')
 		{
 			$query_field_value = '%'.$query_field_value.'%';
@@ -144,6 +139,48 @@ if(Input::exists('post'))
 			{
 				addErrorToResponse($json, $e->getMessage());
 			}
+		}
+		else if($query_field === 'tags')
+		{
+			$tags = split(',', $query_field_value);
+			$result = $search->searchBlogIdViaTags('blog_tags', $tags, array('tags', '='), array('blog_id', 'DESC'));
+			try
+			{
+				if(!$result)
+				{
+					throw new Exception("Some error occured while fetching results. Please try again later 151");
+				}
+				if($result->count() == 0)	
+				{
+					throw new Exception("There is no blog associated with the provided tags.");
+				}
+				$paginationCounter = $result->count();
+								
+				if($paginationCounter != 0)
+				{
+					$result = $search->searchBlogIdViaTags('blog_tags', $tags, array('tags', '='), array('blog_id', 'DESC'), $records_per_page, $offset);
+					$json['content'] = 	$json['content'].
+											"<div class='content' id='content'>
+												<div class='pagination_item_value' data-attribute='true'></div>";
+					var_dump($result->results());
+					foreach($result->results() as $blog_obj)	// looping over all the users with the respective name we got
+					{
+						$resultBlogs = $search->searchBlogsViaTags('blogs', array('id', '=', $blog_obj->blog_id));		// fetching all blogs associated with every user with the name provided by user
+						addHtmlToResponse($json, $resultBlogs->results(), null, false);
+					}
+					$countBlogs = ceil($paginationCounter/$records_per_page);
+					addPaginationComponents($json, $countBlogs);
+				}
+				else if($paginationCounter == 0)
+				{
+					throw new Exception("There are no blogs associated with the name ".$query_field_value);
+				}				
+			}
+			catch(Exception $e)
+			{
+				addErrorToResponse($json, $e->getMessage());
+			}
+
 		}
 		// header("Content-Type: application/json", true);
 		echo json_encode($json);
@@ -255,6 +292,7 @@ function addHtmlToResponse($json, $resultBlogs, $countBlogs = null, $flag = true
 function addErrorToResponse($json, $errorMessage)
 {
 	global $json;
+	$json['error_status'] = true;
 	$json['content'] = $json['content'].
 						"<div class='section'>
 							<h6 class='center'>".$errorMessage."</h6>

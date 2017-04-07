@@ -412,6 +412,78 @@ class DB
 		return false;
 	}
 
+	public function searchBlogIdViaTags($table = null, $tags = array(), $where = array(), $order = array(), $records_per_page = null, $offset = null)
+	{
+		$where_field = $where[0];
+		$operator = $where[1];
+		$field = $order[0];
+		$order = $order[1];
+		$numTags = sizeof($tags);
+		if($records_per_page == null && $offset == null)
+		{
+			if($numTags == 1)
+			{
+				$sql = "SELECT blog_id FROM {$table} WHERE {$where_field} {$operator} ? ORDER BY {$field} {$order}";
+			}
+			else
+			{
+				$sql = "SELECT DISTINCT blog_id FROM (";
+				for($x = 1; $x <= $numTags; $x++)
+				{
+					if($x == 1)
+					{
+						$sql .= "SELECT * FROM {$table} WHERE {$where_field} {$operator} ?";
+					}
+					else
+					{
+						$sql .= " UNION SELECT * FROM {$table} WHERE {$where_field} {$operator} ?";
+					}
+				}
+				$sql .= ") AS temp_table ORDER BY {$field} {$order}";
+			}
+		}
+		else
+		{
+			if($numTags == 1)
+			{
+				$sql = "SELECT blog_id FROM {$table} WHERE {$where_field} {$operator} ? ORDER BY {$field} {$order} LIMIT {$records_per_page} OFFSET {$offset}";
+			}
+			else
+			{
+				$sql = "SELECT DISTINCT blog_id FROM (";
+				for($x = 1; $x <= $numTags; $x++)
+				{
+					if($x == 1)
+					{
+						$sql .= "SELECT * FROM {$table} WHERE {$where_field} {$operator} ?";
+					}
+					else
+					{
+						$sql .= " UNION SELECT * FROM {$table} WHERE {$where_field} {$operator} ?";
+					}
+				}
+				$sql .= ") AS temp_table ORDER BY {$field} {$order} LIMIT {$records_per_page} OFFSET {$offset}";
+			}
+		}
+		if(!$this->query($sql, $tags)->error())
+		{
+			return $this;
+		}
+		return false;
+	}
+
+	public function searchBlogsViaTags($table = null, $where = array())
+	{
+		$where_field = $where[0];
+		$operator = $where[1];
+		$value = $where[2];
+		$sql = "SELECT * FROM {$table} WHERE {$where_field} {$operator} ?";
+		if(!$this->query($sql, array($value))->error())
+		{
+			return $this;
+		}
+		return false;
+	}
 }
 
 ?>
