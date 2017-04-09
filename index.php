@@ -430,7 +430,7 @@ require_once'Core/init.php';
                             $('#_token').val(response._token);
                             if(response.error_status == true)
                             {
-                                Materialize.toast(response.error, 5000, "red");
+                                $('.primary-content').html(response.content);
                             }
                             else
                             {

@@ -143,6 +143,7 @@ if(Input::exists('post'))
 		else if($query_field === 'tags')
 		{
 			$tags = split(',', $query_field_value);
+			$tags = array_map('trim', $tags);
 			$result = $search->searchBlogIdViaTags('blog_tags', $tags, array('tags', '='), array('blog_id', 'DESC'));
 			try
 			{
@@ -162,7 +163,6 @@ if(Input::exists('post'))
 					$json['content'] = 	$json['content'].
 											"<div class='content' id='content'>
 												<div class='pagination_item_value' data-attribute='true'></div>";
-					var_dump($result->results());
 					foreach($result->results() as $blog_obj)	// looping over all the users with the respective name we got
 					{
 						$resultBlogs = $search->searchBlogsViaTags('blogs', array('id', '=', $blog_obj->blog_id));		// fetching all blogs associated with every user with the name provided by user
@@ -264,28 +264,27 @@ function addHtmlToResponse($json, $resultBlogs, $countBlogs = null, $flag = true
 	            </div>
 	        </div>";
 	}
-	$json['content'] = $json['content'].
-						"</div>";
-						if($flag === true)
-						{
-							$json['content'] = $json['content'].
-								"<div class='section center-align'>
-	        						<ul class='pagination'>";
-								        for($x = 1; $x <= $countBlogs; $x++)
-								        {					        	
-								        	if($x == 1)
-								        	{
-								        		$json['content'] .= "<li class='waves-effect pagination active'><a href='#' class='blog-pagination'>".$x."</a></li>";
-								        	}
-								        	else
-								        	{
-								        		$json['content'] .= "<li class='waves-effect pagination'><a href='#' class='blog-pagination'>".$x."</a></li>";
-								        	}
-								        }
-						        $json['content'] = $json['content'].
-						        "</ul>
-					        </div>";
-						}
+	if($flag === true)
+	{
+		$json['content'] = $json['content'].
+		"</div>
+		<div class='section center-align'>
+			<ul class='pagination'>";
+		        for($x = 1; $x <= $countBlogs; $x++)
+		        {					        	
+		        	if($x == 1)
+		        	{
+		        		$json['content'] .= "<li class='waves-effect pagination active'><a href='#' class='blog-pagination'>".$x."</a></li>";
+		        	}
+		        	else
+		        	{
+		        		$json['content'] .= "<li class='waves-effect pagination'><a href='#' class='blog-pagination'>".$x."</a></li>";
+		        	}
+		        }
+	        $json['content'] = $json['content'].
+	        "</ul>
+    	</div>";
+	}
 						
 }
 
@@ -294,7 +293,8 @@ function addErrorToResponse($json, $errorMessage)
 	global $json;
 	$json['error_status'] = true;
 	$json['content'] = $json['content'].
-						"<div class='section'>
+						"</div>
+						<div class='section'>
 							<h6 class='center'>".$errorMessage."</h6>
 						</div>";
 }

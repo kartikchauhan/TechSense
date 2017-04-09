@@ -266,7 +266,9 @@ if(Input::exists())
 			}
 			else if($query_field === 'tags')
 			{
+				
 				$tags = split(',', $query_field_value);
+				$tags = array_map('trim', $tags);
 				$result = $search->searchBlogIdViaTags('blog_tags', $tags, array('tags', '='), array('blog_id', 'DESC'), $records_per_page, $offset);
 				try
 				{
@@ -379,8 +381,7 @@ function addErrorToResponse($json, $errorMessage)
 {
 	global $json;
 	$json['content'] = 
-		"<div class='pagination_item_value' data-attribute='1'></div>
-		<div class='section'>
+		"<div class='section'>
 			<h6 class='center'>".$errorMessage."</h6>
 		</div>";
 }
