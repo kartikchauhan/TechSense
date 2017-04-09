@@ -296,7 +296,7 @@ if(Input::exists())
 		{
 			$json['content'] = 'Sorry, no blogs';
 		}
-		// header("Content-Type: application/json", true);
+		header("Content-Type: application/json", true);
 		echo json_encode($json);
 	// }
 	// else

@@ -61,6 +61,7 @@ require_once'Core/init.php';
             text-align: center !important;
             outline: none !important;
             text-decoration: none !important;
+            text-shadow: 1px 1px 3px #000;
         }
         .ghost-button:hover, .ghost-button:active
         {
@@ -122,16 +123,16 @@ require_once'Core/init.php';
             </li>            
         </ul>
         <div id="write-blog" class="center-align">
-            <a class="ghost-button" href="write_blog.php">WRITE A BLOG</a>
+            <a class="ghost-button z-depth-2" href="write_blog.php">WRITE A BLOG</a>
         </div>
     </div>
     <div id="secondary-content">
     <div class="row">
-        <form class="col s6 offset-s3" onsubmit="return false;">
-            <div class="input-field blue">
-                <input id="search" type="search" required placeholder="Type your query here">
-                <label for="search"><i class="material-icons">search</i></label>
-                <i class="material-icons">close</i>
+        <form class="col s10 l6 offset-l3 offset-s1" onsubmit="return false;">
+            <div class="input-field valign-wrapper">
+                <i class='fa fa-search left valign' aria-hidden='true'></i>
+                <input id="search" type="text" class="valign" required placeholder="Type your query here">
+                <i class="material-icons right valign">close</i>
             </div>
                 <input type="hidden" id="_token" value="<?php echo Token::generate(); ?>">
         </form>
@@ -394,11 +395,11 @@ require_once'Core/init.php';
                     type: 'POST',
                     url: 'pagination_backend.php',
                     data: data,
-                    // dataType: "json",
+                    dataType: "json",
                     cache: false,
                     success: function(response)
                     {
-                        var response = JSON.parse(response);
+                        // var response = JSON.parse(response);
                         console.log(response);
                         if(response.error_status === true)
                         {
@@ -422,10 +423,10 @@ require_once'Core/init.php';
                         type: "POST",
                         url: "search.php",
                         data: {query: query, _token: _token},
-                        // dataType: "json",
+                        dataType: "json",
                         success: function(response)
                         {
-                            var response = JSON.parse(response);
+                            // var response = JSON.parse(response);
                             console.log(response);
                             $('#_token').val(response._token);
                             if(response.error_status == true)

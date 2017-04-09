@@ -182,7 +182,7 @@ if(Input::exists('post'))
 			}
 
 		}
-		// header("Content-Type: application/json", true);
+		header("Content-Type: application/json", true);
 		echo json_encode($json);
 	}
 	else
@@ -191,7 +191,7 @@ if(Input::exists('post'))
 		$json['error_code'] = 1;	// error_code = 1 => for token_mismatch error
 		$json['error_status'] = true;
 		$json['error'] = "Token mismatch error, try again after refreshing the page";
-		// header("Content-Type: application/json", true);
+		header("Content-Type: application/json", true);
 		echo json_encode($json);
 	}
 }
