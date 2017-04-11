@@ -207,7 +207,6 @@ if(Input::exists())
 			else if($query_field === 'title')
 			{
 				$query_field_value = '%'.$query_field_value.'%';
-
 				$resultBlogs = $search->searchBlogsViaTitle('blogs', array('title', 'like', $query_field_value), array('created_on', 'DESC'), $records_per_page, $offset);
 				try
 				{
@@ -231,7 +230,8 @@ if(Input::exists())
 			}
 			else if($query_field === 'name')
 			{
-				$result = $search->searchIdViaName('users', array('name', '=', $query_field_value));		// fetching the id of the user
+				$query_field_value = '%'.$query_field_value.'%';
+				$result = $search->searchIdViaName('users', array('name', 'like', $query_field_value));		// fetching the id of the user
 				try
 				{
 					if(!$result)
@@ -240,6 +240,7 @@ if(Input::exists())
 					}
 					if($result->count() == 0)
 					{
+						$query_field_value = substr($query_field_value, 1, -1);		// striping first and last character wiz. '%'
 						throw new Exception("There is no user with the name ".$query_field_value);
 					}
 					$counter = 0;	// counter for checking if there're any blogs associated with this name

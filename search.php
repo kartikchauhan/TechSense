@@ -31,7 +31,7 @@ if(Input::exists('post'))
 				{
 					if(!$result)	// throw error if unable to fetch desired result
 					{
-						throw new Exception("Some error occured while fetching results. Please try again later 28");
+						throw new Exception("Some error occured while fetching results. Please try again later");
 					}
 					if($result->count() != 1)	// throw error if unable to find user with name provided by user
 					{
@@ -46,7 +46,7 @@ if(Input::exists('post'))
 					$resultBlogs = $search->searchBlogsViaUser('blogs', array('users_id', '=', $result_id), array('created_on', 'DESC'), $records_per_page, $offset);
 					if(!$resultBlogs)
 					{
-						throw new Exception("Some error occured while fetching results. Please try again later 37");
+						throw new Exception("Some error occured while fetching results. Please try again later");
 					}
 					if($resultBlogs->count() == 0)
 					{
@@ -95,7 +95,8 @@ if(Input::exists('post'))
 			}
 			else if($query_field === 'name')
 			{
-				$result = $search->searchIdViaName('users', array('name', '=', $query_field_value));		// fetching the id of the user
+				$query_field_value = '%'.$query_field_value.'%';
+				$result = $search->searchIdViaName('users', array('name', 'like', $query_field_value));		// fetching the id of the user
 				try
 				{
 					if(!$result)
@@ -104,6 +105,7 @@ if(Input::exists('post'))
 					}
 					if($result->count() == 0)
 					{
+						$query_field_value = substr($query_field_value, 1, -1);		// striping first and last character wiz. '%'
 						throw new Exception("There is no user with the name ".$query_field_value);
 					}
 					$counter = 0;	// counter for checking if there're any blogs associated with this name
@@ -154,7 +156,7 @@ if(Input::exists('post'))
 				{
 					if(!$result)
 					{
-						throw new Exception("Some error occured while fetching results. Please try again later 151");
+						throw new Exception("Some error occured while fetching results. Please try again later");
 					}
 					if($result->count() == 0)	
 					{
