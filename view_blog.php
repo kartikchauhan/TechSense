@@ -1033,6 +1033,10 @@ else
 								$('#_token').attr('data-attribute', response._token);
 								$('.no_comment').remove();
 								$('.comment-section').append(response.content);
+								var target = $('.comment-section').children().last();
+								$('html, body').animate({
+						          	scrollTop: target.offset().top
+						        	}, 500);
 								// Materialize.toast('Your comment has been added successfully', 5000, 'green');
 							}
 							else
