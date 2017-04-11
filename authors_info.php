@@ -258,7 +258,7 @@ if(!$user->isLoggedIn())
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">
-                    <h5 class="white-text">TechWit</h5>
+                    <h5 class="white-text">TechSense</h5>
                     <p class="grey-text text-lighten-4">Publish your passions your way. Whether you'd like to share your knowledge, experiences or the latest tech news, create a unique and beautiful blog for free.</p>
                 </div>
                 <div class="col l4 offset-l2 s12">

@@ -79,7 +79,7 @@ else
 		<meta property="og:description"   content="<?php echo $blog->data()->description; ?>" />
 		<meta property="og:image"         content="http://uvmbored.com/wp-content/uploads/2015/05/blog.jpg">
 		<meta name="twitter:card" content="summary" />
-		<meta name="twitter:site" content="@TechWit" />
+		<meta name="twitter:site" content="@TechSense" />
 		<meta name="twitter:title" content="<?php echo $blog->data()->title; ?>" />
 		<meta name="twitter:description" content="<?php echo $blog->data()->description; ?>" />
 		<meta name="twitter:image:src" content="http://uvmbored.com/wp-content/uploads/2015/05/blog.jpg" />
@@ -682,7 +682,7 @@ else
 		<div id="modal1" class="modal modal-fixed-footer">
 		    <div class="modal-content">
 		      	<div id="login-form">
-					<h5 class="center-align condensed light">Sign in to TechWit</h5>
+					<h5 class="center-align condensed light">Sign in to TechSense</h5>
 					<div class="row">
 						<div class="col s12 l6 offset-l3">
 								<ul class='collection center-align z-depth-1 error'>
@@ -726,7 +726,7 @@ else
 									</div>
 									<div class="section">
 										<ul class="collection center-align z-depth-1">
-											<li class="collection-item">New to TechWit? <a href="register.php">Create an account</a></li>
+											<li class="collection-item">New to TechSense? <a href="register.php">Create an account</a></li>
 										</ul>
 									</div>
 						</div>

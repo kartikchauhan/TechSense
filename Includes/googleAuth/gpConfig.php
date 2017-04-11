@@ -13,7 +13,7 @@ $redirectURL = 'http://localhost/TechWit/login.php'; //Callback URL
 
 //Call Google API
 $gClient = new Google_Client();
-$gClient->setApplicationName('TechWit');
+$gClient->setApplicationName('TechSense');
 $gClient->setClientId($clientId);
 $gClient->setClientSecret($clientSecret);
 $gClient->setRedirectUri($redirectURL);

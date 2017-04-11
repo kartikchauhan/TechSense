@@ -80,7 +80,7 @@ if(Input::get('code'))
 	<body>
 	
 		<div id="login-form">
-			<h5 class="center-align condensed light">Sign in to TechWit</h5>
+			<h5 class="center-align condensed light">Sign in to TechSense</h5>
 			<div class="row">
 				<div class="col s12 l4 offset-l4 ">
 					<ul class='collection center-align z-depth-1 error'>
@@ -125,7 +125,7 @@ if(Input::get('code'))
 					</div>
 					<div class="section">
 						<ul class="collection center-align z-depth-1">
-							<li class="collection-item">New to TechWit? <a href="register.php">Create an account</a></li>
+							<li class="collection-item">New to TechSense? <a href="register.php">Create an account</a></li>
 						</ul>
 					</div>
 				</div>
