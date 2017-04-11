@@ -50,7 +50,7 @@ if(Input::exists())
 				if($counter%2)	// if counter%2 != 0, not adding offset-s1 class to the div
 				{
 					$json['content'] = $json['content'].
-						"<div class='row deletable-comments' data-attribute=".$comment->comment_id.">
+						"<div class='row deletable-comments' data-attribute='".$comment->comment_id."'>
 							<div class='col s11 blue z-depth-2'>
 								<div class='white-text'>"
 									.$comment->comment.
@@ -148,6 +148,7 @@ if(Input::exists())
 													</div>
 												</div>";
 											}
+										$json['content'] = $json['content'].	
 										"</div>
 									</div>
 								</div>
@@ -157,7 +158,7 @@ if(Input::exists())
 				else    // if counter%2 == 0, adding offset-s1 class to the div, to make zig-zag pattern
 				{
 					$json['content'] = $json['content'].
-						"<div class='row deletable-comments' data-attribute=".$comment->comment_id.">
+						"<div class='row deletable-comments' data-attribute='".$comment->comment_id."'>
 							<div class='col s11 blue offset-s1 z-depth-2'>
 								<div class='white-text'>"
 									.$comment->comment.
@@ -255,6 +256,7 @@ if(Input::exists())
 													</div>
 												</div>";
 											}
+										$json['content'] = $json['content'].
 										"</div>
 									</div>
 								</div>
@@ -354,7 +356,7 @@ if(Input::exists())
 		$json['content'] = $json['content'].
 		"<div class='center-align'>No comments</div>";
 	}
-	header("Content-Type: application/json", true);
+	// header("Content-Type: application/json", true);
 	echo json_encode($json);
 }
 	

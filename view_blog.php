@@ -1008,10 +1008,20 @@ else
 					var blog_id = $('#comment').attr('data-attribute');
 					var comment = tinyMCE.activeEditor.getContent();
 					var _token = $('#_token').attr('data-attribute');
+					var lastComment = $('.comment-section').children().last();
+					var lastCommentAlignment = lastComment.children().hasClass('offset-s1');
+					if(lastCommentAlignment === true)
+					{
+						var alignment = 'left';
+					}
+					else
+					{
+						var alignment = 'right';	
+					}
 					$.ajax({
 						type: 'POST',
 						url: 'send_comment.php',
-						data: {blog_id: blog_id, comment: comment, _token: _token},
+						data: {blog_id: blog_id, comment: comment, _token: _token, alignment: alignment},
 						dataType: "json",
 						success: function(response)
 						{
@@ -1022,7 +1032,7 @@ else
 							{
 								$('#_token').attr('data-attribute', response._token);
 								$('.no_comment').remove();
-								$('.comment-section').prepend(response.content);
+								$('.comment-section').append(response.content);
 								// Materialize.toast('Your comment has been added successfully', 5000, 'green');
 							}
 							else

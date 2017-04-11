@@ -39,9 +39,19 @@ if(Input::exists('post'))
 						$lastComment = $comments = DB::getInstance()->joinSortComments(array('users', 'comments', 'blogs'), array('id', 'user_id', 'id', 'blog_id'), array('created_on', 'DESC'), array('id', '=', Input::get('blog_id')), array('id', 'comment_id', 'created_on', 'comment_created_on', 'likes', 'comment_likes', 'dislikes', 'comment_dislikes'))->first();	//fetching the comment user just submitted
 						$date = strtotime($lastComment->created_on);
 						// preparing response to be added in the view_blog page
-						$json['content'] = "<div class='row deletable-comments' data-attribute=".$lastComment->comment_id.">
-												<div class='col s11 offset-s1 blue z-depth-2'>
-													<div class='white-text'>"
+						$json['content'] = "<div class='row deletable-comments' data-attribute=".$lastComment->comment_id.">";
+											if(Input::get('alignment') == 'left')
+											{
+												$json['content'] = $json['content'].
+												"<div class='col s11 blue z-depth-2'>";
+											}
+											else if(Input::get('alignment') == 'right')
+											{
+												$json['content'] = $json['content'].
+												"<div class='col s11 offset-s1 blue z-depth-2'>";
+											}
+											$json['content'] = $json['content'].
+													"<div class='white-text'>"
 														.$lastComment->comment.
 													"</div>
 													<div class='divider'></div>
