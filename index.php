@@ -31,10 +31,10 @@ require_once'Core/init.php';
         {
             z-index: -1;
         }
-        nav
+        /*nav
         {
             border-bottom: 1px white solid;
-        }
+        }*/
         .brand-logo
         {
             display: inline-block;
@@ -42,6 +42,10 @@ require_once'Core/init.php';
         }
         .brand-logo > img {
             vertical-align: middle
+        }
+        nav ul .dropdown-button
+        {
+            width: 200px !important;
         }
         #secondary-content
         {
@@ -71,27 +75,15 @@ require_once'Core/init.php';
             background-color: #fff;
             color: #000;
             transition: background-color 0.3s ease-in, color 0.3s ease-in;
-        }
-        .blockquote
-        {
-            font-size: 12px;
-        }
+        }        
         .description
         {
             font-size: 12px;
         }
-/*        ._token
-        {
-            display: none;
-        }*/
         a
         {
             text-decoration: none;
             color: none;
-        }
-        nav ul .dropdown-button
-        {
-            width: 200px !important;
         }
         .pagination li.active
         {
@@ -101,10 +93,31 @@ require_once'Core/init.php';
         {
             border-left: 5px solid #42A5F5;
         }
+        .blockquote
+        {
+            font-size: 12px;
+        }
         label
         {
             -webkit-transform: none !important; 
             transform: none !important; 
+        }
+        .loader-container
+        {
+            /*display: none;*/
+        }
+        .loader
+        {
+            border: 3px solid #f3f3f3; /* Light grey */
+            border-top: 3px solid #42A5F5; /* Blue */
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         /*nav ul .navbar-menu
         {
@@ -143,7 +156,7 @@ require_once'Core/init.php';
         </div>
     </div>
     <div id="secondary-content">
-    <div class="row">
+    <div class="row">        
         <form class="col s10 l6 offset-l3 offset-s1" onsubmit="return false;">
             <div class="input-field valign-wrapper">
                 <!-- <i class='fa fa-search left valign' aria-hidden='true'></i> -->
@@ -156,6 +169,13 @@ require_once'Core/init.php';
     </div>
         <div class="row">
             <div class="col s12 l8">
+                <div class="row">
+                    <div class="col offset-s6">
+                        <div class="loader-container">
+                            <div class="loader"></div>
+                        </div>
+                    </div>
+                </div>
                 <h5 class="center-align">Recent Blogs</h5>
                 <!-- <div class="content" id="content"> -->
                     <?php
@@ -436,6 +456,7 @@ require_once'Core/init.php';
                     var query = $('#search').val();     // fetch the query given by the user
                     var _token = $('#_token').val();
                     console.log("sending data");
+                    $('.loader-container').show();
                     $.ajax({
                         type: "POST",
                         url: "search.php",
@@ -444,6 +465,7 @@ require_once'Core/init.php';
                         success: function(response)
                         {
                             // var response = JSON.parse(response);
+                            $('.loader-container').hide();
                             console.log(response);
                             if(response.error_status === true)
                             {
