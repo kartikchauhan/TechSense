@@ -48,6 +48,14 @@ if(!$user->isLoggedIn())
     {
     	max-height: 300px !important;
     }
+    .pagination li.active
+    {
+        background-color: #42A5F5;
+    }
+    blockquote 
+    {
+        border-left: 5px solid #42A5F5;
+    }
 	</style>
 </head>
 <body>

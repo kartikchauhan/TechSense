@@ -90,6 +90,19 @@ require_once'Core/init.php';
         {
             width: 200px !important;
         }
+        .pagination li.active
+        {
+            background-color: #42A5F5;
+        }
+        blockquote 
+        {
+            border-left: 5px solid #42A5F5;
+        }
+        label
+        {
+            -webkit-transform: none !important; 
+            transform: none !important; 
+        }
         /*nav ul .navbar-menu
         {
             width: 167px;
@@ -130,9 +143,10 @@ require_once'Core/init.php';
     <div class="row">
         <form class="col s10 l6 offset-l3 offset-s1" onsubmit="return false;">
             <div class="input-field valign-wrapper">
-                <i class='fa fa-search left valign' aria-hidden='true'></i>
-                <input id="search" type="text" class="valign" required placeholder="Type your query here">
-                <i class="material-icons right valign">close</i>
+                <!-- <i class='fa fa-search left valign' aria-hidden='true'></i> -->
+                <input id="search" type="search" class="valign search" required placeholder="user: username | tags: tag1, tag2...">
+                <label for="search"><i class="material-icons">search</i></label>
+                <i class="material-icons close">close</i>
             </div>
                 <input type="hidden" id="_token" value="<?php echo Token::generate(); ?>">
         </form>
@@ -428,18 +442,30 @@ require_once'Core/init.php';
                         {
                             // var response = JSON.parse(response);
                             console.log(response);
-                            $('#_token').val(response._token);
-                            if(response.error_status == true)
+                            if(response.error_status === true)
                             {
-                                $('.primary-content').html(response.content);
+                                if(response.error_code != 1)
+                                {
+                                    $('#_token').val(response._token);
+                                    $('.primary-content').html(response.content);
+                                }
+                                else
+                                {
+                                    Materialize.toast(response.error, 5000, "red");
+                                }
                             }
                             else
                             {
+                                $('#_token').val(response._token);
                                 $('.primary-content').html(response.content);
                             }
                         }
                     });
                 }
+            });
+
+            $('.close').on('click', function() {
+                $('.search').val('');
             });
 
             // $('.views').click(function(e){

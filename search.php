@@ -15,185 +15,197 @@ if(Input::exists('post'))
 
 		$search = DB::getInstance();
 		$query = Input::get('query');
-		$query = split(":", $query);
-		$query_field = strtolower(trim($query[0]));
-		$query_field_value = strtolower(trim($query[1]));
-
-		if($query_field === 'user')
+		try
 		{
-			$result = $search->searchIdViaUser('users', array('username', '=', $query_field_value));		// fetching the id of the user
-			try
+			$query = split(":", $query);
+			if(count($query) != 2)
 			{
-				if(!$result)	// throw error if unable to fetch desired result
-				{
-					throw new Exception("Some error occured while fetching results. Please try again later 28");
-				}
-				if($result->count() != 1)	// throw error if unable to find user with name provided by user
-				{
-					throw new Exception("There is no user with Username ".$query_field_value);
-				}
-				$result_id = $result->results()[0]->id;		// fetch the id of the user
-				// count the number of blogs fetched
-				$countBlogs = $search->searchBlogsViaUser('blogs', array('users_id', '=', $result_id))->count();
-				//  compute the number of paged we will require to show every blog associated with the respective user
-				$countBlogs = ceil($countBlogs/$records_per_page);
-				// fetch the first 5 blogs in descending order of their creation date
-				$resultBlogs = $search->searchBlogsViaUser('blogs', array('users_id', '=', $result_id), array('created_on', 'DESC'), $records_per_page, $offset);
-				if(!$resultBlogs)
-				{
-					throw new Exception("Some error occured while fetching results. Please try again later 37");
-				}
-				if($resultBlogs->count() == 0)
-				{
-					throw new Exception("There are no blogs associated with User ".$query_field_value);
-				}
-				$resultBlogs = $resultBlogs->results();
-				$json['content'] = 	$json['content'].
-										"<div class='content' id='content'>
-											<div class='pagination_item_value' data-attribute='true'></div>";
-				addHtmlToResponse($json, $resultBlogs, $countBlogs, true);		// add HTML content to the resonse
+				throw new Exception("You've entered an invalid query");
 			}
-			catch(Exception $e)
+			$query_field = strtolower(trim($query[0]));
+			$query_field_value = strtolower(trim($query[1]));
+			if($query_field === 'user')
 			{
-				addErrorToResponse($json, $e->getMessage());
-			}
-		}
-		else if($query_field === 'title')
-		{
-			$query_field_value = '%'.$query_field_value.'%';
-
-			$countBlogs = $search->searchBlogsViaTitle('blogs', array('title', 'like', $query_field_value))->count();
-			$countBlogs = ceil($countBlogs/$records_per_page);
-			$resultBlogs = $search->searchBlogsViaTitle('blogs', array('title', 'like', $query_field_value), array('created_on', 'DESC'), $records_per_page, $offset);
-			try
-			{
-				if(!$resultBlogs)
+				$result = $search->searchIdViaUser('users', array('username', '=', $query_field_value));		// fetching the id of the user
+				try
 				{
-					throw new Exception("Some error occured while fetching results. Please try again later");
-				}
-				if($resultBlogs->count() == 0)
-				{
-					$query_field_value = substr($query_field_value, 1, -1);		// striping first and last character wiz. '%'
-					throw new Exception("There are no blogs associated with the title ".$query_field_value);
-				}
-				$resultBlogs = $resultBlogs->results();
-				$json['content'] = 	$json['content'].
-										"<div class='content' id='content'>
-											<div class='pagination_item_value' data-attribute='true'></div>";
-				addHtmlToResponse($json, $resultBlogs, $countBlogs, true);
-
-			}
-			catch(Exception $e)
-			{
-				addErrorToResponse($json, $e->getMessage());
-			}
-		}
-		else if($query_field === 'name')
-		{
-			$result = $search->searchIdViaName('users', array('name', '=', $query_field_value));		// fetching the id of the user
-			try
-			{
-				if(!$result)
-				{
-					throw new Exception("Some error occured while fetching results. Please try again later");
-				}
-				if($result->count() == 0)
-				{
-					throw new Exception("There is no user with the name ".$query_field_value);
-				}
-				$counter = 0;	// counter for checking if there're any blogs associated with this name
-				$paginationCounter = 0;
-				$temp_records_per_page = $records_per_page;
-				$result_copy = clone $result;	// cloning the object result to use it's properties later again
-				foreach($result->results() as $user)
-				{
-					$paginationCounter = $paginationCounter + $search->searchBlogsViaName('blogs', array('users_id', '=', $user->id))->count();
-				}
-				if($paginationCounter != 0)
-				{
+					if(!$result)	// throw error if unable to fetch desired result
+					{
+						throw new Exception("Some error occured while fetching results. Please try again later 28");
+					}
+					if($result->count() != 1)	// throw error if unable to find user with name provided by user
+					{
+						throw new Exception("There is no user with Username ".$query_field_value);
+					}
+					$result_id = $result->results()[0]->id;		// fetch the id of the user
+					// count the number of blogs fetched
+					$countBlogs = $search->searchBlogsViaUser('blogs', array('users_id', '=', $result_id))->count();
+					//  compute the number of paged we will require to show every blog associated with the respective user
+					$countBlogs = ceil($countBlogs/$records_per_page);
+					// fetch the first 5 blogs in descending order of their creation date
+					$resultBlogs = $search->searchBlogsViaUser('blogs', array('users_id', '=', $result_id), array('created_on', 'DESC'), $records_per_page, $offset);
+					if(!$resultBlogs)
+					{
+						throw new Exception("Some error occured while fetching results. Please try again later 37");
+					}
+					if($resultBlogs->count() == 0)
+					{
+						throw new Exception("There are no blogs associated with User ".$query_field_value);
+					}
+					$resultBlogs = $resultBlogs->results();
 					$json['content'] = 	$json['content'].
 											"<div class='content' id='content'>
 												<div class='pagination_item_value' data-attribute='true'></div>";
-					foreach($result_copy->results() as $user)	// looping over all the users with the respective name we got
+					addHtmlToResponse($json, $resultBlogs, $countBlogs, true);		// add HTML content to the resonse
+				}
+				catch(Exception $e)
+				{
+					addErrorToResponse($json, $e->getMessage());
+				}
+			}
+			else if($query_field === 'title')
+			{
+				$query_field_value = '%'.$query_field_value.'%';
+
+				$countBlogs = $search->searchBlogsViaTitle('blogs', array('title', 'like', $query_field_value))->count();
+				$countBlogs = ceil($countBlogs/$records_per_page);
+				$resultBlogs = $search->searchBlogsViaTitle('blogs', array('title', 'like', $query_field_value), array('created_on', 'DESC'), $records_per_page, $offset);
+				try
+				{
+					if(!$resultBlogs)
 					{
-						$resultBlogs = $search->searchBlogsViaName('blogs', array('users_id', '=', $user->id), array('created_on', 'DESC'), $temp_records_per_page, $offset);		// fetching all blogs associated with every user with the name provided by user
-						$temp_records_per_page = $temp_records_per_page - $resultBlogs->count();
-						if($resultBlogs->count() != 0)
+						throw new Exception("Some error occured while fetching results. Please try again later");
+					}
+					if($resultBlogs->count() == 0)
+					{
+						$query_field_value = substr($query_field_value, 1, -1);		// striping first and last character wiz. '%'
+						throw new Exception("There are no blogs associated with the title ".$query_field_value);
+					}
+					$resultBlogs = $resultBlogs->results();
+					$json['content'] = 	$json['content'].
+											"<div class='content' id='content'>
+												<div class='pagination_item_value' data-attribute='true'></div>";
+					addHtmlToResponse($json, $resultBlogs, $countBlogs, true);
+
+				}
+				catch(Exception $e)
+				{
+					addErrorToResponse($json, $e->getMessage());
+				}
+			}
+			else if($query_field === 'name')
+			{
+				$result = $search->searchIdViaName('users', array('name', '=', $query_field_value));		// fetching the id of the user
+				try
+				{
+					if(!$result)
+					{
+						throw new Exception("Some error occured while fetching results. Please try again later");
+					}
+					if($result->count() == 0)
+					{
+						throw new Exception("There is no user with the name ".$query_field_value);
+					}
+					$counter = 0;	// counter for checking if there're any blogs associated with this name
+					$paginationCounter = 0;
+					$temp_records_per_page = $records_per_page;
+					$result_copy = clone $result;	// cloning the object result to use it's properties later again
+					foreach($result->results() as $user)
+					{
+						$paginationCounter = $paginationCounter + $search->searchBlogsViaName('blogs', array('users_id', '=', $user->id))->count();
+					}
+					if($paginationCounter != 0)
+					{
+						$json['content'] = 	$json['content'].
+												"<div class='content' id='content'>
+													<div class='pagination_item_value' data-attribute='true'></div>";
+						foreach($result_copy->results() as $user)	// looping over all the users with the respective name we got
 						{
-							$counter = $counter + $resultBlogs->count();
+							$resultBlogs = $search->searchBlogsViaName('blogs', array('users_id', '=', $user->id), array('created_on', 'DESC'), $temp_records_per_page, $offset);		// fetching all blogs associated with every user with the name provided by user
+							$temp_records_per_page = $temp_records_per_page - $resultBlogs->count();
+							if($resultBlogs->count() != 0)
+							{
+								$counter = $counter + $resultBlogs->count();
+								addHtmlToResponse($json, $resultBlogs->results(), null, false);
+							}
+							if($counter == 5 || $temp_records_per_page == 0)
+							{
+								break;
+							}
+						}
+						$countBlogs = ceil($paginationCounter/$records_per_page);
+						addPaginationComponents($json, $countBlogs);
+					}else if($paginationCounter == 0)
+					{
+						throw new Exception("There are no blogs associated with the name ".$query_field_value);
+					}
+				}
+				catch(Exception $e)
+				{
+					addErrorToResponse($json, $e->getMessage());
+				}
+			}
+			else if($query_field === 'tags')
+			{
+				$tags = split(',', $query_field_value);
+				$tags = array_map('trim', $tags);
+				$result = $search->searchBlogIdViaTags('blog_tags', $tags, array('tags', '='), array('blog_id', 'DESC'));
+				try
+				{
+					if(!$result)
+					{
+						throw new Exception("Some error occured while fetching results. Please try again later 151");
+					}
+					if($result->count() == 0)	
+					{
+						throw new Exception("There is no blog associated with the provided tags.");
+					}
+					$paginationCounter = $result->count();
+									
+					if($paginationCounter != 0)
+					{
+						$result = $search->searchBlogIdViaTags('blog_tags', $tags, array('tags', '='), array('blog_id', 'DESC'), $records_per_page, $offset);
+						$json['content'] = 	$json['content'].
+												"<div class='content' id='content'>
+													<div class='pagination_item_value' data-attribute='true'></div>";
+						foreach($result->results() as $blog_obj)	// looping over all the users with the respective name we got
+						{
+							$resultBlogs = $search->searchBlogsViaTags('blogs', array('id', '=', $blog_obj->blog_id));		// fetching all blogs associated with every user with the name provided by user
 							addHtmlToResponse($json, $resultBlogs->results(), null, false);
 						}
-						if($counter == 5 || $temp_records_per_page == 0)
-						{
-							break;
-						}
+						$countBlogs = ceil($paginationCounter/$records_per_page);
+						addPaginationComponents($json, $countBlogs);
 					}
-					$countBlogs = ceil($paginationCounter/$records_per_page);
-					addPaginationComponents($json, $countBlogs);
-				}else if($paginationCounter == 0)
-				{
-					throw new Exception("There are no blogs associated with the name ".$query_field_value);
-				}
-			}
-			catch(Exception $e)
-			{
-				addErrorToResponse($json, $e->getMessage());
-			}
-		}
-		else if($query_field === 'tags')
-		{
-			$tags = split(',', $query_field_value);
-			$tags = array_map('trim', $tags);
-			$result = $search->searchBlogIdViaTags('blog_tags', $tags, array('tags', '='), array('blog_id', 'DESC'));
-			try
-			{
-				if(!$result)
-				{
-					throw new Exception("Some error occured while fetching results. Please try again later 151");
-				}
-				if($result->count() == 0)	
-				{
-					throw new Exception("There is no blog associated with the provided tags.");
-				}
-				$paginationCounter = $result->count();
-								
-				if($paginationCounter != 0)
-				{
-					$result = $search->searchBlogIdViaTags('blog_tags', $tags, array('tags', '='), array('blog_id', 'DESC'), $records_per_page, $offset);
-					$json['content'] = 	$json['content'].
-											"<div class='content' id='content'>
-												<div class='pagination_item_value' data-attribute='true'></div>";
-					foreach($result->results() as $blog_obj)	// looping over all the users with the respective name we got
+					else if($paginationCounter == 0)
 					{
-						$resultBlogs = $search->searchBlogsViaTags('blogs', array('id', '=', $blog_obj->blog_id));		// fetching all blogs associated with every user with the name provided by user
-						addHtmlToResponse($json, $resultBlogs->results(), null, false);
-					}
-					$countBlogs = ceil($paginationCounter/$records_per_page);
-					addPaginationComponents($json, $countBlogs);
+						throw new Exception("There are no blogs associated with the name ".$query_field_value);
+					}				
 				}
-				else if($paginationCounter == 0)
+				catch(Exception $e)
 				{
-					throw new Exception("There are no blogs associated with the name ".$query_field_value);
-				}				
+					addErrorToResponse($json, $e->getMessage());
+				}
 			}
-			catch(Exception $e)
+			else
 			{
-				addErrorToResponse($json, $e->getMessage());
-			}
+				addInvalidQueryError($json, "You've entered an invalid query");
+			}		
 
 		}
-		header("Content-Type: application/json", true);
-		echo json_encode($json);
+		catch(Exception $e)
+		{
+			addInvalidQueryError($json, $e->getMessage());
+		}
+		
 	}
 	else
 	{
-
 		$json['error_code'] = 1;	// error_code = 1 => for token_mismatch error
 		$json['error_status'] = true;
 		$json['error'] = "Token mismatch error, try again after refreshing the page";
-		header("Content-Type: application/json", true);
-		echo json_encode($json);
 	}
+	header("Content-Type: application/json", true);
+	echo json_encode($json);
 }
 else
 {
@@ -295,6 +307,16 @@ function addErrorToResponse($json, $errorMessage)
 	$json['content'] = $json['content'].
 						"</div>
 						<div class='section'>
+							<h6 class='center'>".$errorMessage."</h6>
+						</div>";
+}
+
+function addInvalidQueryError($json, $errorMessage)
+{
+	global $json;
+	$json['error_status'] = true;
+	$json['content'] = $json['content'].
+						"<div class='section'>
 							<h6 class='center'>".$errorMessage."</h6>
 						</div>";
 }
