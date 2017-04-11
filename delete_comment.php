@@ -6,44 +6,35 @@ $user = new User;
 
 if(Input::exists('post'))
 {
-	// if(Token::check(Input::get('_token')))
-	// {
-		$json['error_status'] = false;
-		// $json['_token'] = Token::generate();
+	$json['error_status'] = false;
+	// $json['_token'] = Token::generate();
 
-		if($user->isLoggedIn())
+	if($user->isLoggedIn())
+	{
+		$comment = new Comment;
+		try
 		{
-			$comment = new Comment;
-			try
-			{
-				if(!$comment->deleteComment('comments', array('id', '=', Input::get('comment_id'))))
-					throw new Exception("Some error occured while deleting this comment. Please try again later");
-				if(!$comment->count())
-				{
-					$json['error_status'] = true;
-					$json['error'] = "Comment doesn't exists";
-				}
-			}
-			catch(Exception $e)
+			if(!$comment->deleteComment('comments', array('id', '=', Input::get('comment_id'))))
+				throw new Exception("Some error occured while deleting this comment. Please try again later");
+			if(!$comment->count())
 			{
 				$json['error_status'] = true;
-				$json['error'] = $e->getMessage();
+				$json['error'] = "Comment doesn't exists";
 			}
 		}
-		else
+		catch(Exception $e)
 		{
 			$json['error_status'] = true;
-			$json['error'] = "You need to log in to perform this action";
+			$json['error'] = $e->getMessage();
 		}
-		header("Content-Type: application/json", true);
-		echo json_encode($json);
-	// }
-	// else
-	// {
-	// 	$json['error_status'] = true;
-	// 	$json['error'] = "Token mismatch error, try again after refreshing the page";
-	// 	echo json_encode($json);
-	// }
+	}
+	else
+	{
+		$json['error_status'] = true;
+		$json['error'] = "You need to log in to perform this action";
+	}
+	header("Content-Type: application/json", true);
+	echo json_encode($json);
 }
 else
 {

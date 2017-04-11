@@ -92,15 +92,14 @@ else
 	        {
 	            border-bottom: 1px white solid;
 	        }
-	        .logo
+	        .brand-logo
 	        {
-	            height: auto;
-	            width: 50%;
+	            display: inline-block;
+	            height: 100%;
 	        }
-	        input[type="search"]
-	        {
-	  			height: 64px !important; /* or height of nav */
-			}
+	        .brand-logo > img {
+	            vertical-align: middle
+	        }
 			p
 			{
 				font-size: 16px;
@@ -875,6 +874,7 @@ else
 		    				cache: false,
 		    				success: function(response)
 		    				{
+		    					// var response = JSON.parse(response);
 		    					console.log(response);
 		    					if(response.error_status)
 		    					{
@@ -883,6 +883,7 @@ else
 		    					}
 		    					else
 		    					{
+		    						console.log(object.parents('.deletable-comments'));
 		    						object.parents('.deletable-comments').remove();
 		    					}
 		    				}
@@ -890,7 +891,7 @@ else
 	    			}
 	    			else
 	    			{
-	    				return true;
+	    				return false;
 	    			}
 
 	    		});
@@ -1040,19 +1041,15 @@ else
 				$('.popular_comments').on('click', function(e){
 					e.preventDefault();
 					var className = "popular_comments";
-					// var _token = $('#_token').attr('data-attribute');
 					var blog_id = $(this).attr('data-attribute');
 					$.ajax({
 						url: 'sort_comments.php',
 						data: {blog_id: blog_id, field: className},
 						dataType: "json",
 						type: 'POST',
-						// datatype : "application/json; charset=utf-8",
-						// contentType: "html",
 						success: function(response)
 						{
 							// var response = JSON.parse(response);
-							// $('#_token').attr('data-attribute', response._token);
 							console.log(response);
 							$('.comment-section').html(response.content);
 						}
@@ -1062,20 +1059,15 @@ else
 				$('.new_comments').on('click', function(e){
 					e.preventDefault();
 					var className = 'new_comments';
-					// var _token = $('#_token').attr('data-attribute');
 					var blog_id = $(this).attr('data-attribute');
 					$.ajax({
 						type: 'POST',
 						url: 'sort_comments.php',
 						data: {blog_id: blog_id, field: className},
 						dataType: "json",
-						// datatype : "application/json; charset=utf-8",
-						// contentType: "html",
-						// processData: false,
 						success: function(response)
 						{
 							// var response = JSON.parse(response);
-							// $('#_token').attr('data-attribute', response._token);
 							console.log(response);
 							$('.comment-section').html(response.content);
 						}
