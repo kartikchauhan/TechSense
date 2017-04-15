@@ -520,6 +520,34 @@ require_once'Core/init.php';
 
             $('.close').on('click', function() {
                 $('.search').val('');
+                var query = "default: default";     // query_type default: default is dummy query is to retrieve the results when the user has cleared the previously asked query
+                var _token = $('#_token').val();
+                $.ajax({
+                    type: "POST",
+                    url: "search.php",
+                    data: {query: query, _token: _token},
+                    dataType: "json",
+                    success: function(response)
+                    {
+                        if(response.error_status === true)
+                        {
+                            if(response.error_code != 1)
+                            {
+                                $('#_token').val(response._token);
+                                $('.primary-content').html(response.content);
+                            }
+                            else
+                            {
+                                Materialize.toast(response.error, 5000, "red");
+                            }
+                        }
+                        else
+                        {
+                            $('#_token').val(response._token);
+                            $('.primary-content').html(response.content);
+                        }
+                    }
+                });
             });
 
             // $('.views').click(function(e){

@@ -24,7 +24,34 @@ if(Input::exists('post'))
 			}
 			$query_field = strtolower(trim($query[0]));
 			$query_field_value = strtolower(trim($query[1]));
-			if($query_field === 'user')
+			if($query_field === 'default')
+			{
+				try
+				{
+					$result = $search->sort('blogs', array('created_on', 'DESC'));
+					if(!$result)	// throw error if unable to fetch desired result
+					{
+						throw new Exception("Some error occured while fetching results. Please try again later");
+					}
+					$countBlogs = $result->count();
+					if($countBlogs == 0)	// throw error if unable to find user with name provided by user
+					{
+						throw new Exception("Sorry, there are no blogs right now");
+					}
+					$countBlogs = ceil($countBlogs/$records_per_page);
+					$blogs = $result->results();
+					$resultBlogs = array_slice($blogs, 0, $records_per_page);
+					$json['content'] = 	$json['content'].
+												"<div class='pagination_item_value' data-attribute='false'></div>
+													<div class='content' id='content'>";
+					addHtmlToResponse($json, $resultBlogs, $countBlogs, true);
+				}
+				catch(Exception $e)
+				{
+					addErrorToResponse($json, $e->getMessage());	
+				}
+			}
+			else if($query_field === 'user')
 			{
 				$result = $search->searchIdViaUser('users', array('username', '=', $query_field_value));		// fetching the id of the user
 				try
