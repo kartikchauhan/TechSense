@@ -54,8 +54,8 @@ if(Input::exists('post'))
 					}
 					$resultBlogs = $resultBlogs->results();
 					$json['content'] = 	$json['content'].
-											"<div class='content' id='content'>
-												<div class='pagination_item_value' data-attribute='true'></div>";
+											"<div class='pagination_item_value' data-attribute='true'></div>
+												<div class='content' id='content'>";
 					addHtmlToResponse($json, $resultBlogs, $countBlogs, true);		// add HTML content to the resonse
 				}
 				catch(Exception $e)
@@ -83,8 +83,8 @@ if(Input::exists('post'))
 					}
 					$resultBlogs = $resultBlogs->results();
 					$json['content'] = 	$json['content'].
-											"<div class='content' id='content'>
-												<div class='pagination_item_value' data-attribute='true'></div>";
+											"<div class='pagination_item_value' data-attribute='true'></div>
+												<div class='content' id='content'>";
 					addHtmlToResponse($json, $resultBlogs, $countBlogs, true);
 
 				}
@@ -119,8 +119,8 @@ if(Input::exists('post'))
 					if($paginationCounter != 0)
 					{
 						$json['content'] = 	$json['content'].
-												"<div class='content' id='content'>
-													<div class='pagination_item_value' data-attribute='true'></div>";
+												"<div class='pagination_item_value' data-attribute='true'></div>
+													<div class='content' id='content'>";
 						foreach($result_copy->results() as $user)	// looping over all the users with the respective name we got
 						{
 							$resultBlogs = $search->searchBlogsViaName('blogs', array('users_id', '=', $user->id), array('created_on', 'DESC'), $temp_records_per_page, $offset);		// fetching all blogs associated with every user with the name provided by user
@@ -168,8 +168,8 @@ if(Input::exists('post'))
 					{
 						$result = $search->searchBlogIdViaTags('blog_tags', $tags, array('tags', '='), array('blog_id', 'DESC'), $records_per_page, $offset);
 						$json['content'] = 	$json['content'].
-												"<div class='content' id='content'>
-													<div class='pagination_item_value' data-attribute='true'></div>";
+												"<div class='pagination_item_value' data-attribute='true'></div>
+													<div class='content' id='content'>";
 						foreach($result->results() as $blog_obj)	// looping over all the users with the respective name we got
 						{
 							$resultBlogs = $search->searchBlogsViaTags('blogs', array('id', '=', $blog_obj->blog_id));		// fetching all blogs associated with every user with the name provided by user

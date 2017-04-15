@@ -27,14 +27,13 @@ if(!$user->isLoggedIn())
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 
 	<style>
-	.logo
+	.brand-logo
     {
-        height: auto;
-        width: 50%;
+        display: inline-block;
+        height: 100%;
     }
-	input[type="search"]
-    {
-        height: 64px !important; /* or height of nav */
+    .brand-logo > img {
+        vertical-align: middle
     }
     .col.s12 > .btn
     {

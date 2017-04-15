@@ -24,6 +24,7 @@ if(Input::exists())
 		{
 			$blogs = DB::getInstance()->getRangeSort('blogs', $records_per_page, $offset, array('created_on', 'DESC'));	// get records in descending order within a certian range based upon the offset and records_per_page values
 		}
+
 		if($blogs->count() && !empty(Input::get('author')))
 		{
 			$blogs = $blogs->results();
@@ -97,7 +98,7 @@ if(Input::exists())
 			        </div>";
 			}
 		}
-		else if($blogs->count() && empty(Input::get('author')) && (Input::get('query_type_status') == false))
+		else if($blogs->count() && empty(Input::get('author')) && (Input::get('query_type_status') == 'false'))
 		{
 			$blogs = $blogs->results();
 			$json['content'] = '';	// content will hold the html 
@@ -107,8 +108,7 @@ if(Input::exists())
                 $blog_tags = $blog_tags->results();
 				$date=strtotime($blog->created_on);
 				$json['content'] = $json['content'].
-					"<div class='pagination_item_value' data-attribute='0'></div>
-					<div class='row blog'>
+					"<div class='row blog'>
 			            <div class='col s12 hide-on-med-and-up'>
                             <div class='col s6'>
                                 <blockquote>".
@@ -163,7 +163,7 @@ if(Input::exists())
 			        </div>";
 			}
 		}
-		else if(empty(Input::get('author')) && (Input::get('query_type_status') == true))
+		else if(empty(Input::get('author')) && (Input::get('query_type_status') == 'true'))
 		{
 			$json['content'] = '';
 			$search = DB::getInstance();
@@ -297,7 +297,7 @@ if(Input::exists())
 		{
 			$json['content'] = 'Sorry, no blogs';
 		}
-		header("Content-Type: application/json", true);
+		// header("Content-Type: application/json", true);
 		echo json_encode($json);
 	// }
 	// else

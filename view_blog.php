@@ -87,6 +87,8 @@ else
 		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+		<script type="text/javascript">	if(typeof wabtn4fg==="undefined")	{wabtn4fg=1;h=document.head||document.getElementsByTagName("head")[0],s=document.createElement("script");s.type="text/javascript";s.src="Includes/whatsapp-sharing/distwhatsapp-button.js";h.appendChild(s)}</script>
+	    
 	    <style type="text/css">
 	        nav
 	        {
@@ -198,6 +200,8 @@ else
 
 		<article>
 			<section>
+		<a href="whatsapp://send" data-text="Take a look at this awesome website:" data-href="" class="wa_btn wa_btn_s" style="display:none">Share</a>
+
 				<div class="container">
 					<div class="section">
 						<div class="row">
