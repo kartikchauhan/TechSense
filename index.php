@@ -80,6 +80,7 @@ require_once'Core/init.php';
         {
             font-size: 12px;
         }
+        
         a
         {
             text-decoration: none;
@@ -118,6 +119,10 @@ require_once'Core/init.php';
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        .margin-eliminate
+        {
+            margin: 0px;
         }
         /*nav ul .navbar-menu
         {
@@ -196,6 +201,7 @@ require_once'Core/init.php';
                                 $blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));
                                 $blog_tags = $blog_tags->results();
                                 $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
+                                $writer = DB::getInstance()->get('users', array('id', '=', $blog->users_id))->first()->username;
                                 echo 
                                     "<div class='row'>
                                         <div class='col s12 hide-on-med-and-up'>
@@ -213,10 +219,18 @@ require_once'Core/init.php';
                                             "</blockquote>
                                         </div>
                                         <div class='col s12 l10'>
-                                            <div class='row'>
+                                            <div class='row margin-eliminate'>
                                                 <div class='col s12 l10'>
                                                     <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
-                                                    <h6>".ucfirst($blog->description)."</h6><br>
+                                                    <h6>".ucfirst($blog->description)."</h6>
+                                                </div>
+                                            </div> 
+                                            <div class='row margin-eliminate'>                                        
+                                                <div class='col l4 s6'>
+                                                    <p class='grey-text'>".$blog->blog_minutes_read." minutes read</p>
+                                                </div>
+                                                <div class='col l4 s6'>
+                                                    <p class='grey-text right-align'>- ".$writer."</p>
                                                 </div>
                                             </div>
                                             <div class='row'>
@@ -295,6 +309,7 @@ require_once'Core/init.php';
                                 $blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));
                                 $blog_tags = $blog_tags->results();
                                 $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
+                                $writer = DB::getInstance()->get('users', array('id', '=', $blog->users_id))->first()->username;
                                 echo 
                                 "<div class='row'>
                                     <div class='col s12 hide-on-med-and-up'>
@@ -312,15 +327,23 @@ require_once'Core/init.php';
                                         "</blockquote>
                                     </div>
                                     <div class='col s12 l10'>
-                                        <div class='row hide-on-med-and-up'>
+                                        <div class='row hide-on-med-and-up margin-eliminate'>
                                             <div class='col s12'>
                                                 <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
-                                                <h6>".ucfirst($blog->description)."</h6><br>
+                                                <h6>".ucfirst($blog->description)."</h6>
                                             </div>
                                         </div>
                                         <div class='hide-on-small-only'>
                                             <h6><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h6>
-                                            <p class='description'>".ucfirst($blog->description)."</p><br>
+                                            <p class='description margin-eliminate'>".ucfirst($blog->description)."</p>
+                                        </div>
+                                        <div class='row margin-eliminate'>                                        
+                                            <div class='col l6 s6'>
+                                                <p class='minutes_read grey-text'>".$blog->blog_minutes_read." minutes read</p>
+                                            </div>
+                                            <div class='col l6 s6'>
+                                                <p class=' blog_writer grey-text right-align'>- ".$writer."</p>
+                                            </div>
                                         </div>
                                         <div class='row'>
                                             <div class='measure-count' data-attribute='{$blog->id}'>
