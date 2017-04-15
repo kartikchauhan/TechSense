@@ -294,7 +294,7 @@ else
 													<a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="Check Out this blog" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 												</div>
 												<div class="col s4 l2">
-													<div class="fb-share-button" data-href="<?php echo Config::get('url/current_url'); ?>" data-layout="button">Share</div>
+													<div class="fb-share-button" data-href="<?php echo Config::get('url/current_url'); ?>" data-layout="button" data-size="large">Share</div>
 												</div>
 											</div>
 										</div>
