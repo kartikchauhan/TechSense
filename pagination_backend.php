@@ -36,7 +36,7 @@ if(Input::exists())
 				$date=strtotime($blog->created_on);
 				$json['content'] = $json['content'].
 					"<div class='row blog'>
-						<div class='col s12 hide-on-med-and-up'>
+						<div class='col s12 hide-on-large-only'>
                     		<div class='col s6'>
                                 <blockquote>".
                                     date('M d', $date).' '.
@@ -47,14 +47,14 @@ if(Input::exists())
                             	<a href='#' class='blue-text delete-blog' data-attribute='{$blog->id}'><i class='material-icons right'>delete</i></a> <a href='update_blog.php?blog_id={$blog->id}' class='blue-text edit-blog' data-attribute='{$blog->id}'><i class='material-icons right'>mode_edit</i></a> 
                             </div>
                     	</div>
-                        <div class='col s2 l2 hide-on-small-only'>
+                        <div class='col s2 l2 hide-on-med-and-down'>
                             <blockquote>".
                                 date('M', $date)."<br>".
                                 date('Y d', $date).
                             "</blockquote>
                         </div>
 			            <div class='col s12 l10'>
-		            		<div class='row'>
+		            		<div class='row hide-on-med-and-down'>
 	                        	<div class='col s12 l10'>
 	                            	<h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
 	                            </div>
@@ -110,7 +110,7 @@ if(Input::exists())
 				$writer = DB::getInstance()->get('users', array('id', '=', $blog->users_id))->first()->username;
 				$json['content'] = $json['content'].
 					"<div class='row blog'>
-			            <div class='col s12 hide-on-med-and-up'>
+			            <div class='col s12 hide-on-large-only'>
                             <div class='col s6'>
                                 <blockquote>".
                                     date('M d', $date).' '.
@@ -118,7 +118,7 @@ if(Input::exists())
                                 "</blockquote>
                             </div>
                         </div>
-                        <div class='col s2 l2 hide-on-small-only'>
+                        <div class='col s2 l2 hide-on-med-and-down'>
                             <blockquote>".
                                 date('M', $date)."<br>".
                                 date('Y d', $date).
@@ -132,10 +132,10 @@ if(Input::exists())
 	                            </div>
 	                        </div>
 	                        <div class='row margin-eliminate'>                                        
-                                <div class='col l4 s6'>
+                                <div class='col l4 s6 m4'>
                                     <p class='grey-text'>".$blog->blog_minutes_read." minutes read</p>
                                 </div>
-                                <div class='col l4 s6'>
+                                <div class='col l4 s6 m4'>
                                     <p class='grey-text right-align'>- ".$writer."</p>
                                 </div>
                             </div>
@@ -331,9 +331,8 @@ function addHtmlToResponse($json, $resultBlogs)
 		$date=strtotime($blog->created_on);
 		$writer = DB::getInstance()->get('users', array('id', '=', $blog->users_id))->first()->username;
 		$json['content'] = $json['content'].
-			"<div class='pagination_item_value' data-attribute='1'></div>
-			<div class='row blog'>
-	            <div class='col s12 hide-on-med-and-up'>
+			"<div class='row blog'>
+	            <div class='col s12 hide-on-large-only'>
 	                <div class='col s6'>
 	                    <blockquote>".
 	                        date('M d', $date).' '.
@@ -341,7 +340,7 @@ function addHtmlToResponse($json, $resultBlogs)
 	                    "</blockquote>
 	                </div>
 	            </div>
-	            <div class='col s2 l2 hide-on-small-only'>
+	            <div class='col s2 l2 hide-on-med-and-down'>
 	                <blockquote>".
 	                    date('M', $date)."<br>".
 	                    date('Y d', $date).
@@ -355,10 +354,10 @@ function addHtmlToResponse($json, $resultBlogs)
 	                    </div>
 	                </div>
 	                <div class='row margin-eliminate'>                                        
-                        <div class='col l4 s6'>
+                        <div class='col l4 s6 m4'>
                             <p class='grey-text'>".$blog->blog_minutes_read." minutes read</p>
                         </div>
-                        <div class='col l4 s6'>
+                        <div class='col l4 s6 m4'>
                             <p class='grey-text right-align'>- ".$writer."</p>
                         </div>
                     </div>

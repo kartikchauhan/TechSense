@@ -208,7 +208,7 @@ require_once'Core/init.php';
                                 $writer = DB::getInstance()->get('users', array('id', '=', $blog->users_id))->first()->username;
                                 echo 
                                     "<div class='row'>
-                                        <div class='col s12 hide-on-med-and-up'>
+                                        <div class='col s12 hide-on-large-only'>
                                             <div class='col s6'>
                                                 <blockquote>".
                                                     date('M d', $date).' '.
@@ -216,7 +216,7 @@ require_once'Core/init.php';
                                                 "</blockquote>
                                             </div>
                                         </div>
-                                        <div class='col s2 l2 hide-on-small-only'>
+                                        <div class='col s2 l2 hide-on-med-and-down'>
                                             <blockquote>".
                                                 date('M', $date)."<br>".
                                                 date('Y d', $date).
@@ -230,31 +230,31 @@ require_once'Core/init.php';
                                                 </div>
                                             </div> 
                                             <div class='row margin-eliminate'>                                        
-                                                <div class='col l4 s6'>
+                                                <div class='col l4 s6 m4'>
                                                     <p class='grey-text'>".$blog->blog_minutes_read." minutes read</p>
                                                 </div>
-                                                <div class='col l4 s6'>
+                                                <div class='col l4 s6 m4'>
                                                     <p class='grey-text right-align'>- ".$writer."</p>
                                                 </div>
                                             </div>
                                             <div class='row'>
                                                 <div class='measure-count' data-attribute='{$blog->id}'>
-                                                    <div class='col s2 l1'>
+                                                    <div class='col s2 l1 m1'>
                                                         <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
                                                     </div>
-                                                    <div class='col s1 l1'>
+                                                    <div class='col s1 l1 m1'>
                                                         {$blog->views}
                                                     </div>
-                                                    <div class='col s2 l1 offset-s1 offset-l1'>
+                                                    <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
                                                         <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
                                                     </div>
-                                                    <div class='col s1 l1'>
+                                                    <div class='col s1 l1 m1'>
                                                         {$blog->likes}
                                                     </div>
-                                                    <div class='col s2 l1 offset-s1 offset-l1'>
+                                                    <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
                                                         <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
                                                     </div>
-                                                    <div class='col s1 l1'>
+                                                    <div class='col s1 l1 m1'>
                                                         {$blog->dislikes}
                                                     </div>
                                                 </div>
@@ -342,10 +342,10 @@ require_once'Core/init.php';
                                             <p class='description margin-eliminate'>".ucfirst($blog->description)."</p>
                                         </div>
                                         <div class='row margin-eliminate'>                                        
-                                            <div class='col l6 s6'>
+                                            <div class='col l6 s6 m4'>
                                                 <p class='minutes_read grey-text'>".$blog->blog_minutes_read." minutes read</p>
                                             </div>
-                                            <div class='col l6 s6'>
+                                            <div class='col l6 s6 m4'>
                                                 <p class=' blog_writer grey-text right-align'>- ".$writer."</p>
                                             </div>
                                         </div>

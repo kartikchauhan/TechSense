@@ -82,7 +82,7 @@ if(Input::get('code'))
 		<div id="login-form">
 			<h5 class="center-align condensed light">Sign in to TechSense</h5>
 			<div class="row">
-				<div class="col s12 l4 offset-l4 ">
+				<div class="col s12 l4 m6 offset-m3 offset-l4 ">
 					<ul class='collection center-align z-depth-1 error'>
 						<li class='collection-item red-text'></li>
 					</ul>

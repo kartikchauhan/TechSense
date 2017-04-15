@@ -287,13 +287,13 @@ else
 														<h5>Share this blog</h5>
 													</div>
 												</div>
-												<div class="col s4 l2">
+												<div class="col s4 l2 m2">
 													<div class="g-plus" data-action="share" data-annotation="none" data-height="30" data-href="<?php echo Config::get('url/current_url'); ?>"></div>
 												</div>
-												<div class="col s4 l2">
+												<div class="col s4 l2 m2">
 													<a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="Check Out this blog" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 												</div>
-												<div class="col s4 l2">
+												<div class="col s4 l2 m2">
 													<div class="fb-share-button" data-href="<?php echo Config::get('url/current_url'); ?>" data-layout="button" data-size="large">Share</div>
 												</div>
 											</div>
@@ -690,7 +690,7 @@ else
 		      	<div id="login-form">
 					<h5 class="center-align condensed light">Sign in to TechSense</h5>
 					<div class="row">
-						<div class="col s12 l6 offset-l3">
+						<div class="col s12 l6 m8 offset-m2 offset-l3">
 								<ul class='collection center-align z-depth-1 error'>
 									<li class='collection-item red-text'></li>
 								</ul>
@@ -749,13 +749,13 @@ else
 		<footer class="page-footer blue lighten-1">
 			<div class="container">
 				<div class="row">
-					<div class="col s8 offset-s2 l5">
+					<div class="col s8 offset-s2 l5 m6 offset-m3">
 						<div class="row">
-							<div class="col s12 l8">
+							<div class="col s12 l8 m12">
 								<img class="materialboxed responsive-img z-depth-2" style="height: 200px" data-caption="<?php echo ucwords($author->name); ?>" src="<?php echo Config::get('url/upload_dir').'/'.$author->image_url?>"> <!-- <?php //echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?> -->
 							</div>
 						</div>
-						<div class="row hide-on-small-only">
+						<div class="row hide-on-med-and-down">
 							<div class="col s1 l1 offset-s1 offset-l2">
 								<a href="https://www.github.com/<?php echo $author->github_username; ?>" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:#f5f5f5"></i></a> 	<!-- author's github url -->
 							</div>
@@ -764,9 +764,9 @@ else
 							</div>
 						</div>
 					</div>
-					<div class="col s12 l7">
+					<div class="col s12 l7 m12">
 						<div class="row">
-							<div class="col l12 hide-on-small-only">
+							<div class="col l12 hide-on-med-and-down">
 								<h5 class="white-text center-align">Writer's Info</h5>
 							</div>
 						</div>
@@ -796,11 +796,11 @@ else
 								</div>";
 							}
 						?>
-						<div class="row hide-on-med-and-up">
-							<div class="col s2 offset-s4">
+						<div class="row hide-on-large-only">
+							<div class="col s2 m1 offset-m5 offset-s4">
 								<a href="https://www.github.com/<?php echo $author->github_username; ?>" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:black"></i></a> 	<!-- author's github url -->
 							</div>
-							<div class="col s2">
+							<div class="col s2 m1">
 								<a href="https://www.facebook.com/<?php echo $author->facebook_username; ?>" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:black"></i></a>	<!-- author's facebook url -->
 							</div>
 						</div>

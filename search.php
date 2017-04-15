@@ -253,7 +253,7 @@ function addHtmlToResponse($json, $resultBlogs, $countBlogs = null, $flag = true
 		$writer = DB::getInstance()->get('users', array('id', '=', $blog->users_id))->first()->username;
 		$json['content'] = $json['content'].
 			"<div class='row blog'>
-	            <div class='col s12 hide-on-med-and-up'>
+	            <div class='col s12 hide-on-large-only'>
                     <div class='col s6'>
                         <blockquote>".
                             date('M d', $date).' '.
@@ -261,7 +261,7 @@ function addHtmlToResponse($json, $resultBlogs, $countBlogs = null, $flag = true
                         "</blockquote>
                     </div>
                 </div>
-                <div class='col s2 l2 hide-on-small-only'>
+                <div class='col s2 l2 hide-on-med-and-down'>
                     <blockquote>".
                         date('M', $date)."<br>".
                         date('Y d', $date).
@@ -275,10 +275,10 @@ function addHtmlToResponse($json, $resultBlogs, $countBlogs = null, $flag = true
                         </div>
                     </div>
                     <div class='row margin-eliminate'>                                        
-                        <div class='col l4 s6'>
+                        <div class='col l4 s6 m4'>
                             <p class='grey-text'>".$blog->blog_minutes_read." minutes read</p>
                         </div>
-                        <div class='col l4 s6'>
+                        <div class='col l4 s6 m4'>
                             <p class='grey-text right-align'>- ".$writer."</p>
                         </div>
                     </div>

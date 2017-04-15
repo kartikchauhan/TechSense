@@ -97,7 +97,7 @@ if(!$user->isLoggedIn())
                         </div>
                     </div>                    
                     <div class="row">
-                        <div class="col s12 l3">
+                        <div class="col s12 l3 m4">
                             <button type="button" class="btn waves-effect waves-light blue" name="post_blog" id="post_blog">Post Blog</button>
                         </div>
                     </div>

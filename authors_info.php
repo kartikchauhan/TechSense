@@ -1,3 +1,4 @@
+
 <?php
 
 require_once'Core/init.php';
@@ -55,6 +56,10 @@ if(!$user->isLoggedIn())
     {
         border-left: 5px solid #42A5F5;
     }
+    .token_container
+    {
+    	display: none;
+    }
 	</style>
 </head>
 <body>
@@ -69,7 +74,7 @@ if(!$user->isLoggedIn())
 		<div class="section">
 			<form action="" method="post" enctype="multipart/form-data">
 				<div class="row">
-					<div class="col l4 s12">
+					<div class="col l4 s12 m6 offset-m3">
 						<img class="responsive-img materialboxed authors_profile_pic" src="<?php echo Config::get('url/upload_dir').'/'.$user->data()->image_url ?>" width="100%">
 						<div class="row">
 							<div class="col s12">
@@ -116,21 +121,27 @@ if(!$user->isLoggedIn())
 								<label for="twitter_username">Twitter Username</label>
 							</div>
 						</div>
-						<div class="row">
+						<div class="row token_container">
 							<div class="input-field col s12">
 								<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
 							</div>
 						</div>
+						<div class="row hide-on-large-only">
+							<div class="input-field col s12">
+								<label for="description">Tell us about youself</label>
+								<textarea class="materialize-textarea" id="description" name="description"><?php echo $user->data()->user_description ?></textarea>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row hide-on-med-and-down">
 					<div class="col s12">
 						<label for="description">Tell us about youself</label>
 						<textarea class="materialize-textarea" id="description" name="description"><?php echo $user->data()->user_description ?></textarea>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col s12 l3">
+					<div class="col s12 l3 m4">
 						<button type="button" class="btn waves-effect waves-light blue" name="update" id="update">Update</button>
 					</div>
 				</div>
@@ -141,10 +152,10 @@ if(!$user->isLoggedIn())
 		<div class="row">
 			<div class="section">
 				<div class="row">
-					<div class="col l3 s6 offset-s2">
+					<div class="col l3 s6 m3 offset-s2">
 						<h5>Blogs Written</h5>
 					</div>
-					<div class="col l1 s2">
+					<div class="col l1 s2 m1">
 						<a class="btn-floating btn-small waves-effect waves-light blue toggle-user-blogs"><i class="material-icons">add</i></a>
 					</div>
 				</div>
@@ -166,7 +177,7 @@ if(!$user->isLoggedIn())
                             $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
                             echo 
                                 "<div class='row blog'>
-                                	<div class='col s12 hide-on-med-and-up'>
+                                	<div class='col s12 hide-on-large-only'>
                                 		<div class='col s6'>
 	                                        <blockquote>".
 	                                            date('M d', $date).' '.
@@ -177,14 +188,14 @@ if(!$user->isLoggedIn())
 	                                    	<a href='#' class='blue-text delete-blog' data-attribute='{$blog->id}'><i class='material-icons right'>delete</i></a> <a href='update_blog.php?blog_id={$blog->id}' class='blue-text edit-blog' data-attribute='{$blog->id}'><i class='material-icons right'>mode_edit</i></a> 
 	                                    </div>
                                 	</div>
-                                    <div class='col s2 l2 hide-on-small-only'>
+                                    <div class='col s2 l2 hide-on-med-and-down'>
                                         <blockquote>".
                                             date('M', $date)."<br>".
                                             date('Y d', $date).
                                         "</blockquote>
                                     </div>
                                     <div class='col s12 l10'>
-                                    	<div class='row'>
+                                    	<div class='row hide-on-med-and-down'>
 	                                    	<div class='col s12 l10'>
 	                                        	<h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
 	                                        </div>
