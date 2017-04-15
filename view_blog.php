@@ -182,12 +182,15 @@ else
 							</div>
 						</div>
 						<div class="row">
-							<div class="col s10">
+							<div class="col l10 s12">
 								<div class="row">
 									<div class="col s4 l4">
 										<h6 class="white-text"><?php echo date('M d, Y', $date); ?></h6>
 									</div>
-									<div class="col s6 offset-s2 l6 offset-l2">
+									<div class="col s4">
+										<h6 class="white-text"><?php echo $blog->data()->blog_minutes_read ?> min read</h6>
+									</div>
+									<div class="col s4 l4">
 										<h6 class="white-text" >Written by - <?php echo ucwords($author->name) ?></h6>
 									</div>
 								</div>

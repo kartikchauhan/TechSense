@@ -223,6 +223,7 @@ function addHtmlToResponse($json, $resultBlogs, $countBlogs = null, $flag = true
 		$blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));
         $blog_tags = $blog_tags->results();
 		$date=strtotime($blog->created_on);
+		$writer = DB::getInstance()->get('users', array('id', '=', $blog->users_id))->first()->username;
 		$json['content'] = $json['content'].
 			"<div class='row blog'>
 	            <div class='col s12 hide-on-med-and-up'>
@@ -240,10 +241,18 @@ function addHtmlToResponse($json, $resultBlogs, $countBlogs = null, $flag = true
                     "</blockquote>
                 </div>
 	            <div class='col s12 l10'>
-            		<div class='row'>
+            		<div class='row margin-eliminate'>
                     	<div class='col s12 l10'>
                         	<h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
         					<h6>".ucfirst($blog->description)."</h6><br>
+                        </div>
+                    </div>
+                    <div class='row margin-eliminate'>                                        
+                        <div class='col l4 s6'>
+                            <p class='grey-text'>".$blog->blog_minutes_read." minutes read</p>
+                        </div>
+                        <div class='col l4 s6'>
+                            <p class='grey-text right-align'>- ".$writer."</p>
                         </div>
                     </div>
 	                <div class='row'>
