@@ -75,9 +75,10 @@ else
     	<link rel="preload" as="script" href="vendor/tinymce/tinymce/tinymce.min.js">
 		<title>View Blog</title>
 		<meta property="og:type"          content="website" />
+		<meta property="og:url"           content="<?php echo Config::get('url/current_url'); ?>">
 		<meta property="og:title"         content="<?php echo $blog->data()->title; ?>" />
 		<meta property="og:description"   content="<?php echo $blog->data()->description; ?>" />
-		<meta property="og:image"         content="http://uvmbored.com/wp-content/uploads/2015/05/blog.jpg">
+		<meta property="og:image"         content="Includes/images/og_image.jpg">
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:site" content="@TechSense" />
 		<meta name="twitter:title" content="<?php echo $blog->data()->title; ?>" />
@@ -156,13 +157,12 @@ else
 		<!-- facebook SDK for sharing button -->
 		<div id="fb-root"></div>
 		<script>(function(d, s, id) {
-		  	var js, fjs = d.getElementsByTagName(s)[0];
-		  	if (d.getElementById(id)) return;
-		  	js = d.createElement(s); js.id = id;
-		  	js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1145090692169938";
-		  	fjs.parentNode.insertBefore(js, fjs);
-			}(document, 'script', 'facebook-jssdk'));
-		</script>
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
 		<script type="text/javascript">
 	    	document.getElementById('nav-bar').classList.remove('transparent');
 	    </script>
@@ -294,7 +294,7 @@ else
 													<a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="Check Out this blog" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 												</div>
 												<div class="col s4 l2">
-													<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Share</a></div>
+													<div class="fb-share-button" data-href="<?php echo Config::get('url/current_url'); ?>" data-layout="button">Share</div>
 												</div>
 											</div>
 										</div>
