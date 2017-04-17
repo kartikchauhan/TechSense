@@ -39,7 +39,7 @@ if(Input::get('code'))
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="keywords" content="blog, technology, code, program, alorithms"/>
-		<meta name="description" content="We emphaisze on solving problems">
+		<meta name="description" content="Publish your passions your way. Whether you'd like to share your knowledge, experiences or the latest tech news, create a unique and beautiful blog for free.">
 		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 
@@ -53,12 +53,14 @@ if(Input::get('code'))
 			}
 			#login-form
 			{
-				position:relative;
+				margin-left:auto;
+				margin-right:auto;
+				/*position:relative;
 			  	top:50%;
 			    left:50%;
 				-ms-transform: translateX(-50%) translateY(-50%);
 				-webkit-transform: translate(-50%,-50%);
-				transform: translate(-50%,-50%);
+				transform: translate(-50%,-50%);*/
 			}
 			#remember-me-container
 			{

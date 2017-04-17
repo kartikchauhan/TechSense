@@ -147,12 +147,14 @@ function generateUsernames($name)
 			}
 			#registration-form
 			{
-				position:relative;
+                margin-left:auto;
+                margin-right:auto;
+				/*position:relative;
 			  	top:50%;
 			    left:50%;
 				-ms-transform: translateX(-50%) translateY(-50%);
 				-webkit-transform: translate(-50%,-50%);
-				transform: translate(-50%,-50%);
+				transform: translate(-50%,-50%);*/
 			}
 		</style>
 

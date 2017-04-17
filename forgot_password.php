@@ -33,12 +33,14 @@ $user = new User;
 		}
 		#forgot-password-form
 		{
-			position:relative;
-		  	top:50%;
-		    left:50%;
+			margin-left:auto;
+			margin-right:auto;
+			/*position:relative;
+		  	top:50%;*/
+		    /*left:50%;
 			-ms-transform: translateX(-50%) translateY(-50%);
 			-webkit-transform: translate(-50%,-50%);
-			transform: translate(-50%,-50%);
+			transform: translate(-50%,-50%);*/
 		}
 		.error
 		{
