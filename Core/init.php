@@ -21,7 +21,7 @@ $current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP
 $GLOBALS['config'] = array(
 
 	'mysql'=>array(
-		'host'=>'127.0.0.1',	// neeed to be changed to $_SERVER['HTTP_HOST']
+		'host'=>'localhost',	// neeed to be changed to $_SERVER['HTTP_HOST']
 		'user'=>'root',
 		'password'=>'',
 		'database'=>'blog'
