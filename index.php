@@ -31,10 +31,10 @@ require_once'Core/init.php';
         {
             z-index: -1;
         }
-        nav
+        /*nav
         {
             border-bottom: 1px white solid;
-        }
+        }*/
         .brand-logo
         {
             display: inline-block;
