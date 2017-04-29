@@ -38,8 +38,7 @@ $GLOBALS['config'] = array(
 	'url'=>array(
 		'current_url' => $current_url,
 		'endpoint' => $endpoint,
-		'upload_dir' =>"Includes/uploads",
-		'previous_url' => 'redirect_uri'
+		'upload_dir' =>"Includes/uploads"
 		)	
 	);
 

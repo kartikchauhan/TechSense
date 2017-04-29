@@ -1,43 +1,34 @@
-<!DOCTYPE html>
-<html>
-<head>
-
-</head>
-<body>
-  <p>hey</p>
-</body>
-</html>
-
 <?php
 
 // Load the Google API PHP Client Library.
 require_once __DIR__ . '/vendor/autoload.php';
 
-session_start();
-
-$client = new Google_Client();
-$client->setAuthConfig(__DIR__ . '/client_secrets.json');
-$client->addScope(Google_Service_Analytics::ANALYTICS_READONLY);
+$analytics = initializeAnalytics();
+$response = getReport($analytics);
+printResults($response);
 
 
-// If the user has already authorized this app then get an access token
-// else redirect to ask the user to authorize access to Google Analytics.
-if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
-  // Set the access token on the client.
-  $client->setAccessToken($_SESSION['access_token']);
+/**
+ * Initializes an Analytics Reporting API V4 service object.
+ *
+ * @return An authorized Analytics Reporting API V4 service object.
+ */
+function initializeAnalytics()
+{
 
-  // Create an authorized analytics service object.
+  // Use the developers console and download your service account
+  // credentials in JSON format. Place them in this directory or
+  // change the key file location if necessary.
+  $KEY_FILE_LOCATION = __DIR__ . '/client_secrets.json';
+
+  // Create and configure a new client object.
+  $client = new Google_Client();
+  $client->setApplicationName("Hello Analytics Reporting");
+  $client->setAuthConfig($KEY_FILE_LOCATION);
+  $client->setScopes(['https://www.googleapis.com/auth/analytics.readonly']);
   $analytics = new Google_Service_AnalyticsReporting($client);
 
-  // Call the Analytics Reporting API V4.
-  $response = getReport($analytics);
-
-  // Print the response.
-  printResults($response);
-
-} else {
-  $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] .'/TechWit/oauth2callback.php';
-  header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
+  return $analytics;
 }
 
 
@@ -54,8 +45,8 @@ function getReport($analytics) {
 
   // Create the DateRange object.
   $dateRange = new Google_Service_AnalyticsReporting_DateRange();
-  $dateRange->setStartDate("yesterday");
-  $dateRange->setEndDate("yesterday");  
+  $dateRange->setStartDate("2017-04-26");
+  $dateRange->setEndDate("today");
 
   // Create the Metrics object.
   $metrics = new Google_Service_AnalyticsReporting_Metric();
@@ -65,14 +56,12 @@ function getReport($analytics) {
   $dimensions = new Google_Service_AnalyticsReporting_Dimension();
   $dimensions->setName("ga:pagePathLevel2");
 
-
   // Create the ReportRequest object.
   $request = new Google_Service_AnalyticsReporting_ReportRequest();
   $request->setViewId($VIEW_ID);
   $request->setDateRanges($dateRange);
   $request->setDimensions(array($dimensions));
   $request->setMetrics(array($metrics));
-  
 
   $body = new Google_Service_AnalyticsReporting_GetReportsRequest();
   $body->setReportRequests( array( $request) );
@@ -99,24 +88,13 @@ function printResults($reports) {
       $metrics = $row->getMetrics();
       for ($i = 0; $i < count($dimensionHeaders) && $i < count($dimensions); $i++) {
         print($dimensionHeaders[$i] . ": " . $dimensions[$i] . "\n");
-        echo "<br>"."/TechWit".$dimensions[$i]."<br>";
-        echo "<br>".$_SERVER['REQUEST_URI']."<br>";
-        if("/TechWit".$dimensions[$i] == $_SERVER['REQUEST_URI'])
-        {
-          echo "yes";
-        }
-        else
-        {
-          echo "no";
-        }
-
       }
 
       for ($j = 0; $j < count($metrics); $j++) {
         $values = $metrics[$j]->getValues();
         for ($k = 0; $k < count($values); $k++) {
           $entry = $metricHeaders[$k];
-          print($entry->getName() . "<br>" . $values[$k] . "<br>");
+          print($entry->getName() . ": " . $values[$k] . "\n");
         }
       }
     }
