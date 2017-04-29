@@ -33,12 +33,13 @@ $GLOBALS['config'] = array(
 		),
 	'session'=>array(
 		'session_name' => 'user',
-		'token_name' => 'tokens'
+		'token_name' => 'tokens',
 		),
 	'url'=>array(
 		'current_url' => $current_url,
 		'endpoint' => $endpoint,
-		'upload_dir' =>"Includes/uploads"
+		'upload_dir' =>"Includes/uploads",
+		'previous_url' => 'redirect_uri'
 		)	
 	);
 

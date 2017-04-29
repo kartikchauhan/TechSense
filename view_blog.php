@@ -1,18 +1,29 @@
 <?php
 
+// require_once'Includes/googleAuth/gpConfig.php';
+require_once __DIR__ . '/vendor/autoload.php';
 require_once'Core/init.php';
-require_once'Includes/googleAuth/gpConfig.php';
+
+$GLOBALS['path'] = explode('/', $_SERVER['SCRIPT_NAME']);
+$custom_path = '';
+for($i = 1; $i < count($path); $i++)
+{
+	$custom_path .= '/'.$path[$i];	// custom_path for setting redirecting_uri in oauthcallback.php
+}
+
+Session::put(Config::get('url/previous_url'), $custom_path);	// creating session so oauthcallback.php redirects back to this page
 
 $user = new User;
 
-$authUrl = $gClient->createAuthUrl();
+// $authUrl = $gClient->createAuthUrl();
 
-if(Input::get('code'))
-{
-	$gClient->authenticate(Input::get('code'));
-	Session::put('googleToken', $gClient->getAccessToken());
-	Redirect::to('social_login.php');
-}
+// if(Input::get('code'))
+// {
+// 	$gClient->authenticate(Input::get('code'));
+// 	Session::put('googleToken', $gClient->getAccessToken());
+// 	Redirect::to('social_login.php');
+// }
+
 
 if(Input::exists('get'))
 {
@@ -26,16 +37,37 @@ if(Input::exists('get'))
 			Redirect::to(404);
 		}
 		$author = DB::getInstance()->join(array('users', 'blogs'), array('id', 'users_id'), array('id', '=', $blogId))->first(); // fetching the author of the blog and his corresponding details
-		$views = $blog->data()->views + 1;
-		try
+
+
+		// Code for updating the unique views of a blog using google Analytics and it's reporting library starts from here
+		// Load the Google API PHP Client Library.
+
+		$client = new Google_Client();
+		$client->setAuthConfig(__DIR__ . '/client_secrets.json');
+		$client->addScope(Google_Service_Analytics::ANALYTICS_READONLY);
+
+		// If the user has already authorized this app then get an access token
+		// else redirect to ask the user to authorize access to Google Analytics.
+		if (isset($_SESSION['access_token']) && $_SESSION['access_token']) 
 		{
-			if($blog->update('blogs', $blogId, array('views' => $views)) != 1)	// if number of records returned are not equal to 1
-				throw new Exception("Unable to update views of the blog.");
-		}
-		catch(Exception $e)
+		  	// Set the access token on the client.
+		  	$client->setAccessToken($_SESSION['access_token']);
+
+		  	// Create an authorized analytics service object.
+		  	$analytics = new Google_Service_AnalyticsReporting($client);
+
+		  	// Call the Analytics Reporting API V4.
+		  	$response = getReport($analytics);
+
+		  	// Update the blog views
+		  	updateViews($response, $blog, $blogId);
+		} 
+		else 
 		{
-			echo $e->getMessage();
+		  	$redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] .'/TechWit/oauth2callback.php';
+		  	header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
 		}
+
 		$date=strtotime($blog->data()->created_on);
 		if($user->isLoggedIn())
 		{
@@ -62,23 +94,132 @@ else
 	Redirect::to('index.php');
 }
 
+
+/**
+ * Queries the Analytics Reporting API V4.
+ *
+ * @param service An authorized Analytics Reporting API V4 service object.
+ * @return The Analytics Reporting API V4 response.
+ */
+function getReport($analytics) 
+{
+  	// Replace with your view ID, for example XXXX.
+  	$VIEW_ID = "149090607";
+
+  	// Create the DateRange object.
+  	$dateRange = new Google_Service_AnalyticsReporting_DateRange();
+  	$dateRange->setStartDate("2017-04-26");	// set the starting date
+  	$dateRange->setEndDate("today"); 	// set the end date
+
+  	// Create the Metrics object.
+  	$metrics = new Google_Service_AnalyticsReporting_Metric();
+  	$metrics->setExpression("ga:uniquePageviews");
+  	$metrics->setAlias("uniquePageviews");
+
+  	$dimensions = new Google_Service_AnalyticsReporting_Dimension();
+  	$dimensions->setName("ga:pagePathLevel2");
+
+  	// Create the ReportRequest object.
+		$request = new Google_Service_AnalyticsReporting_ReportRequest();
+  	$request->setViewId($VIEW_ID);
+  	$request->setDateRanges($dateRange);
+  	$request->setDimensions(array($dimensions));
+  	$request->setMetrics(array($metrics));
+
+  	$body = new Google_Service_AnalyticsReporting_GetReportsRequest();
+  	$body->setReportRequests( array( $request) );
+  	return $analytics->reports->batchGet( $body );
+}
+
+/**
+ * Parses and prints the Analytics Reporting API V4 response.
+ *
+ * @param An Analytics Reporting API V4 response.
+ */
+function updateViews($reports, $blog, $blogId) 
+{
+  	for ( $reportIndex = 0; $reportIndex < count( $reports ); $reportIndex++ ) 
+  	{
+    	$report = $reports[ $reportIndex ];
+    	$header = $report->getColumnHeader();
+    	$dimensionHeaders = $header->getDimensions();
+    	$metricHeaders = $header->getMetricHeader()->getMetricHeaderEntries();
+    	$rows = $report->getData()->getRows();
+
+    	$flag = false;	// setting flag = false, flag will keep track whether current URI matches with the dimensions or not, if it matches, update the views
+    	for ( $rowIndex = 0; $rowIndex < count($rows); $rowIndex++) 
+    	{
+      		$row = $rows[ $rowIndex ];
+      		$dimensions = $row->getDimensions();
+      		$metrics = $row->getMetrics();
+
+      		for ($i = 0; $i < count($dimensionHeaders) && $i < count($dimensions); $i++) 
+      		{
+	      		// echo "echoing out dimension value ".$i.'br>';
+        		// print($dimensionHeaders[$i] . ": " . $dimensions[$i] . "\n");
+        		$custom_path = '';
+        		for($j=1; $j<count($GLOBALS['path'])-1; $j++)
+        		{
+	        		$custom_path .= '/'.$GLOBALS['path'][$j];
+        		}
+        		$dimensions[$i] = $custom_path.$dimensions[$i];
+        		if($dimensions[$i] == $_SERVER['REQUEST_URI'])
+        		{        			
+	          		$flag = true;
+        		}
+      		}
+
+      		for ($j = 0; $j < count($metrics); $j++) 
+	      	{
+        		$values = $metrics[$j]->getValues();
+        		for ($k = 0; $k < count($values); $k++) 
+        		{
+	          		$entry = $metricHeaders[$k];
+	          		if($flag == true)
+	          		{
+	          			try
+						{
+							if(DB::getInstance()->update('blogs', $blogId, array('views' => $values[$k])) == false)
+								throw new Exception("Unable to update views of the blog.");
+						}
+						catch(Exception $e)
+						{
+							echo $e->getMessage();
+						}
+						$flag = false;	// set flag = false so that no updation doesn't occur for any other page
+					}
+        		}
+      		}
+		}
+	}
+}
+
 ?>
 
 <!DOCTYPE html>
 <html>
 	<head>
-	
+		<script>
+		  	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+		  	ga('create', 'UA-98214883-3', 'auto');
+		  	ga('send', 'pageview');
+
+		</script>
+
+		<!-- Load the JavaScript API client and Sign-in library. -->
+		<script src="https://apis.google.com/js/client:platform.js"></script>
 		<link rel="preload" as="script" href="Includes/js/materialize.min.js">
     	<link rel="preload" as="script" href="https://use.fontawesome.com/819d78ad52.js">
     	<link rel="preload" as="script" href="Includes/js/jquery.min.js">
     	<link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
-    	<link rel="preload" as="script" href="vendor/tinymce/tinymce/tinymce.min.js">
 		<title>View Blog</title>
-		<meta property="og:type"          content="website" />
-		<meta property="og:url"           content="<?php echo Config::get('url/current_url'); ?>">
-		<meta property="og:title"         content="<?php echo $blog->data()->title; ?>" />
-		<meta property="og:description"   content="<?php echo $blog->data()->description; ?>" />
-		<meta property="og:image"         content="Includes/images/og_image.jpg">
+		
+		<meta name="google-signin-client_id" content="285926229424-cm218npu455mta48b8r6uq4nassnedvj.apps.googleusercontent.com">
+  		<meta name="google-signin-scope" content="https://www.googleapis.com/auth/analytics.readonly">
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:site" content="@TechSense" />
 		<meta name="twitter:title" content="<?php echo $blog->data()->title; ?>" />
@@ -88,7 +229,6 @@ else
 		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-		<script type="text/javascript">	if(typeof wabtn4fg==="undefined")	{wabtn4fg=1;h=document.head||document.getElementsByTagName("head")[0],s=document.createElement("script");s.type="text/javascript";s.src="Includes/whatsapp-sharing/distwhatsapp-button.js";h.appendChild(s)}</script>
 	    
 	    <style type="text/css">
 	        nav
@@ -154,6 +294,7 @@ else
 			include'header.php';
 
 		?>
+		
 		<!-- facebook SDK for sharing button -->
 		<div id="fb-root"></div>
 		<script>(function(d, s, id) {
@@ -463,8 +604,6 @@ else
 		<script src="Includes/js/jquery.min.js"></script>
 	    <script src="https://use.fontawesome.com/819d78ad52.js"></script>
 	    <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
-	    <script src="vendor/tinymce/tinymce/tinymce.min.js"></script>
-	    <script src="https://apis.google.com/js/platform.js" async defer></script>
 	    <script>
 	    	if(typeof(Storage) !== "undefined")
 	        {
@@ -480,29 +619,6 @@ else
 	    		$(".button-collapse").sideNav();
 
 	    		$('.modal').modal();
-	    		
-	    			tinymce.init({
-	                    selector: '#comment',
-	                    height: 100,
-	                    theme: 'modern',
-	                    plugins: [
-	                      'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-	                      'searchreplace wordcount visualblocks visualchars code fullscreen',
-	                      'insertdatetime media nonbreaking save table contextmenu directionality',
-	                      'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc'
-	                    ],
-	                    toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-	                    toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
-	                    image_advtab: true,
-	                    templates: [
-	                      { title: 'Test template 1', content: 'Test 1' },
-	                      { title: 'Test template 2', content: 'Test 2' }
-	                    ],
-	                    content_css: [
-	                      '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-	                      '//www.tinymce.com/css/codepen.min.css'
-	                    ]
-	                });
 
 	    		// $('.likes-not-logged-in, .dislikes-not-logged-in').click(function(e){	// if user is not logged in, restrict him from voting
 	    		// 	e.preventDefault();

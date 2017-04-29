@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test 89</title>
+    <script type="text/javascript">
+        function doBold(){
+            var editor = document.getElementById("editor");
+            var editorHTML = editor.innerHTML;
+            var selectionStart = 0, selectionEnd = 0;
+            if (editor.selectionStart) selectionStart = editor.selectionStart;
+            if (editor.selectionEnd) selectionEnd = editor.selectionEnd;
+            if (selectionStart != selectionEnd) {
+                var editorCharArray = editorHTML.split("");
+                editorCharArray.splice(selectionEnd, 0, "</b>");
+                editorCharArray.splice(selectionStart, 0, "<b>"); //must do End first
+                editorHTML = editorCharArray.join("");
+                editor.innerHTML = editorHTML;
+            }
+        }
+    </script>
+</head>
+<body>
+    <textarea id="editor" cols="80" rows="20">This is some text to see what happens and when. You should be able to select some text in here then click the "Bold" button to make it bold.</textarea><br />
+    <button onclick="doBold()">Bold</button>
+</body>
+</html>
