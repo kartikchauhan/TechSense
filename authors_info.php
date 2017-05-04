@@ -121,6 +121,12 @@ if(!$user->isLoggedIn())
 								<label for="twitter_username">Twitter Username</label>
 							</div>
 						</div>
+						<div class="row">
+							<div class="input-field col s12">
+								<input type="text" name="google_profileId" id="google_profileId" value="<?php echo $user->data()->google_profileId ?>">
+								<label for="google_profileId">Google ProfileId</label>
+							</div>
+						</div>
 						<div class="row token_container">
 							<div class="input-field col s12">
 								<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">

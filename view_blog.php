@@ -207,11 +207,13 @@ function updateViews($reports, $blog, $blogId)
 
 		<!-- Load the JavaScript API client and Sign-in library. -->
 		<script src="https://apis.google.com/js/client:platform.js"></script>
+		<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 		<link rel="preload" as="script" href="Includes/js/materialize.min.js">
     	<link rel="preload" as="script" href="https://use.fontawesome.com/819d78ad52.js">
     	<link rel="preload" as="script" href="Includes/js/jquery.min.js">
     	<link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
-		<title>View Blog</title>
+
+		<title><?php echo $blog->data()->title; ?></title>
 		
 		<meta name="google-signin-client_id" content="285926229424-cm218npu455mta48b8r6uq4nassnedvj.apps.googleusercontent.com">
   		<meta name="google-signin-scope" content="https://www.googleapis.com/auth/analytics.readonly">
@@ -280,6 +282,10 @@ function updateViews($reports, $blog, $blogId)
 	        {
 	        	margin-top: 12%;
 	        }
+	        /* Hide AddToAny vertical share bar when screen is less than 980 pixels wide */
+			@media screen and (max-width: 980px) {
+			    .a2a_floating_style.a2a_vertical_style { display: none; }
+			}
 	    </style>
 
 	</head>
@@ -290,18 +296,28 @@ function updateViews($reports, $blog, $blogId)
 
 		?>
 		
-		<!-- facebook SDK for sharing button -->
+		<script type="text/javascript">
+	    	document.getElementById('nav-bar').classList.remove('transparent');
+	    </script>
+
+	    <div class="a2a_kit a2a_kit_size_32 a2a_floating_style a2a_vertical_style" style="left:0px; top:150px;">
+		    <a class="a2a_button_facebook"></a>
+		    <a class="a2a_button_twitter"></a>
+		    <a class="a2a_button_google_plus"></a>
+		    <a class="a2a_button_pinterest"></a>
+		    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+		</div>	
+
+		<script async src="https://static.addtoany.com/menu/page.js"></script>
+
 		<div id="fb-root"></div>
 		<script>(function(d, s, id) {
 		  var js, fjs = d.getElementsByTagName(s)[0];
 		  if (d.getElementById(id)) return;
 		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8";
+		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9";
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>
-		<script type="text/javascript">
-	    	document.getElementById('nav-bar').classList.remove('transparent');
-	    </script>
 
 		<header class="blue">
 			<section>
@@ -338,13 +354,11 @@ function updateViews($reports, $blog, $blogId)
 		</header>
 
 		<article>
-			<section>
-		<a href="whatsapp://send" data-text="Take a look at this awesome website:" data-href="" class="wa_btn wa_btn_s" style="display:none">Share</a>
-
+			<section>		
 				<div class="container">
 					<div class="section">
 						<div class="row">
-							<div class="col s12 l10">
+							<div class="col s12 l10 offset-l1">
 								<p class="flow-text"><?php echo $blog->data()->blog; ?></p>
 								<div class="section">
 									<div class="row">
@@ -411,30 +425,7 @@ function updateViews($reports, $blog, $blogId)
 												</div>";
 											}
 										?>
-									</div>
-									<div class="row">
-										<div class="col s12 l10 offset-l2">
-											<div class="row">
-												<div class="col s12 l5">
-													<div class="hide-on-med-and-up center-align">
-														<h5>Share this blog</h5>
-													</div>
-													<div class="hide-on-small-only">
-														<h5>Share this blog</h5>
-													</div>
-												</div>
-												<div class="col s4 l2 m2">
-													<div class="g-plus" data-action="share" data-annotation="none" data-height="30" data-href="<?php echo Config::get('url/current_url'); ?>"></div>
-												</div>
-												<div class="col s4 l2 m2">
-													<a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="Check Out this blog" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-												</div>
-												<div class="col s4 l2 m2">
-													<div class="fb-share-button" data-href="<?php echo Config::get('url/current_url'); ?>" data-layout="button" data-size="large">Share</div>
-												</div>
-											</div>
-										</div>
-									</div>
+									</div>									
 								</div>
 							</div>
 						</div>
@@ -442,12 +433,9 @@ function updateViews($reports, $blog, $blogId)
 				</div>
 				<div class="container">
 					<div class="row">
-						<div class="col s12 l10" id="disqus_thread"></div>
+						<div class="col s12 l10 offset-l1" id="disqus_thread"></div>
 						<script>
 							/**
-							*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-							*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-							/*
 							var disqus_config = function () {
 							this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
 							this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
@@ -473,50 +461,50 @@ function updateViews($reports, $blog, $blogId)
 					<h5 class="center-align condensed light">Sign in to TechSense</h5>
 					<div class="row">
 						<div class="col s12 l6 m8 offset-m2 offset-l3">
-								<ul class='collection center-align z-depth-1 error'>
-									<li class='collection-item red-text'></li>
-								</ul>
-									<div class="card">
-										<div class="card-content">
-											<div class="row">
-												<form class="col s12 l12" action="" method="post">
-													<div class="row">
-														<div class="input-field col s12">
-															<i class="material-icons prefix">email</i>
-															<input type="text" name="login_email" id="login_email"/>
-															<label for="login_email">Email</label>
-														</div>
-														<div class="input-field col s12">
-															<i class="material-icons prefix">lock</i>
-															<input type="password" name="password" id="password" />
-															<label for="password">Password</label>
-														</div>
-														<div class="col s4 l4" id="remember-me-container">
-															<input type="checkbox" id="remember_me" name="remember_me">
-															<label for="remember_me"> Remember Me</label>
-														</div>
-														<div class="col s4 l4 offset-l4 offset-s4">
-															<a class="red-text" href="forgot_password.php">Forgot password?</a>
-														</div>
-														<div class="input-field col s12 l8 offset-l2 login_button_container">
-															<input type="submit" class="btn waves-effect waves-light" value="login" id="login">
-														</div>
-													</div>
-												</form>
-											</div>
-										</div>
-									</div>
-									<div class="center-align">Or</div>
+						<ul class='collection center-align z-depth-1 error'>
+							<li class='collection-item red-text'></li>
+						</ul>
+							<div class="card">
+								<div class="card-content">
 									<div class="row">
-										<div class="col s12 l12">
-											<a href="<?php echo $authUrl ?>" class="waves-effect waves-light btn red">Sign in with google</a>
-										</div>
+										<form class="col s12 l12" action="" method="post">
+											<div class="row">
+												<div class="input-field col s12">
+													<i class="material-icons prefix">email</i>
+													<input type="text" name="login_email" id="login_email"/>
+													<label for="login_email">Email</label>
+												</div>
+												<div class="input-field col s12">
+													<i class="material-icons prefix">lock</i>
+													<input type="password" name="password" id="password" />
+													<label for="password">Password</label>
+												</div>
+												<div class="col s4 l4" id="remember-me-container">
+													<input type="checkbox" id="remember_me" name="remember_me">
+													<label for="remember_me"> Remember Me</label>
+												</div>
+												<div class="col s4 l4 offset-l4 offset-s4">
+													<a class="red-text" href="forgot_password.php">Forgot password?</a>
+												</div>
+												<div class="input-field col s12 l8 offset-l2 login_button_container">
+													<input type="submit" class="btn waves-effect waves-light" value="login" id="login">
+												</div>
+											</div>
+										</form>
 									</div>
-									<div class="section">
-										<ul class="collection center-align z-depth-1">
-											<li class="collection-item">New to TechSense? <a href="register.php">Create an account</a></li>
-										</ul>
-									</div>
+								</div>
+							</div>
+							<div class="center-align">Or</div>
+							<div class="row">
+								<div class="col s12 l12">
+									<a href="<?php echo $authUrl ?>" class="waves-effect waves-light btn red">Sign in with google</a>
+								</div>
+							</div>
+							<div class="section">
+								<ul class="collection center-align z-depth-1">
+									<li class="collection-item">New to TechSense? <a href="register.php">Create an account</a></li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -525,9 +513,8 @@ function updateViews($reports, $blog, $blogId)
 		      	<a href="javascript:void(0)" class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
 		    </div>
     	</div>
-		<!-- Place the tag where you want the button to render -->
-<!-- <div class="g-plus" data-action="share" data-annotation="none" data-height="24" data-href="http://localhost/Blog_temp2/view_blog.php"></div> -->
 
+		<script async defer src="https://buttons.github.io/buttons.js"></script>
 		<footer class="page-footer blue lighten-1">
 			<div class="container">
 				<div class="row">
@@ -538,12 +525,33 @@ function updateViews($reports, $blog, $blogId)
 							</div>
 						</div>
 						<div class="row hide-on-med-and-down">
-							<div class="col s1 l1 offset-s1 offset-l2">
-								<a href="https://www.github.com/<?php echo $author->github_username; ?>" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:#f5f5f5"></i></a> 	<!-- author's github url -->
-							</div>
-							<div class="col s1 l1 offset-s1 offset-l1">
-								<a href="https://www.facebook.com/<?php echo $author->facebook_username; ?>" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:#f5f5f5"></i></a>	<!-- author's facebook url -->
-							</div>
+							<?php
+								if($author->facebook_username != '')
+								{
+									echo "<div class='col l12' style='margin-bottom: 5px;'>
+									 		<div class='fb-follow' data-href='https://www.facebook.com/".$author->facebook_username."' data-layout='button_count' data-size='large' data-show-faces='true'></div>
+								 		</div>";
+								}
+								if($author->google_profileId != '')
+								{
+									echo "<div class='col l12'>
+											<div class='g-follow' data-annotation='bubble' data-height='24' data-href='//plus.google.com/u/0/".$author->google_profileId."' data-rel='author'></div>
+								 		</div>";
+								}
+								if($author->github_username != '')
+								{
+									echo "<div class='col l12'>
+												<a class='github-button' href='https://github.com/ntkme' data-size='large' data-show-count='true' aria-label='Follow @ntkme on GitHub'>Follow @ntkme</a>
+								 		</div>";
+								}
+								if($author->twitter_username != '')
+								{
+									
+									echo "<div class='col l12'>
+											<a class='twitter-follow-button' href='https://twitter.com/".$author->twitter_username."' data-size='large'> Follow @".$author->twitter_username."</a>
+										</div>";
+								}
+							?>
 						</div>
 					</div>
 					<div class="col s12 l7 m12">
@@ -567,24 +575,34 @@ function updateViews($reports, $blog, $blogId)
 								<h6 class="white-text">Email: <?php echo $author->email; ?></h6>
 							</div>
 						</div>
-						<?php
-							if($author->twitter_username !== '')
-							{
-								echo
-								"<div class='row'>
-									<div class='col s6'>
-										<a class='twitter-follow-button' href='https://twitter.com/".$author->twitter_username."' data-size='large'> Follow @".$author->twitter_username."</a>
-									</div>
-								</div>";
-							}
-						?>
 						<div class="row hide-on-large-only">
-							<div class="col s2 m1 offset-m5 offset-s4">
-								<a href="https://www.github.com/<?php echo $author->github_username; ?>" target="_blank"><i class="fa fa-github-square fa-3x" aria-hidden="true" style="color:black"></i></a> 	<!-- author's github url -->
-							</div>
-							<div class="col s2 m1">
-								<a href="https://www.facebook.com/<?php echo $author->facebook_username; ?>" target="_blank"><i class="fa fa-facebook-square fa-3x" aria-hidden="true" style="color:black"></i></a>	<!-- author's facebook url -->
-							</div>
+							<?php								
+								if($author->facebook_username != '')
+								{
+									echo "<div class='col s12' style='margin-bottom: 5px;'>
+									 		<div class='fb-follow' data-href='https://www.facebook.com/".$author->facebook_username."' data-layout='button_count' data-size='large' data-show-faces='true'></div>
+								 		</div>";
+								}
+								if($author->google_profileId != '')
+								{
+									echo "<div class='col s12'>
+											<div class='g-follow' data-annotation='bubble' data-height='24' data-href='//plus.google.com/u/0/".$author->google_profileId."' data-rel='author'></div>
+								 		</div>";
+								}
+								if($author->github_username != '')
+								{
+									echo "<div class='col s12'>
+											<a class='github-button' href='https://github.com/".$author->github_username."' data-size='large' data-show-count='true' aria-label='Follow @".$author->github_username." on GitHub'>Follow ".$author->github_username."</a>
+								 		</div>";
+								}
+								if($author->twitter_username != '')
+								{
+									
+									echo "<div class='col s12'>
+											<a class='twitter-follow-button' href='https://twitter.com/".$author->twitter_username."' data-size='large'> Follow @".$author->twitter_username."</a>
+										</div>";
+								}
+							?>
 						</div>
 					</div>
 				</div>
@@ -595,6 +613,14 @@ function updateViews($reports, $blog, $blogId)
 				</div>
 			</div>
 		</footer>
+
+		<div class="a2a_kit a2a_kit_size_32 a2a_floating_style a2a_default_style" style="bottom:0px; right:0px;">
+		    <a class="a2a_button_facebook"></a>
+		    <a class="a2a_button_twitter"></a>
+		    <a class="a2a_button_google_plus"></a>
+		    <a class="a2a_button_pinterest"></a>
+		    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+		</div>
 
 		<script src="Includes/js/jquery.min.js"></script>
 	    <script src="https://use.fontawesome.com/819d78ad52.js"></script>

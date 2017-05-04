@@ -32,6 +32,10 @@ if(Input::exists('post'))
 					"min" => 3,
 					"max" => 50
 					),
+				"google_profileId" => array(
+					"min" => 3,
+					"max" => 50
+					),
 				"description" => array(
 					"required" => true,
 					"min" => 10
@@ -45,6 +49,7 @@ if(Input::exists('post'))
 				$fields["github_username"] = Input::get('github_username');	// add github_username if user has entered github_username
 				$fields["facebook_username"] = Input::get('facebook_username');
 				$fields["twitter_username"] = Input::get("twitter_username");
+				$fields["google_profileId"] = Input::get("google_profileId");
 				if(!empty($_FILES))	// insert the data if no image uploaded
 				{
 					$target_dir = Config::get('url/upload_dir').'/';	// target directory where images are gonna be stored
