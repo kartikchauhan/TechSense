@@ -7,6 +7,8 @@ require_once'Core/init.php';
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="preload" as="image" href="Includes/images/landing.jpg">
+    <link rel="preload" as="script" href="Includes/js/typed.js">
     <link rel="preload" as="script" href="Includes/js/materialize.min.js">
     <link rel="preload" as="script" href="https://use.fontawesome.com/819d78ad52.js">
     <link rel="preload" as="script" href="Includes/js/jquery.min.js">
@@ -16,25 +18,82 @@ require_once'Core/init.php';
     <link rel="preload" as="image" href="Includes/images/code4.png">
     <link rel="preload" as="image" href="Includes/images/code1.png">
     <link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
-    <title>
-      Home
-    </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="keywords" content="blog, technology, code, program, alorithms"/>
     <meta name="description" content="Publish your passions your way. Whether you'd like to share your knowledge, experiences or the latest tech news, create a unique and beautiful blog for free.">
+    <title> Home </title>
+    <script src="Includes/js/typed.js" type="text/javascript"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Typed.new("#typed", {
+                stringsElement: document.getElementById('typed-strings'),
+                typeSpeed: 30,
+                backDelay: 500,
+                loop: false,
+                contentType: 'text', // or text
+                // defaults to null for infinite loop
+                loopCount: null,
+                resetCallback: function() { newTyped(); }
+            });
+
+            var resetElement = document.querySelector('.reset');
+            if(resetElement) 
+            {
+                resetElement.addEventListener('click', function() {
+                    document.getElementById('typed')._typed.reset();
+                });
+            }
+        });
+
+        function newTyped(){ /* A new typed object */ }
+    </script>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-    <style type="text/css">
-        /* no added transitions for safari, mozilla, safari and other browsers*/
-        .slider
+
+    <style type="text/css">        
+        #fullscreen-hero 
         {
-            z-index: -1;
+            height: 100vh;
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            min-height: 350px;
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
         }
-        /*nav
+        .home-hero 
         {
-            border-bottom: 1px white solid;
-        }*/
+            background-image: url(Includes/images/landing.jpg);
+            background-color: #bdbdbd;
+            background-blend-mode: multiply;
+        }
+        .hero-container 
+        {
+            display: table;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 100%;
+        }
+        .hero-content 
+        {
+            display: table-cell;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .home-logo 
+        {
+            position: absolute;
+            top: 32%;
+            -webkit-transform: translateX(-50%);
+        }
+        #typed-strings
+        {
+            display: none;
+        }
         .brand-logo
         {
             display: inline-block;
@@ -43,6 +102,11 @@ require_once'Core/init.php';
         .brand-logo > img {
             vertical-align: middle
         }
+        /*nav ul a:hover 
+        {
+            background-color: white !important;
+            color: #231816 !important;
+        }*/
         nav ul .dropdown-button
         {
             width: 200px !important;
@@ -52,29 +116,31 @@ require_once'Core/init.php';
             position: relative;
             top: 100vh;
         }
-        #write-blog
-        {
-            position: relative !important;
-            top: -30% !important;
-            z-index: 3 !important;
-        }
         .ghost-button
         {
-            display: inline-block !important;
-            width: 200px !important;
-            padding: 8px !important;
-            color: #fff !important;
-            border: 2px solid #fff !important;
-            text-align: center !important;
-            outline: none !important;
-            text-decoration: none !important;
-            text-shadow: 1px 1px 3px #000;
+            position: absolute; 
+            bottom: 15%;    /* positioning the ghost button from the bottom */
+            -webkit-transform: translateX(-50%);    /* centering ghost button */
+            -ms-transform: translateX(-50%);
+            display: inline-block;
+            width: 200px;
+            padding: 8px;
+            font-family: sans-serif;
+            color: #fff;    
+            letter-spacing: 0.1em;
+            border: 2px solid #fff;
+            text-align: center;
+            outline: none;
+            text-decoration: none;
+            text-rendering:optimizeLegibility;
+            -webkit-transition: color 300ms, background 500ms, border-color 700ms;
+            transition: color 300ms, background 500ms, border-color 700ms;
         }
-        .ghost-button:hover, .ghost-button:active
+        .ghost-button:hover
         {
-            background-color: #fff;
-            color: #000;
-            transition: background-color 0.3s ease-in, color 0.3s ease-in;
+            background: #fff;
+            border-color: #fff;
+            color: #231816;
         }        
         .description
         {
@@ -128,42 +194,90 @@ require_once'Core/init.php';
         {
             margin: 0px;
         }
-        /*nav ul .navbar-menu
+        .typed-cursor
         {
-            width: 167px;
-        }*/
+            opacity: 1;
+            font-weight: 100;
+            -webkit-animation: blink 0.7s infinite;
+            -moz-animation: blink 0.7s infinite;
+            -ms-animation: blink 0.7s infinite;
+            -o-animation: blink 0.7s infinite;
+            animation: blink 0.7s infinite;
+        }
+        @-keyframes blink
+        {
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-webkit-keyframes blink
+        {
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-moz-keyframes blink
+        {
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-ms-keyframes blink
+        {
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        @-o-keyframes blink
+        {
+            0% { opacity:1; }
+            50% { opacity:0; }
+            100% { opacity:1; }
+        }
+        .typed-fade-out{
+            opacity: 0;
+            animation: 0;
+            transition: opacity .25s;
+        }
+
     </style>
 </head>
 <body>
+
+    <div id="fullscreen-hero" class="home-hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <!-- <a href="#" class="home-logo">  
+                    <img src="Includes/images/logo4.png">
+                </a> -->
+                <!-- <br> -->
+                <h4 class="white-text hide-on-small-only">
+                    <div id="typed-strings">
+                        <span>Publish your own blogs</span>
+                        <p>Read latest tech news</p>
+                        <p>Solve problems!!</p>
+                    </div>
+                    <span id="typed" style="white-space:pre;"></span>
+                </h4>
+                <h5 class="white-text hide-on-med-and-up">
+                    <div id="typed-strings">
+                        <span>Publish your own blogs</span>
+                        <p>Read latest tech news</p>
+                        <p>Solve problems!!</p>
+                    </div>
+                    <span id="typed" style="white-space:pre;"></span>
+                </h5>
+                <a class="ghost-button" href="write_blog.php">WRITE A BLOG</a>
+            </div>
+        </div>
+    </div>
 
     <?php
 
         include'header.php';
 
     ?>
-
-    <div class="slider fullscreen" data-indicators="false">
-        <ul class="slides">
-            <li>
-                <img src="Includes/images/code3.png">
-            </li>
-            <li>
-                <img src="Includes/images/code1.png"> 
-            </li>
-            <li>
-                <img src="Includes/images/code2.png">
-            </li>
-            <li>
-                <img src="Includes/images/code4.png">
-            </li>
-            <li>
-                <img src="Includes/images/code5.jpeg">
-            </li>            
-        </ul>
-        <div id="write-blog" class="center-align">
-            <a class="ghost-button z-depth-2" href="write_blog.php">WRITE A BLOG</a>
-        </div>
-    </div>
+    
     <div id="secondary-content">
     <div class="row">        
         <form class="col s10 l6 offset-l3 offset-s1" onsubmit="return false;">
@@ -431,7 +545,6 @@ require_once'Core/init.php';
             }
         }
         $(document).ready(function(){
-            $('.slider').slider();  // activate slider
 
             $(".dropdown-button").dropdown({hover: false});   // activate dropdown in the nav-bar
 
