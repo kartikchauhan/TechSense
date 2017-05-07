@@ -145,8 +145,7 @@ require_once'Core/init.php';
         .description
         {
             font-size: 12px;
-        }
-        
+        }        
         a
         {
             text-decoration: none;
@@ -164,6 +163,23 @@ require_once'Core/init.php';
         {
             font-size: 12px;
         }
+        .tabs .indicator
+        {
+            background-color: #42a5f5;
+        }
+        .tabs .tab a
+        {
+            color: rgb(3, 155, 229);
+        }
+        .tabs .tab a.active
+        {
+            color: rgb(3, 155, 229);
+        }
+        .tabs .tab a:hover
+        {
+            color: #64b5f6;
+        }
+
         label
         {
             -webkit-transform: none !important; 
@@ -277,233 +293,53 @@ require_once'Core/init.php';
         include'header.php';
 
     ?>
-    
+
     <div id="secondary-content">
-    <div class="row">        
-        <form class="col s10 l6 offset-l3 offset-s1" onsubmit="return false;">
-            <div class="input-field valign-wrapper">
-                <!-- <i class='fa fa-search left valign' aria-hidden='true'></i> -->
-                <input id="search" type="search" class="valign search" required placeholder="user: username | tags: tag1, tag2...">
-                <label for="search"><i class="material-icons">search</i></label>
-                <i class="material-icons close">close</i>
+        <div class="container">
+            <div class="row">        
+                <form class="col s10 l8 offset-l2 offset-s1" onsubmit="return false;">
+                    <div class="input-field valign-wrapper">
+                        <!-- <i class='fa fa-search left valign' aria-hidden='true'></i> -->
+                        <input id="search" type="search" class="valign search" required placeholder="user: username | tags: tag1, tag2...">
+                        <label for="search"><i class="material-icons">search</i></label>
+                        <i class="material-icons close">close</i>
+                    </div>
+                        <input type="hidden" id="_token" value="<?php echo Token::generate(); ?>">
+                </form>
             </div>
-                <input type="hidden" id="_token" value="<?php echo Token::generate(); ?>">
-        </form>
-    </div>
-        <div class="row">
-            <div class="col s12 l8">
-                <div class="row">
-                    <div class="col offset-s6">
-                        <div class="loader-container">
-                            <div class="loader"></div>
+            <div class="row">
+                <div class="col s12 l12">
+                    <div class="row">
+                        <div class="col offset-s6">
+                            <div class="loader-container">
+                                <div class="loader"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <h5 class="center-align">Recent Blogs</h5>
-                <!-- <div class="content" id="content"> -->
-                    <?php
-                        $blogs = DB::getInstance()->sort('blogs', array('created_on', 'DESC'));
-                        $num_blogs = $blogs->count();
-                        $num_pages = ceil($num_blogs/5);
-                        if($num_blogs)  // show blogs if there are any, otherwise show message 'No blogs'
-                        {   
-                            echo 
-                            "<div class='primary-content'>
-                                <div class='pagination_item_value' data-attribute='false'></div>";  // data-attribute = false => for default pagination,true => pagination for user, pagination for tags, pagination for title, pagination for name
-                                    echo
-                                    "<div class='content' id='content'>";
-                            $blogs = $blogs->results();
-                            $blogs = array_slice($blogs, 0, 5);
-                            foreach($blogs as $blog)
-                            {
-                                $blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));
-                                $blog_tags = $blog_tags->results();
-                                $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
-                                $writer = DB::getInstance()->get('users', array('id', '=', $blog->users_id))->first()->username;
-                                echo 
-                                    "<div class='row'>
-                                        <div class='col s12 hide-on-large-only'>
-                                            <div class='col s6'>
-                                                <blockquote>".
-                                                    date('M d', $date).' '.
-                                                    date('Y', $date).
-                                                "</blockquote>
-                                            </div>
-                                        </div>
-                                        <div class='col s2 l2 hide-on-med-and-down'>
-                                            <blockquote>".
-                                                date('M', $date)."<br>".
-                                                date('Y d', $date).
-                                            "</blockquote>
-                                        </div>
-                                        <div class='col s12 l10'>
-                                            <div class='row margin-eliminate'>
-                                                <div class='col s12 l10'>
-                                                    <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
-                                                    <h6>".ucfirst($blog->description)."</h6>
-                                                </div>
-                                            </div> 
-                                            <div class='row margin-eliminate'>                                        
-                                                <div class='col l4 s6 m4'>
-                                                    <p class='grey-text'>".$blog->blog_minutes_read." minutes read</p>
-                                                </div>
-                                                <div class='col l4 s6 m4'>
-                                                    <p class='grey-text right-align'>- ".$writer."</p>
-                                                </div>
-                                            </div>
-                                            <div class='row'>
-                                                <div class='measure-count' data-attribute='{$blog->id}'>
-                                                    <div class='col s2 l1 m1'>
-                                                        <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
-                                                    </div>
-                                                    <div class='col s1 l1 m1'>
-                                                        {$blog->views}
-                                                    </div>
-                                                    <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
-                                                        <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
-                                                    </div>
-                                                    <div class='col s1 l1 m1'>
-                                                        {$blog->likes}
-                                                    </div>
-                                                    <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
-                                                        <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
-                                                    </div>
-                                                    <div class='col s1 l1 m1'>
-                                                        {$blog->dislikes}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class='row'>
-                                                <div class='col s12'>";
-                                                foreach($blog_tags as $blog_tag)
-                                                {
-                                                    echo "<div class='chip'>".$blog_tag->tags."</div>";
-                                                }
-                                                echo
-                                                "</div>
-                                            </div>
-                                            <div class='divider'></div>
-                                        </div>
-                                    </div>";
-                            }
-                            echo 
-                                "</div>
-                                <div class='section center-align'>
-                                    <ul class='pagination'>";
-                                            for($x = 1; $x <= $num_pages; $x++)
-                                            {
-                                                if($x == 1)
-                                                {
-                                                    echo "<li class='waves-effect pagination active'><a href='#' class='blog-pagination'>".$x."</a></li>";
-                                                }
-                                                else
-                                                {
-                                                    echo "<li class='waves-effect pagination'><a href='#' class='blog-pagination'>".$x."</a></li>";
-                                                }
-                                            }   
-                                    echo
-                                    "</ul>
-                                </div>
-                            </div>";
-                        }
-                        else
-                        {
-                            echo "<div class='section center-align'>No blogs yet. <a href='write_blog.php'>Write the very first blog.</a></div>";
-                        }
-                    ?>
-            </div>
-            <div class="col s12 l4">
-                <div class="section">
-                    <h5 class="center-align">Recommended Blogs</h5>
+                <div class="row">
+                    <div class="col s12 l8 offset-l2">
+                        <div class="row">
+                            <ul class="tabs">
+                                <li class="tab col s6 l6"><a class="active" href="#recent_blogs">Recent Blogs</a></li>
+                                <li class="tab col s6 l6"><a href="#recommended_blogs">Recommended Blogs</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="recent_blogs" class="col s12 l12">
+
+                        <?php
+                            $determining_factor = 'created_on';
+                            populateWithBlogContent($determining_factor);
+                        ?>
+                    </div>
+                    <div id="recommended_blogs" class="col s12">
+                        <?php
+                            $determining_factor = 'views';
+                            populateWithBlogContent($determining_factor);
+                        ?>
+                    </div>
                 </div>
-                <?php
-                    $blogs = DB::getInstance()->sort('blogs', array('views', 'DESC'));
-                    if($blogs->count())
-                    {
-                        if($blogs = $blogs->fetchRecords(5))
-                        {
-                            foreach($blogs as $blog)
-                            {
-                                $blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));
-                                $blog_tags = $blog_tags->results();
-                                $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
-                                $writer = DB::getInstance()->get('users', array('id', '=', $blog->users_id))->first()->username;
-                                echo 
-                                "<div class='row'>
-                                    <div class='col s12 hide-on-med-and-up'>
-                                        <div class='col s6'>
-                                            <blockquote>".
-                                                date('M d', $date).' '.
-                                                date('Y', $date).
-                                            "</blockquote>
-                                        </div>
-                                    </div>
-                                    <div class='col l2 hide-on-small-only'>
-                                        <blockquote class='blockquote'>".
-                                            date('M', $date)."<br>".
-                                            date('Y d', $date).
-                                        "</blockquote>
-                                    </div>
-                                    <div class='col s12 l10'>
-                                        <div class='row hide-on-med-and-up margin-eliminate'>
-                                            <div class='col s12'>
-                                                <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
-                                                <h6>".ucfirst($blog->description)."</h6>
-                                            </div>
-                                        </div>
-                                        <div class='hide-on-small-only'>
-                                            <h6><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h6>
-                                            <p class='description margin-eliminate'>".ucfirst($blog->description)."</p>
-                                        </div>
-                                        <div class='row margin-eliminate'>                                        
-                                            <div class='col l6 s6 m4'>
-                                                <p class='minutes_read grey-text'>".$blog->blog_minutes_read." minutes read</p>
-                                            </div>
-                                            <div class='col l6 s6 m4'>
-                                                <p class=' blog_writer grey-text right-align'>- ".$writer."</p>
-                                            </div>
-                                        </div>
-                                        <div class='row'>
-                                            <div class='measure-count' data-attribute='{$blog->id}'>
-                                                <div class='col s2 l1'>
-                                                    <i class='fa fa-eye fa-lg' aria-hidden='true' style='color:grey'></i>
-                                                </div>
-                                                <div class='col s1 l1'>
-                                                    {$blog->views}
-                                                </div>
-                                                <div class='col s2 l1 offset-s1 offset-l1'>
-                                                    <i class='fa fa-thumbs-up fa-lg' aria-hidden='true' style='color:grey'></i>
-                                                </div>
-                                                <div class='col s1 l1'>
-                                                    {$blog->likes}
-                                                </div>
-                                                <div class='col s2 l1 offset-s1 offset-l1'>
-                                                    <i class='fa fa-thumbs-down fa-lg' aria-hidden='true' style='color:grey'></i>
-                                                </div>
-                                                <div class='col s1 l1'>
-                                                    {$blog->dislikes}
-                                                </div>
-                                            </div>
-                                        </div>";
-                                        foreach($blog_tags as $blog_tag)
-                                        {
-                                            echo "<div class='chip'>".$blog_tag->tags."</div>";
-                                        }
-                                        echo
-                                        "<div class='section hide-on-med-and-up'>
-                                            <div class='divider'></div>
-                                        </div>
-                                    </div>
-                                </div>";
-                            }
-                        }
-                    }
-                    else
-                    {
-                        echo 
-                        "<h6 class='center-align'>No blogs yet</h6>";
-                    }
-                ?>
             </div>
         </div>
         <footer class="page-footer blue lighten-1">
@@ -530,6 +366,126 @@ require_once'Core/init.php';
             </div>
         </footer>
     </div>
+        
+    <?php
+        function populateWithBlogContent($determining_factor)
+        {
+            $blogs = DB::getInstance()->sort('blogs', array($determining_factor, 'DESC'));
+            $num_blogs = $blogs->count();
+            $num_pages = ceil($num_blogs/5);
+            if($num_blogs)
+            {
+                echo
+                "<div class='content'>";
+                $blogs = $blogs->results();
+                $blogs = array_slice($blogs, 0, 5);
+                foreach($blogs as $blog)
+                {
+                    $blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));
+                    $blog_tags = $blog_tags->results();
+                    $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
+                    $writer = DB::getInstance()->get('users', array('id', '=', $blog->users_id))->first()->username;
+                    echo 
+                    "<div class='row'>
+                        <div class='col s12'>
+                            <div class='col s12 hide-on-med-and-up'>
+                                <blockquote>".
+                                    date('M d', $date).' '.
+                                    date('Y', $date).
+                                "</blockquote>
+                            </div>
+                            <div class='col s2 hide-on-small-only'>
+                                <blockquote>".
+                                    date('M d', $date).' '.
+                                    date('Y', $date).
+                                "</blockquote>
+                            </div>
+                            <div class='col s12 l10'>
+                                <div class='row margin-eliminate'>
+                                    <div class='col s12'>
+                                        <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
+                                        <h6>".ucfirst($blog->description)."</h6>
+                                    </div>
+                                </div> 
+                                <div class='row margin-eliminate'>  
+                                    <div class='valign-wrapper'>
+                                        <div class='col l6 s5 valign'>
+                                            <div class='valign-wrapper'>
+                                                <div class='col s2 l1 valign'>
+                                                    <i class='material-icons' style='color:grey'>book</i>
+                                                </div>
+                                                <div class='col s10 l11 valign'>
+                                                    <p class='grey-text'>".$blog->blog_minutes_read." min read</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='col l6 s7 valign'>
+                                            <div class='chip'>
+                                                <img src='Includes/images/og_image.jpg' alt='Contact Person'>{$writer}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='measure-count' data-attribute='{$blog->id}'>
+                                        <div class='col s2 l1 m1'>
+                                            <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
+                                        </div>
+                                        <div class='col s1 l1 m1'>
+                                            {$blog->views}
+                                        </div>
+                                        <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
+                                            <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
+                                        </div>
+                                        <div class='col s1 l1 m1'>
+                                            {$blog->likes}
+                                        </div>
+                                        <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
+                                            <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
+                                        </div>
+                                        <div class='col s1 l1 m1'>
+                                            {$blog->dislikes}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class='col s12'>";
+                                    foreach($blog_tags as $blog_tag)
+                                    {
+                                        echo "<div class='chip'>".$blog_tag->tags."</div>";
+                                    }
+                                    echo
+                                    "</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>";
+                }
+                echo 
+                "</div>
+                <div class='section center-align'>
+                    <ul class='pagination'>";
+                            for($x = 1; $x <= $num_pages; $x++)
+                            {
+                                if($x == 1)
+                                {
+                                    echo "<li class='waves-effect pagination active'><a href='#' class='blog-pagination'>".$x."</a></li>";
+                                }
+                                else
+                                {
+                                    echo "<li class='waves-effect pagination'><a href='#' class='blog-pagination'>".$x."</a></li>";
+                                }
+                            }   
+                    echo
+                    "</ul>
+                </div>";
+            }
+            else
+            {
+                echo "<div class='section center-align'>No blogs yet. <a href='write_blog.php'>Write the very first blog.</a></div>";
+            }
+        }
+    ?>
 
     <script src="Includes/js/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/819d78ad52.js"></script>
@@ -549,6 +505,8 @@ require_once'Core/init.php';
             $(".dropdown-button").dropdown({hover: false});   // activate dropdown in the nav-bar
 
             $(".button-collapse").sideNav();
+
+            $('ul.tabs').tabs();
 
             $('.primary-content').on('click', '.blog-pagination', function(e){
                 e.preventDefault();

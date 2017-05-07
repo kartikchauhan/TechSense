@@ -162,7 +162,7 @@ if(!$user->isLoggedIn())
 						<h5>Blogs Written</h5>
 					</div>
 					<div class="col l1 s2 m1">
-						<a class="btn-floating btn-small waves-effect waves-light blue toggle-user-blogs"><i class="material-icons">add</i></a>
+						<a class="btn-floating pulse btn-small waves-effect waves-light blue toggle-user-blogs"><i class="material-icons">add</i></a>
 					</div>
 				</div>
 			</div>

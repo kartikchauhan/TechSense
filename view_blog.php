@@ -306,7 +306,15 @@ function updateViews($reports, $blog, $blogId)
 		    <a class="a2a_button_google_plus"></a>
 		    <a class="a2a_button_pinterest"></a>
 		    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
-		</div>	
+		</div>
+
+		<div class="a2a_kit a2a_kit_size_32 a2a_floating_style a2a_default_style" style="bottom:0px; right:0px;">
+		    <a class="a2a_button_facebook"></a>
+		    <a class="a2a_button_twitter"></a>
+		    <a class="a2a_button_google_plus"></a>
+		    <a class="a2a_button_pinterest"></a>
+		    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+		</div>
 
 		<script async src="https://static.addtoany.com/menu/page.js"></script>
 
@@ -329,7 +337,7 @@ function updateViews($reports, $blog, $blogId)
 							</div>
 						</div>
 						<div class="row">
-							<div class="col s12 l10">
+							<div class="col s12 l12">
 								<h5 class="white-text thin"> <?php echo ucfirst($blog->data()->description); ?></h5>
 							</div>
 						</div>
@@ -358,7 +366,7 @@ function updateViews($reports, $blog, $blogId)
 				<div class="container">
 					<div class="section">
 						<div class="row">
-							<div class="col s12 l10 offset-l1">
+							<div class="col s12 l12">
 								<p class="flow-text"><?php echo $blog->data()->blog; ?></p>
 								<div class="section">
 									<div class="row">
@@ -433,7 +441,7 @@ function updateViews($reports, $blog, $blogId)
 				</div>
 				<div class="container">
 					<div class="row">
-						<div class="col s12 l10 offset-l1" id="disqus_thread"></div>
+						<div class="col s12 l12" id="disqus_thread"></div>
 						<script>
 							/**
 							var disqus_config = function () {
@@ -613,14 +621,6 @@ function updateViews($reports, $blog, $blogId)
 				</div>
 			</div>
 		</footer>
-
-		<div class="a2a_kit a2a_kit_size_32 a2a_floating_style a2a_default_style" style="bottom:0px; right:0px;">
-		    <a class="a2a_button_facebook"></a>
-		    <a class="a2a_button_twitter"></a>
-		    <a class="a2a_button_google_plus"></a>
-		    <a class="a2a_button_pinterest"></a>
-		    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
-		</div>
 
 		<script src="Includes/js/jquery.min.js"></script>
 	    <script src="https://use.fontawesome.com/819d78ad52.js"></script>
