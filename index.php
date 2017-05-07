@@ -12,11 +12,6 @@ require_once'Core/init.php';
     <link rel="preload" as="script" href="Includes/js/materialize.min.js">
     <link rel="preload" as="script" href="https://use.fontawesome.com/819d78ad52.js">
     <link rel="preload" as="script" href="Includes/js/jquery.min.js">
-    <link rel="preload" as="image" href="Includes/images/code5.jpeg">
-    <link rel="preload" as="image" href="Includes/images/code3.png">
-    <link rel="preload" as="image" href="Includes/images/code2.png">
-    <link rel="preload" as="image" href="Includes/images/code4.png">
-    <link rel="preload" as="image" href="Includes/images/code1.png">
     <link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -177,7 +172,7 @@ require_once'Core/init.php';
         }
         .tabs .tab a:hover
         {
-            color: #64b5f6;
+            color: #1976d2;
         }
 
         label
@@ -368,7 +363,7 @@ require_once'Core/init.php';
     </div>
         
     <?php
-        function populateWithBlogContent($determining_factor)
+        function populateWithBlogContent($determining_factor)   // function to populate with recent_blogs or recommended_blogs
         {
             $blogs = DB::getInstance()->sort('blogs', array($determining_factor, 'DESC'));
             $num_blogs = $blogs->count();
@@ -508,30 +503,26 @@ require_once'Core/init.php';
 
             $('ul.tabs').tabs();
 
-            $('.primary-content').on('click', '.blog-pagination', function(e){
+            $('#recent_blogs').on('click', '.blog-pagination', function(e) {
                 e.preventDefault();
-                console.log('pagination');
-                $('.active').removeClass('active');
-                $(this).parent().addClass('active');
-                var page_id = $(this).html();
-                var query_type_status = $('.pagination_item_value').attr('data-attribute'); // variable query_type_status is to moderate the type of pagination, by default it's value will be 0
-                if(query_type_status == 'false')
-                {
-                    var data = {page_id: page_id, query_type_status: query_type_status};
-                }
-                else
-                {
-                    var query = $('#search').val();
-                    var data = {page_id: page_id, query_type_status: query_type_status, query: query};
-                }
-                console.log(query_type_status);
-                console.log(data);
-                // var _token = $('#_token').attr('data-attribute');
+                pagination('recent_blogs', $(this)); // get pagination content for populating recent_blogs
+            });
 
+            $('#recommended_blogs').on('click', '.blog-pagination', function(e) {
+                e.preventDefault();
+                pagination('recommended_blogs', $(this)); // get pagination content for populating recommended_blogs
+            });
+
+            function pagination(determining_factor, obj)
+            {
+                $('.active').removeClass('active');
+                obj.parent().addClass('active');
+                var page_id = obj.html();
+                console.log(page_id);
                 $.ajax({
                     type: 'POST',
                     url: 'pagination_backend.php',
-                    data: data,
+                    data: {determining_factor: determining_factor, page_id: page_id},
                     // dataType: "json",
                     cache: false,
                     success: function(response)
@@ -544,11 +535,19 @@ require_once'Core/init.php';
                         }
                         else
                         {
-                            $('.content').html(response.content);
+                            if(determining_factor == 'recent_blogs')
+                            {
+                                $('#recent_blogs').find('.content').html(response.content);
+                            }
+                            else if(determining_factor == 'recommended_blogs')
+                            {
+                                console.log(determining_factor);
+                                $('#recommended_blogs').find('.content').html(response.content);
+                            }
                         }
                     }
                 });
-            });
+            }
 
             $("#search").on("keypress", function(event) {
                 if(event.which == 13)   // if the user hits enter
@@ -621,74 +620,6 @@ require_once'Core/init.php';
                 });
             });
 
-            // $('.views').click(function(e){
-            //     e.preventDefault();
-            //     var blog_id = getBlogId(this);
-            //     var _token = getToken();
-
-            // });
-
-
-            // $('.likes, .dislikes').click(function(e){
-            //     e.preventDefault();
-            //     var object = $(this);
-                
-            //     var blog_id = getBlogId(this);
-            //     var _token = getToken();
-            //     var count = $(this).attr('data-attribute');
-            //     var className = getClassName(this);
-
-            //     $.ajax({
-            //         type: 'POST',
-            //         url: 'blog_attributes.php',
-            //         data: {blog_id: blog_id, _token: _token, field: className, count: count},
-            //         cache: false,
-            //         success: function(response)
-            //         {
-            //             var response = JSON.parse(response);
-            //             console.log(response);
-            //             $('#_token').attr('data-attribute', response._token);
-            //             if(response.error_status)
-            //             {
-            //                 consol.log(response.error);
-            //                 Materialize.toast(response.error, 5000, 'red');
-            //                 return false;
-            //             }
-            //             else
-            //             {
-            //                 $(object).attr('data-attribute', response.count);
-            //                 console.log(response.count);
-            //                 console.log($(object).parent().next().text(response.count));
-            //             }
-            //         }
-            //     });
-            // });
-   
-            // function getToken()
-            // {
-            //     return $('#_token').attr('data-attribute');
-            // } 
-
-            // function getBlogId(object)
-            // {
-            //     return $(object).parent().parent().attr('data-attribute');
-            // }
-
-            // function getClassName(object)
-            // {
-            //     var className = $(object).attr('class');
-            //     if(className === 'likes')
-            //     {
-            //         className = 'likes';
-            //     }
-            //     else if(className === 'dislikes')
-            //     {
-            //         className = 'dislikes';
-            //     }
-
-            //     return className;
-
-            // }
 
         });
     </script>
