@@ -1,26 +1,93 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Test 89</title>
-    <script type="text/javascript">
-        function doBold(){
-            var editor = document.getElementById("editor");
-            var editorHTML = editor.innerHTML;
-            var selectionStart = 0, selectionEnd = 0;
-            if (editor.selectionStart) selectionStart = editor.selectionStart;
-            if (editor.selectionEnd) selectionEnd = editor.selectionEnd;
-            if (selectionStart != selectionEnd) {
-                var editorCharArray = editorHTML.split("");
-                editorCharArray.splice(selectionEnd, 0, "</b>");
-                editorCharArray.splice(selectionStart, 0, "<b>"); //must do End first
-                editorHTML = editorCharArray.join("");
-                editor.innerHTML = editorHTML;
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <style type="text/css">
+        .fadedfx {
+            background-color: #fe5652;
+            visibility: hidden;
+        }
+        .fadeIn {
+            animation-name: fadeIn;
+            -webkit-animation-name: fadeIn;
+            animation-duration: 1.5s;
+            -webkit-animation-duration: 1.5s;
+            animation-timing-function: ease-in-out;
+            -webkit-animation-timing-function: ease-in-out;
+            visibility: visible !important;
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0.0;
+            }
+            100% {
+                opacity: 1;
             }
         }
-    </script>
+        @-webkit-keyframes fadeIn {
+            0% {
+                opacity: 0.0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
-<body>
-    <textarea id="editor" cols="80" rows="20">This is some text to see what happens and when. You should be able to select some text in here then click the "Bold" button to make it bold.</textarea><br />
-    <button onclick="doBold()">Bold</button>
+
+<body class="grey lighten-2">
+    <div class="container">
+        <div class="col s12 m7">
+            <div class="card horizontal">
+                <div class="card-image"> <img src="https://unsplash.it/400/300?image=503" class="fadeIn"> </div>
+                <div class="card-stacked">
+                    <div class="card-content"> <span class="card-title">San Francisco</span>
+                        <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. </p>
+                    </div>
+                    <div class="card-action"> <a href="#">This is a link</a> </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m7 fadedfx">
+            <div class="card horizontal" id="fadedfx">
+                <div class="card-stacked">
+                    <div class="card-content"> <span class="card-title">New York </span>
+                        <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. </p>
+                    </div>
+                    <div class="card-action"> <a href="#">This is a link</a> </div>
+                </div>
+                <div class="card-image"> <img src="https://unsplash.it/400/300?image=736"> </div>
+            </div>
+        </div>
+        <div class="col s12 m7 fadedfx">
+            <div class="card horizontal">
+                <div class="card-image"> <img src="https://unsplash.it/400/300?image=763"> </div>
+                <div class="card-stacked">
+                    <div class="card-content"> <span class="card-title">London</span>
+                        <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. </p>
+                    </div>
+                    <div class="card-action"> <a href="#">This is a link</a> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="Includes/js/jquery.min.js"></script>
+    <script src="https://use.fontawesome.com/819d78ad52.js"></script>
+    <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
+    <script type="text/javascript">
+        $(window).scroll(function() {
+            $(".fadedfx").each(function() {
+                var imagePos = $(this).offset().top;
+                var topOfWindow = $(window).scrollTop();
+                if (imagePos < topOfWindow + 500) {
+                    $(this).addClass("fadeIn");
+                }
+            });
+        });
+    </script>
 </body>
+
 </html>

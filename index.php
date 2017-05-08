@@ -106,6 +106,10 @@ require_once'Core/init.php';
         {
             width: 200px !important;
         }
+        input[type="search"]
+        {
+            height: 64px !important; /* or height of nav */
+        }
         #secondary-content
         {
             position: relative;
@@ -199,7 +203,7 @@ require_once'Core/init.php';
         }
         div .margin-eliminate
         {
-            margin: 0px;
+            margin-bottom: 10px;
         }
         p .margin-eliminate
         {
@@ -249,6 +253,43 @@ require_once'Core/init.php';
             opacity: 0;
             animation: 0;
             transition: opacity .25s;
+        }
+
+        /*cards fadeIn */
+        .card .card-content
+        {
+            padding-bottom: 0px;
+            padding-top: 10px;
+        }
+
+        .fadedfx {
+            background-color: #fe5652;
+            visibility: hidden;
+        }
+        .fadeIn {
+            animation-name: fadeIn;
+            -webkit-animation-name: fadeIn;
+            animation-duration: 1.5s;
+            -webkit-animation-duration: 1.5s;
+            animation-timing-function: ease-in-out;
+            -webkit-animation-timing-function: ease-in-out;
+            visibility: visible !important;
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0.0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        @-webkit-keyframes fadeIn {
+            0% {
+                opacity: 0.0;
+            }
+            100% {
+                opacity: 1;
+            }
         }
 
     </style>
@@ -381,76 +422,62 @@ require_once'Core/init.php';
                     $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
                     $writer = DB::getInstance()->get('users', array('id', '=', $blog->users_id))->first()->username;
                     echo 
-                    "<div class='row'>
-                        <div class='col s12'>
-                            <div class='col s12 hide-on-med-and-up'>
-                                <blockquote>".
-                                    date('M d', $date).' '.
-                                    date('Y', $date).
-                                "</blockquote>
-                            </div>
-                            <div class='col s2 hide-on-small-only'>
-                                <blockquote>".
-                                    date('M d', $date).' '.
-                                    date('Y', $date).
-                                "</blockquote>
-                            </div>
-                            <div class='col s12 l10'>
-                                <div class='row margin-eliminate'>
-                                    <div class='col s12'>
-                                        <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
-                                        <h6>".ucfirst($blog->description)."</h6>
+                    "<div class='fadedfx'>
+                        <div class='col s12 m12'>
+                            <div class='card horizontal white'>
+                                <div class='card-content'> <span class='card-title'>".date('M d Y', $date)."</span>
+                                    <div class='row margin-eliminate'>
+                                        <div class='col s12'>
+                                            <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
+                                            <h6>".ucfirst($blog->description)."</h6>
+                                        </div>
                                     </div>
-                                </div> 
-                                <div class='row margin-eliminate'>  
-                                    <div class='valign-wrapper'>
-                                        <div class='col l6 s5 valign'>
-                                            <div class='valign-wrapper'>
-                                                <div class='col s2 l1 valign'>
-                                                    <i class='material-icons' style='color:grey'>book</i>
-                                                </div>
-                                                <div class='col s10 l11 valign'>
+                                    <div class='row margin-eliminate'>  
+                                        <div class='valign-wrapper'>
+                                            <div class='col l6 s4'>
+                                                <div class='valign-wrapper'>
+                                                    <i class='material-icons hide-on-small-only' style='color:grey'>book</i>
                                                     <p class='grey-text'>".$blog->blog_minutes_read." min read</p>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class='col l6 s7 valign'>
-                                            <div class='chip'>
-                                                <img src='Includes/images/og_image.jpg' alt='Contact Person'>{$writer}
+                                            <div class='col l6 s8'>
+                                                <div class='chip'>
+                                                    <img src='Includes/images/og_image.jpg' alt='Contact Person'>{$writer}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class='row'>
-                                    <div class='measure-count' data-attribute='{$blog->id}'>
-                                        <div class='col s2 l1 m1'>
-                                            <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
-                                        </div>
-                                        <div class='col s1 l1 m1'>
-                                            {$blog->views}
-                                        </div>
-                                        <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
-                                            <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
-                                        </div>
-                                        <div class='col s1 l1 m1'>
-                                            {$blog->likes}
-                                        </div>
-                                        <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
-                                            <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
-                                        </div>
-                                        <div class='col s1 l1 m1'>
-                                            {$blog->dislikes}
+                                    <div class='row'>
+                                        <div class='measure-count' data-attribute='{$blog->id}'>
+                                            <div class='col s2 l1 m1'>
+                                                <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
+                                            </div>
+                                            <div class='col s1 l1 m1'>
+                                                {$blog->views}
+                                            </div>
+                                            <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
+                                                <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
+                                            </div>
+                                            <div class='col s1 l1 m1'>
+                                                {$blog->likes}
+                                            </div>
+                                            <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
+                                                <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
+                                            </div>
+                                            <div class='col s1 l1 m1'>
+                                                {$blog->dislikes}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class='row'>
-                                    <div class='col s12'>";
-                                    foreach($blog_tags as $blog_tag)
-                                    {
-                                        echo "<div class='chip'>".$blog_tag->tags."</div>";
-                                    }
-                                    echo
-                                    "</div>
+                                    <div class='row'>
+                                        <div class='col s12'>";
+                                        foreach($blog_tags as $blog_tag)
+                                        {
+                                            echo "<div class='chip'>".$blog_tag->tags."</div>";
+                                        }
+                                        echo
+                                        "</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -548,6 +575,16 @@ require_once'Core/init.php';
                     }
                 });
             }
+
+            $(window).scroll(function() {
+                $(".fadedfx").each(function() {
+                    var imagePos = $(this).offset().top;
+                    var topOfWindow = $(window).scrollTop();
+                    if (imagePos < topOfWindow + 500) {
+                        $(this).addClass("fadeIn");
+                    }
+                });
+            });
 
             $("#search").on("keypress", function(event) {
                 if(event.which == 13)   // if the user hits enter
