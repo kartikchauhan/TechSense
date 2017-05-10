@@ -244,6 +244,10 @@ function updateViews($reports, $blog, $blogId)
 	        {
 	            height: 64px !important; /* or height of nav */
 	        }
+            nav ul .dropdown-button
+	        {
+	            width: 200px !important;
+	        }
 			p
 			{
 				font-size: 16px;
@@ -462,7 +466,6 @@ function updateViews($reports, $blog, $blogId)
 						</script>
 						<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 					</div>
-					
 				</div>
 			</section>
 		</article>
@@ -650,46 +653,6 @@ function updateViews($reports, $blog, $blogId)
 	    		// 	// Materialize.toast("You need to login to vote", 5000, "red");
 	    		// });
 
-	    		// $('.delete-comment').click(function(e) {
-	    			$('.comment-section').on('click', '.delete-comment', function(e) {
-	    			e.preventDefault();
-	    			var user_response = confirm("Are you sure you want to delete this blog?");
-					if(user_response == true)
-					{
-						var object = $(this);
-						console.log(object);
-		    			var comment_id = $(this).parents('.deletable-comments').attr('data-attribute');
-		    			console.log(comment_id);
-		    			$.ajax({
-		    				type: 'POST',
-		    				url: 'delete_comment.php',
-		    				data: {comment_id: comment_id},
-		    				dataType: "json",
-		    				cache: false,
-		    				success: function(response)
-		    				{
-		    					// var response = JSON.parse(response);
-		    					console.log(response);
-		    					if(response.error_status)
-		    					{
-		    						console.log(response.error);
-		    						Materialize.toast(response.error, 5000, "red");
-		    					}
-		    					else
-		    					{
-		    						console.log(object.parents('.deletable-comments'));
-		    						object.parents('.deletable-comments').remove();
-		    					}
-		    				}
-		    			});
-	    			}
-	    			else
-	    			{
-	    				return false;
-	    			}
-
-	    		});
-
 	    		$('.likes, .dislikes').click(function(e){
 	                e.preventDefault();
 	                var object = $(this);
@@ -736,161 +699,6 @@ function updateViews($reports, $blog, $blogId)
 	                    }
 	                });
 	            });
-
-				$('.comment-like-not-logged-in, .comment-dislike-not-logged-in').click(function(e){	// if user is not logged in, restrict him from voting
-	    			e.preventDefault();
-	    		});
-
-				$('.comment-section').on('click', '.comment-like, .comment-dislike', function(e){	// request server to check if the request is valid, if valid add the user's reponse
-	                e.preventDefault();
-	                var object = $(this);	// anchor tag, user just clicked
-	                
-	                var comment_id = $(this).attr('data-attribute');	// comment_id of the comment, user wants to vote
-	                // var _token = $('#_token').attr('data-attribute');
-	                var className = getClassName(this);		// checking if user clicked on comment-like or comment-dislike
-	                console.log('like or dislike button got clicked');
-
-	                $.ajax({
-	                    type: 'POST',
-	                    url: 'comment_attributes.php',
-	                    data: {comment_id: comment_id, field: className},
-	                    dataType: "json",
-	                    cache: false,
-	                    success: function(response)
-	                    {
-	                        // var response = JSON.parse(response);
-	                        console.log(response);
-	                        console.log(response.error_status);
-	                        console.log(response.comment_status);
-	                        // $('#_token').attr('data-attribute', response._token);
-	                        if(response.error_status)
-	                        {
-	                            console.log(response.error);
-	                            Materialize.toast(response.error, 5000, 'red');
-	                            // return false;
-	                        }
-	                        else
-	                        {
-	                            if(response.comment_status == 1)
-	                            {
-	                            	$(object).parent().parent().find('.comment-like').find('i').css('color', 'green');	// changing the color of the icons according to the received response
-	                            	$(object).parent().parent().find('.comment-dislike').find('i').css('color', 'white');
-	                            	$(object).parent().parent().find('.comment-count-likes').html(response.count_likes);	// changing the counts of likes and dislikes of a comment according to the received response
-	                            	$(object).parent().parent().find('.comment-count-dislikes').html(response.count_dislikes);
-	                            }
-	                            else if(response.comment_status == -1)
-	                            {
-	                            	$(object).parent().parent().find('.comment-like').find('i').css('color', 'white');
-	                            	$(object).parent().parent().find('.comment-dislike').find('i').css('color', 'red');
-	                            	$(object).parent().parent().find('.comment-count-likes').html(response.count_likes);
-	                            	$(object).parent().parent().find('.comment-count-dislikes').html(response.count_dislikes);
-	                            }
-	                            else if(response.comment_status == 0)
-	                            {
-	                            	$(object).parent().parent().find('.comment-like').find('i').css('color', 'white');
-	                            	$(object).parent().parent().find('.comment-dislike').find('i').css('color', 'white');
-	                            	$(object).parent().parent().find('.comment-count-likes').html(response.count_likes);
-	                            	$(object).parent().parent().find('.comment-count-dislikes').html(response.count_dislikes);
-	                            }
-	                        }
-	                    }
-	                });
-	            });			
-
-				$('#send_comment').on('click', function(e){
-					e.preventDefault();
-					var blog_id = $('#comment').attr('data-attribute');
-					var comment = tinyMCE.activeEditor.getContent();
-					var _token = $('#_token').attr('data-attribute');
-					var lastComment = $('.comment-section').children().last();
-					var lastCommentAlignment = lastComment.children().hasClass('offset-s1');
-					if(lastCommentAlignment === true)
-					{
-						var alignment = 'left';
-					}
-					else
-					{
-						var alignment = 'right';	
-					}
-					$.ajax({
-						type: 'POST',
-						url: 'send_comment.php',
-						data: {blog_id: blog_id, comment: comment, _token: _token, alignment: alignment},
-						dataType: "json",
-						success: function(response)
-						{
-							// var response = JSON.parse(response);
-							console.log(response);
-							$('#_token').attr('data-attribute', response._token);
-							if(response.error_status === false)
-							{
-								$('#_token').attr('data-attribute', response._token);
-								$('.no_comment').remove();
-								$('.comment-section').append(response.content);
-								var target = $('.comment-section').children().last();
-								$('html, body').animate({
-						          	scrollTop: target.offset().top
-						        	}, 500);
-								// Materialize.toast('Your comment has been added successfully', 5000, 'green');
-							}
-							else
-							{
-								if(response.error_code != 1)
-				        		{
-				        			$('#_token').attr('data-attribute', response._token);
-				        		}
-								Materialize.toast(response.error, 5000, "red");
-							}
-						}
-
-					});
-				});
-
-				$('.popular_comments').on('click', function(e){
-					e.preventDefault();
-					var className = "popular_comments";
-					var blog_id = $(this).attr('data-attribute');
-					$.ajax({
-						url: 'sort_comments.php',
-						data: {blog_id: blog_id, field: className},
-						dataType: "json",
-						type: 'POST',
-						success: function(response)
-						{
-							// var response = JSON.parse(response);
-							console.log(response);
-							$('.comment-section').html(response.content);
-						}
-					});
-				});
-
-				$('.new_comments').on('click', function(e){
-					e.preventDefault();
-					var className = 'new_comments';
-					var blog_id = $(this).attr('data-attribute');
-					$.ajax({
-						type: 'POST',
-						url: 'sort_comments.php',
-						data: {blog_id: blog_id, field: className},
-						dataType: "json",
-						success: function(response)
-						{
-							// var response = JSON.parse(response);
-							console.log(response);
-							$('.comment-section').html(response.content);
-						}
-					});
-				});
-
-				$('.login-to-comment').on('click', function(e){
-					e.preventDefault();
-					if(typeof(Storage) !== "undefined")
-					{
-						sessionStorage.setItem('Redirect', document.URL);
-						// window.location = 'login.php';
-					}
-
-				});
 
 				$('#login').click(function(e) {
             		e.preventDefault();
@@ -963,17 +771,8 @@ function updateViews($reports, $blog, $blogId)
 	                {
 	                    className = 'dislikes';
 	                }
-	                else if(className === 'popular_comments')
-	                {
-	                	className = 'popular_comments';
-	                }
-	                else if(className === 'new_comments')
-	                {
-	                	className = 'new_comments';
-	                }
 	                return className;
 	            }
-	    	
 
 	    	});
 	    </script>

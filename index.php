@@ -79,12 +79,12 @@ require_once'Core/init.php';
             text-align: center;
             vertical-align: middle;
         }
-        .home-logo 
+        /*.home-logo 
         {
             position: absolute;
             top: 32%;
             -webkit-transform: translateX(-50%);
-        }
+        }*/
         #typed-strings
         {
             display: none;
