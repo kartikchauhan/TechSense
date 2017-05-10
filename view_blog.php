@@ -240,6 +240,10 @@ function updateViews($reports, $blog, $blogId)
 	        .brand-logo > img {
 	            vertical-align: middle
 	        }
+            input[type="search"]
+	        {
+	            height: 64px !important; /* or height of nav */
+	        }
 			p
 			{
 				font-size: 16px;
@@ -549,7 +553,7 @@ function updateViews($reports, $blog, $blogId)
 								if($author->github_username != '')
 								{
 									echo "<div class='col l12'>
-												<a class='github-button' href='https://github.com/ntkme' data-size='large' data-show-count='true' aria-label='Follow @ntkme on GitHub'>Follow @ntkme</a>
+												<a class='github-button' href='https://github.com/{$author->github_username}' data-size='large' data-show-count='true' aria-label='Follow @{$author->github_username} on GitHub'>Follow @{$author->github_username}</a>
 								 		</div>";
 								}
 								if($author->twitter_username != '')

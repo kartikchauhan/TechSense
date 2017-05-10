@@ -113,7 +113,7 @@ require_once'Core/init.php';
         #secondary-content
         {
             position: relative;
-            top: 100vh;
+            top: 90vh;
         }
         .ghost-button
         {
@@ -154,14 +154,6 @@ require_once'Core/init.php';
         {
             background-color: #42A5F5;
         }
-        blockquote 
-        {
-            border-left: 5px solid #42A5F5;
-        }
-        .blockquote
-        {
-            font-size: 12px;
-        }
         .tabs .indicator
         {
             background-color: #42a5f5;
@@ -178,7 +170,6 @@ require_once'Core/init.php';
         {
             color: #1976d2;
         }
-
         label
         {
             -webkit-transform: none !important; 
@@ -254,14 +245,13 @@ require_once'Core/init.php';
             animation: 0;
             transition: opacity .25s;
         }
-
-        /*cards fadeIn */
         .card .card-content
         {
             padding-bottom: 0px;
             padding-top: 10px;
         }
 
+        /*cards fadeIn */
         .fadedfx {
             background-color: #fe5652;
             visibility: hidden;
@@ -332,17 +322,6 @@ require_once'Core/init.php';
 
     <div id="secondary-content">
         <div class="container">
-            <div class="row">        
-                <form class="col s10 l8 offset-l2 offset-s1" onsubmit="return false;">
-                    <div class="input-field valign-wrapper">
-                        <!-- <i class='fa fa-search left valign' aria-hidden='true'></i> -->
-                        <input id="search" type="search" class="valign search" required placeholder="user: username | tags: tag1, tag2...">
-                        <label for="search"><i class="material-icons">search</i></label>
-                        <i class="material-icons close">close</i>
-                    </div>
-                        <input type="hidden" id="_token" value="<?php echo Token::generate(); ?>">
-                </form>
-            </div>
             <div class="row">
                 <div class="col s12 l12">
                     <div class="row">
@@ -586,44 +565,44 @@ require_once'Core/init.php';
                 });
             });
 
-            $("#search").on("keypress", function(event) {
-                if(event.which == 13)   // if the user hits enter
-                {
-                    var query = $('#search').val();     // fetch the query given by the user
-                    var _token = $('#_token').val();
-                    console.log("sending data");
-                    $('.loader-container').show();
-                    $.ajax({
-                        type: "POST",
-                        url: "search.php",
-                        data: {query: query, _token: _token},
-                        dataType: "json",
-                        success: function(response)
-                        {
-                            // var response = JSON.parse(response);
-                            $('.loader-container').hide();
-                            console.log(response);
-                            if(response.error_status === true)
-                            {
-                                if(response.error_code != 1)
-                                {
-                                    $('#_token').val(response._token);
-                                    $('.primary-content').html(response.content);
-                                }
-                                else
-                                {
-                                    Materialize.toast(response.error, 5000, "red");
-                                }
-                            }
-                            else
-                            {
-                                $('#_token').val(response._token);
-                                $('.primary-content').html(response.content);
-                            }
-                        }
-                    });
-                }
-            });
+            // $("#search").on("keypress", function(event) {
+            //     if(event.which == 13)   // if the user hits enter
+            //     {
+            //         var query = $('#search').val();     // fetch the query given by the user
+            //         var _token = $('#_token').val();
+            //         console.log("sending data");
+            //         $('.loader-container').show();
+            //         $.ajax({
+            //             type: "POST",
+            //             url: "search.php",
+            //             data: {query: query, _token: _token},
+            //             dataType: "json",
+            //             success: function(response)
+            //             {
+            //                 // var response = JSON.parse(response);
+            //                 $('.loader-container').hide();
+            //                 console.log(response);
+            //                 if(response.error_status === true)
+            //                 {
+            //                     if(response.error_code != 1)
+            //                     {
+            //                         $('#_token').val(response._token);
+            //                         $('.primary-content').html(response.content);
+            //                     }
+            //                     else
+            //                     {
+            //                         Materialize.toast(response.error, 5000, "red");
+            //                     }
+            //                 }
+            //                 else
+            //                 {
+            //                     $('#_token').val(response._token);
+            //                     $('.primary-content').html(response.content);
+            //                 }
+            //             }
+            //         });
+            //     }
+            // });
 
             $('.close').on('click', function() {
                 $('.search').val('');
