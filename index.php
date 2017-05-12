@@ -75,7 +75,6 @@ require_once'Core/init.php';
         {
             display: table-cell;
             position: relative;
-            z-index: 10;
             text-align: center;
             vertical-align: middle;
         }
@@ -565,77 +564,9 @@ require_once'Core/init.php';
                 });
             });
 
-            // $("#search").on("keypress", function(event) {
-            //     if(event.which == 13)   // if the user hits enter
-            //     {
-            //         var query = $('#search').val();     // fetch the query given by the user
-            //         var _token = $('#_token').val();
-            //         console.log("sending data");
-            //         $('.loader-container').show();
-            //         $.ajax({
-            //             type: "POST",
-            //             url: "search.php",
-            //             data: {query: query, _token: _token},
-            //             dataType: "json",
-            //             success: function(response)
-            //             {
-            //                 // var response = JSON.parse(response);
-            //                 $('.loader-container').hide();
-            //                 console.log(response);
-            //                 if(response.error_status === true)
-            //                 {
-            //                     if(response.error_code != 1)
-            //                     {
-            //                         $('#_token').val(response._token);
-            //                         $('.primary-content').html(response.content);
-            //                     }
-            //                     else
-            //                     {
-            //                         Materialize.toast(response.error, 5000, "red");
-            //                     }
-            //                 }
-            //                 else
-            //                 {
-            //                     $('#_token').val(response._token);
-            //                     $('.primary-content').html(response.content);
-            //                 }
-            //             }
-            //         });
-            //     }
-            // });
-
             $('.close').on('click', function() {
                 $('.search').val('');
-                var query = "default: default";     // query_type default: default is dummy query is to retrieve the results when the user has cleared the previously asked query
-                var _token = $('#_token').val();
-                $.ajax({
-                    type: "POST",
-                    url: "search.php",
-                    data: {query: query, _token: _token},
-                    dataType: "json",
-                    success: function(response)
-                    {
-                        if(response.error_status === true)
-                        {
-                            if(response.error_code != 1)
-                            {
-                                $('#_token').val(response._token);
-                                $('.primary-content').html(response.content);
-                            }
-                            else
-                            {
-                                Materialize.toast(response.error, 5000, "red");
-                            }
-                        }
-                        else
-                        {
-                            $('#_token').val(response._token);
-                            $('.primary-content').html(response.content);
-                        }
-                    }
-                });
             });
-
 
         });
     </script>

@@ -102,6 +102,12 @@ else
 		                }
 		                else
 		                {
+		                	echo
+		                	"<div class='row'>
+		                		<div class='col s12'>
+		                			<h6 class='green-text'>{$searchResultsCount} Results found</h6>
+	                			</div>   
+	                		</div>";
 		                	$sortBlogsArray = [];
 		                	foreach($searchResults as $searchResult)
 		                	{

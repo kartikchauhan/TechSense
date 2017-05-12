@@ -330,6 +330,30 @@ class DB
 		}
 		return false;
 	}
+
+	public function distinctRecords($table, $field = array())
+	{
+		$field = $field[0];
+		$sql = "SELECT DISTINCT {$field} FROM {$table}";
+		if(!$this->query($sql, array($field))->error())
+		{
+			return $this;
+		}
+		return false;
+	}
+
+	public function countRecords($table, $fields = array())
+	{
+		$field = $fields[0];
+		$operator = $fields[1];
+		$value = $fields[2];
+		$sql = "SELECT count(*) AS count FROM {$table} WHERE {$field} {$operator} ?";
+		if(!$this->query($sql, array($value))->error())
+		{
+			return $this;
+		}
+		return false;
+	}
 }
 
 ?>

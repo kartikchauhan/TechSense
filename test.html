@@ -1,93 +1,53 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Test 89</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-    <style type="text/css">
-        .fadedfx {
-            background-color: #fe5652;
-            visibility: hidden;
-        }
-        .fadeIn {
-            animation-name: fadeIn;
-            -webkit-animation-name: fadeIn;
-            animation-duration: 1.5s;
-            -webkit-animation-duration: 1.5s;
-            animation-timing-function: ease-in-out;
-            -webkit-animation-timing-function: ease-in-out;
-            visibility: visible !important;
-        }
-        @keyframes fadeIn {
-            0% {
-                opacity: 0.0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-        @-webkit-keyframes fadeIn {
-            0% {
-                opacity: 0.0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-    </style>
+    <title></title>
 </head>
+<body>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script type="text/javascript">
+    
+    var dataArray = [10, 76, 23, 42, 98, 40];
+    var max = Math.max.apply(Math, dataArray);
+    var min = Math.min.apply(Math, dataArray);
 
-<body class="grey lighten-2">
-    <div class="container">
-        <div class="col s12 m7">
-            <div class="card horizontal">
-                <div class="card-image"> <img src="https://unsplash.it/400/300?image=503" class="fadeIn"> </div>
-                <div class="card-stacked">
-                    <div class="card-content"> <span class="card-title">San Francisco</span>
-                        <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. </p>
-                    </div>
-                    <div class="card-action"> <a href="#">This is a link</a> </div>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m7 fadedfx">
-            <div class="card horizontal" id="fadedfx">
-                <div class="card-stacked">
-                    <div class="card-content"> <span class="card-title">New York </span>
-                        <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. </p>
-                    </div>
-                    <div class="card-action"> <a href="#">This is a link</a> </div>
-                </div>
-                <div class="card-image"> <img src="https://unsplash.it/400/300?image=736"> </div>
-            </div>
-        </div>
-        <div class="col s12 m7 fadedfx">
-            <div class="card horizontal">
-                <div class="card-image"> <img src="https://unsplash.it/400/300?image=763"> </div>
-                <div class="card-stacked">
-                    <div class="card-content"> <span class="card-title">London</span>
-                        <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. </p>
-                    </div>
-                    <div class="card-action"> <a href="#">This is a link</a> </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="Includes/js/jquery.min.js"></script>
-    <script src="https://use.fontawesome.com/819d78ad52.js"></script>
-    <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
-    <script type="text/javascript">
-        $(window).scroll(function() {
-            $(".fadedfx").each(function() {
-                var imagePos = $(this).offset().top;
-                var topOfWindow = $(window).scrollTop();
-                if (imagePos < topOfWindow + 500) {
-                    $(this).addClass("fadeIn");
-                }
-            });
-        });
-    </script>
+    var widthCanvas = 500;
+    var heightCanvas = 500;
+    var widthBars = 500;
+    var heightBars = 500;
+    var heightScale = d3.scaleLinear()
+                        .domain([0, max])
+                        .range([0, heightBars]);
+
+    var colorScale = d3.scaleLinear()
+                        .domain([0, max])
+                        .range(['red', 'blue']);
+
+    var axis = d3.axisRight()
+                    .ticks(10)
+                    .scale(heightScale);
+
+    var canvas = d3.select('body')
+                    .append('svg')
+                        .attr('width', widthCanvas)
+                        .attr('height', heightCanvas);
+                    // .append('g');
+                        // .attr('transform', "translate(1, 1)");
+
+    var bars = canvas.selectAll('rect')
+                    .data(dataArray)
+                    .enter()
+                    .append("rect")
+                        .attr('width', 50)
+                        .attr('height', function(d) {return heightScale(d);})
+                        .attr('x', function(d, i) {return ((i+1)*100)})
+                        .attr('y', 0)
+                        .attr('fill', function(d) { return colorScale(d) });
+
+    canvas.append('g')
+                .attr('transform', 'translate(0, 0)')
+                .call(axis);
+
+</script>
 </body>
-
 </html>

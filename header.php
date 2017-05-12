@@ -18,7 +18,7 @@
                             <div class='input-field'>
                                 <input id='search' type='search' name='searchParameter'>
                                 <label class='label-icon' for='search'><i class='material-icons'>search</i></label>
-                                <i class='material-icons'>close</i>
+                                <i class='material-icons' class='close'>close</i>
                             </div>
                         </form>
                     </li>
@@ -65,7 +65,7 @@
                             <div class='input-field'>
                                 <input id='search' type='search' name='searchParameter'>
                                 <label class='label-icon' for='search'><i class='material-icons'>search</i></label>
-                                <i class='material-icons'>close</i>
+                                <i class='material-icons' class='close'>close</i>
                             </div>
                         </form>
                     </li>
