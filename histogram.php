@@ -14,8 +14,9 @@
 		array_push($countArray, $testArray);
 	}
 
+	var_dump($countArray);
 	if(sizeof($countArray) > 20)
-		array_splice($countArray, 0, 4);
+		array_splice($countArray, 0, 20);
 
 ?>
 

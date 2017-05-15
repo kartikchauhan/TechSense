@@ -294,6 +294,14 @@ function updateViews($reports, $blog, $blogId)
 			@media screen and (max-width: 980px) {
 			    .a2a_floating_style.a2a_vertical_style { display: none; }
 			}
+			@media screen and (min-width: 980px) {
+			    .a2a_floating_style.a2a_default_style { display: none; }
+			}
+			.card-reposition
+			{
+				position: absolute;
+				margin: 2rem 4rem 1rem 4rem;
+			}
 	    </style>
 
 	</head>
@@ -316,7 +324,7 @@ function updateViews($reports, $blog, $blogId)
 		    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
 		</div>
 
-		<div class="a2a_kit a2a_kit_size_32 a2a_floating_style a2a_default_style" style="bottom:0px; right:0px;">
+		<div class="a2a_kit a2a_kit_size_32 a2a_floating_style a2a_default_style center-align" style="width: 80%; bottom: 0px;">
 		    <a class="a2a_button_facebook"></a>
 		    <a class="a2a_button_twitter"></a>
 		    <a class="a2a_button_google_plus"></a>
@@ -336,7 +344,7 @@ function updateViews($reports, $blog, $blogId)
 		}(document, 'script', 'facebook-jssdk'));</script>
 
 		<header class="blue">
-			<section>
+			<section class='z-depth-2'>
 				<div class="container">
 					<div class="section">
 						<div class="row">
@@ -345,7 +353,7 @@ function updateViews($reports, $blog, $blogId)
 							</div>
 						</div>
 						<div class="row">
-							<div class="col s12 l12">
+							<div class="col s12 l10">
 								<h5 class="white-text thin"> <?php echo ucfirst($blog->data()->description); ?></h5>
 							</div>
 						</div>
@@ -374,7 +382,7 @@ function updateViews($reports, $blog, $blogId)
 				<div class="container">
 					<div class="section">
 						<div class="row">
-							<div class="col s12 l12">
+							<div class="col s12 l10">
 								<p class="flow-text"><?php echo $blog->data()->blog; ?></p>
 								<div class="section">
 									<div class="row">
@@ -444,12 +452,33 @@ function updateViews($reports, $blog, $blogId)
 									</div>									
 								</div>
 							</div>
+							<div class="col l2 hide-on-med-and-down">
+						        <div class="card-panel blue card-reposition z-depth-2 center-align">
+						        	<section><h5 class='center-align white-text'>Tags</h5></section>
+						        	<?php
+						        		$distinctTags = DB::getInstance()->distinctRecords('blog_tags', array('tags'));
+										$distinctTags = $distinctTags->results();
+										$countArray = [];
+										foreach($distinctTags as $distinctTag)
+										{
+											$tag = $distinctTag->tags;
+											$count = DB::getInstance()->countRecords('blog_tags', array('tags', '=', $tag))->first()->count;
+											$testArray['blogsCount'] = +$count;
+											array_push($countArray, $testArray);
+											echo
+											"<a class='chip z-depth-1 white'>												
+											    {$tag}
+											</a>";
+										}
+						        	?>
+					        	</div>
+							</div>
 						</div>
 					</div>
 				</div>
 				<div class="container">
 					<div class="row">
-						<div class="col s12 l12" id="disqus_thread"></div>
+						<div class="col s12 l10" id="disqus_thread"></div>
 						<script>
 							/**
 							var disqus_config = function () {
