@@ -300,7 +300,12 @@ function updateViews($reports, $blog, $blogId)
 			.card-reposition
 			{
 				position: absolute;
-				margin: 2rem 4rem 1rem 4rem;
+				margin: 2rem 3rem 1rem 3rem;
+			}
+			.chip
+			{
+			    margin-bottom: 10px;
+    			margin-right: 10px;
 			}
 	    </style>
 
@@ -314,26 +319,9 @@ function updateViews($reports, $blog, $blogId)
 		
 		<script type="text/javascript">
 	    	document.getElementById('nav-bar').classList.remove('transparent');
-	    </script>
+	    </script>	    
 
-	    <div class="a2a_kit a2a_kit_size_32 a2a_floating_style a2a_vertical_style" style="left:0px; top:150px;">
-		    <a class="a2a_button_facebook"></a>
-		    <a class="a2a_button_twitter"></a>
-		    <a class="a2a_button_google_plus"></a>
-		    <a class="a2a_button_pinterest"></a>
-		    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
-		</div>
-
-		<div class="a2a_kit a2a_kit_size_32 a2a_floating_style a2a_default_style center-align" style="width: 80%; bottom: 0px;">
-		    <a class="a2a_button_facebook"></a>
-		    <a class="a2a_button_twitter"></a>
-		    <a class="a2a_button_google_plus"></a>
-		    <a class="a2a_button_pinterest"></a>
-		    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
-		</div>
-
-		<script async src="https://static.addtoany.com/menu/page.js"></script>
-
+	    <!-- NOTE remove it when hosting the website -->
 		<div id="fb-root"></div>
 		<script>(function(d, s, id) {
 		  var js, fjs = d.getElementsByTagName(s)[0];
@@ -453,24 +441,26 @@ function updateViews($reports, $blog, $blogId)
 								</div>
 							</div>
 							<div class="col l2 hide-on-med-and-down">
-						        <div class="card-panel blue card-reposition z-depth-2 center-align">
-						        	<section><h5 class='center-align white-text'>Tags</h5></section>
-						        	<?php
-						        		$distinctTags = DB::getInstance()->distinctRecords('blog_tags', array('tags'));
-										$distinctTags = $distinctTags->results();
-										$countArray = [];
-										foreach($distinctTags as $distinctTag)
-										{
-											$tag = $distinctTag->tags;
-											$count = DB::getInstance()->countRecords('blog_tags', array('tags', '=', $tag))->first()->count;
-											$testArray['blogsCount'] = +$count;
-											array_push($countArray, $testArray);
-											echo
-											"<a class='chip z-depth-1 white'>												
-											    {$tag}
-											</a>";
-										}
-						        	?>
+						        <div class="card-panel blue card-reposition z-depth-1 center-align">
+						        	<p><h5 class='center-align white-text'>Tags</h5></p>
+						        	<div class="left-align">
+							        	<?php
+							        		$distinctTags = DB::getInstance()->distinctRecords('blog_tags', array('tags'));
+											$distinctTags = $distinctTags->results();
+											$countArray = [];
+											foreach($distinctTags as $distinctTag)
+											{
+												$tag = $distinctTag->tags;
+												$count = DB::getInstance()->countRecords('blog_tags', array('tags', '=', $tag))->first()->count;
+												$testArray['blogsCount'] = +$count;
+												array_push($countArray, $testArray);
+												echo
+												"<a class='chip z-depth-1 white'>												
+												    {$tag}
+												</a>";
+											}
+							        	?>
+						        	</div>
 					        	</div>
 							</div>
 						</div>
@@ -498,6 +488,24 @@ function updateViews($reports, $blog, $blogId)
 				</div>
 			</section>
 		</article>
+
+		<div class="a2a_kit a2a_kit_size_32 a2a_floating_style a2a_vertical_style" style="left:0px; top:150px;">
+		    <a class="a2a_button_facebook"></a>
+		    <a class="a2a_button_twitter"></a>
+		    <a class="a2a_button_google_plus"></a>
+		    <a class="a2a_button_pinterest"></a>
+		    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+		</div>
+
+		<div class="a2a_kit a2a_kit_size_32 a2a_floating_style a2a_default_style center-align" style="width: 80%; bottom: 0px;">
+		    <a class="a2a_button_facebook"></a>
+		    <a class="a2a_button_twitter"></a>
+		    <a class="a2a_button_google_plus"></a>
+		    <a class="a2a_button_pinterest"></a>
+		    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+		</div>
+
+		<script async src="https://static.addtoany.com/menu/page.js"></script>
 		
 		<div id="modal1" class="modal modal-fixed-footer">
 		    <div class="modal-content">
