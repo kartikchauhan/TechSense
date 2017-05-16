@@ -34,36 +34,36 @@ else
 		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     	<style type="text/css">
-        .brand-logo
-        {
-            display: inline-block;
-            height: 100%;
-        }
-        .brand-logo > img 
-        {
-	            vertical-align: middle
-        }
-        input[type="search"]
-        {
-            height: 64px !important; /* or height of nav */
-        }
-        nav ul .dropdown-button
-        {
-            width: 200px !important;
-        }
-        .card .card-content
-        {
-            padding-bottom: 0px;
-            padding-top: 10px;
-        }
-        div .margin-eliminate
-        {
-            margin-bottom: 10px;
-        }
-        p .margin-eliminate
-        {
-            margin: 0px;
-        }        
+	        .brand-logo
+	        {
+	            display: inline-block;
+	            height: 100%;
+	        }
+	        .brand-logo > img 
+	        {
+		            vertical-align: middle
+	        }
+	        input[type="search"]
+	        {
+	            height: 64px !important; /* or height of nav */
+	        }
+	        nav ul .dropdown-button
+	        {
+	            width: 200px !important;
+	        }
+	        .card .card-content
+	        {
+	            padding-bottom: 0px;
+	            padding-top: 10px;
+	        }
+	        div .margin-eliminate
+	        {
+	            margin-bottom: 10px;
+	        }
+	        p .margin-eliminate
+	        {
+	            margin: 0px;
+	        }        
     	</style>
 	</head>
 	<body>
