@@ -4,12 +4,14 @@ Include'Core/init.php';
 
 if(Input::exists('get'))	// check if there's a query string or not
 {	
-	if(Input::get('tag'))	// check if there's a query tag with name 'tag'
+	if(Input::get('user'))	// check if there's a query user with username 'user'
 	{
-		$tag = Input::get('tag');
-		$blogs_based_on_tag = DB::getInstance()->get('blog_tags', array('tags', '=', $tag));
-		$blog_count = $blogs_based_on_tag->count();	// getting the total count of blogs based on the queried tag
-		$blogs_based_on_tag = $blogs_based_on_tag->results();		// getting the id of blogs who have queried tag in them
+		$username = Input::get('user');
+		$writer = DB::getInstance()->get('users', array('username', '=', $username));
+
+		// $blogs_based_on_user = DB::getInstance()->SortByField('blogs', array('created_on', 'DESC'), array('users_id', '=', $writer->id));
+		// $blog_count = $blogs_based_on_user->count();	// getting the total count of blogs based on the queried user
+		// $blogs_based_on_user = $blogs_based_on_user->results();		// getting the id of blogs who have queried tag in them
 	}
 	else
 	{
@@ -26,7 +28,7 @@ else
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Results for tag <?php echo $tag; ?></title>
+	<title>Results for User <?php echo $user; ?></title>
 
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
@@ -80,28 +82,34 @@ else
     <div class="container">
     	<div class="section">
     		<?php
+    			if($writer->count() == 0)
+    			{
+    				echo
+    				"<h5 class='red-text num-result'>Sorry No results found for <em> {$username} </em></h5>";
+    				die();
+    			}
+    			else
+    			{
+    				$writer = $writer->first();
+    				$blogs_based_on_user = DB::getInstance()->SortByField('blogs', array('created_on', 'DESC'), array('users_id', '=', $writer->id));
+					$blog_count = $blogs_based_on_user->count();	// getting the total count of blogs based on the queried user
+					$blogs_based_on_user = $blogs_based_on_user->results();		// getting the id of blogs who have queried tag in them
+
+    			}
     			if($blog_count == 0)
     			{
     				echo
-    				"<h5 class='red-text num-result'>Sorry No results found for <em> {$tag} </em></h5>";
+    				"<h5 class='red-text num-result'>Sorry No results found for <em> {$username} </em></h5>";
     			}
     			else
     			{
     				echo
-    				"<h5 class='green-text num-result'>{$blog_count} Results found for <em> {$tag} </em></h5>";
-    				foreach($blogs_based_on_tag as $blogs_based_on_tag)
-                	{
-                		$blog = DB::getInstance()->get('blogs', array('id', '=', $blogs_based_on_tag->blog_id));
-						$blog = $blog->first();
-						$sortBlogsArray[$blog->id] = strtotime($blog->created_on);
-                	}
-                	$BlogsSortedViaDate = arsort($sortBlogsArray);
+    				"<h5 class='green-text num-result'> {$blog_count} Results found for <em> {$username}</em></h5>";
     				echo 
     				"<div class='content'>";
-	    				foreach($sortBlogsArray as $blog_id => $date)
+	    				foreach($blogs_based_on_user as $blog_based_on_user)
 	    				{
-	    					$blog = DB::getInstance()->get('blogs', array('id', '=', $blog_id));		// fetch blogs from table 'blogs' with blog_id of $blog_based_on_tag as parameter
-							$blog = $blog->first();		// getting the first blog 
+	    					$blog = DB::getInstance()->get('blogs', array('id', '=', $blog_based_on_user->id))->first();		// fetch blogs from table 'blogs' with blog_id of $blog_based_on_tag as parameter
 		                    $blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));	// getting all blog_tags associated with the fetched blog
 		                    $blog_tags = $blog_tags->results();
 		                    $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds

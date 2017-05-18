@@ -188,7 +188,7 @@ class DB
 		return false;
 	}
 
-	public function sortUser($table, $fields = array(), $where = array())
+	public function SortByField($table, $fields = array(), $where = array())
 	{
 		if(count($fields) == 2)
 		{

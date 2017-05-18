@@ -419,9 +419,9 @@ require_once'Core/init.php';
                                                 </div>
                                             </div>
                                             <div class='col l6 s8'>
-                                                <div class='chip'>
+                                                <a class='chip' href='".Config::get('url/endpoint')."/view_blogs_user.php?user={$writer}'>
                                                     <img src='Includes/images/og_image.jpg' alt='Contact Person'>{$writer}
-                                                </div>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

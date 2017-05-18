@@ -168,7 +168,7 @@ if(!$user->isLoggedIn())
 			</div>
 			<div class="user-blogs">
 				<?php
-	                $blogs = DB::getInstance()->sortUser('blogs', array('created_on', 'DESC'), array('users_id', '=', $user->data()->id));
+	                $blogs = DB::getInstance()->SortByField('blogs', array('created_on', 'DESC'), array('users_id', '=', $user->data()->id));
 	                $num_blogs = $blogs->count();
 	                $num_pages = ceil($num_blogs/5);
 	                $blogs = $blogs->results();

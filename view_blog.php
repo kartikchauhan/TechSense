@@ -455,7 +455,7 @@ function updateViews($reports, $blog, $blogId)
 												$testArray['blogsCount'] = +$count;
 												array_push($countArray, $testArray);
 												echo
-												"<a class='chip z-depth-1 white' href='".Config::get('url/endpoint')."/view_blogs_tags.php?tag={$tag}'>												
+												"<a class='chip z-depth-1 white' href='".Config::get('url/endpoint')."/view_blogs_tag.php?tag={$tag}'>												
 												    {$tag}
 												</a>";
 											}
