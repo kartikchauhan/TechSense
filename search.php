@@ -30,6 +30,7 @@ else
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<title>Search Results for <?php Input::get('searchParameter'); ?></title>
 		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
@@ -197,9 +198,40 @@ else
 				?>
 			</div>
 		</div>
+        <footer class="page-footer blue lighten-1">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">TechSense</h5>
+                        <p class="grey-text text-lighten-4">Publish your passions your way. Whether you'd like to share your knowledge, experiences or the latest tech news, create a unique and beautiful blog for free.</p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+                        <h5 class="white-text">View Our Other Projects</h5>
+                        <ul>
+                            <li><a class="grey-text text-lighten-3" href="http://www.silive.in" target="blank">silive.in</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!" target="blank">Blood Donation Campaign 2017</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!" target="blank">Table Tennis Tournament</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container center-align">
+                    © 2017 Software Incubator
+                </div>
+            </div>
+        </footer>
 
 	<script src="Includes/js/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/819d78ad52.js"></script>
     <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
+    <script type="text/javascript">
+    	$(document).ready(function() {
+
+    		$(".button-collapse").sideNav();
+    		
+    	});
+
+    </script>
 	</body>
 </html>

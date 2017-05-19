@@ -355,7 +355,7 @@ function updateViews($reports, $blog, $blogId)
 										<h6 class="white-text"><?php echo $blog->data()->blog_minutes_read ?> min read</h6>
 									</div>
 									<div class="col s4 l4">
-										<h6 class="white-text" >Written by - <?php echo ucwords($author->name) ?></h6>
+										<h6 class="white-text" >- <?php echo ucwords($author->name) ?></h6>
 									</div>
 								</div>
 							</div>

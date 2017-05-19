@@ -208,76 +208,84 @@ if(!$user->isLoggedIn())
 					}
 					else
 					{
-						foreach($blogs_based_on_user as $blog_based_on_user)
-	    				{
-	    					$blog = DB::getInstance()->get('blogs', array('id', '=', $blog_based_on_user->id))->first();		// fetch blogs from table 'blogs' with blog_id of $blog_based_on_tag as parameter
-		                    $blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));	// getting all blog_tags associated with the fetched blog
-		                    $blog_tags = $blog_tags->results();
-		                    $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
+						echo "<div class='content'>";
+							foreach($blogs_based_on_user as $blog_based_on_user)
+		    				{
+		    					$blog = DB::getInstance()->get('blogs', array('id', '=', $blog_based_on_user->id))->first();		// fetch blogs from table 'blogs' with blog_id of $blog_based_on_tag as parameter
+			                    $blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));	// getting all blog_tags associated with the fetched blog
+			                    $blog_tags = $blog_tags->results();
+			                    $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
 
-		                    echo
-		                    "<div class='col s12 m12'>
-		                        <div class='card horizontal white'>		                        	
-		                            <div class='card-content'> 
-		                            	<span class='card-title'>".date('M d Y', $date)."</span>
-		                                <div class='row margin-eliminate'>
-		                                    <div class='col s12'>
-		                                        <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
-		                                        <h6>".ucfirst($blog->description)."</h6>
-		                                    </div>
-		                                </div>
-		                                <div class='row margin-eliminate'>  
-		                                    <div class='valign-wrapper'>
-		                                        <div class='col l6 s4'>
-		                                            <div class='valign-wrapper'>
-		                                                <i class='material-icons hide-on-small-only' style='color:grey'>book</i>
-		                                                <p class='grey-text'>".$blog->blog_minutes_read." min read</p>
-		                                            </div>
-		                                        </div>
-		                                        <div class='col l6 s8'>
-		                                            <div class='chip'>
-		                                                <img src='Includes/images/og_image.jpg' alt='Contact Person'>{$current_user_username}
-		                                            </div>
-		                                        </div>
-		                                    </div>
-		                                </div>
-		                                <div class='row'>
-		                                    <div class='measure-count' data-attribute='{$blog->id}'>
-		                                        <div class='col s2 l1 m1'>
-		                                            <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
-		                                        </div>
-		                                        <div class='col s1 l1 m1'>
-		                                            {$blog->views}
-		                                        </div>
-		                                        <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
-		                                            <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
-		                                        </div>
-		                                        <div class='col s1 l1 m1'>
-		                                            {$blog->likes}
-		                                        </div>
-		                                        <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
-		                                            <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
-		                                        </div>
-		                                        <div class='col s1 l1 m1'>
-		                                            {$blog->dislikes}
-		                                        </div>
-		                                    </div>
-		                                </div>
-		                                <div class='row'>
-		                                    <div class='col s12'>";
-		                                    foreach($blog_tags as $blog_tag)
-		                                    {
-		                                        echo "<div class='chip'>".$blog_tag->tags."</div>";
-		                                    }
-		                                    echo
-		                                    "</div>
-		                                </div>
-		                            </div>
-          	                    	<a href='update_blog.php?blog_id={$blog->id}' class='blue-text edit-blog right' data-attribute='{$blog->id}'><i class='material-icons'>mode_edit</i></a> 
-		                            <a href='#' class='blue-text delete-blog right' data-attribute='{$blog->id}'><i class='material-icons'>delete</i></a>
-		                        </div>
-		                    </div>";
-	                    }
+			                    echo
+			                    "<div class='col s12 m12'>
+			                        <div class='card horizontal white'>		                        	
+			                            <div class='card-content'> 
+			                            	<span class='card-title'>".date('M d Y', $date)."</span>
+			                                <div class='row margin-eliminate'>
+			                                    <div class='col s12'>
+			                                        <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
+			                                        <h6>".ucfirst($blog->description)."</h6>
+			                                    </div>
+			                                </div>
+			                                <div class='row margin-eliminate'>  
+			                                    <div class='valign-wrapper'>
+			                                        <div class='col l6 s4'>
+			                                            <div class='valign-wrapper'>
+			                                                <i class='material-icons hide-on-small-only' style='color:grey'>book</i>
+			                                                <p class='grey-text'>".$blog->blog_minutes_read." min read</p>
+			                                            </div>
+			                                        </div>
+			                                        <div class='col l6 s8'>
+			                                            <div class='chip'>
+			                                                <img src='Includes/images/og_image.jpg' alt='Contact Person'>{$current_user_username}
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                </div>
+			                                <div class='row'>
+			                                    <div class='measure-count' data-attribute='{$blog->id}'>
+			                                        <div class='col s2 l1 m1'>
+			                                            <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
+			                                        </div>
+			                                        <div class='col s1 l1 m1'>
+			                                            {$blog->views}
+			                                        </div>
+			                                        <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
+			                                            <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
+			                                        </div>
+			                                        <div class='col s1 l1 m1'>
+			                                            {$blog->likes}
+			                                        </div>
+			                                        <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
+			                                            <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
+			                                        </div>
+			                                        <div class='col s1 l1 m1'>
+			                                            {$blog->dislikes}
+			                                        </div>
+			                                    </div>
+			                                </div>
+			                                <div class='row'>
+			                                    <div class='col s12'>";
+			                                    foreach($blog_tags as $blog_tag)
+			                                    {
+			                                        echo "<div class='chip'>".$blog_tag->tags."</div>";
+			                                    }
+			                                    echo
+			                                    "</div>
+			                                </div>
+			                            </div>
+			                            <ul>
+			                            	<li>
+	          	                    			<a href='update_blog.php?blog_id={$blog->id}' class='blue-text edit-blog right' data-attribute='{$blog->id}'><i class='material-icons'>mode_edit</i></a> 
+	      	                    			</li>
+	      	                    			<li>
+					                            <a href='#' class='blue-text delete-blog right' data-attribute='{$blog->id}'><i class='material-icons'>delete</i></a>
+				                            </li>
+			                            </ul>
+			                        </div>
+			                    </div>";
+		                    }
+	                    echo "</div>";
 						
 					}
 
@@ -434,8 +442,7 @@ if(!$user->isLoggedIn())
 
 			$("#profile_pic").change(readURL);	
 
-			$('#update').on('click', function(){
-				console.log('update button clicked');
+			$('#update').on('click', function() {
 				if(!validateData())
 				{
 					return false;
@@ -480,7 +487,7 @@ if(!$user->isLoggedIn())
 			    });
 			});
 	
-			$('.toggle-user-blogs').click(function(){
+			$('.toggle-user-blogs').click(function() {
 				$('.user-blogs').slideToggle('slow');
 			});
 
@@ -517,75 +524,75 @@ if(!$user->isLoggedIn())
 				return true;
 			}
 
-			function pagination(object)
-			{	
-                $('.pagination').find('.active').removeClass('active');
-                $(object).parent().addClass('active');
-                var page_id = $(object).html();
-                console.log("page_id  = " + page_id);
-                // var _token = $('#_token').val();
+			// function pagination(object)
+			// {	
+   //              $('.pagination').find('.active').removeClass('active');
+   //              $(object).parent().addClass('active');
+   //              var page_id = $(object).html();
+   //              console.log("page_id  = " + page_id);
+   //              // var _token = $('#_token').val();
 
-                $.ajax({
-                    type: 'POST',
-                    url: 'pagination_backend.php',
-                    data: {page_id: page_id, author: true},
-                    dataType: "json",
-                    cache: false,
-                    async: false,
-                    success: function(response)
-                    {
-                        // var response = JSON.parse(response);
-                        console.log(response);
-                        if(response.error_status)
-                        {
-                            Materialize.toast(response.error, 5000, 'red');
-                        }
-                        else
-                        {
-	                        // console.log("count records is " + response.count);
-	                        // $('#_token').val(response._token);
-	                        $('.content').html(response.content);
+   //              $.ajax({
+   //                  type: 'POST',
+   //                  url: 'pagination_backend.php',
+   //                  data: {page_id: page_id, author: true},
+   //                  dataType: "json",
+   //                  cache: false,
+   //                  async: false,
+   //                  success: function(response)
+   //                  {
+   //                      // var response = JSON.parse(response);
+   //                      console.log(response);
+   //                      if(response.error_status)
+   //                      {
+   //                          Materialize.toast(response.error, 5000, 'red');
+   //                      }
+   //                      else
+   //                      {
+	  //                       // console.log("count records is " + response.count);
+	  //                       // $('#_token').val(response._token);
+	  //                       $('.content').html(response.content);
                         	
-                        }
-                    }
-                });
+   //                      }
+   //                  }
+   //              });
 
-			}
+			// }
 
-			function alterPagination()
-			{
-				var object = $('li.active').find('.blog-pagination');	//getting the child of active class of pagination
-				pagination(object);		// fetching the blogs again whenever a blog gets deleted in order to maintain pagination
-				var counter = 0;
-				$('.content').find('.blog').each(function(){
-					++counter;
-				});
-				if(counter < 5)		// 5 is the value of maximum that can be shown in one page
-				{
-					if($('li.active').next().length)
-						$('li.active').next().remove();
-				}
-				if(counter == 0)
-				{
-					var current_page = parseInt($('li.active').find('.blog-pagination').html());	// getting which page is active right now
-					if(current_page > 1)	// if current_page > 1 then proceed
-					{
-						var obj = $('.pagination').find('li.active');		// getting active class
-						pagination($(obj).prev().find('.blog-pagination'));	// fetching the blogs again, because here switching from one page to another page is needed to be done
-						$(obj).remove();	// removing the current page since there's no blog in it
-					}
-					else if(current_page == 1)
-					{
-						$('.pagination').remove();
-					}
-				}
-			}
+			// function alterPagination()
+			// {
+			// 	var object = $('li.active').find('.blog-pagination');	//getting the child of active class of pagination
+			// 	pagination(object);		// fetching the blogs again whenever a blog gets deleted in order to maintain pagination
+			// 	var counter = 0;
+			// 	$('.content').find('.blog').each(function(){
+			// 		++counter;
+			// 	});
+			// 	if(counter < 5)		// 5 is the value of maximum that can be shown in one page
+			// 	{
+			// 		if($('li.active').next().length)
+			// 			$('li.active').next().remove();
+			// 	}
+			// 	if(counter == 0)
+			// 	{
+			// 		var current_page = parseInt($('li.active').find('.blog-pagination').html());	// getting which page is active right now
+			// 		if(current_page > 1)	// if current_page > 1 then proceed
+			// 		{
+			// 			var obj = $('.pagination').find('li.active');		// getting active class
+			// 			pagination($(obj).prev().find('.blog-pagination'));	// fetching the blogs again, because here switching from one page to another page is needed to be done
+			// 			$(obj).remove();	// removing the current page since there's no blog in it
+			// 		}
+			// 		else if(current_page == 1)
+			// 		{
+			// 			$('.pagination').remove();
+			// 		}
+			// 	}
+			// }
 
-			$('.blog-pagination').click(function(e){
-            	e.preventDefault();
-            	pagination(this);
+			// $('.blog-pagination').click(function(e){
+   //          	e.preventDefault();
+   //          	pagination(this);
 
-            });
+   //          });
 
 			$('.content').on('click', '.delete-blog', function(e){
 				e.preventDefault();
@@ -614,7 +621,7 @@ if(!$user->isLoggedIn())
 							{
 								Materialize.toast("The blog has been deleted successfully", 5000, "green");
 								$(object).parent().parent().parent().remove();	// to remove the blog
-								alterPagination();
+								// alterPagination();
 							}
 						}
 					});

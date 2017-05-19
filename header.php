@@ -18,7 +18,7 @@
                             <div class='input-field'>
                                 <input id='search' type='search' name='searchParameter'>
                                 <label class='label-icon' for='search'><i class='material-icons'>search</i></label>
-                                <i class='material-icons' class='close'>close</i>
+                                <i class='material-icons'>close</i>
                             </div>
                         </form>
                     </li>
@@ -31,10 +31,19 @@
                 </ul>
                 <ul class='side-nav' id='mobile-demo'>
                     <li>
-                        <a href='login.php' class='nav-headers'>LOGIN</a>
+                        <form action='search.php' method='post'>
+                            <div class='input-field'>
+                                <input id='search' type='search' name='searchParameter'>
+                                <label class='label-icon' for='search'><i class='material-icons' style='color:gray;'>search</i></label>
+                                <i class='material-icons'>close</i>
+                            </div>
+                        </form>
                     </li>
                     <li>
-                        <a href='register.php' class='nav-headers'>SIGNUP</a>
+                        <a href='login.php' class='nav-headers'>Login <i class='material-icons right'>fingerprint</i></a>
+                    </li>
+                    <li>
+                        <a href='register.php' class='nav-headers'>Signup <i class='material-icons right'>input</i></a>
                     </li>
                 </ul>
             </div>
@@ -65,7 +74,7 @@
                             <div class='input-field'>
                                 <input id='search' type='search' name='searchParameter'>
                                 <label class='label-icon' for='search'><i class='material-icons'>search</i></label>
-                                <i class='material-icons' class='close'>close</i>
+                                <i class='material-icons'>close</i>
                             </div>
                         </form>
                     </li>
@@ -74,11 +83,30 @@
                     </li>
                 </ul>
                 <ul class='side-nav' id='mobile-demo'>
-                    <li><a href='index.php' class='blue-text'>Home <i class='material-icons right'>home</i></a></li>
-                    <li><a href='write_blog.php' class='blue-text'>Write Blog <i class='material-icons right'>mode_edit</i></a></li>
-                    <li><a href='authors_info.php' class='blue-text'>Edit Profile <i class='material-icons right'>account_circle</i></a></li>
-                    <li><a href='change_password.php' class='blue-text'>Change Password <i class='material-icons right'>settings</i></a></li>
-                    <li><a href='logout.php' class='blue-text'>Logout <i class='material-icons right'>exit_to_app</i></a></li>
+                    <li>
+                        <form action='search.php' method='post'>
+                            <div class='input-field'>
+                                <input id='search' type='search' name='searchParameter'>
+                                <label class='label-icon' for='search'><i class='material-icons' style='color:gray;'>search</i></label>
+                                <i class='material-icons'>close</i>
+                            </div>
+                        </form>
+                    </li>
+                    <li>
+                        <a href='index.php' class='blue-text'>Home <i class='material-icons right'>home</i></a>
+                    </li>
+                    <li>
+                        <a href='write_blog.php' class='blue-text'>Write Blog <i class='material-icons right'>mode_edit</i></a>
+                    </li>
+                    <li>
+                        <a href='authors_info.php' class='blue-text'>Edit Profile <i class='material-icons right'>account_circle</i></a>
+                    </li>
+                    <li>
+                        <a href='change_password.php' class='blue-text'>Change Password <i class='material-icons right'>settings</i></a>
+                    </li>
+                    <li>
+                        <a href='logout.php' class='blue-text'>Logout <i class='material-icons right'>exit_to_app</i></a>
+                    </li>
                 </ul>
             </div>
         </nav>";

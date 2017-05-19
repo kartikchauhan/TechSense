@@ -161,77 +161,79 @@ function generateUsernames($name)
 	</head>
 	<body>
 	
-		<div id="registration-form">
-			<h5 class="center-align condensed light">Register to TechSense</h5>
-			<div class="row">
-				<div class="col s12 l4 m6 offset-m3 offset-l4">
-					<!-- <ul class="collection center-align z-depth-1 error"> -->
-                        <?php
-                            if($error_status)
-                            {
-                                echo 
-                                "<ul class='collection center-align z-depth-1 error'>
-                                    <li class='collection-item red-text'>".$error."</li>
-                                </ul>";
-                            }
-                        ?>
-						<!-- <li class="collection-item red-text"></li> -->
-					<!-- </ul> -->
-					<div class="card">
-						<div class="card-content">
-							<div class="row">
-								<form class="col s12" action="" method="post">
-									<div class="row">
-										<div class="input-field col s12">
-											<i class="material-icons prefix">account_box</i>
-											<input type="text" name="name" id="name" value="<?php echo $name; ?>"/>
-											<label for="name">Name</label>
-										</div>
-										<div class="input-field col s12">
-											<i class="material-icons prefix">person</i>
-											<input type="text" name="username" id="username" />
-											<label for="username">Username</label>
-                                            <?php
-                                                if(!empty($usernames_available))
-                                                {
-                                                    echo "<span class='red-text center-align'>".$usernames_available."</span>";
-                                                }
-                                            ?>
-										</div>
-										<div class="center-align">
-											<span class="usernames-available red-text"></span>
-										</div>
-										<div class="input-field col s12">
-											<i class="material-icons prefix">email</i>
-											<input type="text" name="email" id="email" value="<?php echo $email ?>"/>
-											<label for="email">Email</label>
-										</div>
-										<div class="input-field col s12">
-											<i class="material-icons prefix">lock</i>
-											<input type="password" name="password" id="password" />
-											<label for="password">Password</label>
-										</div>
-										<div class="input-field col s12">
-											<i class="material-icons prefix">lock</i>
-											<input type="password" name="confirm_password" id="confirm_password" />
-											<label for="confirm_password">Confirm Password</label>
-										</div>
-										
-										<div class="input-field col s12">
-											<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
-										</div>
-										<input type="submit" class="btn waves-effect waves-light col s4 offset-s4" value="submit" id="submit">
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-					<ul class="collection center-align z-depth-1">
-						<li class="collection-item">Already have an account? <a href="login.php">Login</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
+        <div class="container">
+    		<div id="registration-form">
+    			<h5 class="center-align condensed light">Register to TechSense</h5>
+    			<div class="row">
+    				<div class="col s12 l4 m6 offset-m3 offset-l4">
+    					<!-- <ul class="collection center-align z-depth-1 error"> -->
+                            <?php
+                                if($error_status)
+                                {
+                                    echo 
+                                    "<ul class='collection center-align z-depth-1 error'>
+                                        <li class='collection-item red-text'>".$error."</li>
+                                    </ul>";
+                                }
+                            ?>
+    						<!-- <li class="collection-item red-text"></li> -->
+    					<!-- </ul> -->
+    					<div class="card">
+    						<div class="card-content">
+    							<div class="row">
+    								<form class="col s12" action="" method="post">
+    									<div class="row">
+    										<div class="input-field col s12">
+    											<i class="material-icons prefix">account_box</i>
+    											<input type="text" name="name" id="name" value="<?php echo $name; ?>"/>
+    											<label for="name">Name</label>
+    										</div>
+    										<div class="input-field col s12">
+    											<i class="material-icons prefix">person</i>
+    											<input type="text" name="username" id="username" />
+    											<label for="username">Username</label>
+                                                <?php
+                                                    if(!empty($usernames_available))
+                                                    {
+                                                        echo "<span class='red-text center-align'>".$usernames_available."</span>";
+                                                    }
+                                                ?>
+    										</div>
+    										<div class="center-align">
+    											<span class="usernames-available red-text"></span>
+    										</div>
+    										<div class="input-field col s12">
+    											<i class="material-icons prefix">email</i>
+    											<input type="text" name="email" id="email" value="<?php echo $email ?>"/>
+    											<label for="email">Email</label>
+    										</div>
+    										<div class="input-field col s12">
+    											<i class="material-icons prefix">lock</i>
+    											<input type="password" name="password" id="password" />
+    											<label for="password">Password</label>
+    										</div>
+    										<div class="input-field col s12">
+    											<i class="material-icons prefix">lock</i>
+    											<input type="password" name="confirm_password" id="confirm_password" />
+    											<label for="confirm_password">Confirm Password</label>
+    										</div>
+    										
+    										<div class="input-field col s12">
+    											<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
+    										</div>
+    										<input type="submit" class="btn waves-effect waves-light col s4 offset-s4" value="submit" id="submit">
+    									</div>
+    								</form>
+    							</div>
+    						</div>
+    					</div>
+    					<ul class="collection center-align z-depth-1">
+    						<li class="collection-item">Already have an account? <a href="login.php">Login</a></li>
+    					</ul>
+    				</div>
+    			</div>
+    		</div>
+        </div>
 		
 		<script src="Includes/js/jquery.min.js"></script>
 		<script type="text/javascript" src="Includes/js/materialize.min.js"></script>

@@ -573,7 +573,7 @@ require_once'Core/init.php';
             });
 
             $('.close').on('click', function() {
-                $('.search').val('');
+                $('#search').val('');
             });
 
         });

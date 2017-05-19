@@ -67,34 +67,36 @@ $user = new User;
 </head>
 
 <body>
-	<div id="forgot-password-form">
-		<h5 class="center-align condensed light">Send Password Reset Mail</h5>
-		<div class="row">
-			<div class="col s12 l4 m6 offset-m3 offset-l4">
-				<ul class="collection center-align z-depth-1 error">
-					<li class="collection-item red-text"></li>
-				</ul>
-				<div class="card">
-					<div class="card-content">
-						<div class="row">
-							<form class="col s12" action="" method="post">
-								<div class="row">
-									<div class="input-field col s12">
-										<i class="material-icons prefix">mail</i>
-										<input type="email" name="email" id="email" />
-										<label for="email">Email</label>
+	<div class="container">
+		<div id="forgot-password-form">
+			<h5 class="center-align condensed light">Send Password Reset Mail</h5>
+			<div class="row">
+				<div class="col s12 l4 m6 offset-m3 offset-l4">
+					<ul class="collection center-align z-depth-1 error">
+						<li class="collection-item red-text"></li>
+					</ul>
+					<div class="card">
+						<div class="card-content">
+							<div class="row">
+								<form class="col s12" action="" method="post">
+									<div class="row">
+										<div class="input-field col s12">
+											<i class="material-icons prefix">mail</i>
+											<input type="email" name="email" id="email" />
+											<label for="email">Email</label>
+										</div>
+										<div class="input-field col s12">
+											<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
+										</div>
+										<input type="submit" class="btn waves-effect waves-light col s6 offset-s3" value="Send Mail" id="send_mail">
 									</div>
-									<div class="input-field col s12">
-										<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
+									<div class='row loader-container'>
+										<div class='col s2 offset-s5'>
+											<div class='loader'></div>
+										</div>
 									</div>
-									<input type="submit" class="btn waves-effect waves-light col s6 offset-s3" value="Send Mail" id="send_mail">
-								</div>
-								<div class='row loader-container'>
-									<div class='col s2 offset-s5'>
-										<div class='loader'></div>
-									</div>
-								</div>
-							</form>
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>

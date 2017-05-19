@@ -80,55 +80,57 @@ if(Input::get('code'))
 
 	</head>
 	<body>
-	
-		<div id="login-form">
-			<h5 class="center-align condensed light">Sign in to TechSense</h5>
-			<div class="row">
-				<div class="col s12 l4 m6 offset-m3 offset-l4 ">
-					<ul class='collection center-align z-depth-1 error'>
-						<li class='collection-item red-text'></li>
-					</ul>
-					<div class="card">
-						<div class="card-content">
-							<div class="row">
-								<form class="col s12 m12 l12" action="" method="post">
-									<div class="row">
-										<div class="input-field col s12">
-											<i class="material-icons prefix">email</i>
-											<input type="text" name="email" id="email" value="" />
-											<label for="email">Email</label>
+		
+		<div class="container">
+			<div id="login-form">
+				<h5 class="center-align condensed light">Sign in to TechSense</h5>
+				<div class="row">
+					<div class="col s12 l4 m6 offset-m3 offset-l4 ">
+						<ul class='collection center-align z-depth-1 error'>
+							<li class='collection-item red-text'></li>
+						</ul>
+						<div class="card">
+							<div class="card-content">
+								<div class="row">
+									<form class="col s12 m12 l12" action="" method="post">
+										<div class="row">
+											<div class="input-field col s12">
+												<i class="material-icons prefix">email</i>
+												<input type="text" name="email" id="email" value="" />
+												<label for="email">Email</label>
+											</div>
+											<div class="input-field col s12">
+												<i class="material-icons prefix">lock</i>
+												<input type="password" name="password" id="password" />
+												<label for="password">Password</label>
+											</div>
+											<div class="col s6 offset-s3" id="remember-me-container">
+												<input type="checkbox" id="remember_me" name="remember_me">
+												<label for="remember_me"> Remember Me</label>
+											</div>
+											<div class="input-field col s12">
+												<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
+											</div>
+											<input type="submit" class="btn waves-effect waves-light col s4 offset-s4" value="login" id="submit">
+											<div class="center-align">
+												<a class="red-text" href="forgot_password.php">Forgot password?</a>
+											</div>
 										</div>
-										<div class="input-field col s12">
-											<i class="material-icons prefix">lock</i>
-											<input type="password" name="password" id="password" />
-											<label for="password">Password</label>
-										</div>
-										<div class="col s6 offset-s3" id="remember-me-container">
-											<input type="checkbox" id="remember_me" name="remember_me">
-											<label for="remember_me"> Remember Me</label>
-										</div>
-										<div class="input-field col s12">
-											<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
-										</div>
-										<input type="submit" class="btn waves-effect waves-light col s4 offset-s4" value="login" id="submit">
-										<div class="center-align">
-											<a class="red-text" href="forgot_password.php">Forgot password?</a>
-										</div>
-									</div>
-								</form>
+									</form>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="center-align">Or</div>
-					<div class="row">
-						<div class="col s12 l8 offset-l2">
-							<a href="<?php echo $authUrl ?>" class="waves-effect waves-light btn red">Sign in with google</a>
+						<div class="center-align">Or</div>
+						<div class="row">
+							<div class="col s12 l8 offset-l2">
+								<a href="<?php echo $authUrl ?>" class="waves-effect waves-light btn red">Sign in with google</a>
+							</div>
 						</div>
-					</div>
-					<div class="section">
-						<ul class="collection center-align z-depth-1">
-							<li class="collection-item">New to TechSense? <a href="register.php">Create an account</a></li>
-						</ul>
+						<div class="section">
+							<ul class="collection center-align z-depth-1">
+								<li class="collection-item">New to TechSense? <a href="register.php">Create an account</a></li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
