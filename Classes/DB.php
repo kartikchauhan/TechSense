@@ -188,7 +188,7 @@ class DB
 		return false;
 	}
 
-	public function SortByField($table, $fields = array(), $where = array())
+	public function SortByField($table, $fields = array(), $where = array())	// function name 'sortByField' has been changed from 'sortUser', remove anomalies if there're any, message needs to be removed during production
 	{
 		if(count($fields) == 2)
 		{

@@ -34,6 +34,10 @@ else
 		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     	<style type="text/css">
+    		body
+    		{
+    			background-color: #fafafa;
+    		}
 	        .brand-logo
 	        {
 	            display: inline-block;
@@ -127,7 +131,7 @@ else
 			                    
 			                    echo
 		                        "<div class='col s12 m12'>
-		                            <div class='card horizontal white'>
+		                            <div class='card horizontal white'>		                            	
 		                                <div class='card-content'> <span class='card-title'>".date('M d Y', $date)."</span>
 		                                    <div class='row margin-eliminate'>
 		                                        <div class='col s12'>

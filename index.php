@@ -46,7 +46,11 @@ require_once'Core/init.php';
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 
-    <style type="text/css">        
+    <style type="text/css">  
+        body
+        {
+            background-color: #fafafa;
+        }      
         #fullscreen-hero 
         {
             height: 100vh;
@@ -152,6 +156,10 @@ require_once'Core/init.php';
         .pagination li.active
         {
             background-color: #42A5F5;
+        }
+        .tabs
+        {
+            background-color: #fafafa !important;
         }
         .tabs .indicator
         {
@@ -419,7 +427,7 @@ require_once'Core/init.php';
                                                 </div>
                                             </div>
                                             <div class='col l6 s8'>
-                                                <a class='chip' href='".Config::get('url/endpoint')."/view_blogs_user.php?user={$writer}'>
+                                                <a class='chip' href='".Config::get('url/endpoint')."/user_profile.php?user={$writer}'>
                                                     <img src='Includes/images/og_image.jpg' alt='Contact Person'>{$writer}
                                                 </a>
                                             </div>

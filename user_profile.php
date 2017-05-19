@@ -8,6 +8,15 @@ if(Input::exists('get'))	// check if there's a query string or not
 	{
 		$username = Input::get('user');
 		$writer = DB::getInstance()->get('users', array('username', '=', $username));
+		if($writer->count() == 0)
+		{
+			Redirect::to(404);
+			die();
+		}
+		else
+		{
+			$writer = $writer->first();
+		}
 
 		// $blogs_based_on_user = DB::getInstance()->SortByField('blogs', array('created_on', 'DESC'), array('users_id', '=', $writer->id));
 		// $blog_count = $blogs_based_on_user->count();	// getting the total count of blogs based on the queried user
@@ -28,47 +37,67 @@ else
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Results for User <?php echo $username; ?></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+	<title>Profile- <?php echo $username;?></title>
 
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-    <style type="text/css">
-        .brand-logo
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+
+	<style>
+        body
         {
-            display: inline-block;
-            height: 100%;
-        }
-        .brand-logo > img 
-        {
+            background-color: #fafafa;
+        } 
+		.brand-logo
+	    {
+	        display: inline-block;
+	        height: 100%;
+	    }
+	    .brand-logo > img 
+	    {
 	            vertical-align: middle
-        }
-        input[type="search"]
-        {
-            height: 64px !important; /* or height of nav */
-        }
-        nav ul .dropdown-button
-        {
-            width: 200px !important;
-        }
-        .card .card-content
-        {
-            padding-bottom: 0px;
-            padding-top: 10px;
-        }
-        div .margin-eliminate
-        {
-            margin-bottom: 10px;
-        }
-        p .margin-eliminate
-        {
-            margin: 0px;
-        }        
-        .num-result
-        {
-        	margin: 2rem 0 2rem 0 !important;
-        }
+	    }
+	    input[type="search"]
+	    {
+	        height: 64px !important; /* or height of nav */
+	    }
+	    nav ul .dropdown-button
+	    {
+	        width: 200px !important;
+	    }
+	    .user-profile-card-content
+	    {
+	    	padding-bottom: 20px !important;
+	    }
+	    .card .card-content
+	    {
+	        padding-bottom: 0px;
+	        padding-top: 10px;
+	    }
+	    div .margin-eliminate
+	    {
+	        margin-bottom: 10px;
+	    }
+	    p .margin-eliminate
+	    {
+	        margin: 0px;
+	    }        
+		.user-profile-image
+		{
+			height: 100px !important;
+			width: 100px !important;
+			border: 0 solid black !important;
+			border-radius: 50% !important;
+		}
+		.social-icons
+		{
+			margin-right:15px;
+		}
 	</style>
+
 </head>
+
 <body>
 	<?php 
 
@@ -79,34 +108,75 @@ else
 	<script type="text/javascript">
     	document.getElementById('nav-bar').classList.remove('transparent');
     </script>
-    <div class="container">
-    	<div class="section">
-    		<?php
-    			if($writer->count() == 0)
-    			{
-    				echo
-    				"<h5 class='red-text num-result'>Sorry No results found for <em> {$username} </em></h5>";
-    				die();
-    			}
-    			else
-    			{
-    				$writer = $writer->first();
-    				$blogs_based_on_user = DB::getInstance()->SortByField('blogs', array('created_on', 'DESC'), array('users_id', '=', $writer->id));
-					$blog_count = $blogs_based_on_user->count();	// getting the total count of blogs based on the queried user
-					$blogs_based_on_user = $blogs_based_on_user->results();		// getting the id of blogs who have queried tag in them
 
-    			}
-    			if($blog_count == 0)
-    			{
-    				echo
-    				"<h5 class='red-text num-result'>Sorry No results found for <em> {$username} </em></h5>";
-    			}
-    			else
-    			{
-    				echo
-    				"<h5 class='green-text num-result'> {$blog_count} Results found for <em> {$username}</em></h5>";
-    				echo 
-    				"<div class='content'>";
+    <div class="container">
+		<div class="row">
+        	<div class="col s12 l12">
+          		<div class="card">
+            		<div class="card-image">
+              			<img src="Includes/images/user-profile-background.jpg">
+              			<span class="card-title">
+              				<img class="user-profile-image responsive-img" src="<?php echo Config::get('url/upload_dir').'/'.$writer->image_url ?>">
+              			</span>              
+            		</div>
+            		<div class="card-content user-profile-card-content">
+        				<h4><?php echo ucwords($writer->name); ?></h4>
+        				<h6><?php echo $writer->username; ?></h6>
+	              		<?php
+	              			if(!empty($writer->user_description))
+	              			{
+	              				echo
+	              				"<p>{$writer->user_description}</p>";
+	              			}
+	              			else
+	              			{
+	              				echo
+	              				"<p> No description yet</p>";
+	              			}
+	              		?>
+        			</div>
+            		<div class="card-action">
+            			<?php
+            				if(!empty($writer->twitter_username))
+            				{
+              					echo
+              					"<a href='www.twitter.com/{$writer->twitter_username}'><i class='fa fa-twitter fa-2x social-icons' aria-hidden='true' style='color:gray;'></i></a>";
+            				}
+            				if(!empty($writer->facebook_username))
+            				{
+              					echo
+              					"<a href='www.twitter.com/{$writer->facebook_username}'><i class='fa fa-facebook fa-2x social-icons' aria-hidden='true' style='color:gray;'></i></a>";
+            				}
+            				if(!empty($writer->google_profileId))
+            				{
+              					echo
+              					"<a href='www.twitter.com/{$writer->google_profileId}'><i class='fa fa-google-plus fa-2x social-icons' aria-hidden='true' style='color:gray;'></i></a>";
+            				}
+            				if(!empty($writer->github_username))
+            				{
+              					echo
+              					"<a href='www.twitter.com/{$writer->github_username}'><i class='fa fa-github fa-2x social-icons' aria-hidden='true' style='color:gray;'></i></a>";
+            				}
+            			?>
+            		</div>
+          		</div>
+    		</div>
+      	</div>
+      	<div class="section">
+			<?php
+				$blogs_based_on_user = DB::getInstance()->SortByField('blogs', array('created_on', 'DESC'), array('users_id', '=', $writer->id));
+				$blog_count = $blogs_based_on_user->count();	// getting the total count of blogs based on the queried user
+				$blogs_based_on_user = $blogs_based_on_user->results();		// getting the id of blogs who have queried tag in them
+
+				if($blog_count == 0)
+				{
+					echo
+					"<h5 class='red-text num-result'>No blogs written by <em> {$username} </em></h5>";
+				}
+				else
+				{
+					echo 
+					"<div class='content'>";
 	    				foreach($blogs_based_on_user as $blog_based_on_user)
 	    				{
 	    					$blog = DB::getInstance()->get('blogs', array('id', '=', $blog_based_on_user->id))->first();		// fetch blogs from table 'blogs' with blog_id of $blog_based_on_tag as parameter
@@ -175,16 +245,15 @@ else
 	                            </div>
 	                        </div>";
 	    				}
-    				echo
-    				"</div>";
-    			}
-    		?>
-    	</div>
+					echo
+					"</div>";
+				}
+			?>
+		</div>
     </div>
 
-    <script src="Includes/js/jquery.min.js"></script>
+	<script src="Includes/js/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/819d78ad52.js"></script>
     <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
-	
 </body>
 </html>

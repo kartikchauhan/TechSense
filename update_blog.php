@@ -51,7 +51,10 @@ else
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
         <style type="text/css">
-        /* no added transitions for safari, mozilla, safari and other browsers*/
+            body
+            {
+                background-color: #fafafa;
+            }
             .brand-logo
             {
                 display: inline-block;
@@ -79,40 +82,42 @@ else
         </script>
         
     	<div class="container">
-            <div class="row">
-                <form action="" method="post" class="col s12">
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input type="text" name="title" id="title" value="<?php echo $title; ?>">
-                            <label for="title">Title</label>
+            <div class="section">
+                <div class="row">
+                    <form action="" method="post" class="col s12">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input type="text" name="title" id="title" value="<?php echo $title; ?>">
+                                <label for="title">Title</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <textarea class="materialize-textarea" name="description" id="description"><?php echo $description; ?></textarea>
-                            <label for="description">Description</label>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <textarea class="materialize-textarea" name="description" id="description"><?php echo $description; ?></textarea>
+                                <label for="description">Description</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <textarea name="blog" id="blog"><?php echo $blog; ?></textarea>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <textarea name="blog" id="blog"><?php echo $blog; ?></textarea>
+                            </div>
                         </div>
-                    </div>
-                   <div class="row">
-                        <div class="chips chips-initial chips-placeholder"></div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
-                            <!-- <input type="hidden" name="blog_id" id="blog_id" value="<?php echo $blog_id; ?>"> -->
+                       <div class="row">
+                            <div class="chips chips-initial chips-placeholder"></div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s12 l3 m4">
-                            <button type="button" class="btn waves-effect waves-light blue" name="update_blog" id="update_blog">Update Blog</button>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
+                                <!-- <input type="hidden" name="blog_id" id="blog_id" value="<?php echo $blog_id; ?>"> -->
+                            </div>
                         </div>
-                    </div>
-                </form>
+                        <div class="row">
+                            <div class="col s12 l3 m4">
+                                <button type="button" class="btn waves-effect waves-light blue" name="update_blog" id="update_blog">Update Blog</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     	<script src="Includes/js/jquery.min.js"></script>
@@ -126,7 +131,7 @@ else
 
                 tinymce.init({
                     selector: '#blog',
-                    height: 200,
+                    height: 500,
                     theme: 'modern',
                     plugins: [
                       'advlist autolink lists link image charmap print preview hr anchor pagebreak',

@@ -28,38 +28,67 @@ if(!$user->isLoggedIn())
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 
 	<style>
-	.brand-logo
-    {
-        display: inline-block;
-        height: 100%;
-    }
-    .brand-logo > img {
-        vertical-align: middle
-    }
-    .col.s12 > .btn
-    {
-    	width: 100%;
-    }
-    nav ul .dropdown-button
-    {
-        width: 200px !important;
-    }
-    .authors_profile_pic
-    {
-    	max-height: 300px !important;
-    }
-    .pagination li.active
-    {
-        background-color: #42A5F5;
-    }
-    blockquote 
-    {
-        border-left: 5px solid #42A5F5;
-    }
-    .token_container
-    {
-    	display: none;
-    }
+		body
+		{
+			background-color: #fafafa;
+		}
+		.brand-logo
+	    {
+	        display: inline-block;
+	        height: 100%;
+	    }
+	    .brand-logo > img {
+	        vertical-align: middle
+	    }
+	    .col.s12 > .btn
+	    {
+	    	width: 100%;
+	    }
+	    nav ul .dropdown-button
+	    {
+	        width: 200px !important;
+	    }
+	    input[type="search"]
+	    {
+	        height: 64px !important; /* or height of nav */
+	    }
+	    .authors_profile_pic
+	    {
+	    	max-height: 300px !important;
+	    }
+	    .pagination li.active
+	    {
+	        background-color: #42A5F5;
+	    }
+	    .card .card-content
+	    {
+	        padding-bottom: 0px;
+	        padding-top: 10px;
+	    }
+	    div .margin-eliminate
+	    {
+	        margin-bottom: 10px;
+	    }
+	    p .margin-eliminate
+	    {
+	        margin: 0px;
+	    }        
+	    .edit-blog
+	    {
+	    	position: absolute;
+	    	top: 20px;
+	    	right: 50px;
+	    }
+	    .delete-blog
+	    {
+	    	position: absolute;
+	    	top: 20px;
+	    	right: 20px;
+	    }
+	    .token_container
+	    {
+	    	display: none;
+	    }
 	</style>
 </head>
 <body>
@@ -168,104 +197,191 @@ if(!$user->isLoggedIn())
 			</div>
 			<div class="user-blogs">
 				<?php
-	                $blogs = DB::getInstance()->SortByField('blogs', array('created_on', 'DESC'), array('users_id', '=', $user->data()->id));
-	                $num_blogs = $blogs->count();
-	                $num_pages = ceil($num_blogs/5);
-	                $blogs = $blogs->results();
-	                $blogs = array_splice($blogs, 0, 5);
-	                if($num_blogs)  // show blogs if there are any, otherwise show message 'No blogs'
-	                {   
-	                    echo "<div class='content' id='content'>";
-                        foreach($blogs as $blog)
-                        {
-                        	$blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));
-                            $blog_tags = $blog_tags->results();
-                            $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
-                            echo 
-                                "<div class='row blog'>
-                                	<div class='col s12 hide-on-large-only'>
-                                		<div class='col s6'>
-	                                        <blockquote>".
-	                                            date('M d', $date).' '.
-	                                            date('Y', $date).
-	                                        "</blockquote>
-	                                    </div>
-	                                    <div class='col s6'>
-	                                    	<a href='#' class='blue-text delete-blog' data-attribute='{$blog->id}'><i class='material-icons right'>delete</i></a> <a href='update_blog.php?blog_id={$blog->id}' class='blue-text edit-blog' data-attribute='{$blog->id}'><i class='material-icons right'>mode_edit</i></a> 
-	                                    </div>
-                                	</div>
-                                    <div class='col s2 l2 hide-on-med-and-down'>
-                                        <blockquote>".
-                                            date('M', $date)."<br>".
-                                            date('Y d', $date).
-                                        "</blockquote>
-                                    </div>
-                                    <div class='col s12 l10'>
-                                    	<div class='row hide-on-med-and-down'>
-	                                    	<div class='col s12 l10'>
-	                                        	<h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
-	                                        </div>
-	                                        <div class='hide-on-small-only'>
-	                                        	<a href='#' class='blue-text delete-blog' data-attribute='{$blog->id}'><i class='material-icons right'>delete</i></a> <a href='update_blog.php?blog_id={$blog->id}' class='blue-text edit-blog' data-attribute='{$blog->id}'><i class='material-icons right'>mode_edit</i></a> 
-                                        	</div>
-                                        </div>
-                                		<h6>".ucfirst($blog->description)."</h6><br>
-                                        <div class='row'>
-                                            <div class='measure-count' data-attribute='{$blog->id}'>
-                                                <div class='col s2 l1'>
-                                                    <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
-                                                </div>
-                                                <div class='col s1 l1'>
-                                                    {$blog->views}
-                                                </div>
-                                                <div class='col s2 l1 offset-s1 offset-l1'>
-                                                    <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
-                                                </div>
-                                                <div class='col s1 l1'>
-                                                    {$blog->likes}
-                                                </div>
-                                                <div class='col s2 l1 offset-s1 offset-l1'>
-                                                    <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
-                                                </div>
-                                                <div class='col s1 l1'>
-                                                    {$blog->dislikes}
-                                                </div>
-                                            </div>
-                                        </div>";
-                                        foreach($blog_tags as $blog_tag)
-                                        {
-                                            echo "<div class='chip'>".$blog_tag->tags."</div>";
-                                        }
-                                        echo
-                                        "<div class='section'>
-                                        	<div class='divider'></div>
-                                    	</div>
-                                    </div>
-                                </div>";
-                        }
-	                    echo 
-	                        "</div>
-	                        <div class='section center-align'>
-	                            <ul class='pagination'>";
-	                                    for($x = 1; $x <= $num_pages; $x++)
-	                                    {
-	                                        if($x == 1)
-	                                        {
-	                                            echo "<li class='waves-effect pagination active'><a href='#' class='blog-pagination'>".$x."</a></li>";
-	                                        }
-	                                        else
-	                                        {
-	                                            echo "<li class='waves-effect pagination'><a href='#' class='blog-pagination'>".$x."</a></li>";
-	                                        }
-	                                    }   
-	                            echo
-	                            "</ul>
-	                        </div>";
-	                }
-	                else
-	                {
-	                    echo "<div class='section center-align'>No blogs yet. <a href='write_blog.php'>Write the very first blog.</a></div>";
-	                }
+
+					$blogs_based_on_user = DB::getInstance()->SortByField('blogs', array('created_on', 'DESC'), array('users_id', '=', $user->data()->id));
+					$blog_count = $blogs_based_on_user->count();	// getting the total count of blogs written by current user
+					$blogs_based_on_user = $blogs_based_on_user->results();		// getting the id of blogs who have queried tag in them
+					$current_user_username = $user->data()->username;
+					if($blog_count == 0)
+					{
+						"<h5>You have't wrote any blogs yet. <a href='write_blog.php'>Write your very first blog</a></h5>";
+					}
+					else
+					{
+						foreach($blogs_based_on_user as $blog_based_on_user)
+	    				{
+	    					$blog = DB::getInstance()->get('blogs', array('id', '=', $blog_based_on_user->id))->first();		// fetch blogs from table 'blogs' with blog_id of $blog_based_on_tag as parameter
+		                    $blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));	// getting all blog_tags associated with the fetched blog
+		                    $blog_tags = $blog_tags->results();
+		                    $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
+
+		                    echo
+		                    "<div class='col s12 m12'>
+		                        <div class='card horizontal white'>		                        	
+		                            <div class='card-content'> 
+		                            	<span class='card-title'>".date('M d Y', $date)."</span>
+		                                <div class='row margin-eliminate'>
+		                                    <div class='col s12'>
+		                                        <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
+		                                        <h6>".ucfirst($blog->description)."</h6>
+		                                    </div>
+		                                </div>
+		                                <div class='row margin-eliminate'>  
+		                                    <div class='valign-wrapper'>
+		                                        <div class='col l6 s4'>
+		                                            <div class='valign-wrapper'>
+		                                                <i class='material-icons hide-on-small-only' style='color:grey'>book</i>
+		                                                <p class='grey-text'>".$blog->blog_minutes_read." min read</p>
+		                                            </div>
+		                                        </div>
+		                                        <div class='col l6 s8'>
+		                                            <div class='chip'>
+		                                                <img src='Includes/images/og_image.jpg' alt='Contact Person'>{$current_user_username}
+		                                            </div>
+		                                        </div>
+		                                    </div>
+		                                </div>
+		                                <div class='row'>
+		                                    <div class='measure-count' data-attribute='{$blog->id}'>
+		                                        <div class='col s2 l1 m1'>
+		                                            <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
+		                                        </div>
+		                                        <div class='col s1 l1 m1'>
+		                                            {$blog->views}
+		                                        </div>
+		                                        <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
+		                                            <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
+		                                        </div>
+		                                        <div class='col s1 l1 m1'>
+		                                            {$blog->likes}
+		                                        </div>
+		                                        <div class='col s2 l1 m1 offset-m1 offset-s1 offset-l1'>
+		                                            <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
+		                                        </div>
+		                                        <div class='col s1 l1 m1'>
+		                                            {$blog->dislikes}
+		                                        </div>
+		                                    </div>
+		                                </div>
+		                                <div class='row'>
+		                                    <div class='col s12'>";
+		                                    foreach($blog_tags as $blog_tag)
+		                                    {
+		                                        echo "<div class='chip'>".$blog_tag->tags."</div>";
+		                                    }
+		                                    echo
+		                                    "</div>
+		                                </div>
+		                            </div>
+          	                    	<a href='update_blog.php?blog_id={$blog->id}' class='blue-text edit-blog right' data-attribute='{$blog->id}'><i class='material-icons'>mode_edit</i></a> 
+		                            <a href='#' class='blue-text delete-blog right' data-attribute='{$blog->id}'><i class='material-icons'>delete</i></a>
+		                        </div>
+		                    </div>";
+	                    }
+						
+					}
+
+                    /* uncomment the following code if want to add pagination to the page */
+
+	                // $blogs = DB::getInstance()->SortByField('blogs', array('created_on', 'DESC'), array('users_id', '=', $user->data()->id));
+	                // $num_blogs = $blogs->count();
+	                // $num_pages = ceil($num_blogs/5);
+	                // $blogs = $blogs->results();
+	                // $blogs = array_splice($blogs, 0, 5);
+
+	                // if($num_blogs)  // show blogs if there are any, otherwise show message 'No blogs'
+	                // {   
+	                //     echo "<div class='content' id='content'>";
+                 //        foreach($blogs as $blog)
+                 //        {
+                 //        	$blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));
+                 //            $blog_tags = $blog_tags->results();
+                 //            $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
+                 //            echo 
+                 //                "<div class='row blog'>
+                 //                	<div class='col s12 hide-on-large-only'>
+                 //                		<div class='col s6'>
+	                //                         <blockquote>".
+	                //                             date('M d', $date).' '.
+	                //                             date('Y', $date).
+	                //                         "</blockquote>
+	                //                     </div>
+	                //                     <div class='col s6'>
+	                //                     	<a href='#' class='blue-text delete-blog' data-attribute='{$blog->id}'><i class='material-icons right'>delete</i></a> <a href='update_blog.php?blog_id={$blog->id}' class='blue-text edit-blog' data-attribute='{$blog->id}'><i class='material-icons right'>mode_edit</i></a> 
+	                //                     </div>
+                 //                	</div>
+                 //                    <div class='col s2 l2 hide-on-med-and-down'>
+                 //                        <blockquote>".
+                 //                            date('M', $date)."<br>".
+                 //                            date('Y d', $date).
+                 //                        "</blockquote>
+                 //                    </div>
+                 //                    <div class='col s12 l10'>
+                 //                    	<div class='row hide-on-med-and-down'>
+	                //                     	<div class='col s12 l10'>
+	                //                         	<h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
+	                //                         </div>
+	                //                         <div class='hide-on-small-only'>
+	                //                         	<a href='#' class='blue-text delete-blog' data-attribute='{$blog->id}'><i class='material-icons right'>delete</i></a> <a href='update_blog.php?blog_id={$blog->id}' class='blue-text edit-blog' data-attribute='{$blog->id}'><i class='material-icons right'>mode_edit</i></a> 
+                 //                        	</div>
+                 //                        </div>
+                 //                		<h6>".ucfirst($blog->description)."</h6><br>
+                 //                        <div class='row'>
+                 //                            <div class='measure-count' data-attribute='{$blog->id}'>
+                 //                                <div class='col s2 l1'>
+                 //                                    <i class='fa fa-eye fa-2x' aria-hidden='true' style='color:grey'></i>
+                 //                                </div>
+                 //                                <div class='col s1 l1'>
+                 //                                    {$blog->views}
+                 //                                </div>
+                 //                                <div class='col s2 l1 offset-s1 offset-l1'>
+                 //                                    <i class='fa fa-thumbs-up fa-2x' aria-hidden='true' style='color:grey'></i>
+                 //                                </div>
+                 //                                <div class='col s1 l1'>
+                 //                                    {$blog->likes}
+                 //                                </div>
+                 //                                <div class='col s2 l1 offset-s1 offset-l1'>
+                 //                                    <i class='fa fa-thumbs-down fa-2x' aria-hidden='true' style='color:grey'></i>
+                 //                                </div>
+                 //                                <div class='col s1 l1'>
+                 //                                    {$blog->dislikes}
+                 //                                </div>
+                 //                            </div>
+                 //                        </div>";
+                 //                        foreach($blog_tags as $blog_tag)
+                 //                        {
+                 //                            echo "<div class='chip'>".$blog_tag->tags."</div>";
+                 //                        }
+                 //                        echo
+                 //                        "<div class='section'>
+                 //                        	<div class='divider'></div>
+                 //                    	</div>
+                 //                    </div>
+                 //                </div>";
+                 //        }
+	                //     echo 
+	                //         "</div>
+	                //         <div class='section center-align'>
+	                //             <ul class='pagination'>";
+	                //                     for($x = 1; $x <= $num_pages; $x++)
+	                //                     {
+	                //                         if($x == 1)
+	                //                         {
+	                //                             echo "<li class='waves-effect pagination active'><a href='#' class='blog-pagination'>".$x."</a></li>";
+	                //                         }
+	                //                         else
+	                //                         {
+	                //                             echo "<li class='waves-effect pagination'><a href='#' class='blog-pagination'>".$x."</a></li>";
+	                //                         }
+	                //                     }   
+	                //             echo
+	                //             "</ul>
+	                //         </div>";
+	                // }
+	                // else
+	                // {
+	                //     echo "<div class='section center-align'>No blogs yet. <a href='write_blog.php'>Write the very first blog.</a></div>";
+	                // }
 	            ?>
             </div>
 		</div>
