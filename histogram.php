@@ -14,7 +14,6 @@
 		array_push($countArray, $testArray);
 	}
 
-	var_dump($countArray);
 	if(sizeof($countArray) > 20)
 		array_splice($countArray, 0, 20);
 
@@ -23,7 +22,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Histogram Layout</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>Histogram layout of tags</title>
     <link rel='stylesheet' href='Includes/css/histogram.css'>
 </head>
 <body>

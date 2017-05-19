@@ -26,11 +26,17 @@ else
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 	<title>Results for tag <?php echo $tag; ?></title>
 
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
     <style type="text/css">
+    	body
+    	{
+    		background-color: #fafafa;
+    	}
         .brand-logo
         {
             display: inline-block;
@@ -60,10 +66,30 @@ else
         p .margin-eliminate
         {
             margin: 0px;
-        }        
+        }       
+		ul
+		{
+			overflow: hidden;
+		} 
+		.align-inline
+		{
+			display: inline-block;
+			margin-right: 10px;
+		}
         .num-result
         {
         	margin: 2rem 0 2rem 0 !important;
+        }
+/*        footer
+        {
+        	position: absolute;
+        	bottom: 0;
+        	right: 0;
+        	left: 0;
+        }*/
+        .chip
+        {
+        	margin: 0 20px 0 0;
         }
 	</style>
 </head>
@@ -82,13 +108,62 @@ else
     		<?php
     			if($blog_count == 0)
     			{
+    				$all_distinct_tags = DB::getInstance()->distinctRecords('blog_tags', array('tags'));
+    				$all_distinct_tags = $all_distinct_tags->results();
     				echo
-    				"<h5 class='red-text num-result'>Sorry No results found for <em> {$tag} </em></h5>";
+    				"<ul class='hide-on-med-and-down'>
+    					<li class='align-inline'>
+    						<h5 class='red-text num-result'>Sorry, No results found for <em> {$tag} </em></h5>
+						</li>
+						<li class='align-inline'>
+							<div class='chip'><h6 class='div'><a href='histogram.php'>See popular tags with visual aids</a></h6></div>
+						</li>
+						<li>
+							<h5>Other tags you can follow</h5>
+						</li>
+    				</ul>
+    				<ul class='center-align hide-on-large-only'>
+    					<li>
+    						<h5 class='red-text num-result'>Sorry, No results found for <em> {$tag} </em></h5>
+						</li>
+						<li>
+							<div class='chip'><h6 class='div'><a href='histogram.php'>See popular tags with visual aids</a></h6></div>
+						</li>
+						<li>
+							<h5>Other tags you can follow</h5>
+						</li>
+    				</ul>
+	    				<div class='card-panel'>
+	    					<div class='left-align'>";
+								foreach($all_distinct_tags as $all_distinct_tag)
+								{
+									$tag = $all_distinct_tag->tags;
+									echo 
+									"<a class='chip' href='".Config::get('url/endpoint')."/view_blogs_tag.php?tag={$tag}'>{$tag}</a>";	// iterating through all distinct tags
+								}
+							echo	
+							"</div>
+						</div>";
     			}
     			else
     			{
     				echo
-    				"<h5 class='green-text num-result'>{$blog_count} Results found for <em> {$tag} </em></h5>";
+    				"<ul class='hide-on-med-and-down'>
+    					<li>
+    						<h5 class='green-text num-result'>{$blog_count} Result(s) found for <em> {$tag} </em></h5>
+						</li>
+						<li>
+							<div class='chip'><h6 class='div'><a class='black-text' href='histogram.php'> See popular tags with visual aids</a></h6></div>
+						</li>
+    				</ul>
+    				<ul class='center-align hide-on-large-only'>
+    					<li>
+    						<h5 class='green-text num-result'>{$blog_count} Result(s) found for <em> {$tag} </em></h5>
+						</li>
+						<li>
+							<div class='chip'><h6 class='div'><a class='black-text' href='histogram.php'> See popular tags with visual aids</a></h6></div>
+						</li>
+    				</ul>";
     				foreach($blogs_based_on_tag as $blogs_based_on_tag)
                 	{
                 		$blog = DB::getInstance()->get('blogs', array('id', '=', $blogs_based_on_tag->blog_id));
@@ -105,7 +180,7 @@ else
 		                    $blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));	// getting all blog_tags associated with the fetched blog
 		                    $blog_tags = $blog_tags->results();
 		                    $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
-		                    $writer = DB::getInstance()->get('users', array('id', '=', $blog->users_id))->first()->username;
+		                    $writer = DB::getInstance()->get('users', array('id', '=', $blog->users_id))->first();
 
 		                    echo
 	                        "<div class='col s12 m12'>
@@ -126,9 +201,9 @@ else
 	                                                </div>
 	                                            </div>
 	                                            <div class='col l6 s8'>
-	                                                <div class='chip'>
-	                                                    <img src='Includes/images/og_image.jpg' alt='Contact Person'>{$writer}
-	                                                </div>
+	                                                <a class='chip' href='".Config::get('url/endpoint')."/user_profile.php?user={$writer->username}'>
+                                                    	<img src='".Config::get('url/upload_dir')."/{$writer->image_url}' alt='Contact Person'>{$writer->username}
+                                                	</a>
 	                                            </div>
 	                                        </div>
 	                                    </div>
@@ -158,7 +233,8 @@ else
 	                                        <div class='col s12'>";
 	                                        foreach($blog_tags as $blog_tag)
 	                                        {
-	                                            echo "<div class='chip'>".$blog_tag->tags."</div>";
+	                                            $tag = $blog_tag->tags;
+                                            	echo "<a class='chip' href='".Config::get('url/endpoint')."/view_blogs_tag.php?tag={$tag}'>{$tag}</a>";
 	                                        }
 	                                        echo
 	                                        "</div>
@@ -203,6 +279,8 @@ else
     <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
     <script type="text/javascript">
     	$(document).ready(function() {
+
+            $(".dropdown-button").dropdown({hover: false});   // activate dropdown in the nav-bar
 
     		$(".button-collapse").sideNav();
     		

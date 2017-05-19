@@ -406,7 +406,7 @@ require_once'Core/init.php';
                     $blog_tags = DB::getInstance()->get('blog_tags', array('blog_id', '=', $blog->id));
                     $blog_tags = $blog_tags->results();
                     $date=strtotime($blog->created_on); // changing the format of timestamp fetched from the database, converting it to milliseconds
-                    $writer = DB::getInstance()->get('users', array('id', '=', $blog->users_id))->first()->username;
+                    $writer = DB::getInstance()->get('users', array('id', '=', $blog->users_id))->first();
                     echo 
                     "<div class='fadedfx'>
                         <div class='col s12 m12'>
@@ -427,8 +427,8 @@ require_once'Core/init.php';
                                                 </div>
                                             </div>
                                             <div class='col l6 s8'>
-                                                <a class='chip' href='".Config::get('url/endpoint')."/user_profile.php?user={$writer}'>
-                                                    <img src='Includes/images/og_image.jpg' alt='Contact Person'>{$writer}
+                                                <a class='chip' href='".Config::get('url/endpoint')."/user_profile.php?user={$writer->username}'>
+                                                    <img src='".Config::get('url/upload_dir')."/{$writer->image_url}' alt='Contact Person'>{$writer->username}
                                                 </a>
                                             </div>
                                         </div>
@@ -459,7 +459,8 @@ require_once'Core/init.php';
                                         <div class='col s12'>";
                                         foreach($blog_tags as $blog_tag)
                                         {
-                                            echo "<div class='chip'>".$blog_tag->tags."</div>";
+                                            $tag = $blog_tag->tags;
+                                            echo "<a class='chip' href='".Config::get('url/endpoint')."/view_blogs_tag.php?tag={$tag}'>{$tag}</a>";
                                         }
                                         echo
                                         "</div>

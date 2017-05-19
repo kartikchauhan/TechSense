@@ -72,7 +72,16 @@ if(!$user->isLoggedIn())
 	    p .margin-eliminate
 	    {
 	        margin: 0px;
-	    }        
+	    }  
+	    ul .align-inline
+	    {
+	    	overflow: hidden;
+	    }      
+	    .align-inline > li
+	    {
+	    	display: inline-block;
+	    	margin-right: 10px;
+	    }
 	    .edit-blog
 	    {
 	    	position: absolute;
@@ -186,14 +195,14 @@ if(!$user->isLoggedIn())
 	<div class="container">
 		<div class="row">
 			<div class="section">
-				<div class="row">
-					<div class="col l3 s6 m3 offset-s2">
+				<ul class='align-inline'>
+					<li>
 						<h5>Blogs Written</h5>
-					</div>
-					<div class="col l1 s2 m1">
+					</li>
+					<li>
 						<a class="btn-floating pulse btn-small waves-effect waves-light blue toggle-user-blogs"><i class="material-icons">add</i></a>
-					</div>
-				</div>
+					</li>
+				</ul>
 			</div>
 			<div class="user-blogs">
 				<?php
@@ -201,10 +210,10 @@ if(!$user->isLoggedIn())
 					$blogs_based_on_user = DB::getInstance()->SortByField('blogs', array('created_on', 'DESC'), array('users_id', '=', $user->data()->id));
 					$blog_count = $blogs_based_on_user->count();	// getting the total count of blogs written by current user
 					$blogs_based_on_user = $blogs_based_on_user->results();		// getting the id of blogs who have queried tag in them
-					$current_user_username = $user->data()->username;
 					if($blog_count == 0)
 					{
-						"<h5>You have't wrote any blogs yet. <a href='write_blog.php'>Write your very first blog</a></h5>";
+						echo
+						"<h6 class='center-align'>You have't written any blogs yet. <a href='write_blog.php'>Write your very first blog</a></h6>";
 					}
 					else
 					{
@@ -236,9 +245,9 @@ if(!$user->isLoggedIn())
 			                                            </div>
 			                                        </div>
 			                                        <div class='col l6 s8'>
-			                                            <div class='chip'>
-			                                                <img src='Includes/images/og_image.jpg' alt='Contact Person'>{$current_user_username}
-			                                            </div>
+			                                            <a class='chip' href='".Config::get('url/endpoint')."/user_profile.php?user={$user->data()->username}'>
+                                                    		<img src='".Config::get('url/upload_dir')."/{$user->data()->image_url}' alt='Contact Person'>{$user->data()->username}
+                                                		</a>
 			                                        </div>
 			                                    </div>
 			                                </div>
@@ -268,7 +277,8 @@ if(!$user->isLoggedIn())
 			                                    <div class='col s12'>";
 			                                    foreach($blog_tags as $blog_tag)
 			                                    {
-			                                        echo "<div class='chip'>".$blog_tag->tags."</div>";
+			                                    	$tag = $blog_tag->tags;
+			                                        echo "<a class='chip' href='".Config::get('url/endpoint')."/view_blogs_tag.php?tag={$tag}'>{$tag}</a>";
 			                                    }
 			                                    echo
 			                                    "</div>
