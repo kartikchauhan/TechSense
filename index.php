@@ -12,12 +12,13 @@ require_once'Core/init.php';
     <link rel="preload" as="script" href="Includes/js/materialize.min.js">
     <link rel="preload" as="script" href="https://use.fontawesome.com/819d78ad52.js">
     <link rel="preload" as="script" href="Includes/js/jquery.min.js">
-    <link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="keywords" content="blog, technology, code, program, alorithms"/>
     <meta name="description" content="Publish your passions your way. Whether you'd like to share your knowledge, experiences or the latest tech news, create a unique and beautiful blog for free.">
     <title> Home </title>
+    <link rel="shortcut icon" href="Includes/images/favicon.png">
     <script src="Includes/js/typed.js" type="text/javascript"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -43,7 +44,7 @@ require_once'Core/init.php';
 
         function newTyped(){ /* A new typed object */ }
     </script>
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 
     <style type="text/css">  
