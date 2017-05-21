@@ -24,7 +24,7 @@ $GLOBALS['config'] = array(
 		'host'=> '127.0.0.1',	// neeed to be changed to $_SERVER['HTTP_HOST']
 		'user'=> 'root',
 		'port' => '3306',
-		'password'=> '',
+		'password'=> 'softwareincubator',
 		'database'=> 'blog'
 		),
 	'remember'=>array(
