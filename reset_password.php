@@ -113,7 +113,7 @@ if($user->isLoggedIn())
 											</div>
 											<div class="input-field col s12">
 												<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
-												<input type="hidden" name="email" id="email" value="<?php echo $email ?>">
+												<input type="hidden" name="email" id="email" value="<?php echo {$email} ?>">
 											</div>
 											<input type="submit" class="btn waves-effect waves-light col s6 offset-s3" value="Reset Password" id="reset_password">
 										</div>
