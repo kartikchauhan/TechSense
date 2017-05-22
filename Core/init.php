@@ -12,7 +12,7 @@ session_start();
 // {
 //     ini_set('display_errors', 'Off');
 // }
-$server_host = 'https://';	// hardcoding it for the purpose of deploying
+$server_host = 'https://'.$_SERVER['HTTP_HOST'];	// hardcoding it for the purpose of deploying
 // $server_host = ((((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']!=='off') || $_SERVER['SERVER_PORT']==443) ? 'https://':'http://' ).$_SERVER['HTTP_HOST']);
 $base = dirname($_SERVER['REQUEST_URI']);	// current_page along with query_string
 $endpoint = $server_host.$base;		// current_url without current_page
