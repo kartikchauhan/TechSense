@@ -232,7 +232,7 @@ if(!$user->isLoggedIn())
 			                            	<span class='card-title'>".date('M d Y', $date)."</span>
 			                                <div class='row margin-eliminate'>
 			                                    <div class='col s12'>
-			                                        <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
+			                                        <h5><a class='views' data-attribute='{$blog->views}' href='/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
 			                                        <h6>".ucfirst($blog->description)."</h6>
 			                                    </div>
 			                                </div>
@@ -245,7 +245,7 @@ if(!$user->isLoggedIn())
 			                                            </div>
 			                                        </div>
 			                                        <div class='col l6 s8'>
-			                                            <a class='chip' href='".Config::get('url/endpoint')."/user_profile.php?user={$user->data()->username}'>
+			                                            <a class='chip' href='/user_profile.php?user={$user->data()->username}'>
                                                     		<img src='".Config::get('url/upload_dir')."/{$user->data()->image_url}' alt='Contact Person'>{$user->data()->username}
                                                 		</a>
 			                                        </div>
@@ -278,7 +278,7 @@ if(!$user->isLoggedIn())
 			                                    foreach($blog_tags as $blog_tag)
 			                                    {
 			                                    	$tag = $blog_tag->tags;
-			                                        echo "<a class='chip' href='".Config::get('url/endpoint')."/view_blogs_tag.php?tag={$tag}'>{$tag}</a>";
+			                                        echo "<a class='chip' href='/view_blogs_tag.php?tag={$tag}'>{$tag}</a>";
 			                                    }
 			                                    echo
 			                                    "</div>
