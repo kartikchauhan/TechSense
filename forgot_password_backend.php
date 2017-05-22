@@ -39,7 +39,7 @@ if(Input::exists('post'))
 
 				$mail = new PHPMailer;
 				$mail->isSMTP();
-				$mail->SMTPDebug = 1;
+				$mail->SMTPDebug = 0;
 				$mail->Debugoutput = 'html';
 				$mail->Host = 'smtp.gmail.com';
 				$mail->Port = 587;
@@ -48,7 +48,7 @@ if(Input::exists('post'))
 				$mail->Username = "chauhan.kartik25@gmail.com";
 				$mail->Password = "Kartik@25K"; 
 				$mail->setFrom("chauhan.kartik25@gmail.com", "kartik chauhan");
-				$mail->addAddress($email, 'anonymous');
+				$mail->addAddress($email, 'kartik chauhan');
 				$mail->subject = "password reset link";
 				// now sending msg including hash along with user's email address.
 				$mail->msgHTML("This is a password reset link. Click on it and change your password within 5 minutes else session will expire<br> <a href='http://localhost/TechWit/reset_password.php?token={$hash}&user={$email}'>Click this link to reset the password</a>");
