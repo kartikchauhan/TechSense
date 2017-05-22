@@ -99,7 +99,7 @@ if($user->isLoggedIn())
 						<div class="card">
 							<div class="card-content">
 								<div class="row">
-									<form class="col s12" action="" method="post">
+									<form class="col s12" action="reset_password_backend.php" method="post">
 										<div class="row">
 											<div class="input-field col s12">
 												<i class="material-icons prefix">lock</i>
@@ -128,7 +128,7 @@ if($user->isLoggedIn())
 		<script src="Includes/js/jquery.min.js"></script>
 	    <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
 	    <script>
-	    	$('#reset_password').click('off');
+	    	/*$('#reset_password').click('off');
 	    	$(document).ready(function(){
 	    		$('body').on('click', '#reset_password', function(e){
 	    			e.preventDefault();
@@ -193,6 +193,7 @@ if($user->isLoggedIn())
 	    			return true;
 	    		}
 	    	});
+*/
 	    </script>
 	</body>
 </html>
