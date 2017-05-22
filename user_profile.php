@@ -140,7 +140,7 @@ else
             				if(!empty($writer->twitter_username))
             				{
               					echo
-              					"<a href='www.twitter.com/{$writer->twitter_username}'><i class='fa fa-twitter fa-2x social-icons' aria-hidden='true' style='color:gray;'></i></a>";
+              					"<a href='https://www.twitter.com/{$writer->twitter_username}'><i class='fa fa-twitter fa-2x social-icons' aria-hidden='true' style='color:gray;'></i></a>";
             				}
             				else
             				{
@@ -150,7 +150,7 @@ else
             				if(!empty($writer->facebook_username))
             				{
               					echo
-              					"<a href='www.twitter.com/{$writer->facebook_username}'><i class='fa fa-facebook fa-2x social-icons' aria-hidden='true' style='color:gray;'></i></a>";
+              					"<a href='https://www.facebook.com/{$writer->facebook_username}'><i class='fa fa-facebook fa-2x social-icons' aria-hidden='true' style='color:gray;'></i></a>";
             				}
             				else
             				{
@@ -160,7 +160,7 @@ else
             				if(!empty($writer->google_profileId))
             				{
               					echo
-              					"<a href='www.twitter.com/{$writer->google_profileId}'><i class='fa fa-google-plus fa-2x social-icons' aria-hidden='true' style='color:gray;'></i></a>";
+              					"<a href='https://www.plus.google.com/{$writer->google_profileId}'><i class='fa fa-google-plus fa-2x social-icons' aria-hidden='true' style='color:gray;'></i></a>";
             				}
             				else
             				{
@@ -170,7 +170,7 @@ else
             				if(!empty($writer->github_username))
             				{
               					echo
-              					"<a href='www.twitter.com/{$writer->github_username}'><i class='fa fa-github fa-2x social-icons' aria-hidden='true' style='color:gray;'></i></a>";
+              					"<a href='https://www.github.com/{$writer->github_username}'><i class='fa fa-github fa-2x social-icons' aria-hidden='true' style='color:gray;'></i></a>";
             				}
             				else
             				{

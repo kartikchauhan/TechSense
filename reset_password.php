@@ -88,35 +88,37 @@ if($user->isLoggedIn())
 				die($e->getMessage());
 			}
 		?>
-		<div id="reset-password-form">
-			<h5 class="center-align condensed light">Reset Password</h5>
-			<div class="row">
-				<div class="col s12 l4 m6 offset-m3 offset-l4">
-					<ul class="collection center-align z-depth-1 error">
-						<li class="collection-item red-text"></li>
-					</ul>
-					<div class="card">
-						<div class="card-content">
-							<div class="row">
-								<form class="col s12" action="" method="post">
-									<div class="row">
-										<div class="input-field col s12">
-											<i class="material-icons prefix">lock</i>
-											<input type="password" name="password" id="password" />
-											<label for="password">Password</label>
+		<div class="container">
+			<div id="reset-password-form">
+				<h5 class="center-align condensed light">Reset Password</h5>
+				<div class="row">
+					<div class="col s12 l4 m6 offset-m3 offset-l4">
+						<ul class="collection center-align z-depth-1 error">
+							<li class="collection-item red-text"></li>
+						</ul>
+						<div class="card">
+							<div class="card-content">
+								<div class="row">
+									<form class="col s12" action="" method="post">
+										<div class="row">
+											<div class="input-field col s12">
+												<i class="material-icons prefix">lock</i>
+												<input type="password" name="password" id="password" />
+												<label for="password">Password</label>
+											</div>
+											<div class="input-field col s12">
+												<i class="material-icons prefix">lock</i>
+												<input type="password" name="confirm_password" id="confirm_password" />
+												<label for="confirm_password">Confirm Password</label>
+											</div>
+											<div class="input-field col s12">
+												<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
+												<input type="hidden" name="email" id="email" value="<?php echo $email ?>">
+											</div>
+											<input type="submit" class="btn waves-effect waves-light col s6 offset-s3" value="Reset Password" id="reset_password">
 										</div>
-										<div class="input-field col s12">
-											<i class="material-icons prefix">lock</i>
-											<input type="password" name="confirm_password" id="confirm_password" />
-											<label for="confirm_password">Confirm Password</label>
-										</div>
-										<div class="input-field col s12">
-											<input type="hidden" name="_token" id="_token" value="<?php echo Token::generate(); ?>">
-											<input type="hidden" name="email" id="email" value="<?php echo $email ?>">
-										</div>
-										<input type="submit" class="btn waves-effect waves-light col s6 offset-s3" value="Reset Password" id="reset_password">
-									</div>
-								</form>
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>
