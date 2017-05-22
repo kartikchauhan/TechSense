@@ -78,7 +78,7 @@ $user = new User;
 					<div class="card">
 						<div class="card-content">
 							<div class="row">
-								<form class="col s12" action="" method="post">
+								<form class="col s12" action="forgot_password_backend.php" method="post">
 									<div class="row">
 										<div class="input-field col s12">
 											<i class="material-icons prefix">mail</i>
@@ -106,7 +106,7 @@ $user = new User;
 	<script src="Includes/js/jquery.min.js"></script>
     <script type="text/javascript" src="Includes/js/materialize.min.js"></script>
     <script>
-    	$('#send_mail').click('off');
+    	/*$('#send_mail').click('off');
     	$(document).ready(function(){
     		$('form').on('click', '#send_mail', function(e){
     			e.preventDefault();
@@ -161,7 +161,7 @@ $user = new User;
     			return true;
     		}
 
-    	});
+    	}); */
     </script>
 </body>
 </html>
