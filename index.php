@@ -415,7 +415,7 @@ require_once'Core/init.php';
                                 <div class='card-content'> <span class='card-title'>".date('M d Y', $date)."</span>
                                     <div class='row margin-eliminate'>
                                         <div class='col s12'>
-                                            <h5><a class='views' data-attribute='{$blog->views}' href='".Config::get('url/endpoint')."/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
+                                            <h5><a class='views' data-attribute='{$blog->views}' href='/view_blog.php?blog_id={$blog->id}'".">".ucfirst($blog->title)."</a></h5>
                                             <h6>".ucfirst($blog->description)."</h6>
                                         </div>
                                     </div>
@@ -461,7 +461,7 @@ require_once'Core/init.php';
                                         foreach($blog_tags as $blog_tag)
                                         {
                                             $tag = $blog_tag->tags;
-                                            echo "<a class='chip' href='".Config::get('url/endpoint')."/view_blogs_tag.php?tag={$tag}'>{$tag}</a>";
+                                            echo "<a class='chip' href='/view_blogs_tag.php?tag={$tag}'>{$tag}</a>";
                                         }
                                         echo
                                         "</div>
