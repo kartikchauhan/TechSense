@@ -7,9 +7,9 @@ include_once 'src/contrib/Google_Oauth2Service.php';
 /*
  * Configuration and setup Google API
  */
-$clientId = '32311185941-27cgcnttts33kbg0ujchu3nn4ffsbn2t.apps.googleusercontent.com'; //Google client ID
-$clientSecret = '4NI-BVLx1A96qwYs0nJF7QVT'; //Google client secret
-$redirectURL = 'http://localhost/TechWit/login.php'; //Callback URL
+$clientId = '285926229424-cm218npu455mta48b8r6uq4nassnedvj.apps.googleusercontent.com'; //Google client ID
+$clientSecret = '2iQeZP1nxnGKoAAEnRUDMVmi'; //Google client secret
+$redirectURL = 'https://techsense.herokuapp.com/login.php'; //Callback URL
 
 //Call Google API
 $gClient = new Google_Client();
