@@ -39,7 +39,7 @@ if(Input::exists('post'))
 
 				$mail = new PHPMailer;
 				$mail->isSMTP();
-				$mail->SMTPDebug = 0;
+				$mail->SMTPDebug = 1;
 				$mail->Debugoutput = 'html';
 				$mail->Host = 'smtp.gmail.com';
 				$mail->Port = 587;
