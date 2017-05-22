@@ -19,13 +19,12 @@ $endpoint = $server_host.$base;		// current_url without current_page
 $current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 $GLOBALS['config'] = array(
-
 	'mysql'=>array(
-		'host'=> '127.0.0.1',	// neeed to be changed to $_SERVER['HTTP_HOST']
-		'user'=> 'root',
+		'host'=> 'us-cdbr-iron-east-03.cleardb.net',	// neeed to be changed to $_SERVER['HTTP_HOST']
+		'user'=> 'b94ae7ed563da7',
+		'password'=> '83a4e95b',
 		'port' => '3306',
-		'password'=> 'softwareincubator',
-		'database'=> 'blog'
+		'database'=> 'heroku_f0f9a018d9ec460'
 		),
 	'remember'=>array(
 		'cookie_name' => 'hash',

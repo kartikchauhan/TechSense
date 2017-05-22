@@ -126,6 +126,7 @@ $user = new User;
     				success: function(response)
     				{
     					// var response = JSON.parse(response);
+						$('.loader-container').hide();
     					if(response.error_status === true)
     					{
     						if(response.error_code != 1)
@@ -133,7 +134,6 @@ $user = new User;
 			        			$('#_token').val(response._token);
 			        		}
     						Materialize.toast(response.error, 5000, "red");
-    						$('.loader-container').hide();
     					}
     					else
     					{
