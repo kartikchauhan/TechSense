@@ -428,7 +428,7 @@ require_once'Core/init.php';
                                                 </div>
                                             </div>
                                             <div class='col l6 s8'>
-                                                <a class='chip' href='".Config::get('url/endpoint')."/user_profile.php?user={$writer->username}'>
+                                                <a class='chip' href='/user_profile.php?user={$writer->username}'>
                                                     <img src='".Config::get('url/upload_dir')."/{$writer->image_url}' alt='Contact Person'>{$writer->username}
                                                 </a>
                                             </div>
