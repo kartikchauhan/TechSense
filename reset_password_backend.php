@@ -2,7 +2,6 @@
 
 require_once'Core/init.php';
 
-die('reached here');
 if(Input::exists('post'))
 {
 	if(Token::check(Input::get('_token')))
