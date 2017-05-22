@@ -51,7 +51,7 @@ if(Input::exists('post'))
 				$mail->addAddress($email, 'kartik chauhan');
 				$mail->subject = "password reset link";
 				// now sending msg including hash along with user's email address.
-				$mail->msgHTML("This is a password reset link. Click on it and change your password within 5 minutes else session will expire<br> <a href='https://techwit.herokuapp.com/reset_password.php?token={$hash}&user={$email}'>Click this link to reset the password</a>");
+				$mail->msgHTML("This is a password reset link. Click on it and change your password within 5 minutes else session will expire<br> <a href='https://www.techwit.herokuapp.com/reset_password.php?token={$hash}&user={$email}'>Click this link to reset the password</a>");
 				try
 				{
 					if(!$mail->send())
