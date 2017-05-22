@@ -934,10 +934,12 @@ function updateViews($reports, $blog, $blogId)
                 for ($k = 0; $k < count($values); $k++) 
                 {
                     $entry = $metricHeaders[$k];
+                	var_dump($entry);
                     if ($flag == true) 
                     {
                         try 
                         {
+                        	var_dump($values[$k]);
                             if (DB::getInstance()->update('blogs', $blogId, array('views' => $values[$k])) == false)
                                 throw new Exception("Unable to update views of the blog.");
                         } catch (Exception $e) {
