@@ -85,7 +85,7 @@ function initializeAnalytics()
 
     // Create and configure a new client object.
     $client = new Google_Client();
-    $client->setApplicationName("TechWit Analytics Reporting");
+    $client->setApplicationName("TechSense Analytics Reporting");
     $client->setAuthConfig($KEY_FILE_LOCATION);
     $client->setScopes(['https://www.googleapis.com/auth/analytics.readonly']);
     $analytics = new Google_Service_AnalyticsReporting($client);
@@ -104,11 +104,11 @@ function getReport($analytics)
 {
 
     // Replace with your view ID, for example XXXX.
-    $VIEW_ID = "149090607";
+    $VIEW_ID = "151232959";
 
     // Create the DateRange object.
     $dateRange = new Google_Service_AnalyticsReporting_DateRange();
-    $dateRange->setStartDate("2017-04-26");
+    $dateRange->setStartDate("2017-05-23");
     $dateRange->setEndDate("today");
 
     // Create the Metrics object.
