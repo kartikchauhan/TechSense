@@ -211,7 +211,7 @@ function updateViews($reports, $blog, $blogId)
 		<link rel="preload" as="script" href="Includes/js/materialize.min.js">
     	<link rel="preload" as="script" href="https://use.fontawesome.com/819d78ad52.js">
     	<link rel="preload" as="script" href="Includes/js/jquery.min.js">
-    	<link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+    	<link rel="preload" as="style" href="//fonts.googleapis.com/icon?family=Material+Icons">
 
 		<title><?php echo $blog->data()->title; ?></title>
 		
@@ -221,9 +221,9 @@ function updateViews($reports, $blog, $blogId)
 		<meta name="twitter:site" content="@TechSense" />
 		<meta name="twitter:title" content="<?php echo $blog->data()->title; ?>" />
 		<meta name="twitter:description" content="<?php echo $blog->data()->description; ?>" />
-		<meta name="twitter:image:src" content="http://uvmbored.com/wp-content/uploads/2015/05/blog.jpg" />
+		<meta name="twitter:image:src" content="https://uvmbored.com/wp-content/uploads/2015/05/blog.jpg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 	    

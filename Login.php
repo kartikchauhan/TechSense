@@ -40,7 +40,7 @@ if(Input::get('code'))
 		<meta name="viewport" content="width=device-width" />
 		<meta name="keywords" content="blog, technology, code, program, alorithms"/>
 		<meta name="description" content="Publish your passions your way. Whether you'd like to share your knowledge, experiences or the latest tech news, create a unique and beautiful blog for free.">
-		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 
 		<style>

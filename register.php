@@ -126,7 +126,7 @@ function generateUsernames($name)
 	<head>
         <link rel="preload" as="script" href="Includes/js/materialize.min.js">
         <link rel="preload" as="script" href="Includes/js/jquery.min.js">
-        <link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="preload" as="style" href="//fonts.googleapis.com/icon?family=Material+Icons">
 		<title>
 			Register
 		</title>
@@ -134,7 +134,7 @@ function generateUsernames($name)
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<meta name="keywords" content="blog, technology, code, program, alorithms"/>
 		<meta name="description" content="We emphaisze on solving problems">
-		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 
 		<style>
