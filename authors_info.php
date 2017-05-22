@@ -16,7 +16,7 @@ if(!$user->isLoggedIn())
 	<link rel="preload" as="script" href="Includes/js/materialize.min.js">
 	<link rel="preload" as="script" href="https://use.fontawesome.com/819d78ad52.js">
     <link rel="preload" as="script" href="Includes/js/jquery.min.js">
-    <link rel="preload" as="style" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<title>
 		Update Profile
 	</title>
@@ -24,7 +24,7 @@ if(!$user->isLoggedIn())
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta name="keywords" content="blog, technology, code, program, alorithms"/>
 	<meta name="description" content="We emphaisze on solving problems">
-	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 
 	<style>
@@ -414,7 +414,7 @@ if(!$user->isLoggedIn())
                 <div class="col l4 offset-l2 s12">
                     <h5 class="white-text">View Our Other Projects</h5>
                     <ul>
-                        <li><a class="grey-text text-lighten-3" href="http://www.silive.in" target="blank">silive.in</a></li>
+                        <li><a class="grey-text text-lighten-3" href="https://www.silive.in" target="blank">silive.in</a></li>
                         <li><a class="grey-text text-lighten-3" href="#!" target="blank">Blood Donation Campaign 2017</a></li>
                         <li><a class="grey-text text-lighten-3" href="#!" target="blank">Table Tennis Tournament</a></li>
                     </ul>
