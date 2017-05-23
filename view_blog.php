@@ -172,7 +172,6 @@ function updateViews($reports, $blog, $blogId)
                 for ($k = 0; $k < count($values); $k++) 
                 {
                     $entry = $metricHeaders[$k];
-                    var_dump($entry);
                     if ($flag == true) 
                     {
                         try 
