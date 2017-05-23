@@ -871,7 +871,7 @@ function getReport($analytics)
     // Create the DateRange object.
     $dateRange = new Google_Service_AnalyticsReporting_DateRange();
     $dateRange->setStartDate("2017-05-23");
-    $dateRange->setEndDate("today");
+    $dateRange->setEndDate("2017-05-23");
 
     // Create the Metrics object.
     $metrics = new Google_Service_AnalyticsReporting_Metric();
@@ -934,12 +934,12 @@ function updateViews($reports, $blog, $blogId)
                 for ($k = 0; $k < count($values); $k++) 
                 {
                     $entry = $metricHeaders[$k];
-                	var_dump($entry);
+                	echo "<h1>{$entry}</h1>";
                     if ($flag == true) 
                     {
                         try 
                         {
-                        	var_dump($values[$k]);
+                        	echo "<h1>{$values[$k]}</h1>";
                             if (DB::getInstance()->update('blogs', $blogId, array('views' => $values[$k])) == false)
                                 throw new Exception("Unable to update views of the blog.");
                         } catch (Exception $e) {
