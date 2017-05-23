@@ -1,15 +1,15 @@
 <?php
 
 // require_once'Includes/googleAuth/gpConfig.php';
-// require_once __DIR__ . '/vendor/autoload.php';		Google Analytics
+require_once __DIR__ . '/vendor/autoload.php';
 require_once'Core/init.php';
 
-// $GLOBALS['path'] = explode('/', $_SERVER['SCRIPT_NAME']);		Google Analytics
-// $custom_path = '';
-// for($i = 1; $i < count($path); $i++)
-// {
-// 	$custom_path .= '/'.$path[$i];	// custom_path for setting redirecting_uri in oauthcallback.php
-// }
+$GLOBALS['path'] = explode('/', $_SERVER['SCRIPT_NAME']);
+$custom_path = '';
+for($i = 1; $i < count($path); $i++)
+{
+	$custom_path .= '/'.$path[$i];	// custom_path for setting redirecting_uri in oauthcallback.php
+}
 
 $user = new User;
 
@@ -36,13 +36,13 @@ if(Input::exists('get'))
 		}
 		$author = DB::getInstance()->join(array('users', 'blogs'), array('id', 'users_id'), array('id', '=', $blogId))->first(); // fetching the author of the blog and his corresponding details
 
-		// Google Analytics
+
 		// Code for updating the unique views of a blog using google Analytics and it's reporting library starts from here
 		// Load the Google API PHP Client Library.
 
-		// $analytics = initializeAnalytics();	// initialises the API library
-		// $response = getReport($analytics);	// queries the library taking specified metrics, dimensions as determining parameters
-		// updateViews($response, $blog, $blogId);	// prebuilt function which later customized to fetch the uniquePageViews from the response object. Fetching uniquePageViews and updating the views of the corresponding blog.
+		$analytics = initializeAnalytics();	// initialises the API library
+		$response = getReport($analytics);	// queries the library taking specified metrics, dimensions as determining parameters
+		updateViews($response, $blog, $blogId);	// prebuilt function which later customized to fetch the uniquePageViews from the response object. Fetching uniquePageViews and updating the views of the corresponding blog.
 
 		$date=strtotime($blog->data()->created_on);
 		if($user->isLoggedIn())
@@ -70,125 +70,126 @@ else
 	Redirect::to('index.php');
 }
 
-// Google Analytics
-// /**
-//  * Initializes an Analytics Reporting API V4 service object.
-//  *
-//  * @return An authorized Analytics Reporting API V4 service object.
-//  */
-// function initializeAnalytics() 
-// {
+/**
+ * Initializes an Analytics Reporting API V4 service object.
+ *
+ * @return An authorized Analytics Reporting API V4 service object.
+ */
+function initializeAnalytics() 
+{
 
-//     // Use the developers console and download your service account
-//     // credentials in JSON format. Place them in this directory or
-//     // change the key file location if necessary.
-//     $KEY_FILE_LOCATION = __DIR__.'/client_secrets.json';
+    // Use the developers console and download your service account
+    // credentials in JSON format. Place them in this directory or
+    // change the key file location if necessary.
+    $KEY_FILE_LOCATION = __DIR__.'/client_secrets.json';
 
-//     // Create and configure a new client object.
-//     $client = new Google_Client();
-//     $client->setApplicationName("TechSense Analytics Reporting");
-//     $client->setAuthConfig($KEY_FILE_LOCATION);
-//     $client->setScopes(['https://www.googleapis.com/auth/analytics.readonly']);
-//     $analytics = new Google_Service_AnalyticsReporting($client);
+    // Create and configure a new client object.
+    $client = new Google_Client();
+    $client->setApplicationName("TechSense Analytics Reporting");
+    $client->setAuthConfig($KEY_FILE_LOCATION);
+    $client->setScopes(['https://www.googleapis.com/auth/analytics.readonly']);
+    $analytics = new Google_Service_AnalyticsReporting($client);
 
-//     return $analytics;
-// }
+    return $analytics;
+}
 
-// /**
-//  * Queries the Analytics Reporting API V4.
-//  *
-//  * @param service An authorized Analytics Reporting API V4 service object.
-//  * @return The Analytics Reporting API V4 response.
-//  */
+/**
+ * Queries the Analytics Reporting API V4.
+ *
+ * @param service An authorized Analytics Reporting API V4 service object.
+ * @return The Analytics Reporting API V4 response.
+ */
 
-// function getReport($analytics) 
-// {
+function getReport($analytics) 
+{
 
-//     // Replace with your view ID, for example XXXX.
-//     $VIEW_ID = "151232959";
+    // Replace with your view ID, for example XXXX.
+    $VIEW_ID = "151232959";
 
-//     // Create the DateRange object.
-//     $dateRange = new Google_Service_AnalyticsReporting_DateRange();
-//     $dateRange->setStartDate("2017-05-23");
-//     $dateRange->setEndDate("today");
+    // Create the DateRange object.
+    $dateRange = new Google_Service_AnalyticsReporting_DateRange();
+    $dateRange->setStartDate("2017-05-23");
+    $dateRange->setEndDate("today");
 
-//     // Create the Metrics object.
-//     $metrics = new Google_Service_AnalyticsReporting_Metric();
-//     $metrics->setExpression("ga:uniquePageviews");
-//     $metrics->setAlias("uniquePageviews");
+    // Create the Metrics object.
+    $metrics = new Google_Service_AnalyticsReporting_Metric();
+    $metrics->setExpression("ga:uniquePageviews");
+    $metrics->setAlias("uniquePageviews");
 
-//     $dimensions = new Google_Service_AnalyticsReporting_Dimension();
-//     $dimensions->setName("ga:pagePathLevel2");
+    $dimensions = new Google_Service_AnalyticsReporting_Dimension();
+    $dimensions->setName("ga:pagePathLevel2");
 
-//     // Create the ReportRequest object.
-//     $request = new Google_Service_AnalyticsReporting_ReportRequest();
-//     $request->setViewId($VIEW_ID);
-//     $request->setDateRanges($dateRange);
-//     $request->setDimensions(array($dimensions));
-//     $request->setMetrics(array($metrics));
+    // Create the ReportRequest object.
+    $request = new Google_Service_AnalyticsReporting_ReportRequest();
+    $request->setViewId($VIEW_ID);
+    $request->setDateRanges($dateRange);
+    $request->setDimensions(array($dimensions));
+    $request->setMetrics(array($metrics));
 
-//     $body = new Google_Service_AnalyticsReporting_GetReportsRequest();
-//     $body->setReportRequests(array($request));
-//     return $analytics->reports->batchGet($body);
-// }
+    $body = new Google_Service_AnalyticsReporting_GetReportsRequest();
+    $body->setReportRequests(array($request));
+    return $analytics->reports->batchGet($body);
+}
 
-// /**
-//  * Parses and prints the Analytics Reporting API V4 response.
-//  *
-//  * @param An Analytics Reporting API V4 response.
-//  */
-// function updateViews($reports, $blog, $blogId) 
-// {
-//     for ($reportIndex = 0; $reportIndex < count($reports); $reportIndex++) 
-//     {
-//         $report = $reports[$reportIndex];
-//         $header = $report->getColumnHeader();
-//         $dimensionHeaders = $header->getDimensions();
-//         $metricHeaders = $header->getMetricHeader()->getMetricHeaderEntries();
-//         $rows = $report->getData()->getRows();
+/**
+ * Parses and prints the Analytics Reporting API V4 response.
+ *
+ * @param An Analytics Reporting API V4 response.
+ */
+function updateViews($reports, $blog, $blogId) 
+{
+    for ($reportIndex = 0; $reportIndex < count($reports); $reportIndex++) 
+    {
+        $report = $reports[$reportIndex];
+        $header = $report->getColumnHeader();
+        $dimensionHeaders = $header->getDimensions();
+        $metricHeaders = $header->getMetricHeader()->getMetricHeaderEntries();
+        $rows = $report->getData()->getRows();
 
-//         $flag = false; // setting flag = false, flag will keep track whether current URI matches with the dimensions or not, if it matches, update the views
-//         for ($rowIndex = 0; $rowIndex < count($rows); $rowIndex++) 
-//         {
-//             $row = $rows[$rowIndex];
-//             $dimensions = $row->getDimensions();
-//             $metrics = $row->getMetrics();
-//             for ($i = 0; $i < count($dimensionHeaders) && $i < count($dimensions); $i++) 
-//             {
-//                 $custom_path = '';
-//                 for ($j = 1; $j < count($GLOBALS['path']) - 1; $j++) 
-//                 {
-//                     $custom_path .= '/'.$GLOBALS['path'][$j];
-//                 }
-//                 $dimensions[$i] = $custom_path.$dimensions[$i];
-//                 if ($dimensions[$i] == $_SERVER['REQUEST_URI']) 
-//                 {
-//                     $flag = true;
-//                 }
-//             }
+        $flag = false; // setting flag = false, flag will keep track whether current URI matches with the dimensions or not, if it matches, update the views
+        for ($rowIndex = 0; $rowIndex < count($rows); $rowIndex++) 
+        {
+            $row = $rows[$rowIndex];
+            $dimensions = $row->getDimensions();
+            $metrics = $row->getMetrics();
+            for ($i = 0; $i < count($dimensionHeaders) && $i < count($dimensions); $i++) 
+            {
+                $custom_path = '';
+                for ($j = 1; $j < count($GLOBALS['path']) - 1; $j++) 
+                {
+                    $custom_path .= '/'.$GLOBALS['path'][$j];
+                }
+                $dimensions[$i] = $custom_path.$dimensions[$i];
+                if ($dimensions[$i] == $_SERVER['REQUEST_URI']) 
+                {
+                    $flag = true;
+                }
+            }
 
-//             for ($j = 0; $j < count($metrics); $j++) 
-//             {
-//                 $values = $metrics[$j]->getValues();
-//                 for ($k = 0; $k < count($values); $k++) 
-//                 {
-//                     $entry = $metricHeaders[$k];
-//                     if ($flag == true) 
-//                     {
-//                         try 
-//                         {
-//                             if (DB::getInstance()->update('blogs', $blogId, array('views' => $values[$k])) == false)
-//                                 throw new Exception("Unable to update views of the blog.");
-//                         } catch (Exception $e) {
-//                             echo $e->getMessage();
-//                         }
-//                         $flag = false; // set flag = false so that no updation doesn't occur for any other page
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
+            for ($j = 0; $j < count($metrics); $j++) 
+            {
+                $values = $metrics[$j]->getValues();
+                for ($k = 0; $k < count($values); $k++) 
+                {
+                    $entry = $metricHeaders[$k];
+                    var_dump($entry);
+                    if ($flag == true) 
+                    {
+                        try 
+                        {
+                        	var_dump($values[$k]);
+                            if (DB::getInstance()->update('blogs', $blogId, array('views' => $values[$k])) == false)
+                                throw new Exception("Unable to update views of the blog.");
+                        } catch (Exception $e) {
+                            echo $e->getMessage();
+                        }
+                        $flag = false; // set flag = false so that no updation doesn't occur for any other page
+                    }
+                }
+            }
+        }
+    }
+}
 
 ?>
 
@@ -816,141 +817,3 @@ else
 	    </script>
 	</body>
 </html>
-
-<?php
-
-require_once __DIR__ . '/vendor/autoload.php';
-
-$GLOBALS['path'] = explode('/', $_SERVER['SCRIPT_NAME']);
-$custom_path = '';
-for($i = 1; $i < count($path); $i++)
-{
-	$custom_path .= '/'.$path[$i];	// custom_path for setting redirecting_uri in oauthcallback.php
-}
-
-$analytics = initializeAnalytics();	// initialises the API library
-$response = getReport($analytics);	// queries the library taking specified metrics, dimensions as determining parameters
-updateViews($response, $blog, $blogId);	// prebuilt function which later customized to fetch the uniquePageViews from the response object. Fetching uniquePageViews and updating the views of the corresponding blog.
-
-/**
- * Initializes an Analytics Reporting API V4 service object.
- *
- * @return An authorized Analytics Reporting API V4 service object.
- */
-function initializeAnalytics() 
-{
-
-    // Use the developers console and download your service account
-    // credentials in JSON format. Place them in this directory or
-    // change the key file location if necessary.
-    $KEY_FILE_LOCATION = __DIR__.'/client_secrets.json';
-
-    // Create and configure a new client object.
-    $client = new Google_Client();
-    $client->setApplicationName("TechSense Analytics Reporting");
-    $client->setAuthConfig($KEY_FILE_LOCATION);
-    $client->setScopes(['https://www.googleapis.com/auth/analytics.readonly']);
-    $analytics = new Google_Service_AnalyticsReporting($client);
-
-    return $analytics;
-}
-
-/**
- * Queries the Analytics Reporting API V4.
- *
- * @param service An authorized Analytics Reporting API V4 service object.
- * @return The Analytics Reporting API V4 response.
- */
-
-function getReport($analytics) 
-{
-
-    // Replace with your view ID, for example XXXX.
-    $VIEW_ID = "151232959";
-
-    // Create the DateRange object.
-    $dateRange = new Google_Service_AnalyticsReporting_DateRange();
-    $dateRange->setStartDate("2017-05-23");
-    $dateRange->setEndDate("2017-05-23");
-
-    // Create the Metrics object.
-    $metrics = new Google_Service_AnalyticsReporting_Metric();
-    $metrics->setExpression("ga:uniquePageviews");
-    $metrics->setAlias("uniquePageviews");
-
-    $dimensions = new Google_Service_AnalyticsReporting_Dimension();
-    $dimensions->setName("ga:pagePathLevel2");
-
-    // Create the ReportRequest object.
-    $request = new Google_Service_AnalyticsReporting_ReportRequest();
-    $request->setViewId($VIEW_ID);
-    $request->setDateRanges($dateRange);
-    $request->setDimensions(array($dimensions));
-    $request->setMetrics(array($metrics));
-
-    $body = new Google_Service_AnalyticsReporting_GetReportsRequest();
-    $body->setReportRequests(array($request));
-    return $analytics->reports->batchGet($body);
-}
-
-/**
- * Parses and prints the Analytics Reporting API V4 response.
- *
- * @param An Analytics Reporting API V4 response.
- */
-function updateViews($reports, $blog, $blogId) 
-{
-    for ($reportIndex = 0; $reportIndex < count($reports); $reportIndex++) 
-    {
-        $report = $reports[$reportIndex];
-        $header = $report->getColumnHeader();
-        $dimensionHeaders = $header->getDimensions();
-        $metricHeaders = $header->getMetricHeader()->getMetricHeaderEntries();
-        $rows = $report->getData()->getRows();
-
-        $flag = false; // setting flag = false, flag will keep track whether current URI matches with the dimensions or not, if it matches, update the views
-        for ($rowIndex = 0; $rowIndex < count($rows); $rowIndex++) 
-        {
-            $row = $rows[$rowIndex];
-            $dimensions = $row->getDimensions();
-            $metrics = $row->getMetrics();
-            for ($i = 0; $i < count($dimensionHeaders) && $i < count($dimensions); $i++) 
-            {
-                $custom_path = '';
-                for ($j = 1; $j < count($GLOBALS['path']) - 1; $j++) 
-                {
-                    $custom_path .= '/'.$GLOBALS['path'][$j];
-                }
-                $dimensions[$i] = $custom_path.$dimensions[$i];
-                if ($dimensions[$i] == $_SERVER['REQUEST_URI']) 
-                {
-                    $flag = true;
-                }
-            }
-
-            for ($j = 0; $j < count($metrics); $j++) 
-            {
-                $values = $metrics[$j]->getValues();
-                for ($k = 0; $k < count($values); $k++) 
-                {
-                    $entry = $metricHeaders[$k];
-                	echo "<h1>{$entry}</h1>";
-                    if ($flag == true) 
-                    {
-                        try 
-                        {
-                        	echo "<h1>{$values[$k]}</h1>";
-                            if (DB::getInstance()->update('blogs', $blogId, array('views' => $values[$k])) == false)
-                                throw new Exception("Unable to update views of the blog.");
-                        } catch (Exception $e) {
-                            echo $e->getMessage();
-                        }
-                        $flag = false; // set flag = false so that no updation doesn't occur for any other page
-                    }
-                }
-            }
-        }
-    }
-}
-
-?>
