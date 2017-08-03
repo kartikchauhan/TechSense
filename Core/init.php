@@ -20,16 +20,16 @@ $current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP
 
 $GLOBALS['config'] = array(
 	'mysql'=>array(
-// 		'host'=> 'us-cdbr-iron-east-03.cleardb.net',	// neeed to be changed to $_SERVER['HTTP_HOST']
-// 		'user'=> 'b94ae7ed563da7',
-// 		'password'=> '83a4e95b',
-// 		'port' => '3306',
-// 		'database'=> 'heroku_f0f9a018d9ec460'
-		'host'=> 'localhost',	// neeed to be changed to $_SERVER['HTTP_HOST']
-		'user'=> 'root',
-		'password'=> '',
-		'port' => '',
-		'database'=> 'blog'
+ 		'host'=> 'us-cdbr-iron-east-03.cleardb.net',	// neeed to be changed to $_SERVER['HTTP_HOST']
+ 		'user'=> 'b94ae7ed563da7',
+ 		'password'=> '83a4e95b',
+ 		'port' => '3306',
+ 		'database'=> 'heroku_f0f9a018d9ec460'
+// 		'host'=> 'localhost',	// neeed to be changed to $_SERVER['HTTP_HOST']
+// 		'user'=> 'root',
+// 		'password'=> '',
+// 		'port' => '',
+// 		'database'=> 'blog'
 		),
 	'remember'=>array(
 		'cookie_name' => 'hash',
